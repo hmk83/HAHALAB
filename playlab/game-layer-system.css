@@ -1,0 +1,392 @@
+:root {
+  --game-layer-bg: url('images/bg/bg-01.webp');
+  --game-layer-frame: none;
+  --game-layer-character: none;
+  --game-layer-overlay: none;
+  --game-layer-accent: #2f7cf6;
+  --game-layer-panel: rgba(255, 255, 255, 0.92);
+  --game-layer-stage-radius: clamp(22px, 3vw, 42px);
+  --game-layer-safe-x: clamp(12px, 2vw, 28px);
+  --game-layer-safe-y: clamp(10px, 1.6vw, 22px);
+}
+
+.game-layer-shell {
+  isolation: isolate;
+}
+
+.game-layer-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.game-layer-scene__bg,
+.game-layer-scene__frame,
+.game-layer-scene__character,
+.game-layer-scene__overlay {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  transform: translateZ(0);
+}
+
+.game-layer-scene__bg {
+  z-index: 0;
+  background-image: var(--game-layer-bg);
+  background-size: cover;
+  background-position: center;
+}
+
+.game-layer-scene__frame {
+  display: none;
+  z-index: 5;
+  background-image: var(--game-layer-frame);
+  opacity: 0.16;
+  background-size: min(42vw, 520px) auto;
+  background-position: left clamp(16px, 3vw, 44px) bottom clamp(8px, 2vh, 24px);
+}
+
+.game-layer-scene__character {
+  display: none;
+  z-index: 7;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+  background-image: var(--game-layer-character);
+  background-size: clamp(160px, 22vw, 300px) auto;
+  background-position: right calc(var(--game-layer-safe-x) * -0.2) bottom calc(var(--game-layer-safe-y) * -0.3);
+}
+
+.game-layer-scene__overlay {
+  display: none;
+  z-index: 10;
+  background:
+    radial-gradient(circle at 18% 15%, color-mix(in srgb, var(--game-layer-accent), white 46%) 0 11%, transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.06)),
+    var(--game-layer-overlay);
+}
+
+.game-layer-shell :where(.shell-main, .shell-footer) {
+  position: relative;
+  z-index: 20;
+}
+
+.game-layer-shell :where(.shell-topbar) {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.game-layer-shell :where(.shell-topbar-inner) {
+  border-radius: clamp(16px, 2vw, 24px);
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  box-shadow: 0 14px 30px rgba(20, 39, 72, 0.12);
+}
+
+.game-layer-shell :where(
+  .cognitive-game-card,
+  .number-agency-game,
+  .number-agency-result-card,
+  .cognitive-result-card,
+  .study-panel,
+  .study-results,
+  .wordbuild-complete-card,
+  .cloze-complete-card,
+  .quiz-complete,
+  .phonics-complete-card
+) {
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background-color: var(--game-layer-panel);
+  box-shadow: 0 22px 48px rgba(23, 38, 67, 0.14);
+}
+
+.game-layer-shell :where(
+  button,
+  [role="button"],
+  .cognitive-action-btn,
+  .cognitive-secondary-btn,
+  .number-agency-btn,
+  .shell-icon-btn
+) {
+  touch-action: manipulation;
+}
+
+.game-layer-shell :where(
+  .shell-screen,
+  .playlab-screen,
+  .number-agency-screen,
+  .cloze-screen,
+  .stage-card,
+  .number-agency-game,
+  .cognitive-main
+) {
+  position: relative;
+  z-index: 20;
+}
+
+.game-layer-shell :where([data-game-layer-stage-surface="true"]) {
+  width: min(100%, 1320px);
+  margin-inline: auto;
+  padding-inline: clamp(12px, 2.6vw, 34px);
+}
+
+.game-layer-stage-heading {
+  width: min(100%, 1320px);
+  margin: 0 auto clamp(12px, 1.8vh, 20px);
+  padding-inline: clamp(2px, 0.6vw, 10px);
+  color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.26rem;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.game-layer-stage-heading h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(2rem, 3.1vw, 2.9rem);
+  font-weight: 1000;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.game-layer-stage-heading p {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.62);
+  font-size: clamp(0.82rem, 1.05vw, 1rem);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.game-layer-shell :where(.game-layer-stage-heading, .playlab-stage-label-block) {
+  --game-layer-stage-heading-title: #ffffff;
+  --game-layer-stage-heading-subtitle: rgba(255, 255, 255, 0.86);
+  --game-layer-stage-heading-shadow: 0 3px 18px rgba(0, 0, 0, 0.72), 0 1px 3px rgba(0, 0, 0, 0.78);
+}
+
+.game-layer-shell :where(.game-layer-stage-heading h1, .playlab-stage-label-block h1) {
+  color: var(--game-layer-stage-heading-title) !important;
+  text-shadow: var(--game-layer-stage-heading-shadow);
+}
+
+.game-layer-shell :where(.game-layer-stage-heading p, .playlab-stage-label-block p) {
+  color: var(--game-layer-stage-heading-subtitle) !important;
+  text-shadow: var(--game-layer-stage-heading-shadow);
+}
+
+.game-layer-shell :where(.playlab-stage-label-block) {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: clamp(74px, 10vh, 96px);
+  margin: 0 0 clamp(8px, 1.4vh, 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.24rem;
+  text-align: center;
+}
+
+.game-layer-shell :where(.playlab-stage-label-block.time-category-badge) {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+}
+
+.game-layer-shell :where(.playlab-stage-label-block h1) {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(2rem, 3.1vw, 2.9rem);
+  line-height: 1.08;
+  font-weight: 1000;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.game-layer-shell :where(.playlab-stage-label-block p) {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.62);
+  font-size: clamp(0.82rem, 1.05vw, 1rem);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.game-layer-shell .playlab-stage-label-block {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: clamp(74px, 10vh, 96px);
+  margin: 0 0 clamp(8px, 1.4vh, 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.24rem;
+  text-align: center;
+}
+
+.game-layer-shell .playlab-stage-label-block h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(2rem, 3.1vw, 2.9rem);
+  line-height: 1.08;
+  font-weight: 1000;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.game-layer-shell .playlab-stage-label-block p {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.62);
+  font-size: clamp(0.82rem, 1.05vw, 1rem);
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.game-layer-shell :where(.game-layer-stage-grid-unified) {
+  width: min(100%, 1320px);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 20vw, 260px), 1fr));
+  gap: clamp(12px, 1.8vw, 22px);
+  align-items: stretch;
+}
+
+.game-layer-shell :where(
+  .game-layer-stage-grid-unified > button,
+  .game-layer-stage-grid-unified [data-cardlab-stage-card="true"],
+  .game-layer-stage-grid-unified .cognitive-stage-card,
+  .game-layer-stage-grid-unified .number-agency-stage-card,
+  .game-layer-stage-grid-unified .timelab-stage-card,
+  .game-layer-stage-grid-unified .jamo-stage-card,
+  .game-layer-stage-grid-unified .hand-stage-card,
+  .game-layer-stage-grid-unified .time-category-stage-card,
+  [data-cardlab-stage-card="true"]
+) {
+  min-height: clamp(112px, 15vh, 156px);
+  border-radius: clamp(20px, 2vw, 28px);
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 252, 242, 0.9) 100%);
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.11);
+}
+
+.game-layer-shell :where(
+  .game-layer-stage-grid-unified > button,
+  .game-layer-stage-grid-unified [data-cardlab-stage-card="true"],
+  .game-layer-stage-grid-unified .cognitive-stage-card,
+  .game-layer-stage-grid-unified .number-agency-stage-card,
+  .game-layer-stage-grid-unified .timelab-stage-card,
+  .game-layer-stage-grid-unified .jamo-stage-card,
+  .game-layer-stage-grid-unified .hand-stage-card,
+  .game-layer-stage-grid-unified .time-category-stage-card
+):active {
+  transform: scale(0.99);
+}
+
+.game-layer-shell :where(
+  [data-cardlab-stage-title="true"],
+  .timelab-stage-card-title,
+  .number-agency-stage-title,
+  .jamo-stage-card-title
+) {
+  letter-spacing: 0;
+}
+
+@media (min-width: 900px) and (orientation: landscape) {
+  .game-layer-shell :where([data-game-layer-stage-surface="true"]) {
+    padding-inline: clamp(24px, 4vw, 62px);
+  }
+
+  .game-layer-shell :where(.game-layer-stage-grid-unified) {
+    grid-template-columns: repeat(auto-fit, minmax(clamp(210px, 18vw, 280px), 1fr));
+    gap: clamp(14px, 1.6vw, 24px);
+  }
+}
+
+.game-layer-shell :where([data-game-layer-stage-surface="true"]) {
+  align-items: center !important;
+  align-self: flex-start !important;
+  justify-content: flex-start !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.game-layer-shell :where([data-game-layer-stage-surface="true"] > [data-game-layer-stage-heading="true"]) {
+  margin-top: 0 !important;
+}
+
+@media (min-width: 900px) and (max-height: 840px) {
+  body:has(.game-layer-shell:not(.study-shell)) {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .game-layer-shell:not(.study-shell) {
+    min-height: 100svh;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .game-layer-shell :where(.shell-main) {
+    align-items: center;
+    justify-content: center;
+    justify-content: safe center;
+    padding-block: clamp(8px, 1.2vh, 14px);
+    max-height: none;
+    overflow: visible;
+    scrollbar-width: thin;
+  }
+
+  .game-layer-shell :where(.shell-main:has([data-game-layer-stage-surface="true"])) {
+    align-items: flex-start !important;
+    justify-content: center !important;
+  }
+
+  .game-layer-shell :where([data-game-layer-stage-surface="true"]) {
+    align-items: center !important;
+    align-self: flex-start !important;
+    justify-content: flex-start !important;
+    padding-top: clamp(8px, 1.4vh, 14px) !important;
+  }
+
+  .game-layer-shell :where(.shell-topbar) {
+    min-height: clamp(54px, 8vh, 68px);
+  }
+
+  .game-layer-shell :where(
+    .cognitive-stage-grid,
+    .number-agency-stage-grid,
+    [data-cardlab-stage-grid="true"]
+  ) {
+    gap: clamp(8px, 1.2vh, 14px);
+  }
+
+  .game-layer-shell :where(
+    .cognitive-stage-card,
+    .number-agency-stage-card,
+    [data-cardlab-stage-card="true"]
+  ) {
+    min-height: clamp(92px, 13.5vh, 126px);
+  }
+
+  .game-layer-shell :where(.cognitive-workspace, .number-agency-workspace) {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .game-layer-scene__character {
+    opacity: 0.12;
+    background-size: clamp(96px, 26vw, 170px) auto;
+  }
+}

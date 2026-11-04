@@ -1,0 +1,20 @@
+{
+  "library": "SheetJS Community Edition",
+  "version": "0.20.3",
+  "license": "Apache-2.0",
+  "downloadedAt": "2026-11-04T07:11:53.980Z",
+  "sourceUrl": "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js",
+  "licenseUrl": "https://cdn.sheetjs.com/xlsx-0.20.3/package/LICENSE",
+  "artifact": "js/vendor/xlsx-0.20.3.full.min.js",
+  "sha256": "cc015130aa8521e7f088f88898eba949ccdcbfb38df0bd129b44b7273c3a6f41",
+  "integrity": "sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT",
+  "bytes": 951904,
+  "licenseSha256": "4d2a38ac35cda06a555c84074a819d413339cd3691b822cae50f8f322fe01f64",
+  "officialDocumentation": "https://docs.sheetjs.com/docs/getting-started/installation/standalone/",
+  "remediatedAdvisories": [
+    "https://cdn.sheetjs.com/advisories/CVE-2023-30533",
+    "https://cdn.sheetjs.com/advisories/CVE-2024-22363"
+  ],
+  "runtime": "Local browser script only; no API, telemetry, paid service or always-on process required.",
+  "licenseArtifact": "js/vendor/xlsx-0.20.3.LICENSE.txt"
+}

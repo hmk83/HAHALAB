@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://thehahalab.com/class-new.html">
+    <meta name="theme-color" content="#FEE500">
+    <title>하하랩 시작하기 | 언어재활 웹서비스 로그인</title>
+    <meta name="description" content="하하랩 언어재활 웹서비스에 로그인해 언어치료 수업 콘텐츠, 카드랩, 플레이랩, 내담자 관리, 스케줄, 성장 리포트를 사용할 수 있습니다.">
+    <meta name="keywords" content="하하랩, 하하랩 서비스, 하하랩 언어재활 웹서비스, HAHA LAB, 언어재활 로그인, 언어치료 수업, 카드랩, 플레이랩, 성장 리포트, 내담자 관리">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="하하랩 언어재활 웹서비스">
+    <meta property="og:title" content="하하랩 시작하기 | 언어재활 웹서비스 로그인">
+    <meta property="og:description" content="하하랩 언어재활 웹서비스에서 수업 콘텐츠, 카드랩, 플레이랩, 스케줄, 성장 리포트를 사용하세요.">
+    <meta property="og:url" content="https://thehahalab.com/class-new.html">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:image" content="https://thehahalab.com/images/index-001.webp">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="하하랩 시작하기 | 언어재활 웹서비스 로그인">
+    <meta name="twitter:description" content="하하랩 언어재활 웹서비스에서 수업 콘텐츠, 내담자 관리, 성장 리포트를 시작하세요.">
+    <meta name="twitter:image" content="https://thehahalab.com/images/index-001.webp">
+    <script>
+        (() => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('desktop') === '1') return;
+            const ua = navigator.userAgent || '';
+            const isPhone = /iPhone|iPod|Android.*Mobile|Windows Phone/i.test(ua);
+            const isNarrowTouch = window.matchMedia('(max-width: 767px) and (pointer: coarse)').matches;
+            if (!isPhone || !isNarrowTouch) return;
+            const next = new URL('class-new-mobile.html', window.location.href);
+            window.location.replace(`${next.pathname}${window.location.search}${window.location.hash}`);
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://gxungzlecmibgvykoiib.supabase.co" crossorigin>
+    <link rel="preload" href="./js/auth.js?v=20261104-security-report-2" as="script">
+    <link rel="preload" href="./js/app.js?v=20261104-observation-opinion-1" as="script">
+    <link rel="preload" href="./images/kakao_login.png" as="image">
+
+    <!-- Font: Pretendard -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="icon" type="image/svg+xml" href="./images/hahalab-logo.svg">
+
+    <link rel="stylesheet" href="./css/global.css?v=20261104-security-report-2">
+    <link rel="stylesheet" href="./css/components.css?v=20261104-security-report-2">
+    <link rel="stylesheet" href="./css/schedule.css?v=20261104-security-report-2">
+    <link rel="stylesheet" href="./css/modal.css?v=20261104-security-report-2">
+    <link rel="stylesheet" href="./css/offline.css?v=20261104-security-report-2">
+
+    <!-- Supabase Auth -->
+    <script defer crossorigin="anonymous" integrity="sha384-UagCvVPT5XXA0Hx+nJYUAGBFseHT9zBgpJMSebsAxl9lciTwbT+39j5VfRjdP5Tp" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
+    <script defer src="./policy-docs.js?v=20261104-security-report-2"></script>
+    <style>
+        @media (hover: none) and (pointer: coarse) {
+            .login-notice-modal,
+            .password-expiry-modal,
+            .modal-overlay {
+                backdrop-filter: none;
+            }
+        }
+
+        .withdrawal-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .withdrawal-summary-card {
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+            background: #FFFFFF;
+            padding: 13px 14px;
+        }
+
+        .withdrawal-summary-card span {
+            display: block;
+            color: #6B7280;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .withdrawal-summary-card strong {
+            display: block;
+            margin-top: 7px;
+            color: #111827;
+            font-size: 20px;
+            line-height: 1;
+            font-weight: 900;
+        }
+
+        .withdrawal-warning {
+            margin-bottom: 16px;
+            border: 1px solid #FECACA;
+            border-radius: 18px;
+            background: #FFF1F2;
+            padding: 14px;
+            color: #B91C1C;
+            font-size: 12px;
+            line-height: 1.65;
+            font-weight: 700;
+        }
+
+        .withdrawal-checklist {
+            display: grid;
+            gap: 10px;
+        }
+
+        .withdrawal-check-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            border: 1px solid #E5E7EB;
+            border-radius: 14px;
+            background: #FFFFFF;
+            padding: 12px;
+            cursor: pointer;
+        }
+
+        .withdrawal-check-item.is-danger {
+            border-color: #FECDD3;
+            background: #FFF7F7;
+        }
+
+        .withdrawal-check-item input {
+            margin-top: 3px;
+        }
+
+        .withdrawal-check-item span {
+            color: #374151;
+            font-size: 12px;
+            line-height: 1.6;
+            font-weight: 700;
+        }
+
+        .withdrawal-check-item a {
+            display: inline-flex;
+            margin-left: 6px;
+            color: #92400E;
+            font-size: 11px;
+            font-weight: 900;
+            text-decoration: underline;
+        }
+
+        .withdrawal-confirm-box {
+            margin-top: 16px;
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+            background: #FFFFFF;
+            padding: 14px;
+        }
+
+        .withdrawal-confirm-box label {
+            display: block;
+            margin-bottom: 7px;
+            color: #6B7280;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .withdrawal-error {
+            display: none;
+            margin-top: 12px;
+            border: 1px solid #FECACA;
+            border-radius: 12px;
+            background: #FFF5F5;
+            padding: 10px 12px;
+            color: #B91C1C;
+            font-size: 12px;
+            line-height: 1.5;
+            font-weight: 700;
+        }
+
+        .withdrawal-error.active {
+            display: block;
+        }
+
+        .kakao-contact-float {
+            position: fixed;
+            right: max(20px, env(safe-area-inset-right));
+            bottom: calc(20px + env(safe-area-inset-bottom));
+            z-index: 1400;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 46px;
+            border-radius: 999px;
+            border: 1px solid rgba(17, 24, 39, 0.12);
+            background: #FEE500;
+            color: #111827;
+            padding: 0 16px 0 12px;
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+            box-shadow: 0 16px 34px rgba(17, 24, 39, 0.18);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        .kakao-contact-float.is-hidden {
+            display: none !important;
+        }
+
+        .kakao-contact-float:hover {
+            transform: translateY(-2px);
+            background: #FFE812;
+            box-shadow: 0 20px 42px rgba(17, 24, 39, 0.22);
+        }
+
+        .kakao-contact-float__icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 640px) {
+            .withdrawal-summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .login-copyright-trigger {
+            appearance: none;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            font-weight: inherit;
+            line-height: inherit;
+            padding: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .login-divider[hidden],
+        .test-login-form[hidden] {
+            display: none !important;
+        }
+
+        .login-copyright-trigger:focus-visible {
+            outline: 2px solid rgba(37, 99, 235, 0.45);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .card-download-promo {
+            position: fixed;
+            inset: 0;
+            z-index: 2390;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(15, 23, 42, 0.42);
+        }
+
+        .card-download-promo.active {
+            display: flex;
+        }
+
+        .card-download-promo-card {
+            width: min(440px, calc(100vw - 32px));
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 216, 64, 0.95);
+            border-radius: 28px;
+            background:
+                radial-gradient(circle at 14% 0%, rgba(255, 225, 90, 0.34), transparent 36%),
+                linear-gradient(180deg, #FFFFFF 0%, #FFFDF5 100%);
+            padding: 24px;
+            box-shadow:
+                0 28px 70px rgba(15, 23, 42, 0.28),
+                0 0 0 8px rgba(255, 225, 90, 0.18);
+        }
+
+        .card-download-promo-card::before {
+            content: "";
+            position: absolute;
+            right: -28px;
+            top: -30px;
+            width: 116px;
+            height: 116px;
+            border-radius: 50%;
+            background: rgba(36, 93, 232, 0.08);
+            pointer-events: none;
+        }
+
+        .card-download-promo-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            margin-bottom: 12px;
+            border-radius: 999px;
+            background: #FFE15A;
+            color: #111827;
+            padding: 0 14px;
+            font-size: 12px;
+            font-weight: 1000;
+            letter-spacing: 0;
+            box-shadow: 0 8px 18px rgba(255, 187, 0, 0.26);
+        }
+
+        .card-download-promo-card h2 {
+            margin: 0;
+            color: #101827;
+            font-size: 28px;
+            line-height: 1.18;
+            font-weight: 1000;
+            letter-spacing: -0.01em;
+        }
+
+        .card-download-promo-card p {
+            margin: 10px 0 0;
+            color: #4B5563;
+            font-size: 14px;
+            line-height: 1.55;
+            font-weight: 750;
+        }
+
+        .card-download-promo-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 18px 0;
+        }
+
+        .card-download-promo-stat {
+            border-radius: 16px;
+            background: #F8FAFC;
+            padding: 12px 8px;
+            text-align: center;
+        }
+
+        .card-download-promo-stat strong {
+            display: block;
+            color: #17409E;
+            font-size: 21px;
+            line-height: 1;
+            font-weight: 1000;
+        }
+
+        .card-download-promo-stat span {
+            display: block;
+            margin-top: 5px;
+            color: #6B7280;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .card-download-promo-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .card-download-promo-btn {
+            appearance: none;
+            border: 0;
+            border-radius: 999px;
+            cursor: pointer;
+            min-height: 44px;
+            padding: 0 18px;
+            font-size: 14px;
+            font-weight: 950;
+        }
+
+        .card-download-promo-primary {
+            background: #245DE8;
+            color: #FFFFFF;
+            box-shadow:
+                0 12px 24px rgba(36, 93, 232, 0.32),
+                0 0 0 4px rgba(36, 93, 232, 0.12);
+        }
+
+        .card-download-promo-secondary {
+            background: #F3F4F6;
+            color: #4B5563;
+        }
+
+        .card-download-promo.card-download-promo-compact {
+            inset: auto 22px 22px auto;
+            align-items: flex-end;
+            justify-content: flex-end;
+            width: min(360px, calc(100vw - 32px));
+            padding: 0;
+            background: transparent;
+        }
+
+        .card-download-promo.card-download-promo-compact .card-download-promo-card {
+            width: 100%;
+            border-radius: 22px;
+            padding: 18px;
+            box-shadow: 0 18px 46px rgba(15, 23, 42, 0.22);
+        }
+
+        .card-download-promo.card-download-promo-compact .card-download-promo-card h2 {
+            font-size: 19px;
+        }
+
+        .card-download-promo.card-download-promo-compact .card-download-promo-card p {
+            font-size: 12px;
+        }
+
+        .card-download-promo.card-download-promo-compact .card-download-promo-stats {
+            margin: 12px 0;
+        }
+
+        .card-download-promo.card-download-promo-compact .card-download-promo-stat {
+            padding: 9px 6px;
+        }
+
+        .card-download-promo.card-download-promo-compact .card-download-promo-stat strong {
+            font-size: 16px;
+        }
+
+        .card-download-promo.card-download-promo-compact .card-download-promo-btn {
+            min-height: 38px;
+            padding: 0 12px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body class="auth-pending">
+
+    <!-- 로그인 오버레이 (초기 상태: active) -->
+    <div class="login-overlay active" id="loginOverlay">
+        <div class="login-container">
+            <div class="login-logo">
+                <img src="./images/hahalab-logo.svg" alt="HAHALAB">
+                <span>HAHALAB</span>
+            </div>
+            <p class="login-desc">가벼운 준비, 차원이 다른 수업.</p>
+            
+            <div class="login-methods">
+                <button id="kakaoOAuthBtn" class="oauth-start-btn oauth-start-btn-kakao" onclick="handleKakaoLogin()">
+                    <img src="./images/kakao_login.png" alt="" class="oauth-start-btn__provider-icon oauth-start-btn__provider-icon-kakao" aria-hidden="true">
+                    카카오로 시작하기
+                </button>
+
+                <!-- Google OAuth 리다이렉트 방식 (일반 선생님 계정) -->
+                <button id="googleOAuthBtn" class="oauth-start-btn oauth-start-btn-google" onclick="handleGoogleLogin()">
+                    <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+                    구글로 시작하기
+                </button>
+                
+                <div class="login-divider" id="accountLoginDivider" hidden><span>계정 로그인</span></div>
+                
+                <div class="test-login-form" id="accountLoginForm" data-manual-unlocked="false" hidden>
+                    <input type="text" id="testId" class="form-input" placeholder="계정 ID 또는 이메일" autocomplete="username" style="margin-bottom: 8px; font-size: 14px;">
+                    <input type="password" id="testPw" class="form-input" placeholder="비밀번호" autocomplete="current-password" style="margin-bottom: 14px; font-size: 14px;">
+                    <button class="primary-btn" onclick="handleEmailLogin()" style="width: 100%; justify-content: center; font-size: 14px;" id="emailLoginBtn" data-idle-label="계정 로그인">계정 로그인</button>
+                    <!-- 에러 메시지 -->
+                    <p id="loginErrorMsg" style="display:none; margin-top: 10px; color: #E53E3E; font-size: 12px; text-align: center; font-weight: 500;"></p>
+                </div>
+            </div>
+        </div>
+        <a class="login-home-btn" href="https://thehahalab.com/">하하랩 홈페이지 보러가기</a>
+        <footer class="login-footer" aria-label="회사 정보">
+            <p><button type="button" class="login-copyright-trigger" id="loginCopyrightTrigger" aria-label="계정 로그인 열기">©</button> 2026 HAHALAB. All rights reserved.</p>
+            <p>사업자등록번호 625-31-01817</p>
+        </footer>
+    </div>
+
+    <!-- 신규 회원가입 페이지 -->
+    <div class="modal-overlay signup-page" id="signupModal" style="z-index: 3000;">
+        <div class="signup-page-shell">
+            <section class="signup-page-card">
+                <div class="signup-page-header">
+                    <p class="signup-page-eyebrow" id="signupPageEyebrow">회원가입 완료</p>
+                    <h2 class="signup-page-heading" id="signupPageHeading">추가 정보 입력</h2>
+                    <p class="signup-page-subcopy" id="signupPageSubcopy">서비스 이용을 위해 센터 및 본인 정보를 입력해주세요.</p>
+                </div>
+
+                <div class="signup-page-body">
+                    <div class="form-group signup-page-section">
+                        <label class="form-label" for="signupEmail">이메일 계정</label>
+                        <div class="signup-field-with-action">
+                            <input type="text" id="signupEmail" class="form-input signup-readonly-input" readonly>
+                            <button type="button" class="btn-outline signup-check-btn signup-manual-check-control" id="signupEmailCheckBtn" onclick="checkSignupEmailDuplicate()" hidden>중복 확인</button>
+                        </div>
+                        <p class="signup-check-status" id="signupEmailCheckStatus" hidden></p>
+                    </div>
+
+                    <div class="form-group signup-page-section signup-manual-field" id="signupPasswordSection" hidden>
+                        <label class="form-label" for="signupPassword">비밀번호</label>
+                        <input type="password" id="signupPassword" class="form-input" placeholder="8자 이상 입력" autocomplete="new-password">
+                        <label class="form-label signup-confirm-label" for="signupPasswordConfirm">비밀번호 확인</label>
+                        <input type="password" id="signupPasswordConfirm" class="form-input" placeholder="비밀번호를 한 번 더 입력" autocomplete="new-password">
+                    </div>
+
+                    <div class="form-group signup-page-section">
+                        <label class="form-label" for="signupCenter">소속 센터명</label>
+                        <input type="text" id="signupCenter" class="form-input" placeholder="예: 하하랩 아동발달센터">
+                    </div>
+
+                    <div class="form-grid-2 signup-page-grid">
+                        <div class="form-group signup-page-section">
+                            <label class="form-label" for="signupName">이름</label>
+                            <input type="text" id="signupName" class="form-input" placeholder="실명을 입력하세요">
+                        </div>
+                        <div class="form-group signup-page-section">
+                            <label class="form-label" for="signupPhone">연락처</label>
+                            <div class="signup-field-with-action">
+                                <input type="text" id="signupPhone" class="form-input" placeholder="010-0000-0000" maxlength="13">
+                                <button type="button" class="btn-outline signup-check-btn signup-manual-check-control" id="signupPhoneCheckBtn" onclick="checkSignupPhoneDuplicate()" hidden>중복 확인</button>
+                            </div>
+                            <p class="signup-check-status" id="signupPhoneCheckStatus" hidden></p>
+                        </div>
+                    </div>
+                    <div class="signup-duplicate-notice" id="signupDuplicateNotice" hidden aria-live="polite"></div>
+
+                    <div class="signup-agreement-card" id="signupAgreementCard">
+                        <label class="signup-agreement-all">
+                            <input type="checkbox" id="agreeAll" onchange="toggleAllAgreements(this)">
+                            <span>이용약관 및 개인정보 수집에 모두 동의합니다</span>
+                        </label>
+
+                        <div class="signup-agreement-list">
+                            <label class="signup-agreement-item">
+                                <div class="signup-agreement-item-main">
+                                    <input type="checkbox" class="agree-item" id="agreeTerms">
+                                    <span>[필수] 서비스 이용약관 동의</span>
+                                </div>
+                                <a href="./terms.html" target="_blank" rel="noopener noreferrer">보기</a>
+                            </label>
+                            <label class="signup-agreement-item">
+                                <div class="signup-agreement-item-main">
+                                    <input type="checkbox" class="agree-item" id="agreePrivacy">
+                                    <span>[필수] 개인정보 수집 및 이용 동의</span>
+                                </div>
+                                <a href="./privacy.html" target="_blank" rel="noopener noreferrer">보기</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="signup-page-footer">
+                    <button class="btn-outline signup-cancel-btn" type="button" onclick="cancelSignupFlow()">취소</button>
+                    <button class="primary-btn signup-submit-btn" onclick="submitSignup()" id="signupBtn">가입 완료</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="password-expiry-modal" id="passwordExpiryModal" hidden>
+        <section class="password-expiry-card" role="dialog" aria-modal="true" aria-labelledby="passwordExpiryTitle">
+            <p class="password-expiry-eyebrow">계정 보안 안내</p>
+            <h2 class="password-expiry-title" id="passwordExpiryTitle">비밀번호를 변경해 주세요</h2>
+            <p class="password-expiry-copy" id="passwordExpiryCopy">비밀번호를 변경한 지 3개월이 지나 계정 보호를 위해 새 비밀번호 설정을 권장합니다.</p>
+            <div class="password-expiry-fields">
+                <label class="form-label" for="passwordExpiryNew">새 비밀번호</label>
+                <input type="password" id="passwordExpiryNew" class="form-input" placeholder="8자 이상 입력" autocomplete="new-password">
+                <label class="form-label" for="passwordExpiryConfirm">새 비밀번호 확인</label>
+                <input type="password" id="passwordExpiryConfirm" class="form-input" placeholder="한 번 더 입력" autocomplete="new-password">
+                <p class="password-expiry-error" id="passwordExpiryError" hidden></p>
+            </div>
+            <div class="password-expiry-actions">
+                <button type="button" class="btn-outline password-expiry-later-btn" onclick="deferPasswordChangePrompt()">다음에 변경</button>
+                <button type="button" class="primary-btn password-expiry-submit-btn" id="passwordExpirySubmitBtn" onclick="submitPasswordChangeFromPrompt()">비밀번호 변경</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- GNB -->
+    <header class="gnb">
+        <div class="gnb-left">
+            <div class="gnb-logo" onclick="goToList()">
+                <img src="./images/hahalab-logo.svg" alt="HAHALAB Symbol" style="height: 28px;">
+                HAHALAB
+            </div>
+        </div>
+        <div class="gnb-right">
+            <button class="gnb-icon-btn" id="gnbNotificationBtn" type="button" onclick="openMessageCenter()" aria-label="알림 열기">
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="gnb-icon-badge" id="gnbNotificationBadge" hidden>0</span>
+            </button>
+            <button class="gnb-section-btn" id="gnbOutputBtn" type="button" onclick="openOutputCenter()">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <span>출력소</span>
+            </button>
+            <button class="profile-btn" onclick="openMyPage()" id="gnbProfileBtn">
+                <div class="profile-avatar" id="gnbAvatarInitial">?</div>
+                <span class="profile-name" id="gnbProfileName">로그인 필요</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- App Container -->
+    <div class="app-container" id="mainContainer">
+        <!-- 좌측 사이드바: 드래그/클릭용 명단 -->
+        <div class="schedule-sidebar">
+                        <div class="schedule-sidebar-top">
+                            <div class="schedule-sidebar-tabs" style="margin-bottom: 0; flex: 1;">
+                                <div class="schedule-sidebar-tab active" data-scheduletab="sched-clients">
+                                    <span class="schedule-tab-label">내담자</span>
+                                    <span class="schedule-tab-count" id="schedClientCount">0</span>
+                                </div>
+                                <div class="schedule-sidebar-tab" data-scheduletab="sched-reservations">
+                                    <span class="schedule-tab-label">예약자</span>
+                                    <span class="schedule-tab-count" id="schedReserveCount">0</span>
+                                </div>
+                            </div>
+                            <button class="primary-btn schedule-sidebar-add-btn" id="scheduleSidebarAddBtn" onclick="openRegistrationModal()" title="신규 등록">
+                                <span class="material-symbols-outlined">add</span>
+                            </button>
+                        </div>
+                        <div class="schedule-sidebar-gauge">
+                            <div class="schedule-sidebar-gauge-head">
+                                <span class="schedule-sidebar-stat-label">등록 내담자</span>
+                                <span class="schedule-sidebar-gauge-value" id="schedClientRegistered">0 / 0</span>
+                            </div>
+                            <div class="schedule-sidebar-gauge-track" aria-hidden="true">
+                                <div class="schedule-sidebar-gauge-fill" id="schedClientGaugeFill"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-sidebar-content">
+                            <div class="schedule-lists-wrapper">
+                                <!-- 내담자 명단 목록 -->
+                                <div class="schedule-list active" id="sched-clients"></div>
+
+                                <!-- 예약자 명단 목록 -->
+                                <div class="schedule-list" id="sched-reservations"></div>
+                            </div>
+                            
+                            <!-- 스크롤 퀵 인덱스 (JS에서 동적으로 생성됨) -->
+                            <div class="alphabet-index"></div>
+                        </div>
+                    </div>
+
+        <!-- 우측 메인 컨테이너 (캘린더 / 상세 뷰 레이어링) -->
+        <div class="main-content-right">
+            
+            <!-- [LAYER 1]: 스케줄 캘린더 -->
+            <div class="view-layer" id="calendar-view">
+                        <div class="calendar-controls">
+                            <div class="calendar-title-group">
+                                <button class="cal-nav-btn" id="calendarPrevBtn"><span class="material-symbols-outlined">chevron_left</span></button>
+                                <button class="calendar-title calendar-title-button" id="calendarTitle" type="button">2026년 4월</button>
+                                <button class="cal-nav-btn" id="calendarNextBtn"><span class="material-symbols-outlined">chevron_right</span></button>
+                                <button class="cal-today-btn" id="calendarTodayBtn" type="button">오늘</button>
+                                <input type="month" id="calendarMonthPicker" class="calendar-month-picker" aria-hidden="true" tabindex="-1">
+                            </div>
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <div class="view-toggles">
+                                    <div class="view-toggle active" data-view="month">월간</div>
+                                    <div class="view-toggle" data-view="week">주간</div>
+                                    <div class="view-toggle" data-view="day">일간</div>
+                                </div>
+                                <button class="primary-btn" id="calendarAddScheduleBtn" style="height: 36px; padding: 0 12px; font-size: 13px;" onclick="openClassRegistrationModal('calendar')"><span class="material-symbols-outlined" style="font-size: 18px;">edit_calendar</span> 일정 추가</button>
+                            </div>
+                        </div>
+
+                        <!-- 캘린더 뷰 컨테이너 영역 -->
+                        <div class="calendar-view-scroll-area">
+                            
+                            <!-- [월간 뷰] -->
+                            <div class="cal-view-container active" id="view-month">
+                                <div class="cal-month-header">
+                                    <span style="color:#ef4444">일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span style="color:#3b82f6">토</span>
+                                </div>
+                                <div class="cal-month-grid" id="calendarMonthGrid"></div>
+                            </div>
+
+                            <!-- [주간 뷰] -->
+                            <div class="cal-view-container" id="view-week">
+                                <div class="cal-week-header" id="calendarWeekHeader"></div>
+                                <div class="cal-time-wrapper" id="calendarWeekTimeWrapper">
+                                    <div class="cal-time-axis" id="calendarWeekTimeAxis"></div>
+                                    <div class="cal-day-columns" id="calendarWeekColumns"></div>
+                                </div>
+                            </div>
+
+                            <!-- [일간 뷰] -->
+                            <div class="cal-view-container" id="view-day">
+                                <div class="cal-week-header cal-day-header" id="calendarDayHeader"></div>
+                                <div class="cal-time-wrapper" id="calendarDayTimeWrapper">
+                                    <div class="cal-time-axis" id="calendarDayTimeAxis"></div>
+                                    <div class="cal-day-columns cal-day-single" id="calendarDayColumns"></div>
+                                </div>
+                            </div>
+                            
+            </div>
+            </div>
+
+            <!-- [LAYER 2]: 내담자 상세 화면 (Detail View) -->
+            <div class="view-layer" id="detail-view">
+                <div class="detail-header-nav">
+                    <button class="btn-back" onclick="goToList()"><span class="material-symbols-outlined">arrow_back</span></button>
+                    <span id="detailMainTitle">내담자 상세 정보</span>
+                    <button type="button" class="detail-header-lab-btn" id="detailClientLabTopButton" onclick="startClientLabFromDetail()">
+                        <span class="material-symbols-outlined">play_arrow</span>
+                        LAB 시작
+                    </button>
+                </div>
+
+                <!-- 텅빈 공안 (Empty State) -->
+                <div id="detail-empty-state" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-light);">
+                    <span class="material-symbols-outlined" style="font-size: 64px; margin-bottom: 16px; color: var(--border-color);">inbox</span>
+                    <h3 style="font-size: 18px; color: var(--text-gray); margin-bottom: 8px;">등록된 상세 정보가 없습니다.</h3>
+                    <p style="font-size: 14px;">좌측 명단에서 올바른 대상을 선택하거나 정보를 추가해주세요.</p>
+                </div>
+
+                <div id="detail-content-area" style="display: none;">
+
+                <div class="sub-tabs">
+                    <button class="sub-tab-btn active" data-subtarget="sub-info">기본정보</button>
+                    <button class="sub-tab-btn" data-subtarget="sub-schedule">수업 스케줄</button>
+                    <button class="sub-tab-btn" data-subtarget="sub-cardlab">카드랩 리포트</button>
+                    <button class="sub-tab-btn" data-subtarget="sub-numlab">숫자랩 리포트</button>
+                    <button class="sub-tab-btn" data-subtarget="sub-playlab">플레이랩 리포트</button>
+                    <button class="sub-tab-btn" data-subtarget="sub-musicartlab">뮤직아트랩 리포트</button>
+                    <button class="sub-tab-btn" data-subtarget="sub-rehab">재활랩 리포트</button>
+                    <button class="sub-tab-btn" data-subtarget="sub-assessment">검사 · 척도</button>
+                </div>
+
+                <div class="detail-report-mode-panel" id="detailReportModePanel" hidden>
+                    <div class="detail-report-mode-copy">
+                        <p class="detail-report-mode-kicker" id="detailReportModeKicker">REPORT MODE</p>
+                        <strong id="detailReportModeTitle">전문가 분석 모드</strong>
+                        <span id="detailReportModeDescription" hidden>수행 지표와 오류 유형을 선생님 검토용으로 자세히 보여줍니다.</span>
+                    </div>
+                    <div class="detail-report-mode-actions" role="group" aria-label="리포트 보기 모드">
+                        <button type="button" class="detail-report-mode-btn" data-report-mode="guardian">
+                            <span class="material-symbols-outlined">family_restroom</span>
+                            보호자 공유
+                        </button>
+                        <button type="button" class="detail-report-mode-btn is-active" data-report-mode="teacher">
+                            <span class="material-symbols-outlined">clinical_notes</span>
+                            전문가 분석
+                        </button>
+                    </div>
+                    <div class="detail-report-share-actions" role="group" aria-label="리포트 공유 작업">
+                        <button type="button" class="detail-report-action-btn" data-report-action="save">
+                            <span class="material-symbols-outlined">download</span>
+                            리포트 저장
+                        </button>
+                        <button type="button" class="detail-report-action-btn" data-report-action="copy">
+                            <span class="material-symbols-outlined">content_copy</span>
+                            공유 문구 복사
+                        </button>
+                    </div>
+                    <button type="button" class="detail-report-help-btn" id="detailReportHelpBtn" aria-label="리포트 안내 보기">!</button>
+                </div>
+
+                <div class="detail-report-help-modal" id="detailReportHelpModal" hidden aria-hidden="true">
+                    <div class="detail-report-help-backdrop" data-detail-report-help-close></div>
+                    <section class="detail-report-help-card" role="dialog" aria-modal="true" aria-labelledby="detailReportHelpTitle">
+                        <button type="button" class="detail-report-help-close" data-detail-report-help-close aria-label="닫기">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                        <p class="detail-report-mode-kicker" id="detailReportHelpKicker">REPORT GUIDE</p>
+                        <h3 id="detailReportHelpTitle">리포트 안내</h3>
+                        <div class="detail-report-help-body" id="detailReportHelpBody"></div>
+                    </section>
+                </div>
+
+                <div id="sub-info" class="sub-tab-content active">
+                    <div class="detail-info-grid">
+                        <!-- 기본 정보 섹션 -->
+                        <div class="form-section detail-info-card detail-info-card-basic">
+                            <div class="form-section-title"><span class="material-symbols-outlined" style="font-size: 16px;">person</span> 기본 정보</div>
+                            <div class="info-table">
+                                <div class="info-row">
+                                    <div class="info-label">이름</div>
+                                    <div class="info-value" id="disp-name">김시우</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">구분</div>
+                                    <div class="info-value" id="disp-type">내담자</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">성별</div>
+                                    <div class="info-value" id="disp-gender">남</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">생년월일 (나이)</div>
+                                    <div class="info-value" id="disp-dob-age">2018. 04. 12 (만 8세)</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">연락처</div>
+                                    <div class="info-value" id="disp-contact">010-0987-6543</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">기본 수업 시간</div>
+                                    <div class="info-value" id="disp-session-time">50분</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 수업 및 임상 정보 섹션 -->
+                        <div class="form-section detail-info-card detail-info-card-clinical">
+                            <div class="form-section-title"><span class="material-symbols-outlined" style="font-size: 16px;">medical_information</span> 수업 & 임상 정보</div>
+                            <div class="info-table">
+                                <div class="info-row">
+                                    <div class="info-label">개입 영역</div>
+                                    <div class="info-value" id="disp-areas">놀이치료, 사회성 기술</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">진단명</div>
+                                    <div class="info-value" id="disp-diagnosis">발달지연 (의증)</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">초기 상담 내용</div>
+                                    <div class="info-value" id="disp-initial-consult" style="white-space: pre-line;">또래 관계에서의 상호작용 어려움으로 내방. 대기 인원이 많아 초기 상담 후 현재 정규 세션 진행 중.</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">메모</div>
+                                    <div class="info-value" id="disp-memo">특이사항 없음.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 보호자 정보 섹션 -->
+                        <div class="form-section detail-info-card detail-info-card-guardian">
+                            <div class="form-section-title"><span class="material-symbols-outlined" style="font-size: 16px;">family_restroom</span> 보호자 정보</div>
+                            <div class="info-table">
+                                <div class="info-row">
+                                    <div class="info-label">보호자 성함</div>
+                                    <div class="info-value" id="disp-guardian-name">이영희</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">관계</div>
+                                    <div class="info-value" id="disp-guardian-relation">모</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">보호자 연락처</div>
+                                    <div class="info-value" id="disp-guardian-contact">010-1234-5678</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 주소 정보 섹션 -->
+                        <div class="form-section detail-info-card detail-info-card-address">
+                            <div class="form-section-title"><span class="material-symbols-outlined" style="font-size: 16px;">home</span> 주소 정보</div>
+                            <div class="info-table">
+                                <div class="info-row">
+                                    <div class="info-label">우편번호</div>
+                                    <div class="info-value" id="disp-zip-code">06035</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">기본 주소</div>
+                                    <div class="info-value" id="disp-address">서울특별시 강남구 가로수길 5</div>
+                                </div>
+                                <div class="info-row">
+                                    <div class="info-label">상세 주소</div>
+                                    <div class="info-value" id="disp-address-detail">하하빌딩 3층 301호</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="detail-client-actions" id="detailClientActionSection" style="display:none;">
+                    <div class="detail-client-action-buttons" id="detailClientActionButtons">
+                        <button type="button" class="detail-client-action-btn edit" id="detailClientEditButton" onclick="openDetailEditModal()">수정</button>
+                        <button type="button" class="detail-client-action-btn delete" id="detailClientDeleteButton" onclick="setDetailClientAction('delete')">삭제</button>
+                        <button type="button" class="detail-client-action-btn pause" id="detailClientPauseButton" onclick="setDetailClientAction('pause')">수업 정지</button>
+                        <button type="button" class="detail-client-action-btn terminate" id="detailClientTerminateButton" onclick="setDetailClientAction('terminate')">수업 종결</button>
+                        <button type="button" class="detail-client-action-btn convert" id="detailClientConvertButton" onclick="setDetailClientAction('convert')">정규 내담자로 등록</button>
+                        <button type="button" class="detail-client-action-btn resume" id="detailClientResumeButton" onclick="resumeCurrentDetailClient()">수업 재개</button>
+                        </div>
+                        <div class="detail-client-action-confirm" id="detailClientActionConfirm" style="display:none;">
+                            <div class="detail-client-action-title" id="detailClientActionTitle"></div>
+                            <div class="detail-client-action-message" id="detailClientActionMessage"></div>
+                            <label class="detail-client-action-future" id="detailClientDeleteFutureWrap" style="display:none;">
+                                <input type="checkbox" id="detailClientDeleteFuture">
+                                <span>앞으로 일정 삭제</span>
+                            </label>
+                            <input type="text" class="form-input detail-client-action-input" id="detailClientVerifyName" placeholder="이름 입력">
+                            <div class="detail-client-action-submit-row">
+                                <button type="button" class="detail-client-action-submit confirm" id="detailClientActionConfirmBtn">확인</button>
+                                <button type="button" class="detail-client-action-submit cancel" id="detailClientActionCancelBtn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="sub-schedule" class="sub-tab-content">
+                    <div class="detail-schedule-toolbar">
+                        <div class="detail-schedule-week-nav" aria-label="주간 이동">
+                            <button type="button" class="detail-schedule-week-btn" onclick="moveDetailScheduleWeek(-1)" aria-label="이전 주">
+                                <span class="material-symbols-outlined">chevron_left</span>
+                            </button>
+                            <div class="detail-schedule-week-label" id="detailScheduleWeekLabel"></div>
+                            <button type="button" class="detail-schedule-week-btn" onclick="moveDetailScheduleWeek(1)" aria-label="다음 주">
+                                <span class="material-symbols-outlined">chevron_right</span>
+                            </button>
+                        </div>
+                        <button class="primary-btn" style="padding: 8px 16px; font-size: 13px; display: flex; align-items: center; gap: 6px;" onclick="openClassRegistrationModal()">
+                            <span class="material-symbols-outlined" style="font-size: 18px;">add_circle</span> 수업 등록
+                        </button>
+                    </div>
+                    
+                    <div class="weekly-board" id="detailWeeklyBoard"></div>
+
+                    <!-- 수업 하단 출석 이력 (미니멀 한 줄 레이아웃) -->
+                    <div class="detail-attendance-section">
+                        <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 14px; color: var(--text-dark); display: flex; align-items: center; gap: 6px;">
+                            <span class="material-symbols-outlined" style="font-size: 16px;">event_available</span> 최근 출석 내역
+                        </h4>
+                        <div class="detail-attendance-list" id="detailAttendanceList"></div>
+                    </div>
+                </div>
+
+                <div id="sub-cardlab" class="sub-tab-content">
+                    <div id="detailCardlabReport"></div>
+                </div>
+
+                <div id="sub-numlab" class="sub-tab-content">
+                    <div id="detailNumlabReport"></div>
+                </div>
+
+                <div id="sub-playlab" class="sub-tab-content">
+                    <div id="detailPlaylabReport"></div>
+                </div>
+
+                <div id="sub-musicartlab" class="sub-tab-content">
+                    <div id="detailMusicartlabReport"></div>
+                </div>
+
+                <div id="sub-rehab" class="sub-tab-content">
+                    <div id="detailRehabReport"></div>
+                </div>
+
+                <div id="sub-assessment" class="sub-tab-content">
+                    <div id="detailAssessmentReport"></div>
+                </div>
+                </div> <!-- // detail-content-area -->
+            </div>
+
+            <!-- [LAYER 3]: 출력소 화면 -->
+            <div class="view-layer" id="output-view">
+                <div class="output-shell">
+                    <div class="output-header">
+                        <div class="output-header-copy">
+                            <p class="output-eyebrow">PRINT SHOP</p>
+                            <h2 class="output-title">출력소</h2>
+                            <p class="output-desc">수업과 상담에 필요한 워크지를 검색하고, 관리자에서 등록한 자료를 바로 확인하세요.</p>
+                        </div>
+                        <button class="output-back-btn" type="button" onclick="goToList()">
+                            <span class="material-symbols-outlined">arrow_back</span>
+                            캘린더로
+                        </button>
+                    </div>
+
+                    <div class="output-toolbar">
+                        <div class="output-toolbar-categories">
+                            <div class="output-category-list" id="outputCategoryList"></div>
+                        </div>
+                        <div class="output-toolbar-actions">
+                            <div class="output-result-pill" id="outputResultPill">전체 0</div>
+                            <div class="output-search-wrap">
+                                <span class="material-symbols-outlined">search</span>
+                                <input type="text" id="outputSearchInput" placeholder="파일명 또는 해시태그 검색" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="outputFeatureMessage" class="output-feature-message" style="display:none;"></div>
+                    <div class="output-main">
+                        <div id="outputWorksheetGrid" class="output-grid"></div>
+                    </div>
+
+                    <aside class="output-detail" id="outputDetailPane" aria-hidden="true" hidden></aside>
+                </div>
+            </div>
+
+            <div class="view-layer" id="message-view">
+                <div class="message-shell">
+                    <div class="message-header">
+                        <div class="message-header-copy">
+                            <h2 class="message-title">알림</h2>
+                        </div>
+                        <button class="message-back-btn" type="button" onclick="goToList()">
+                            <span class="material-symbols-outlined">arrow_back</span>
+                            캘린더로
+                        </button>
+                    </div>
+
+                    <div class="message-toolbar">
+                        <div class="message-category-list" id="messageCategoryList"></div>
+                    </div>
+
+                    <div id="messageFeatureMessage" class="message-feature-message" style="display:none;"></div>
+
+                    <div class="message-main">
+                        <div class="message-summary-card">
+                            <div class="message-summary-label">읽지 않은 알림</div>
+                            <div class="message-summary-value" id="messageUnreadSummary">0건</div>
+                        </div>
+                        <div class="message-list" id="messageList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- [LAYER 4]: 학습 LAB 화면 -->
+    <div class="lab-view" id="lab-view" aria-hidden="true" hidden>
+        <div class="lab-shell">
+            <div class="lab-toolbar">
+                <div class="lab-toolbar-copy">
+                    <img src="./images/hahalab-P.svg" alt="HAHALAB Symbol" class="lab-toolbar-symbol">
+                    <span class="lab-client-chip" id="labClientChip">-</span>
+                </div>
+                <div class="lab-toolbar-actions">
+                    <button type="button" class="lab-home-btn" onclick="confirmCloseLabCenter()">
+                        <span class="material-symbols-outlined">close</span>
+                        학습종료
+                    </button>
+                    <div class="lab-kind-tabs" id="labKindTabs" role="tablist" aria-label="학습 종류">
+                        <button type="button" class="lab-kind-btn active" data-labkind="cardlab" onclick="setLabKind('cardlab')" style="--lab-accent:#F59E0B; --lab-accent-soft:rgba(245, 158, 11, 0.16);">
+                            <span class="material-symbols-outlined lab-kind-icon">style</span>
+                            <span class="lab-kind-label">카드랩</span>
+                        </button>
+                        <button type="button" class="lab-kind-btn" data-labkind="numberlab" onclick="setLabKind('numberlab')" style="--lab-accent:#3B82F6; --lab-accent-soft:rgba(59, 130, 246, 0.16);">
+                            <span class="material-symbols-outlined lab-kind-icon">numbers</span>
+                            <span class="lab-kind-label">숫자랩</span>
+                        </button>
+                        <button type="button" class="lab-kind-btn" data-labkind="playlab" onclick="setLabKind('playlab')" style="--lab-accent:#10B981; --lab-accent-soft:rgba(16, 185, 129, 0.16);">
+                            <span class="material-symbols-outlined lab-kind-icon">toys</span>
+                            <span class="lab-kind-label">플레이랩</span>
+                        </button>
+                        <button type="button" class="lab-kind-btn" data-labkind="musicartlab" onclick="setLabKind('musicartlab')" style="--lab-accent:#8B5CF6; --lab-accent-soft:rgba(139, 92, 246, 0.16);">
+                            <span class="material-symbols-outlined lab-kind-icon">artist</span>
+                            <span class="lab-kind-label">뮤직아트랩</span>
+                        </button>
+                        <button type="button" class="lab-kind-btn" data-labkind="rehab" onclick="setLabKind('rehab')" style="--lab-accent:#EC4899; --lab-accent-soft:rgba(236, 72, 153, 0.16);">
+                            <span class="material-symbols-outlined lab-kind-icon">accessibility_new</span>
+                            <span class="lab-kind-label">재활랩</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="lab-launcher-layout">
+                <section class="lab-subcategory-panel">
+                    <div class="lab-section-head">
+                        <div class="lab-section-copy">
+                            <h3 class="lab-section-title" id="labSubcategoryTitle">-</h3>
+                        </div>
+                    </div>
+                    <div class="lab-list-controls" id="labListControls" aria-label="학습 필터와 정렬"></div>
+                    <div class="lab-subcategory-grid" id="labSubcategoryGrid"></div>
+                </section>
+
+                <aside class="lab-preview-panel" aria-live="polite">
+                    <div class="lab-preview-head">
+                        <button type="button" class="lab-preview-back-btn" id="labPreviewBackBtn" onclick="returnToLabCategoryList()">
+                            <span class="material-symbols-outlined">arrow_back</span>
+                            카테고리
+                        </button>
+                        <div class="lab-section-copy">
+                            <h3 class="lab-section-title" id="labPreviewTitle">-</h3>
+                        </div>
+                        <span class="lab-preview-badge" id="labPreviewBadge">준비중</span>
+                    </div>
+                    <div class="lab-preview-stage-rail" id="labPreviewStages"></div>
+                    <div class="lab-preview-content-list" id="labPreviewContents"></div>
+                </aside>
+            </div>
+        </div>
+        <div class="lab-page-loader" id="labPageLoader" hidden aria-live="polite" aria-busy="true"></div>
+    </div>
+
+    <div class="modal-overlay lab-guide-modal" id="labGuideModal" style="z-index: 2300;" aria-hidden="true">
+        <section class="lab-guide-card" role="dialog" aria-modal="true" aria-labelledby="labGuideTitle">
+            <div class="lab-guide-hero" id="labGuideHero">
+                <div class="lab-guide-icon-wrap">
+                    <span class="material-symbols-outlined" id="labGuideIcon">science</span>
+                </div>
+                <div class="lab-guide-title-block">
+                    <p class="lab-guide-kicker" id="labGuideKicker">LAB GUIDE</p>
+                    <h2 id="labGuideTitle">랩 안내</h2>
+                    <p id="labGuideSubtitle"></p>
+                </div>
+                <button type="button" class="lab-guide-close" onclick="closeLabKindGuide(event)" aria-label="랩 안내 닫기">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="lab-guide-progress" aria-live="polite">
+                <span id="labGuideStepCount">1 / 3</span>
+                <div class="lab-guide-dots" id="labGuideDots" aria-hidden="true"></div>
+            </div>
+            <div class="lab-guide-body">
+                <section class="lab-guide-section">
+                    <h3 id="labGuideStepTitle">이 랩은 이렇게 사용합니다</h3>
+                    <p id="labGuideStepText"></p>
+                    <ul class="lab-guide-list" id="labGuideStepList"></ul>
+                </section>
+            </div>
+            <div class="lab-guide-actions">
+                <button type="button" class="lab-guide-secondary-btn" id="labGuidePrevBtn" onclick="prevLabKindGuideStep(event)">이전</button>
+                <button type="button" class="lab-guide-confirm-btn" id="labGuideNextBtn" onclick="nextLabKindGuideStep(event)">다음</button>
+                <button type="button" class="lab-guide-confirm-btn" id="labGuideFinalBtn" onclick="confirmLabKindGuide(event)" hidden>확인</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal-overlay lab-guide-modal" id="labAnonymousGuideModal" style="z-index: 2305;" aria-hidden="true">
+        <section class="lab-guide-card" role="dialog" aria-modal="true" aria-labelledby="labAnonymousGuideTitle">
+            <div class="lab-guide-hero" style="--lab-guide-accent:#0EA5E9; --lab-guide-soft:rgba(14, 165, 233, 0.16);">
+                <div class="lab-guide-icon-wrap">
+                    <span class="material-symbols-outlined">person_off</span>
+                </div>
+                <div class="lab-guide-title-block">
+                    <p class="lab-guide-kicker">LAB START</p>
+                    <h2 id="labAnonymousGuideTitle">내담자 없이 LAB을 시작합니다</h2>
+                    <p>이 진입은 바로 학습을 열기 위한 임시 모드입니다.</p>
+                </div>
+                <button type="button" class="lab-guide-close" onclick="closeLabAnonymousGuide(event)" aria-label="익명 LAB 안내 닫기">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="lab-guide-body">
+                <section class="lab-guide-section">
+                    <h3>기록은 저장되지 않습니다</h3>
+                    <p>선택된 내담자 없이 시작한 경우에는 학습 기록, 리포트, 전문 분석이 저장되지 않습니다. 리포트 및 전문 분석이 필요하면 내담자를 추가한 뒤 LAB을 시작해 주세요.</p>
+                </section>
+            </div>
+            <div class="lab-guide-actions">
+                <button type="button" class="lab-guide-secondary-btn" onclick="dismissLabAnonymousGuide(event)">다시 보지 않기</button>
+                <button type="button" class="lab-guide-confirm-btn" onclick="confirmLabAnonymousGuide(event)">확인</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal-overlay lab-guide-modal lab-update-modal" id="labUpdateModal" style="z-index: 2310;" aria-hidden="true">
+        <section class="lab-guide-card lab-update-card" role="dialog" aria-modal="true" aria-labelledby="labUpdateTitle">
+            <div class="lab-guide-hero" style="--lab-guide-accent:#2563EB; --lab-guide-soft:rgba(37, 99, 235, 0.14);">
+                <div class="lab-guide-icon-wrap">
+                    <span class="material-symbols-outlined">new_releases</span>
+                </div>
+                <div class="lab-guide-title-block">
+                    <p class="lab-guide-kicker">LAB UPDATE</p>
+                    <h2 id="labUpdateTitle">새 학습 업데이트</h2>
+                    <p id="labUpdateSubtitle">새로 등록된 학습을 확인하세요.</p>
+                </div>
+                <button type="button" class="lab-guide-close" onclick="closeLabUpdateModal()" aria-label="업데이트 안내 닫기">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="lab-guide-body">
+                <section class="lab-guide-section">
+                    <h3>이번 업데이트</h3>
+                    <ul class="lab-update-list" id="labUpdateList"></ul>
+                </section>
+            </div>
+            <div class="lab-guide-actions">
+                <button type="button" class="lab-guide-confirm-btn lab-update-confirm-btn" onclick="closeLabUpdateModal()">확인하고 LAB 보기</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="class-onboarding-overlay" id="classOnboardingOverlay" hidden aria-hidden="true">
+        <div class="class-onboarding-dim"></div>
+        <div class="class-onboarding-spotlight" id="classOnboardingSpotlight" hidden></div>
+        <div class="class-onboarding-target-ghost" id="classOnboardingTargetGhost" hidden></div>
+        <section class="class-onboarding-card" id="classOnboardingCard" role="dialog" aria-modal="true" aria-labelledby="classOnboardingTitle">
+            <div class="class-onboarding-copy">
+                <p class="class-onboarding-kicker" id="classOnboardingKicker">WELCOME</p>
+                <h2 class="class-onboarding-title" id="classOnboardingTitle">HAHA LAB 안내</h2>
+                <p class="class-onboarding-body" id="classOnboardingBody"></p>
+            </div>
+            <div class="class-onboarding-custom" id="classOnboardingCustom"></div>
+            <div class="class-onboarding-actions">
+                <button type="button" class="class-onboarding-primary" id="classOnboardingNextBtn" onclick="nextClassOnboardingStep(event)">다음</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="card-download-promo" id="cardDownloadPromoModal" aria-hidden="true">
+        <section class="card-download-promo-card" role="dialog" aria-modal="true" aria-labelledby="cardDownloadPromoTitle">
+            <span class="card-download-promo-badge">FREE DOWNLOAD</span>
+            <h2 id="cardDownloadPromoTitle">하하랩 그림카드 무료 다운로드!</h2>
+            <p>수업 준비 시간을 줄이는 A4 그림카드 세트를 바로 저장하세요.</p>
+            <div class="card-download-promo-stats" aria-label="그림카드 구성">
+                <div class="card-download-promo-stat"><strong>27</strong><span>카테고리</span></div>
+                <div class="card-download-promo-stat"><strong>549</strong><span>실사</span></div>
+                <div class="card-download-promo-stat"><strong>551</strong><span>일러스트</span></div>
+            </div>
+            <div class="card-download-promo-actions">
+                <button type="button" class="card-download-promo-btn card-download-promo-secondary" id="cardDownloadPromoNeverBtn">다시 보지 않기</button>
+                <button type="button" class="card-download-promo-btn card-download-promo-secondary" id="cardDownloadPromoCloseBtn">닫기</button>
+                <button type="button" class="card-download-promo-btn card-download-promo-primary" id="cardDownloadPromoOpenBtn">다운로드</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- 수업 등록 모달 (간소화) -->
+    <div class="modal-overlay" id="classRegistrationModal">
+        <div class="modal-container" style="max-width: 460px;">
+            <div class="modal-header">
+                <div class="modal-title" id="classRegModalTitle">수업 등록</div>
+                <button class="modal-close-btn" onclick="safeCloseModal(event, 'classRegistrationModal')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-section">
+                        <div class="form-grid">
+                            <div>
+                                <label class="form-label">시작 일자 <span style="color:#ef4444">*</span></label>
+                                <input type="date" class="form-input" id="classStartDate" value="2026-04-16">
+                            </div>
+                            <div>
+                                <label class="form-label">시작 시간 <span style="color:#ef4444">*</span></label>
+                                <input type="time" class="form-input" id="classStartTime" value="14:00">
+                            </div>
+                            <div class="form-group-full class-client-section" id="classClientSection" style="display:none;">
+                                <label class="form-label">내담자/예약자 선택 <span style="color:#ef4444">*</span></label>
+                                <select class="form-select" id="classClientSelect">
+                                    <option value="">내담자 또는 예약자를 선택해주세요</option>
+                                </select>
+                            </div>
+                        <div class="form-group-full">
+                            <label class="checkbox-label class-single-mode-row" id="classSingleModeRow">
+                                <input type="checkbox" id="classSingleMode">
+                                <span id="classSingleModeText">1회만 등록</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-group-full" id="classRepeatSection">
+                            <label class="form-label" id="classRepeatLabel">반복 요일 (매주) <span style="color:#ef4444">*</span></label>
+                            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px;">
+                                <button class="day-chip" onclick="toggleDayChip(this)">월</button>
+                                <button class="day-chip" onclick="toggleDayChip(this)">화</button>
+                                <button class="day-chip" onclick="toggleDayChip(this)">수</button>
+                                <button class="day-chip" onclick="toggleDayChip(this)">목</button>
+                                <button class="day-chip" onclick="toggleDayChip(this)">금</button>
+                                <button class="day-chip" onclick="toggleDayChip(this)">토</button>
+                                <button class="day-chip" onclick="toggleDayChip(this)">일</button>
+                            </div>
+                            <label class="checkbox-label" id="classBiweeklyLabel">
+                                <input type="checkbox" id="classIsBiweekly"> <span>격주로 진행 (2주 간격)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer" style="justify-content: space-between;">
+                <button class="btn-outline delete" id="btnDeleteClass" style="display: none; border-color: #FCA5A5; color: #EF4444;" onclick="handleDeleteClassFromModal()">수업 삭제</button>
+                <div style="display: flex; gap: 12px; margin-left: auto;">
+                    <button class="btn-outline" onclick="safeCloseModal(event, 'classRegistrationModal')">취소</button>
+                    <button class="primary-btn" id="btnSaveClass">등록하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- [NEW] 등록 모달 -->
+    <div class="modal-overlay" id="registrationModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title" id="regModalTitle">내담자 등록</div>
+                <button class="modal-close-btn" onclick="safeCloseModal(event, 'registrationModal')">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="type-toggle">
+                    <button class="type-toggle-btn active" onclick="setRegType('client')" id="btnTypeClient">내담자</button>
+                    <button class="type-toggle-btn" onclick="setRegType('reserve')" id="btnTypeReserve">상담예약자</button>
+                </div>
+                <input type="hidden" id="regClientId">
+                
+                <div class="form-section">
+                    <div class="form-section-title"><span class="material-symbols-outlined" style="font-size: 18px;">person</span> 기본 정보</div>
+                    <div class="form-grid">
+                        <div>
+                            <label class="form-label">이름 <span style="color:#ef4444">*</span></label>
+                            <input type="text" class="form-input" id="regName" placeholder="이름 입력" required>
+                        </div>
+                        <div>
+                            <label class="form-label">성별 <span style="color:#ef4444">*</span></label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="regGender" value="male" checked>
+                                    <span class="radio-btn">남</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="regGender" value="female">
+                                    <span class="radio-btn">여</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label">생년월일</label>
+                            <input type="text" class="form-input" id="regDob" inputmode="numeric" autocomplete="bday" maxlength="10" placeholder="예: 20180412">
+                        </div>
+                        <div>
+                            <label class="form-label">연락처</label>
+                            <input type="tel" class="form-input" id="regContact" placeholder="010-0000-0000">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="form-section-title"><span class="material-symbols-outlined" style="font-size: 18px;">home</span> 주소 정보</div>
+                    <div class="form-grid">
+                        <div class="form-group-full" style="display:flex; gap: 8px;">
+                            <input type="text" class="form-input" id="regZipCode" placeholder="우편번호" style="width: 120px;" readonly>
+                            <button class="btn-outline" type="button" id="btnRegSearchAddress" style="white-space: nowrap;">우편번호 찾기</button>
+                        </div>
+                        <div class="form-group-full">
+                            <input type="text" class="form-input" id="regAddress" placeholder="기본 주소" readonly>
+                        </div>
+                        <div class="form-group-full">
+                            <input type="text" class="form-input" id="regAddressDetail" placeholder="상세 주소 입력">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="form-section-title"><span class="material-symbols-outlined" style="font-size: 18px;">family_restroom</span> 보호자 정보</div>
+                    <div class="form-grid">
+                        <div>
+                            <label class="form-label">보호자 성함</label>
+                            <input type="text" class="form-input" id="regGuardianName" placeholder="성함 입력">
+                        </div>
+                        <div>
+                            <label class="form-label">관계</label>
+                            <input type="text" class="form-input" id="regGuardianRelation" placeholder="예: 부, 모, 조부모">
+                        </div>
+                        <div>
+                            <label class="form-label">보호자 연락처</label>
+                            <input type="tel" class="form-input" id="regGuardianContact" placeholder="010-0000-0000">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="form-section-title"><span class="material-symbols-outlined" style="font-size: 18px;">medical_information</span> 수업 & 임상 정보</div>
+                    <div class="form-grid">
+                        <div>
+                            <label class="form-label">기본 세션 시간 (분)</label>
+                            <input type="number" class="form-input" id="regSessionTime" value="50">
+                        </div>
+                        <div>
+                            <label class="form-label">개입 영역</label>
+                            <input type="text" class="form-input" id="regAreas" placeholder="언어, 인지, 행동 등">
+                        </div>
+                        <div class="form-group-full">
+                            <label class="form-label">진단명</label>
+                            <input type="text" class="form-input" id="regDiagnosis" placeholder="진단명 입력">
+                        </div>
+                        <div class="form-group-full">
+                            <label class="form-label">초기 상담 내용</label>
+                            <textarea class="form-textarea" id="regInitialConsult" placeholder="초기 상담 시 주요 내용 입력"></textarea>
+                        </div>
+                        <div class="form-group-full">
+                            <label class="form-label">메모</label>
+                            <textarea class="form-textarea" id="regMemo" style="min-height: 60px;" placeholder="기타 참고 사항 입력"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section" style="background: transparent; box-shadow: none; padding: 0 8px;">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="chkPrivacy">
+                        <span>(필수) 내담자 및 보호자의 개인정보 수집·이용과 민감정보(상담, 진단 이력 등) 처리를 위한 적법한 동의를 받았습니다.</span>
+                    </label>
+                </div>
+                
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="safeCloseModal(event, 'registrationModal')">취소</button>
+                <button class="primary-btn" id="btnSubmitRegistration" onclick="submitRegistration()">저장하기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 마이페이지(My Page) 모달 -->
+    <div class="modal-overlay" id="myPageModal" style="z-index: 1500;">
+        <div class="modal-container" style="max-width: 900px; height: 600px; display: flex; flex-direction: row; overflow: hidden; padding: 0;">
+            <!-- 좌측 사이드바 메뉴 -->
+            <div class="mypage-sidebar">
+                <div class="mypage-sidebar-header">
+                    <div class="modal-title">마이페이지</div>
+                </div>
+                <div class="mypage-menu">
+                    <div class="mypage-menu-item active" onclick="switchMyPageTab('profile')" data-tab="profile">
+                        <span class="material-symbols-outlined">person</span> 프로필 정보
+                    </div>
+                    <div class="mypage-menu-item" onclick="switchMyPageTab('settings')" data-tab="settings">
+                        <span class="material-symbols-outlined">settings</span> 수업 운영 설정
+                    </div>
+                    <div class="mypage-menu-item" onclick="switchMyPageTab('access')" data-tab="access">
+                        <span class="material-symbols-outlined">verified_user</span> 무료 이용 안내
+                    </div>
+                </div>
+                <div class="mypage-sidebar-footer">
+                    <div class="mypage-policy-links">
+                        <button type="button" class="mypage-policy-link" onclick="openPolicyDocument('terms')">이용약관</button>
+                        <button type="button" class="mypage-policy-link" onclick="openPolicyDocument('privacy')">개인정보처리방침</button>
+                    </div>
+                    <p style="margin: 10px 4px 0; font-size: 11px; line-height: 1.5; color: var(--text-light);">
+                        사업자등록번호 625-31-01817
+                    </p>
+                    <button type="button" class="mypage-menu-item mypage-menu-item-logout" onclick="logout()">
+                        <span class="material-symbols-outlined">logout</span> 로그아웃
+                    </button>
+                </div>
+            </div>
+
+            <!-- 우측 본문 콘텐츠 영역 -->
+            <div class="mypage-content">
+                <div class="modal-header" style="border-bottom: none; padding-top: 24px; justify-content: flex-end;">
+                    <button class="modal-close-btn" onclick="closeModal('myPageModal')">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                
+                <div class="mypage-scroll-area">
+                    <!-- 프로필 정보 탭 -->
+                    <div class="mypage-tab-content active" id="tab-profile">
+                        <h3 class="mypage-section-title">프로필 정보</h3>
+                        <div class="profile-info-card">
+                            <div class="profile-main">
+                                <div class="profile-avatar-large">S</div>
+                                <div class="profile-details">
+                                    <div class="profile-name-row">
+                                        <div class="profile-name-lg" id="myPageProfileName">-</div>
+                                        <div class="profile-chip-row">
+                                            <span class="profile-chip" id="myPagePlanChip">PRO</span>
+                                            <span class="profile-chip muted" id="myPageStatusChip">이용 중</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-sub" id="myPageProfileCenter">소속 센터 없음</div>
+                                    <div class="profile-caption" id="myPageProfilePeriod">이용 기간 정보가 없습니다.</div>
+                                </div>
+                            </div>
+                            <div class="profile-stat-grid">
+                                <div class="profile-stat-card">
+                                    <span>등록 내담자</span>
+                                    <strong id="myPageClientCapacity">0 / 80명</strong>
+                                </div>
+                                <div class="profile-stat-card">
+                                    <span>예약 · 예정 수업</span>
+                                    <strong id="myPageReserveSchedule">0명 / 0건</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mypage-profile-section">
+                            <div class="mypage-section-head">
+                                <h4>기본 정보</h4>
+                                <p>기존 class.html 마이페이지 기준으로 실제 계정 정보를 표시합니다.</p>
+                            </div>
+                            <div class="form-grid-2 mypage-profile-grid">
+                                <div class="form-group">
+                                    <label class="form-label">센터명</label>
+                                    <input type="text" class="form-input mp-field-center mypage-editable-field mypage-editable-disabled" id="myPageFieldCenter" placeholder="센터명" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">이름</label>
+                                    <input type="text" class="form-input mypage-readonly-input mp-field-name" id="myPageFieldName" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">아이디</label>
+                                    <input type="text" class="form-input mypage-readonly-input" id="myPageFieldLoginId" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">연락처</label>
+                                    <input type="text" class="form-input mypage-editable-field mypage-editable-disabled" id="myPageFieldContact" placeholder="010-0000-0000" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">성별</label>
+                                    <select class="form-select mypage-editable-field mypage-editable-disabled" id="myPageFieldGender" disabled>
+                                        <option value="">선택 안 함</option>
+                                        <option value="female">여성</option>
+                                        <option value="male">남성</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">연령</label>
+                                    <input type="text" class="form-input mypage-editable-field mypage-editable-disabled" id="myPageFieldAge" placeholder="예: 30대" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">최근 접속</label>
+                                    <input type="text" class="form-input mypage-readonly-input" id="myPageFieldLastSeen" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mypage-profile-footer">
+                            <button class="primary-btn" id="myPageProfileEditButton" onclick="saveProfile()" style="width: 120px;">정보 수정</button>
+                            <div class="mypage-profile-mini-actions">
+                                <button type="button" class="mypage-mini-link danger" onclick="openTeacherWithdrawalModal()">탈퇴</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 수업 운영 설정 탭 -->
+                    <div class="mypage-tab-content" id="tab-settings">
+                        <h3 class="mypage-section-title">수업 운영 설정</h3>
+                        
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">기본 수업 시간</div>
+                                <div class="setting-desc">신규 일정 등록 시 기본으로 설정될 시간입니다.</div>
+                            </div>
+                            <div class="setting-control">
+                                <select class="form-select" id="myPageSettingDefaultSessionTime" data-setting-label="기본 수업 시간" style="width: 120px;">
+                                    <option value="40">40분</option>
+                                    <option value="50" selected>50분</option>
+                                    <option value="60">60분</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">수업 시작 5분 전 알림</div>
+                                <div class="setting-desc">수업 시작 전 브라우저 알림을 받습니다.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="myPageSettingAlertBefore5" data-setting-label="수업 시작 5분 전 알림" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <div class="setting-label">종결 내담자 숨기기</div>
+                                <div class="setting-desc">좌측 리스트에서 종결된 내담자를 제외합니다.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="myPageSettingHideTerminated" data-setting-label="종결 내담자 숨기기">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 무료 이용 안내 탭 -->
+                    <div class="mypage-tab-content" id="tab-access">
+                        <h3 class="mypage-section-title">무료 이용 안내</h3>
+                        
+                        <div class="billing-card pro">
+                            <div class="billing-badge" id="myPageBillingBadge">FREE</div>
+                            <div class="billing-info">
+                                <div class="billing-plan-name" id="myPageBillingPlanName">무료 이용 중</div>
+                                <div class="billing-limit" id="myPageBillingLimit">내담자 등록도 현재 무료로 이용할 수 있습니다.</div>
+                            </div>
+                            <div class="billing-status" id="myPageBillingStatus">이용 중</div>
+                        </div>
+                        
+                        <div class="form-section" style="margin-top: 24px; background: white;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                                <span style="color: var(--text-gray); font-size: 14px;">콘텐츠 이용</span>
+                                <span style="font-weight: 700;" id="myPageBillingNextPayment">계속 무료</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-gray); font-size: 14px;">내담자 등록</span>
+                                <span style="font-weight: 700;" id="myPageBillingPaymentMethod">무료 등록 가능</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 회원 탈퇴 전용 모달 -->
+    <div class="modal-overlay" id="teacherWithdrawalModal" style="z-index: 2100;">
+        <div class="modal-container" style="max-width: 720px;">
+            <div class="modal-header">
+                <div>
+                    <h3 class="modal-title">회원 탈퇴</h3>
+                    <p style="margin: 6px 0 0; color: var(--text-light); font-size: 12px; line-height: 1.5;">경고와 필수 확인 항목을 모두 확인해야 탈퇴가 진행됩니다.</p>
+                </div>
+                <button class="modal-close-btn" type="button" onclick="closeTeacherWithdrawalModal()" aria-label="닫기">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="withdrawal-summary-grid">
+                    <div class="withdrawal-summary-card">
+                        <span>내담자</span>
+                        <strong id="withdrawalActiveClientCount">0명</strong>
+                    </div>
+                    <div class="withdrawal-summary-card">
+                        <span>예약자</span>
+                        <strong id="withdrawalReserveClientCount">0명</strong>
+                    </div>
+                    <div class="withdrawal-summary-card">
+                        <span>예정 일정</span>
+                        <strong id="withdrawalFutureScheduleCount">0건</strong>
+                    </div>
+                    <div class="withdrawal-summary-card">
+                        <span>처리 방식</span>
+                        <strong style="font-size: 15px; line-height: 1.3;">정리 후 탈퇴</strong>
+                    </div>
+                </div>
+
+                <div class="withdrawal-warning">
+                    탈퇴가 완료되면 앱 접근이 차단되고, 내담자·예약자·일정 등 운영 데이터는 정책에 따라 삭제 또는 비식별화 절차로 들어갑니다. 같은 계정의 일반적인 복구는 지원되지 않습니다.
+                </div>
+
+                <div class="withdrawal-checklist">
+                    <label class="withdrawal-check-item">
+                        <input type="checkbox" id="withdrawalConfirmDelete" onchange="updateTeacherWithdrawalState()">
+                        <span>탈퇴가 완료되면 운영 데이터가 삭제 또는 비식별화 절차로 들어간다는 점을 확인했습니다.</span>
+                    </label>
+                    <label class="withdrawal-check-item">
+                        <input type="checkbox" id="withdrawalConfirmRetention" onchange="updateTeacherWithdrawalState()">
+                        <span>
+                            삭제 및 법정 보관 안내를 확인했습니다.
+                            <a href="./teacher-withdrawal-retention.html?returnUrl=class-new.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">새창보기</a>
+                        </span>
+                    </label>
+                    <label class="withdrawal-check-item">
+                        <input type="checkbox" id="withdrawalConfirmIrreversible" onchange="updateTeacherWithdrawalState()">
+                        <span>탈퇴 후 같은 계정으로 일반적인 복구가 어렵고 서비스 접근이 종료된다는 점을 확인했습니다.</span>
+                    </label>
+                    <label class="withdrawal-check-item is-danger" id="withdrawalForceCleanupItem">
+                        <input type="checkbox" id="withdrawalConfirmForceCleanup" onchange="updateTeacherWithdrawalState()">
+                        <span>남아 있는 내담자, 예약자, 예정 일정까지 함께 정리되어도 괜찮으며 그래도 탈퇴를 진행하겠습니다.</span>
+                    </label>
+                </div>
+
+                <div class="withdrawal-confirm-box">
+                    <label for="withdrawalReason">탈퇴 사유 (선택)</label>
+                    <textarea class="form-textarea" id="withdrawalReason" rows="3" placeholder="개선이 필요한 점이 있다면 남겨주세요."></textarea>
+                </div>
+
+                <div class="withdrawal-confirm-box">
+                    <label for="withdrawalConfirmationText">확인 문구 입력: 탈퇴합니다</label>
+                    <input type="text" class="form-input" id="withdrawalConfirmationText" placeholder="탈퇴합니다" oninput="updateTeacherWithdrawalState()">
+                </div>
+
+                <div class="withdrawal-error" id="withdrawalErrorMessage"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" type="button" onclick="closeTeacherWithdrawalModal()">취소</button>
+                <button class="primary-btn" type="button" id="withdrawalSubmitButton" onclick="submitTeacherWithdrawal()" style="background-color: #DC2626; border-color: #DC2626;" disabled>탈퇴 진행</button>
+            </div>
+        </div>
+    </div>
+
+    <a class="kakao-contact-float is-hidden" id="kakaoContactFloat" href="https://pf.kakao.com/_idxkxhX/chat" target="_blank" rel="noopener noreferrer" aria-label="카카오톡으로 하하랩 상담 문의하기">
+        <img class="kakao-contact-float__icon" src="./images/kakao_login.png" alt="" aria-hidden="true">
+        <span>상담 문의</span>
+    </a>
+
+    <!-- 인증/권한 상태 안내 모달 -->
+    <div class="modal-overlay auth-status-modal" id="authStatusModal">
+        <section class="auth-status-card" role="dialog" aria-modal="true" aria-labelledby="authStatusTitle" aria-describedby="authStatusMessage">
+            <div class="auth-status-head">
+                <div class="auth-status-icon">
+                    <span class="material-symbols-outlined" id="authStatusIcon">lock</span>
+                </div>
+                <h2 class="auth-status-title" id="authStatusTitle">로그아웃되었습니다</h2>
+                <p class="auth-status-message" id="authStatusMessage">다시 로그인해 주세요.</p>
+            </div>
+            <div class="auth-status-actions">
+                <button type="button" class="primary-btn" id="authStatusOkButton">확인</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- 커스텀 확인(Confirm) 모달 -->
+    <div class="modal-overlay" id="confirmModal" style="z-index: 2000;">
+        <div class="modal-container small">
+            <div class="modal-body" style="text-align: center;">
+                <div id="confirmMessage" style="font-size: 16px; font-weight: 600; line-height: 1.5; color: var(--text-dark); white-space: pre-line;">
+                    정말 삭제하시겠습니까?
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; justify-content: center; gap: 12px;">
+                <button class="btn-outline" id="btnConfirmCancel" style="width: 110px;">취소</button>
+                <button class="primary-btn" id="btnConfirmOk" style="width: 110px;">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 반복 일정 삭제 전용 모달 -->
+    <div class="modal-overlay" id="recurringDeleteModal" style="z-index: 2050;">
+        <div class="modal-container small">
+            <div class="modal-header" style="border-bottom: none; padding-bottom: 0;">
+                <div class="modal-title" id="recurDeleteTitle" style="font-size: 18px;">수업 일정 삭제</div>
+            </div>
+            <div class="modal-body">
+                <div id="recurDeleteDescription" style="font-size: 14px; color: var(--text-gray); margin-bottom: 16px; line-height: 1.5;">
+                    정말 이 수업을 삭제하시겠습니까? 삭제 범위를 선택해주세요.
+                </div>
+                <div class="option-list">
+                    <label class="option-item" id="recurDeleteOptionOne">
+                        <input type="radio" name="recurDeleteType" value="one" checked>
+                        <span class="option-label" id="recurDeleteLabelOne">이 일정만 삭제</span>
+                    </label>
+                    <label class="option-item" id="recurDeleteOptionFuture">
+                        <input type="radio" name="recurDeleteType" value="future">
+                        <span class="option-label" id="recurDeleteLabelFuture">이 일정 및 이후 일정 삭제</span>
+                    </label>
+                    <label class="option-item" id="recurDeleteOptionAll">
+                        <input type="radio" name="recurDeleteType" value="all">
+                        <span class="option-label" id="recurDeleteLabelAll">전체 일정 삭제</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; justify-content: center; gap: 12px;">
+                <button class="btn-outline" id="btnRecurDeleteCancel" style="width: 110px;">취소</button>
+                <button class="primary-btn" id="btnRecurDeleteOk" style="width: 110px; background-color: #EF4444; border-color: #EF4444;">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="scheduleEditScopeModal" style="z-index: 2060;">
+        <div class="modal-container small">
+            <div class="modal-header" style="border-bottom: none; padding-bottom: 0;">
+                <div class="modal-title" style="font-size: 18px;">일정 변경 범위</div>
+            </div>
+            <div class="modal-body">
+                <div id="scheduleEditScopeDescription" style="font-size: 14px; color: var(--text-gray); margin-bottom: 16px; line-height: 1.5;">
+                    이어지는 일정이 있어 변경 범위를 선택해주세요.
+                </div>
+                <div class="option-list" style="margin-bottom: 0;">
+                    <label class="option-item">
+                        <input type="radio" name="scheduleEditScopeType" value="single" checked>
+                        <span class="option-label">이번 일정만 변경</span>
+                    </label>
+                    <label class="option-item">
+                        <input type="radio" name="scheduleEditScopeType" value="future">
+                        <span class="option-label">이번 포함 이후 일정 변경</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; justify-content: center; gap: 12px;">
+                <button class="btn-outline" id="btnScheduleEditScopeCancel" style="width: 110px;">취소</button>
+                <button class="primary-btn" id="btnScheduleEditScopeOk" style="width: 110px;">변경</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="scheduleConflictModal" style="z-index: 2070;">
+        <div class="modal-container small">
+            <div class="modal-header" style="border-bottom: none; padding-bottom: 0;">
+                <div class="modal-title" style="font-size: 18px;">겹치는 일정이 있습니다</div>
+            </div>
+            <div class="modal-body">
+                <div id="scheduleConflictDescription" style="font-size: 14px; color: var(--text-gray); margin-bottom: 16px; line-height: 1.6; white-space: pre-line;">
+                    같은 시간대 일정이 있어 처리 방식을 선택해주세요.
+                </div>
+                <div class="option-list conflict-option-list" style="margin-bottom: 0;">
+                    <button type="button" class="option-item option-action" id="btnConflictPush">
+                        <span class="option-action-copy">
+                            <strong>겹친 일정 뒤로 밀기</strong>
+                            <span>새 일정 뒤로 이어서 재배치합니다.</span>
+                        </span>
+                    </button>
+                    <button type="button" class="option-item option-action" id="btnConflictAdjust">
+                        <span class="option-action-copy">
+                            <strong>시간 자동 단축</strong>
+                            <span>겹치는 직전까지만 자동으로 줄입니다.</span>
+                        </span>
+                    </button>
+                    <button type="button" class="option-item option-action" id="btnConflictManual">
+                        <span class="option-action-copy">
+                            <strong>직접 다시 설정</strong>
+                            <span>일정 모달로 돌아가 날짜와 시간을 다시 조정합니다.</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; justify-content: center;">
+                <button class="btn-outline" id="btnConflictCancel" style="width: 110px;">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 커스텀 안내(Alert) 모달 -->
+    <div class="modal-overlay" id="alertModal" style="z-index: 2100;">
+        <div class="modal-container small">
+            <div class="modal-body" style="text-align: center;">
+                <div id="alertMessage" style="font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--text-dark);">
+                    처리가 완료되었습니다.
+                </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; justify-content: center;">
+                <button class="primary-btn" id="btnAlertOk" style="width: 120px;">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-toast" id="bottomToast" aria-live="polite"></div>
+
+    <script defer src="./js/offline.js?v=20261104-security-report-2"></script>
+    <script defer src="./js/modal.js?v=20261104-security-report-2"></script>
+    <script defer src="./js/auth.js?v=20261104-security-report-2"></script>
+    <script defer src="./playlab/report-dual-mode-policy.js?v=20261104-security-report-2"></script>
+    <script defer src="./js/clinical-workflow.js?v=20261104-security-report-2"></script>
+    <script defer src="./playlab/learning-report-harness.js?v=20261104-security-report-2"></script>
+    <script defer src="./js/app.js?v=20261104-observation-opinion-1"></script>
+    <script>
+        if ('serviceWorker' in navigator && window.location.protocol !== 'file:') {
+            const classNewServiceWorkerVersion = '20261104-security-report-2';
+            const reloadKey = `haha-sw-controller-reload:${classNewServiceWorkerVersion}`;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (sessionStorage.getItem(reloadKey) === '1') return;
+                sessionStorage.setItem(reloadKey, '1');
+                window.location.reload();
+            });
+            navigator.serviceWorker.register('/sw.js', { scope: '/' })
+                .then((registration) => registration.update())
+                .catch(() => { });
+        }
+    </script>
+</body>
+</html>

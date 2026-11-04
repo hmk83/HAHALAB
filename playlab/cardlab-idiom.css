@@ -1,0 +1,504 @@
+.idiom-shell {
+  --idiom-accent: #f59e0b;
+  --idiom-accent-strong: #ea580c;
+  --idiom-soft: rgba(245, 158, 11, 0.16);
+}
+
+.idiom-shell #shellTitle {
+  display: none !important;
+}
+
+.idiom-main-panel {
+  gap: 18px;
+}
+
+.idiom-question-head {
+  align-items: flex-start;
+}
+
+.idiom-learning-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.92fr);
+  align-items: start;
+  gap: 20px;
+}
+
+.idiom-visual-column,
+.idiom-choice-column {
+  min-width: 0;
+}
+
+.idiom-visual-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.idiom-choice-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.idiom-image-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 30px;
+  background: #fff;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+  min-height: 320px;
+  padding: 12px;
+}
+
+.idiom-image-card img {
+  width: 100%;
+  height: auto;
+  max-height: min(72vh, 720px);
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+.idiom-image-zoom {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.82);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.idiom-meaning-card,
+.idiom-feedback-panel,
+.idiom-solved-panel {
+  border-radius: 28px;
+  padding: 20px 22px;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.07);
+}
+
+.idiom-meaning-card {
+  border: 1px solid rgba(251, 191, 36, 0.22);
+  background: linear-gradient(145deg, rgba(255, 247, 237, 0.96) 0%, rgba(255, 255, 255, 0.98) 56%, rgba(255, 251, 235, 0.96) 100%);
+}
+
+.idiom-visual-column .idiom-meaning-card {
+  width: 100%;
+}
+
+.idiom-meaning-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.idiom-meaning-label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  color: #c2410c;
+}
+
+.idiom-meaning-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.idiom-mini-audio-btn {
+  border: 1px solid rgba(245, 158, 11, 0.24);
+  background: rgba(255, 255, 255, 0.94);
+  color: #c2410c;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.idiom-mini-audio-btn:disabled {
+  opacity: 0.45;
+}
+
+.idiom-mini-audio-btn[hidden] {
+  display: none;
+}
+
+.idiom-meaning-copy {
+  margin: 14px 0 0;
+  font-size: 18px;
+  line-height: 1.7;
+  font-weight: 900;
+  color: #0f172a;
+  word-break: keep-all;
+}
+
+.idiom-meaning-card.is-collapsed {
+  cursor: pointer;
+}
+
+.idiom-meaning-card.is-collapsed .idiom-meaning-copy {
+  color: rgba(15, 23, 42, 0.58);
+  font-weight: 800;
+}
+
+.idiom-choice-head {
+  margin-top: 0;
+}
+
+.idiom-choice-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+.idiom-choice-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid rgba(226, 232, 240, 0.92);
+  background: #fff;
+  min-height: 88px;
+  padding: 14px 16px;
+  text-align: left;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.idiom-choice-card:hover {
+  transform: translateY(-1px);
+}
+
+.idiom-choice-card:active {
+  transform: scale(0.985);
+}
+
+.idiom-choice-card.is-selected {
+  border-color: rgba(251, 146, 60, 0.5);
+  background: rgba(255, 247, 237, 0.96);
+}
+
+.idiom-choice-card.is-success {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(236, 253, 245, 0.98);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.14);
+}
+
+.idiom-choice-card.is-error {
+  border-color: rgba(251, 113, 133, 0.48);
+  background: rgba(255, 241, 242, 0.98);
+  box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.14);
+  animation: cardlabErrorPop 0.45s ease-in-out;
+}
+
+.idiom-choice-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(241, 245, 249, 0.96);
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.idiom-choice-card.is-success .idiom-choice-index {
+  background: rgba(16, 185, 129, 0.16);
+  color: #059669;
+}
+
+.idiom-choice-card.is-error .idiom-choice-index {
+  background: rgba(251, 113, 133, 0.16);
+  color: #e11d48;
+}
+
+.idiom-choice-value {
+  display: block;
+  margin-top: 10px;
+  font-size: 20px;
+  line-height: 1.35;
+  font-weight: 900;
+  color: #0f172a;
+  word-break: keep-all;
+}
+
+.idiom-feedback-panel {
+  border: 1px solid rgba(251, 113, 133, 0.18);
+  background: linear-gradient(145deg, rgba(255, 241, 242, 0.96) 0%, rgba(255, 255, 255, 0.98) 100%);
+}
+
+.idiom-feedback-panel.is-hidden {
+  display: none;
+}
+
+.idiom-feedback-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.idiom-feedback-badge {
+  background: rgba(251, 113, 133, 0.14);
+  color: #e11d48;
+}
+
+.idiom-feedback-copy {
+  margin: 14px 0 0;
+  font-size: 16px;
+  line-height: 1.65;
+  font-weight: 800;
+  color: #881337;
+  word-break: keep-all;
+}
+
+.idiom-answer-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 92;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.idiom-answer-modal.is-active {
+  display: flex;
+}
+
+.idiom-answer-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.68);
+  backdrop-filter: blur(10px);
+}
+
+.idiom-answer-modal-card {
+  position: relative;
+  width: min(92vw, 560px);
+  border-radius: 30px;
+  padding: 30px 28px 28px;
+  border: 1px solid rgba(16, 185, 129, 0.18);
+  background: linear-gradient(145deg, rgba(236, 253, 245, 0.98) 0%, rgba(255, 255, 255, 0.98) 52%, rgba(240, 253, 244, 0.98) 100%);
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.24);
+}
+
+.idiom-solved-answer {
+  margin-top: 0;
+  font-size: 34px;
+  line-height: 1.3;
+  font-weight: 900;
+  color: #0f172a;
+  word-break: keep-all;
+}
+
+.idiom-solved-meaning {
+  margin-top: 14px;
+  font-size: 17px;
+  line-height: 1.7;
+  font-weight: 800;
+  color: #047857;
+  word-break: keep-all;
+}
+
+.idiom-solved-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+.idiom-answer-modal .shell-icon-btn {
+  min-width: 160px;
+}
+
+.idiom-complete .wordbuild-complete-clear {
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+}
+
+.idiom-image-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: none;
+}
+
+.idiom-image-modal.is-active {
+  display: block;
+}
+
+.idiom-image-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.idiom-image-modal-dialog {
+  position: relative;
+  width: min(96vw, 1180px);
+  margin: 4vh auto;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 28px;
+  padding: 22px;
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.2);
+}
+
+.idiom-image-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(226, 232, 240, 0.92);
+  background: #fff;
+  color: #0f172a;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.idiom-image-modal-title {
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: #b45309;
+}
+
+.idiom-image-modal-frame {
+  margin-top: 16px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.idiom-image-modal-frame img {
+  width: 100%;
+  display: block;
+}
+
+.idiom-image-modal-caption {
+  margin: 16px 0 0;
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 800;
+  color: #334155;
+  word-break: keep-all;
+}
+
+@media (max-width: 900px) {
+  .idiom-image-card {
+    border-radius: 24px;
+    min-height: 260px;
+  }
+
+  .idiom-meaning-card,
+  .idiom-feedback-panel,
+  .idiom-answer-modal-card {
+    border-radius: 24px;
+    padding: 18px 18px;
+  }
+
+  .idiom-choice-card {
+    min-height: 92px;
+    border-radius: 20px;
+  }
+
+  .idiom-solved-answer {
+    font-size: 28px;
+  }
+
+  .idiom-answer-modal {
+    padding: 18px;
+  }
+
+
+  .idiom-image-modal-dialog {
+    width: min(96vw, 860px);
+    margin: 3vh auto;
+    padding: 18px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1280px) and (max-height: 760px) {
+  .idiom-main-panel {
+    gap: 14px;
+  }
+
+  .idiom-learning-layout {
+    gap: 16px;
+  }
+
+  .idiom-visual-column {
+    gap: 12px;
+  }
+
+  .idiom-choice-column {
+    gap: 10px;
+  }
+
+  .idiom-image-card {
+    min-height: 300px;
+    padding: 10px;
+    border-radius: 24px;
+  }
+
+  .idiom-meaning-card,
+  .idiom-feedback-panel,
+  .idiom-solved-panel {
+    padding: 16px 18px;
+    border-radius: 24px;
+  }
+
+  .idiom-meaning-copy {
+    margin-top: 10px;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .idiom-choice-grid {
+    gap: 8px;
+  }
+
+  .idiom-choice-card {
+    min-height: 82px;
+    padding: 12px 14px;
+    border-radius: 22px;
+  }
+
+  .idiom-choice-value {
+    margin-top: 8px;
+    line-height: 1.28;
+  }
+}
+
+@media (max-width: 700px) {
+  .idiom-learning-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .idiom-image-card {
+    min-height: 220px;
+  }
+}

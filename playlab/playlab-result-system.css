@@ -1,0 +1,433 @@
+:root {
+  --haha-result-accent: #0f766e;
+  --haha-result-accent-strong: #115e59;
+  --haha-result-accent-soft: #ccfbf1;
+  --haha-result-surface: #f4f7fb;
+  --haha-result-ink: #172033;
+  --haha-result-muted: #64748b;
+  --haha-result-border: rgba(148, 163, 184, 0.28);
+}
+
+:root[data-haha-lab-kind="cardlab"] {
+  --haha-result-accent: #d97706;
+  --haha-result-accent-strong: #92400e;
+  --haha-result-accent-soft: #fef3c7;
+}
+
+:root[data-haha-lab-kind="numberlab"] {
+  --haha-result-accent: #2563eb;
+  --haha-result-accent-strong: #1e40af;
+  --haha-result-accent-soft: #dbeafe;
+}
+
+:root[data-haha-lab-kind="playlab"] {
+  --haha-result-accent: #059669;
+  --haha-result-accent-strong: #047857;
+  --haha-result-accent-soft: #d1fae5;
+}
+
+:root[data-haha-lab-kind="rehab"] {
+  --haha-result-accent: #db2777;
+  --haha-result-accent-strong: #9d174d;
+  --haha-result-accent-soft: #fce7f3;
+}
+
+:root[data-haha-lab-kind="musicartlab"] {
+  --haha-result-accent: #7c3aed;
+  --haha-result-accent-strong: #5b21b6;
+  --haha-result-accent-soft: #ede9fe;
+}
+
+body.haha-result-active {
+  background: var(--haha-result-surface) !important;
+}
+
+.haha-result-surface.haha-result-current {
+  width: 100% !important;
+  min-height: calc(100dvh - 62px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: clamp(24px, 4vw, 64px) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  background:
+    radial-gradient(circle at 8% 10%, color-mix(in srgb, var(--haha-result-accent-soft) 80%, transparent), transparent 32%),
+    radial-gradient(circle at 92% 88%, color-mix(in srgb, var(--haha-result-accent-soft) 58%, transparent), transparent 30%),
+    linear-gradient(145deg, #f8fafc 0%, #eef4f8 100%) !important;
+  scroll-padding: 24px;
+}
+
+.haha-result-card {
+  position: relative !important;
+  isolation: isolate;
+  width: min(1040px, 100%) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: auto !important;
+  padding: clamp(28px, 4vw, 52px) !important;
+  overflow: visible !important;
+  border: 1px solid rgba(255, 255, 255, 0.92) !important;
+  border-radius: clamp(26px, 3vw, 36px) !important;
+  background: rgba(255, 255, 255, 0.97) !important;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.14), 0 2px 8px rgba(15, 23, 42, 0.05) !important;
+  color: var(--haha-result-ink) !important;
+  transform: none !important;
+}
+
+.haha-result-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 auto;
+  height: 7px;
+  background: linear-gradient(90deg, var(--haha-result-accent), color-mix(in srgb, var(--haha-result-accent) 42%, #ffffff));
+}
+
+.haha-result-context {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin: 0 0 clamp(24px, 3vw, 36px);
+  text-align: left;
+}
+
+.haha-result-context-kind,
+.haha-result-context-state {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.haha-result-context-kind {
+  background: var(--haha-result-accent-soft);
+  color: var(--haha-result-accent-strong);
+}
+
+.haha-result-context-state {
+  border: 1px solid var(--haha-result-border);
+  background: #ffffff;
+  color: #475569;
+  letter-spacing: 0;
+}
+
+.haha-result-card :is(.quiz-complete-motion, .quiz-complete-logo) {
+  margin-inline: auto !important;
+}
+
+.haha-result-card > :is(.playlab-result-eyebrow, .musicartlab-eyebrow) {
+  display: none !important;
+}
+
+.haha-result-title {
+  max-width: 780px !important;
+  margin: 0 auto !important;
+  color: var(--haha-result-ink) !important;
+  font-size: clamp(28px, 4vw, 46px) !important;
+  font-weight: 900 !important;
+  line-height: 1.16 !important;
+  letter-spacing: -0.035em !important;
+  text-align: center !important;
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+.haha-result-summary {
+  max-width: 720px !important;
+  margin: 14px auto 0 !important;
+  color: var(--haha-result-muted) !important;
+  font-size: clamp(15px, 1.6vw, 18px) !important;
+  font-weight: 600 !important;
+  line-height: 1.7 !important;
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.haha-result-metric-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  margin: clamp(30px, 4vw, 46px) 0 14px;
+  text-align: left;
+}
+
+.haha-result-metric-heading strong {
+  color: var(--haha-result-ink);
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.haha-result-metric-heading span {
+  color: var(--haha-result-muted);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.haha-result-metrics {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.haha-result-metric {
+  min-width: 0 !important;
+  min-height: 112px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  padding: 18px 20px !important;
+  border: 1px solid var(--haha-result-border) !important;
+  border-radius: 20px !important;
+  background: #f8fafc !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+.haha-result-metric[data-metric-tone="positive"] {
+  border-color: var(--haha-result-border) !important;
+  background: #f8fafc !important;
+}
+
+.haha-result-metric:first-child {
+  border-color: color-mix(in srgb, var(--haha-result-accent) 26%, #ffffff) !important;
+  background: color-mix(in srgb, var(--haha-result-accent-soft) 62%, #ffffff) !important;
+}
+
+.haha-result-metric[data-metric-tone="attention"] {
+  border-color: rgba(245, 158, 11, 0.24) !important;
+  background: #fffbeb !important;
+}
+
+.haha-result-metric[data-metric-tone="timing"] {
+  border-color: var(--haha-result-border) !important;
+  background: #f8fafc !important;
+}
+
+.haha-result-metric :is(span, small, .playlab-result-stat-label, .wordbuild-complete-stat-label) {
+  order: -1;
+  color: #64748b !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0 !important;
+  word-break: keep-all;
+}
+
+.haha-result-metric :is(strong, b, .playlab-result-stat-value, .wordbuild-complete-stat-value) {
+  margin: 0 !important;
+  color: var(--haha-result-ink) !important;
+  font-size: clamp(25px, 2.8vw, 36px) !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.025em !important;
+  overflow-wrap: anywhere;
+}
+
+.haha-result-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  margin: clamp(28px, 4vw, 44px) 0 0 !important;
+  padding: 0 !important;
+}
+
+.haha-result-actions button {
+  min-width: min(240px, 100%) !important;
+  min-height: 52px !important;
+  padding: 0 24px !important;
+  border-radius: 16px !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0 !important;
+  box-shadow: none !important;
+}
+
+.haha-result-actions button:first-child {
+  border-color: transparent !important;
+  background: var(--haha-result-accent-strong) !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--haha-result-accent) 24%, transparent) !important;
+}
+
+.haha-result-surface[data-result-variant="rehab"].haha-result-current {
+  align-items: flex-start !important;
+}
+
+.haha-result-actions button:not(:first-child) {
+  border: 1px solid var(--haha-result-border) !important;
+  background: #ffffff !important;
+  color: #334155 !important;
+}
+
+.haha-result-actions button:focus-visible {
+  outline: 4px solid color-mix(in srgb, var(--haha-result-accent) 25%, transparent) !important;
+  outline-offset: 3px !important;
+}
+
+@media (min-width: 921px) and (max-height: 840px) {
+  .haha-result-surface.haha-result-current {
+    align-items: flex-start !important;
+    padding: 16px 32px 72px !important;
+  }
+
+  .haha-result-card {
+    padding: 24px 44px 28px !important;
+    border-radius: 28px !important;
+  }
+
+  .haha-result-context {
+    margin-bottom: 14px;
+  }
+
+  .haha-result-card :is(.quiz-complete-motion, .quiz-complete-logo) {
+    margin-bottom: 8px !important;
+  }
+
+  .haha-result-title {
+    font-size: clamp(28px, 3.2vw, 40px) !important;
+  }
+
+  .haha-result-summary {
+    margin-top: 9px !important;
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+  }
+
+  .haha-result-metric-heading {
+    margin-top: 18px;
+    margin-bottom: 10px;
+  }
+
+  .haha-result-metric {
+    min-height: 88px !important;
+    padding: 14px 18px !important;
+  }
+
+  .haha-result-actions {
+    margin-top: 18px !important;
+  }
+}
+
+@media (max-width: 920px) {
+  .haha-result-surface.haha-result-current {
+    align-items: flex-start !important;
+    padding: 22px !important;
+  }
+
+  .haha-result-card {
+    padding: 30px !important;
+    border-radius: 28px !important;
+  }
+
+  .haha-result-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .haha-result-surface.haha-result-current {
+    min-height: calc(100dvh - 56px) !important;
+    padding: 12px 12px max(82px, calc(68px + env(safe-area-inset-bottom))) !important;
+  }
+
+  .haha-result-card {
+    padding: 24px 18px !important;
+    border-radius: 22px !important;
+  }
+
+  .haha-result-context {
+    margin-bottom: 22px;
+  }
+
+  .haha-result-title {
+    font-size: clamp(25px, 8vw, 34px) !important;
+  }
+
+  .haha-result-summary {
+    font-size: 14px !important;
+    line-height: 1.62 !important;
+  }
+
+  .haha-result-metric-heading {
+    display: block;
+    margin-top: 28px;
+  }
+
+  .haha-result-metric-heading span {
+    display: block;
+    margin-top: 4px;
+  }
+
+  .haha-result-metrics {
+    gap: 10px !important;
+  }
+
+  .haha-result-metric {
+    min-height: 96px !important;
+    padding: 15px !important;
+    border-radius: 16px !important;
+  }
+
+  .haha-result-metric :is(strong, b, .playlab-result-stat-value, .wordbuild-complete-stat-value) {
+    font-size: clamp(22px, 7vw, 30px) !important;
+  }
+
+  .haha-result-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .haha-result-actions button {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 52px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haha-result-card,
+  .haha-result-card * {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .haha-result-context-state,
+  .haha-result-actions {
+    display: none !important;
+  }
+
+  .haha-result-surface.haha-result-current {
+    min-height: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+
+  .haha-result-card {
+    width: 100% !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: none !important;
+  }
+}

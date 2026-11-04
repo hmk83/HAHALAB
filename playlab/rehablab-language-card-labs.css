@@ -1,0 +1,562 @@
+.language-rehab-shell {
+  --language-accent: #2f6fed;
+  --language-accent-soft: rgba(47, 111, 237, 0.14);
+  --language-ink: #152033;
+  --language-muted: #5a667a;
+  --language-panel: rgba(255, 255, 255, 0.94);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(94, 174, 255, 0.2), transparent 34rem),
+    linear-gradient(135deg, #f7fbff 0%, #f7f1e8 48%, #eef8f4 100%);
+  color: var(--language-ink);
+}
+
+.language-rehab-shell .shell-main {
+  min-height: calc(100vh - 76px);
+  display: grid;
+  place-items: center;
+  padding: clamp(18px, 3vw, 38px);
+}
+
+.language-rehab-shell.is-cardlab-mode {
+  background: linear-gradient(135deg, #f8fbff 0%, #eef8f4 52%, #fff7ed 100%);
+}
+
+.language-rehab-shell.is-cardlab-mode .language-stage-panel {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(560px, 1.28fr);
+  gap: clamp(18px, 2.6vw, 30px);
+  align-items: center;
+}
+
+.language-rehab-shell.is-cardlab-mode #stageView.is-active:has(#levelGrid) .language-stage-panel {
+  display: block;
+  grid-template-columns: none;
+  width: min(1020px, calc(100vw - 48px));
+  margin-inline: auto;
+  padding: clamp(16px, 2vw, 24px);
+}
+
+.language-rehab-shell.is-cardlab-mode .language-stage-head {
+  margin-bottom: 0;
+}
+
+.language-rehab-shell.is-cardlab-mode .language-stage-copy,
+.language-rehab-shell.is-cardlab-mode .language-evidence-list {
+  display: none;
+}
+
+.language-screen {
+  display: none;
+  width: min(1180px, calc(100vw - 32px));
+}
+
+.language-screen.is-active {
+  display: block;
+}
+
+.language-stage-panel,
+.language-game-card,
+.language-result-card {
+  width: min(1120px, calc(100vw - 72px));
+  margin: 0 auto;
+  border: 1px solid rgba(22, 32, 51, 0.1);
+  border-radius: 8px;
+  background: var(--language-panel);
+  box-shadow: 0 24px 70px rgba(52, 64, 84, 0.16);
+}
+
+.language-stage-panel {
+  padding: clamp(20px, 3vw, 34px);
+}
+
+.language-stage-head {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.language-kicker {
+  color: var(--language-accent);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.language-stage-title,
+.language-result-title {
+  margin: 0;
+  font-size: clamp(28px, 3.4vw, 46px);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.language-stage-copy,
+.language-result-copy {
+  max-width: 820px;
+  margin: 0;
+  color: var(--language-muted);
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.58;
+}
+
+.language-evidence-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px 0 22px;
+}
+
+.language-evidence-list span {
+  min-height: 54px;
+  border: 1px solid rgba(47, 111, 237, 0.17);
+  border-radius: 8px;
+  background: var(--language-accent-soft);
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.language-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.language-rehab-shell.is-cardlab-mode .language-stage-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.language-cover-card {
+  margin: 0;
+  border: 1px solid rgba(22, 32, 51, 0.1);
+  border-radius: 8px;
+  background: #fff;
+  padding: 14px;
+  box-shadow: 0 18px 38px rgba(52, 64, 84, 0.13);
+}
+
+.language-cover-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.language-stage-card {
+  min-height: 150px;
+  border: 1px solid rgba(22, 32, 51, 0.12);
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.language-stage-card:hover,
+.language-stage-card:focus-visible {
+  border-color: var(--language-accent);
+  box-shadow: 0 16px 34px rgba(47, 111, 237, 0.17);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.language-stage-card strong {
+  display: block;
+  margin: 5px 0 8px;
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.language-stage-card span {
+  color: var(--language-muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.language-game-card {
+  min-height: 610px;
+  padding: clamp(18px, 2.6vw, 30px);
+}
+
+.language-rehab-shell.is-cardlab-mode .language-game-card {
+  min-height: 610px;
+  padding: clamp(20px, 3vw, 34px);
+}
+
+.language-game-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: start;
+  margin-bottom: 18px;
+}
+
+.language-game-head h1 {
+  margin: 4px 0 8px;
+  font-size: clamp(25px, 3vw, 38px);
+  line-height: 1.08;
+}
+
+.language-game-head p {
+  margin: 0;
+  color: var(--language-muted);
+  line-height: 1.5;
+}
+
+.language-progress {
+  min-width: 160px;
+  border-radius: 8px;
+  background: #152033;
+  color: #fff;
+  padding: 12px 16px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.language-workspace {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.86fr) minmax(360px, 1.14fr);
+  gap: clamp(16px, 2.4vw, 26px);
+  align-items: stretch;
+}
+
+.language-rehab-shell.is-cardlab-mode .language-workspace {
+  grid-template-columns: minmax(360px, 0.92fr) minmax(420px, 1.08fr);
+  align-items: center;
+}
+
+.language-card-panel,
+.language-task-panel {
+  border: 1px solid rgba(22, 32, 51, 0.1);
+  border-radius: 8px;
+  background: #fff;
+  padding: clamp(15px, 2vw, 20px);
+}
+
+.language-rehab-shell.is-cardlab-mode .language-card-panel,
+.language-rehab-shell.is-cardlab-mode .language-task-panel {
+  min-height: 440px;
+  padding: clamp(18px, 2.5vw, 28px);
+}
+
+.language-card-stack {
+  display: grid;
+  grid-template-columns: repeat(var(--card-count, 1), minmax(0, 1fr));
+  gap: 10px;
+}
+
+.language-picture-card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.language-picture-frame {
+  position: relative;
+  height: clamp(150px, 28vh, 300px);
+  border-radius: 8px;
+  background: #f3f7fb;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.language-rehab-shell.is-cardlab-mode .language-picture-frame {
+  height: clamp(300px, 44vh, 460px);
+  min-height: 300px;
+  background: #f8fafc;
+}
+
+.language-picture-frame img {
+  max-width: 92%;
+  max-height: 92%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.language-rehab-shell.is-cardlab-mode .language-picture-frame img {
+  position: absolute;
+  inset: 16px;
+  width: calc(100% - 32px);
+  height: calc(100% - 32px);
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+}
+
+.language-picture-card strong {
+  font-size: 20px;
+  text-align: center;
+}
+
+.language-clinical-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.language-clinical-tags span,
+.language-chip {
+  border-radius: 999px;
+  background: var(--language-accent-soft);
+  color: #1d4fbd;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.language-task-panel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.language-task-panel h2 {
+  margin: 0;
+  font-size: clamp(22px, 2.4vw, 31px);
+  line-height: 1.16;
+}
+
+.language-task-panel p {
+  margin: 0;
+  color: var(--language-muted);
+  line-height: 1.55;
+}
+
+.language-prompt-box {
+  border-left: 5px solid var(--language-accent);
+  border-radius: 8px;
+  background: #f8fbff;
+  padding: 14px 16px;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.language-question-word {
+  display: inline-block;
+  border-radius: 8px;
+  background: var(--question-word-color, #ffe082);
+  padding: 0 0.35em;
+  color: #172033;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.language-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.language-choice,
+.language-main-btn,
+.language-secondary-btn {
+  min-height: 50px;
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.language-choice {
+  border: 1px solid rgba(22, 32, 51, 0.12);
+  background: #f8fafc;
+  color: var(--language-ink);
+  padding: 12px;
+  text-align: left;
+}
+
+.language-choice.is-selected {
+  border-color: var(--language-accent);
+  background: var(--language-accent-soft);
+}
+
+.language-choice.is-correct {
+  border-color: #16a34a;
+  background: #dcfce7;
+  color: #14532d;
+}
+
+.language-choice.is-wrong {
+  border-color: #ef4444;
+  background: #fee2e2;
+  color: #7f1d1d;
+}
+
+.language-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.language-main-btn {
+  background: var(--language-accent);
+  color: #fff;
+  padding: 0 18px;
+}
+
+.language-secondary-btn {
+  background: #e9edf5;
+  color: #1e293b;
+  padding: 0 16px;
+}
+
+.language-feedback {
+  min-height: 42px;
+  color: #1e5537;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.language-result-card {
+  min-height: 380px;
+  padding: clamp(22px, 3vw, 38px);
+}
+
+.language-result-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.language-result-stats div {
+  border-radius: 8px;
+  background: #f7f9fc;
+  padding: 14px;
+}
+
+.language-result-stats span {
+  display: block;
+  color: var(--language-muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.language-result-stats strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 26px;
+}
+
+.language-report-note {
+  border-radius: 8px;
+  background: #fff7ed;
+  padding: 14px 16px;
+  color: #7a3f00;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .language-rehab-shell .shell-main {
+    place-items: start center;
+    padding: 16px;
+  }
+
+  .language-rehab-shell.is-cardlab-mode .language-stage-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .language-rehab-shell.is-cardlab-mode .language-cover-card {
+    width: min(360px, 100%);
+    margin: 0 auto;
+  }
+
+  .language-evidence-list,
+  .language-stage-grid,
+  .language-workspace,
+  .language-result-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .language-game-head {
+    grid-template-columns: 1fr;
+  }
+
+  .language-progress {
+    width: 100%;
+  }
+
+  .language-card-stack {
+    --card-count: 1 !important;
+  }
+
+  .language-picture-frame {
+    height: clamp(130px, 24vh, 220px);
+  }
+
+  .language-rehab-shell.is-cardlab-mode .language-picture-frame {
+    height: clamp(240px, 38vh, 360px);
+  }
+}
+
+@media (max-height: 900px) and (min-width: 901px) {
+  body .language-rehab-shell.is-cardlab-mode #stageView.is-active:has(#levelGrid) .language-stage-panel {
+    padding: 15px 28px !important;
+  }
+
+  body .language-rehab-shell.is-cardlab-mode .traffic-menu-hero {
+    margin: 0 auto 10px !important;
+  }
+
+  body .language-rehab-shell.is-cardlab-mode .traffic-age-panel {
+    min-height: 66px !important;
+    margin-bottom: 10px !important;
+    padding: 8px !important;
+  }
+
+  body .language-rehab-shell.is-cardlab-mode #levelGrid.traffic-level-grid,
+  body .language-rehab-shell.is-cardlab-mode #levelGrid.language-stage-grid {
+    gap: 10px !important;
+    padding: 0 !important;
+  }
+
+  body .language-rehab-shell.is-cardlab-mode #levelGrid.traffic-level-grid > .traffic-level-card,
+  body .language-rehab-shell.is-cardlab-mode #levelGrid.language-stage-grid > .language-level-card {
+    height: 104px !important;
+    min-height: 104px !important;
+    padding: 12px !important;
+    overflow: hidden !important;
+  }
+
+  body .language-rehab-shell.is-cardlab-mode .traffic-start-btn {
+    min-height: 48px !important;
+    height: 48px !important;
+    margin-top: 10px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .language-rehab-shell.is-cardlab-mode #levelGrid.language-stage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .language-rehab-shell.is-cardlab-mode #levelGrid.language-stage-grid > .language-level-card {
+    min-height: 104px !important;
+    padding: 12px !important;
+  }
+
+  .language-rehab-shell.is-cardlab-mode #levelGrid.language-stage-grid > .language-level-card h2 {
+    margin: 8px 0 3px !important;
+    font-size: 16px !important;
+    line-height: 1.16 !important;
+  }
+
+  .language-rehab-shell.is-cardlab-mode #levelGrid.language-stage-grid > .language-level-card p {
+    margin-top: 3px !important;
+    font-size: 11px !important;
+    line-height: 1.18 !important;
+  }
+}

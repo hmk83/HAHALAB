@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FAE100">
+  <title>하하랩 언어재활 카드 목록 | 카드랩 공개 콘텐츠</title>
+  <meta name="description" content="하하랩 언어재활 웹서비스에 등록된 카드 996장과 모션카드 56장을 카테고리별로 확인할 수 있는 카드랩 공개 콘텐츠 목록입니다.">
+  <meta name="keywords" content="하하랩, 하하랩 서비스, 하하랩 언어재활 웹서비스, 카드랩, 언어재활 카드, 언어치료 그림카드, 모션카드, 그림카드, 공개 콘텐츠">
+  <link rel="canonical" href="https://thehahalab.com/cards.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="하하랩 언어재활 웹서비스">
+  <meta property="og:title" content="하하랩 언어재활 카드 목록 | 카드랩 공개 콘텐츠">
+  <meta property="og:description" content="하하랩 언어재활 웹서비스에 등록된 그림카드와 모션카드를 카테고리별로 확인하세요.">
+  <meta property="og:url" content="https://thehahalab.com/cards.html">
+  <meta property="og:image" content="https://thehahalab.com/images/index-001.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="하하랩 언어재활 카드 목록 | 카드랩 공개 콘텐츠">
+  <meta name="twitter:description" content="하하랩 언어재활 웹서비스의 그림카드와 모션카드 공개 목록을 확인하세요.">
+  <meta name="twitter:image" content="https://thehahalab.com/images/index-001.webp">
+  <link rel="icon" type="image/svg+xml" href="images/hahalab-P.svg">
+  <link rel="preload" href="images/cards-bg.webp" as="image" type="image/webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
+  <style>
+    :root{--yellow:#FAE100;--ink:#111827;--muted:#64748b;--line:#e5e7eb;--soft:#fff9db;--green:#10b981;--blue:#3b82f6;--orange:#f59e0b}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:"Noto Sans KR",system-ui,sans-serif;color:var(--ink);background:#fff;word-break:keep-all;font-size:14px}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .top{position:sticky;top:0;z-index:20;background:rgba(250,225,0,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(17,24,39,.08)}
+    .nav{max-width:1180px;margin:0 auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px}
+    .brand img{width:30px;height:30px}
+    .links{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .links a{border:1px solid rgba(17,24,39,.12);background:rgba(255,255,255,.62);padding:8px 12px;border-radius:999px;font-size:13px;font-weight:800}
+    .links a[aria-current="page"]{background:var(--ink);color:var(--yellow);border-color:var(--ink)}
+    .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--yellow),#fff7c2 78%,#fff);padding:64px 20px 34px}
+    .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(250,225,0,.98) 0%,rgba(255,244,139,.9) 44%,rgba(255,244,139,.34) 66%,rgba(255,244,139,0) 100%);pointer-events:none}
+    .hero::after{content:"";position:absolute;top:42px;right:24px;width:min(32vw,430px);aspect-ratio:1/1;background:url("images/cards-bg.webp") center/contain no-repeat;transform:rotate(3deg);transform-origin:center;opacity:.95;pointer-events:none}
+    .hero .wrap{position:relative;z-index:1}
+    .hero-copy{min-width:0}
+    .wrap{max-width:1180px;margin:0 auto}
+    .eyebrow{display:inline-flex;align-items:center;border-radius:999px;background:rgba(255,255,255,.72);padding:6px 11px;font-size:12px;font-weight:900;letter-spacing:.08em}
+    h1{margin:16px 0 12px;font-size:clamp(30px,5vw,58px);line-height:1.05;letter-spacing:0;font-weight:900}
+    .lead{max-width:760px;color:#334155;font-size:15px;line-height:1.75;font-weight:500}
+    .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px;max-width:760px}
+    .stat{background:#fff;border:1px solid rgba(17,24,39,.08);border-radius:8px;padding:14px}
+    .stat strong{display:block;font-size:26px;font-weight:900}
+    .stat strong span{display:inline;color:inherit;font:inherit}
+    .stat span{display:block;color:var(--muted);font-weight:800;font-size:12px}
+    .summary-jump{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:18px;max-width:760px}
+    .summary-jump a{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid rgba(17,24,39,.1);background:rgba(255,255,255,.72);border-radius:8px;padding:10px 12px;font-size:13px;font-weight:900}
+    .summary-jump span{color:var(--muted);font-size:12px}
+    .section{padding:42px 20px;scroll-margin-top:92px}
+    .section.alt{background:#f8fafc}
+    .section h2{font-size:24px;margin:0 0 14px;font-weight:900}
+    .category-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .category-card,.study-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px}
+    #categoryGrid{position:relative;display:flex;align-content:flex-start;gap:8px;flex-wrap:wrap;max-height:420px;overflow:hidden;mask-image:linear-gradient(to bottom,#000 0%,#000 64%,rgba(0,0,0,.46) 84%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 64%,rgba(0,0,0,.46) 84%,transparent 100%)}
+    #categoryGrid::after{content:"";position:absolute;left:0;right:0;bottom:0;height:36%;background:linear-gradient(to bottom,rgba(248,250,252,0),rgba(248,250,252,.92));pointer-events:none}
+    #categoryGrid .category-card{display:contents}
+    #categoryGrid .category-head{display:none}
+    #categoryGrid .name-list{display:contents}
+    #categoryGrid .name-chip{display:inline-flex;align-items:center;border-color:#e2e8f0;background:#fff;border-radius:999px;padding:7px 10px;font-size:13px;font-weight:800;color:#334155}
+    .category-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .category-title{font-size:17px;font-weight:900}
+    .badge{display:inline-flex;align-items:center;border-radius:999px;background:#f1f5f9;color:#334155;padding:4px 8px;font-size:11px;font-weight:900;white-space:nowrap}
+    .name-list{display:flex;gap:7px;flex-wrap:wrap}
+    .name-chip{border:1px solid #e2e8f0;background:#f8fafc;border-radius:999px;padding:5px 8px;font-size:12px;font-weight:700;color:#334155}
+    .study-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+    .study-card h3{font-size:17px;margin:8px 0 8px;font-weight:900}
+    .study-card p{margin:6px 0;color:#475569;line-height:1.58;font-size:12.5px}
+    .study-card strong{font-size:12px;color:#111827}
+    .study-meta{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .to-top{position:fixed;right:18px;bottom:18px;z-index:30;width:44px;height:44px;border-radius:999px;background:#111827;color:#FAE100;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;box-shadow:0 14px 32px rgba(15,23,42,.22);border:1px solid rgba(255,255,255,.4)}
+    .footer{background:#111827;color:#fff;padding:34px 20px}
+    .footer .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    @media (max-width:860px){.hero::before{background:linear-gradient(180deg,rgba(250,225,0,.96) 0%,rgba(255,244,139,.9) 50%,rgba(255,255,255,.62) 100%)}.hero::after{top:auto;right:16px;bottom:18px;width:min(72vw,360px);opacity:.34;transform:rotate(3deg)}}
+    @media (max-width:720px){.nav{align-items:flex-start;flex-direction:column}.links{justify-content:flex-start}.hero{padding-top:48px}.stats{grid-template-columns:1fr}.section{padding:34px 16px}.to-top{right:14px;bottom:14px;width:40px;height:40px}}
+  </style>
+</head>
+<body oncontextmenu="return false">
+  <header id="top" class="top">
+    <nav class="nav" aria-label="콘텐츠 페이지">
+      <a class="brand" href="index.html"><img src="images/hahalab-P.svg" alt="">HAHA LAB</a>
+      <div class="links">
+        <a href="cards.html" aria-current="page">카드 목록</a>
+        <a href="learning.html">학습 목록</a>
+        <a href="index.html">홈</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-copy">
+          <span class="eyebrow">CARDLAB CONTENTS</span>
+          <h1>등록된 카드와 모션카드</h1>
+          <p class="lead">하하랩 카드랩에서 실제 수업에 활용하는 공개 카드 목록입니다. 카드는 일러스트와 실사 자료를 합산해 표시하며, 카테고리별로 어떤 카드가 등록되어 있는지 확인할 수 있습니다.</p>
+          <div class="stats" aria-label="등록 콘텐츠 수">
+            <div class="stat"><strong id="cardCount" data-count-up data-count-value="996">996</strong><span>현재 등록된 카드</span></div>
+            <div class="stat"><strong><span data-count-up data-count-value="499">499</span> / <span data-count-up data-count-value="497">497</span></strong><span>일러스트 / 실사</span></div>
+            <div class="stat"><strong id="motionCount" data-count-up data-count-value="56">56</strong><span>모션카드</span></div>
+          </div>
+          <div class="summary-jump" aria-label="카테고리 바로가기">
+            <a href="#card-categories">전체 카드 카테고리 <span>28개</span></a>
+            <a href="#category-motion-card">모션카드 <span>56장</span></a>
+            <a href="#category-electronics">가전,전자기기 <span>26장</span></a>
+            <a href="#category-family">가족 <span>20장</span></a>
+            <a href="#category-insect">곤충 <span>28장</span></a>
+            <a href="#category-public-place">공공장소 <span>26장</span></a>
+            <a href="#category-fruit">과일 <span>36장</span></a>
+            <a href="#category-play">놀이 <span>32장</span></a>
+            <a href="#category-tool">도구 <span>20장</span></a>
+            <a href="#category-animal">동물 <span>86장</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="card-categories" class="section alt">
+      <div class="wrap">
+        <h2>등록 카드 목록</h2>
+        <div id="categoryGrid" class="category-grid">
+      <article id="category-electronics" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">가전,전자기기</div>
+            <div class="badge">26장 · 일러스트 13 · 실사 13</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">리모컨 <small>사진/일러스트</small></span><span class="name-chip">마우스 <small>사진/일러스트</small></span><span class="name-chip">모니터 <small>사진/일러스트</small></span><span class="name-chip">스마트폰 <small>사진/일러스트</small></span><span class="name-chip">스피커 <small>사진/일러스트</small></span><span class="name-chip">이어폰 <small>사진/일러스트</small></span><span class="name-chip">전등 <small>사진/일러스트</small></span><span class="name-chip">카메라 <small>사진/일러스트</small></span><span class="name-chip">컴퓨터 <small>사진/일러스트</small></span><span class="name-chip">키보드 <small>사진/일러스트</small></span><span class="name-chip">태블릿 <small>사진/일러스트</small></span><span class="name-chip">텔레비전 <small>사진/일러스트</small></span><span class="name-chip">프린터 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-family" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">가족</div>
+            <div class="badge">20장 · 일러스트 10 · 실사 10</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">나 <small>사진/일러스트</small></span><span class="name-chip">너 <small>사진/일러스트</small></span><span class="name-chip">아기 <small>사진/일러스트</small></span><span class="name-chip">아빠 <small>사진/일러스트</small></span><span class="name-chip">어른 <small>사진/일러스트</small></span><span class="name-chip">엄마 <small>사진/일러스트</small></span><span class="name-chip">이웃 <small>사진/일러스트</small></span><span class="name-chip">친구 <small>사진/일러스트</small></span><span class="name-chip">할머니 <small>사진/일러스트</small></span><span class="name-chip">할아버지 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-insect" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">곤충</div>
+            <div class="badge">28장 · 일러스트 14 · 실사 14</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">개미 <small>사진/일러스트</small></span><span class="name-chip">거미 <small>사진/일러스트</small></span><span class="name-chip">나비 <small>사진/일러스트</small></span><span class="name-chip">매미 <small>사진/일러스트</small></span><span class="name-chip">메뚜기 <small>사진/일러스트</small></span><span class="name-chip">모기 <small>사진/일러스트</small></span><span class="name-chip">무당벌레 <small>사진/일러스트</small></span><span class="name-chip">반딧불이 <small>사진/일러스트</small></span><span class="name-chip">벌 <small>사진/일러스트</small></span><span class="name-chip">사마귀 <small>사진/일러스트</small></span><span class="name-chip">애벌레 <small>사진/일러스트</small></span><span class="name-chip">잠자리 <small>사진/일러스트</small></span><span class="name-chip">장수풍뎅이 <small>사진/일러스트</small></span><span class="name-chip">파리 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-public-place" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">공공장소</div>
+            <div class="badge">26장 · 일러스트 13 · 실사 13</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">경찰서 <small>사진/일러스트</small></span><span class="name-chip">놀이터 <small>사진/일러스트</small></span><span class="name-chip">도서관 <small>사진/일러스트</small></span><span class="name-chip">동물원 <small>사진/일러스트</small></span><span class="name-chip">병원 <small>사진/일러스트</small></span><span class="name-chip">소방서 <small>사진/일러스트</small></span><span class="name-chip">아쿠아리움 <small>사진/일러스트</small></span><span class="name-chip">약국 <small>사진/일러스트</small></span><span class="name-chip">우체국 <small>사진/일러스트</small></span><span class="name-chip">체육관 <small>사진/일러스트</small></span><span class="name-chip">치과 <small>사진/일러스트</small></span><span class="name-chip">학교 <small>사진/일러스트</small></span><span class="name-chip">헬스장 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-fruit" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">과일</div>
+            <div class="badge">36장 · 일러스트 18 · 실사 18</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">감 <small>사진/일러스트</small></span><span class="name-chip">귤 <small>사진/일러스트</small></span><span class="name-chip">딸기 <small>사진/일러스트</small></span><span class="name-chip">망고 <small>사진/일러스트</small></span><span class="name-chip">멜론 <small>사진/일러스트</small></span><span class="name-chip">바나나 <small>사진/일러스트</small></span><span class="name-chip">배 <small>사진/일러스트</small></span><span class="name-chip">복숭아 <small>사진/일러스트</small></span><span class="name-chip">블루베리 <small>사진/일러스트</small></span><span class="name-chip">사과 <small>사진/일러스트</small></span><span class="name-chip">수박 <small>사진/일러스트</small></span><span class="name-chip">아보카도 <small>사진/일러스트</small></span><span class="name-chip">오렌지 <small>사진/일러스트</small></span><span class="name-chip">참외 <small>사진/일러스트</small></span><span class="name-chip">체리 <small>사진/일러스트</small></span><span class="name-chip">키위 <small>사진/일러스트</small></span><span class="name-chip">파인애플 <small>사진/일러스트</small></span><span class="name-chip">포도 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-play" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">놀이</div>
+            <div class="badge">32장 · 일러스트 16 · 실사 16</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">그네 <small>사진/일러스트</small></span><span class="name-chip">농구 <small>사진/일러스트</small></span><span class="name-chip">모래놀이 <small>사진/일러스트</small></span><span class="name-chip">미끄럼틀 <small>사진/일러스트</small></span><span class="name-chip">배구 <small>사진/일러스트</small></span><span class="name-chip">수영 <small>사진/일러스트</small></span><span class="name-chip">술래잡기 <small>사진/일러스트</small></span><span class="name-chip">숨바꼭질 <small>사진/일러스트</small></span><span class="name-chip">스퀴시 <small>사진/일러스트</small></span><span class="name-chip">시소 <small>사진/일러스트</small></span><span class="name-chip">야구 <small>사진/일러스트</small></span><span class="name-chip">육상 <small>사진/일러스트</small></span><span class="name-chip">정글짐 <small>사진/일러스트</small></span><span class="name-chip">줄넘기 <small>사진/일러스트</small></span><span class="name-chip">축구 <small>사진/일러스트</small></span><span class="name-chip">태권도 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-tool" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">도구</div>
+            <div class="badge">20장 · 일러스트 10 · 실사 10</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">나사 <small>사진/일러스트</small></span><span class="name-chip">드라이버 <small>사진/일러스트</small></span><span class="name-chip">망치 <small>사진/일러스트</small></span><span class="name-chip">못 <small>사진/일러스트</small></span><span class="name-chip">빗자루 <small>사진/일러스트</small></span><span class="name-chip">삽 <small>사진/일러스트</small></span><span class="name-chip">쓰레받기 <small>사진/일러스트</small></span><span class="name-chip">줄자 <small>사진/일러스트</small></span><span class="name-chip">톱 <small>사진/일러스트</small></span><span class="name-chip">펜치 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-animal" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">동물</div>
+            <div class="badge">86장 · 일러스트 43 · 실사 43</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">강아지 <small>사진/일러스트</small></span><span class="name-chip">개구리 <small>사진/일러스트</small></span><span class="name-chip">거북이 <small>사진/일러스트</small></span><span class="name-chip">고릴라 <small>사진/일러스트</small></span><span class="name-chip">고슴도치 <small>사진/일러스트</small></span><span class="name-chip">고양이 <small>사진/일러스트</small></span><span class="name-chip">곰 <small>사진/일러스트</small></span><span class="name-chip">기린 <small>사진/일러스트</small></span><span class="name-chip">나무늘보 <small>사진/일러스트</small></span><span class="name-chip">낙타 <small>사진/일러스트</small></span><span class="name-chip">너구리 <small>사진/일러스트</small></span><span class="name-chip">늑대 <small>사진/일러스트</small></span><span class="name-chip">다람쥐 <small>사진/일러스트</small></span><span class="name-chip">도마뱀 <small>사진/일러스트</small></span><span class="name-chip">돼지 <small>사진/일러스트</small></span><span class="name-chip">두꺼비 <small>사진/일러스트</small></span><span class="name-chip">말 <small>사진/일러스트</small></span><span class="name-chip">박쥐 <small>사진/일러스트</small></span><span class="name-chip">뱀 <small>사진/일러스트</small></span><span class="name-chip">사슴 <small>사진/일러스트</small></span><span class="name-chip">사자 <small>사진/일러스트</small></span><span class="name-chip">소 <small>사진/일러스트</small></span><span class="name-chip">송아지 <small>사진/일러스트</small></span><span class="name-chip">수달 <small>사진/일러스트</small></span><span class="name-chip">악어 <small>사진/일러스트</small></span><span class="name-chip">양 <small>사진/일러스트</small></span><span class="name-chip">얼룩말 <small>사진/일러스트</small></span><span class="name-chip">여우 <small>사진/일러스트</small></span><span class="name-chip">염소 <small>사진/일러스트</small></span><span class="name-chip">오리 <small>사진/일러스트</small></span><span class="name-chip">원숭이 <small>사진/일러스트</small></span><span class="name-chip">치타 <small>사진/일러스트</small></span><span class="name-chip">카멜레온 <small>사진/일러스트</small></span><span class="name-chip">캥거루 <small>사진/일러스트</small></span><span class="name-chip">코끼리 <small>사진/일러스트</small></span><span class="name-chip">코뿔소 <small>사진/일러스트</small></span><span class="name-chip">코알라 <small>사진/일러스트</small></span><span class="name-chip">타조 <small>사진/일러스트</small></span><span class="name-chip">토끼 <small>사진/일러스트</small></span><span class="name-chip">판다 <small>사진/일러스트</small></span><span class="name-chip">하마 <small>사진/일러스트</small></span><span class="name-chip">햄스터 <small>사진/일러스트</small></span><span class="name-chip">호랑이 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-movement" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">동작</div>
+            <div class="badge">76장 · 일러스트 39 · 실사 37</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">가기 <small>사진/일러스트</small></span><span class="name-chip">걷기 <small>사진/일러스트</small></span><span class="name-chip">공부하기 <small>사진/일러스트</small></span><span class="name-chip">그리기 <small>사진/일러스트</small></span><span class="name-chip">나르기 <small>사진/일러스트</small></span><span class="name-chip">날기 <small>사진/일러스트</small></span><span class="name-chip">놀이 <small>사진/일러스트</small></span><span class="name-chip">닦기 <small>사진/일러스트</small></span><span class="name-chip">닫기 <small>사진/일러스트</small></span><span class="name-chip">달리기 <small>사진/일러스트</small></span><span class="name-chip">당기기 <small>사진/일러스트</small></span><span class="name-chip">던지기 <small>사진/일러스트</small></span><span class="name-chip">독서 <small>사진/일러스트</small></span><span class="name-chip">만들기 <small>사진/일러스트</small></span><span class="name-chip">말하기 <small>사진/일러스트</small></span><span class="name-chip">먹기 <small>사진/일러스트</small></span><span class="name-chip">밀기 <small>사진/일러스트</small></span><span class="name-chip">받기 <small>사진/일러스트</small></span><span class="name-chip">보기 <small>사진/일러스트</small></span><span class="name-chip">부르기 <small>사진/일러스트</small></span><span class="name-chip">서기 <small>사진/일러스트</small></span><span class="name-chip">수영하기 <small>사진/일러스트</small></span><span class="name-chip">쉬기 <small>사진/일러스트</small></span><span class="name-chip">씻기 <small>사진/일러스트</small></span><span class="name-chip">안기 <small>사진/일러스트</small></span><span class="name-chip">앉기 <small>사진/일러스트</small></span><span class="name-chip">열기 <small>사진/일러스트</small></span><span class="name-chip">오기 <small>사진/일러스트</small></span><span class="name-chip">울기 <small>사진/일러스트</small></span><span class="name-chip">웃기 <small>사진/일러스트</small></span><span class="name-chip">음료 <small>사진/일러스트</small></span><span class="name-chip">일어서기 <small>사진/일러스트</small></span><span class="name-chip">일하기 <small>사진/일러스트</small></span><span class="name-chip">자기 <small>사진/일러스트</small></span><span class="name-chip">잡기 <small>일러스트</small></span><span class="name-chip">주기 <small>사진/일러스트</small></span><span class="name-chip">춤추기 <small>사진/일러스트</small></span><span class="name-chip">타기 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-body" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">몸</div>
+            <div class="badge">40장 · 일러스트 20 · 실사 20</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">가슴 <small>사진/일러스트</small></span><span class="name-chip">귀 <small>사진/일러스트</small></span><span class="name-chip">눈 <small>사진/일러스트</small></span><span class="name-chip">다리 <small>사진/일러스트</small></span><span class="name-chip">등 <small>사진/일러스트</small></span><span class="name-chip">머리 <small>사진/일러스트</small></span><span class="name-chip">머리카락 <small>사진/일러스트</small></span><span class="name-chip">목 <small>사진/일러스트</small></span><span class="name-chip">무릎 <small>사진/일러스트</small></span><span class="name-chip">발 <small>사진/일러스트</small></span><span class="name-chip">발가락 <small>사진/일러스트</small></span><span class="name-chip">볼 <small>사진/일러스트</small></span><span class="name-chip">손 <small>사진/일러스트</small></span><span class="name-chip">손가락 <small>사진/일러스트</small></span><span class="name-chip">어깨 <small>사진/일러스트</small></span><span class="name-chip">얼굴 <small>사진/일러스트</small></span><span class="name-chip">엉덩이 <small>사진/일러스트</small></span><span class="name-chip">입 <small>사진/일러스트</small></span><span class="name-chip">코 <small>사진/일러스트</small></span><span class="name-chip">팔 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-object" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">물건</div>
+            <div class="badge">40장 · 일러스트 20 · 실사 20</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">거울 <small>사진/일러스트</small></span><span class="name-chip">냉장고 <small>사진/일러스트</small></span><span class="name-chip">담요 <small>사진/일러스트</small></span><span class="name-chip">로봇청소기 <small>사진/일러스트</small></span><span class="name-chip">베개 <small>사진/일러스트</small></span><span class="name-chip">선풍기 <small>사진/일러스트</small></span><span class="name-chip">세탁기 <small>사진/일러스트</small></span><span class="name-chip">수건 <small>사진/일러스트</small></span><span class="name-chip">숟가락 <small>사진/일러스트</small></span><span class="name-chip">시계 <small>사진/일러스트</small></span><span class="name-chip">에어컨 <small>사진/일러스트</small></span><span class="name-chip">의자 <small>사진/일러스트</small></span><span class="name-chip">접시 <small>사진/일러스트</small></span><span class="name-chip">책상 <small>사진/일러스트</small></span><span class="name-chip">청소기 <small>사진/일러스트</small></span><span class="name-chip">침대 <small>사진/일러스트</small></span><span class="name-chip">컵 <small>사진/일러스트</small></span><span class="name-chip">포크 <small>사진/일러스트</small></span><span class="name-chip">휴지 <small>사진/일러스트</small></span><span class="name-chip">휴지통 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-state" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">상태</div>
+            <div class="badge">76장 · 일러스트 38 · 실사 38</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">가벼움 <small>사진/일러스트</small></span><span class="name-chip">길이 <small>사진/일러스트</small></span><span class="name-chip">깨끗함 <small>사진/일러스트</small></span><span class="name-chip">낮음 <small>사진/일러스트</small></span><span class="name-chip">너비 <small>사진/일러스트</small></span><span class="name-chip">네모 <small>사진/일러스트</small></span><span class="name-chip">노트 <small>사진/일러스트</small></span><span class="name-chip">높이 <small>사진/일러스트</small></span><span class="name-chip">느림 <small>사진/일러스트</small></span><span class="name-chip">단단함 <small>사진/일러스트</small></span><span class="name-chip">단맛 <small>사진/일러스트</small></span><span class="name-chip">더움 <small>사진/일러스트</small></span><span class="name-chip">두꺼움 <small>사진/일러스트</small></span><span class="name-chip">둥글기 <small>사진/일러스트</small></span><span class="name-chip">따뜻함 <small>사진/일러스트</small></span><span class="name-chip">많음 <small>사진/일러스트</small></span><span class="name-chip">매운맛 <small>사진/일러스트</small></span><span class="name-chip">무거움 <small>사진/일러스트</small></span><span class="name-chip">문제 <small>사진/일러스트</small></span><span class="name-chip">밝음 <small>사진/일러스트</small></span><span class="name-chip">부드러움 <small>사진/일러스트</small></span><span class="name-chip">뾰족하다 <small>사진/일러스트</small></span><span class="name-chip">사용하기 <small>사진/일러스트</small></span><span class="name-chip">속도 <small>사진/일러스트</small></span><span class="name-chip">신맛 <small>사진/일러스트</small></span><span class="name-chip">신선함 <small>사진/일러스트</small></span><span class="name-chip">아름다움 <small>사진/일러스트</small></span><span class="name-chip">얇음 <small>사진/일러스트</small></span><span class="name-chip">어두움 <small>사진/일러스트</small></span><span class="name-chip">작음 <small>사진/일러스트</small></span><span class="name-chip">좁음 <small>사진/일러스트</small></span><span class="name-chip">좋음 <small>사진/일러스트</small></span><span class="name-chip">지저분 <small>사진/일러스트</small></span><span class="name-chip">짠맛 <small>사진/일러스트</small></span><span class="name-chip">짧음 <small>사진/일러스트</small></span><span class="name-chip">차가움 <small>사진/일러스트</small></span><span class="name-chip">크기 <small>사진/일러스트</small></span><span class="name-chip">통통함 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-color" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">색깔</div>
+            <div class="badge">20장 · 일러스트 10 · 실사 10</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">검정 <small>사진/일러스트</small></span><span class="name-chip">남색 <small>사진/일러스트</small></span><span class="name-chip">노랑 <small>사진/일러스트</small></span><span class="name-chip">보라 <small>사진/일러스트</small></span><span class="name-chip">분홍 <small>사진/일러스트</small></span><span class="name-chip">빨강 <small>사진/일러스트</small></span><span class="name-chip">주황 <small>사진/일러스트</small></span><span class="name-chip">초록 <small>사진/일러스트</small></span><span class="name-chip">파랑 <small>사진/일러스트</small></span><span class="name-chip">하양 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-livingspace" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">생활공간</div>
+            <div class="badge">24장 · 일러스트 12 · 실사 12</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">꽃집 <small>사진/일러스트</small></span><span class="name-chip">미술관 <small>사진/일러스트</small></span><span class="name-chip">미용실 <small>사진/일러스트</small></span><span class="name-chip">박물관 <small>사진/일러스트</small></span><span class="name-chip">빵집 <small>사진/일러스트</small></span><span class="name-chip">서점 <small>사진/일러스트</small></span><span class="name-chip">시장 <small>사진/일러스트</small></span><span class="name-chip">식당 <small>사진/일러스트</small></span><span class="name-chip">안경점 <small>사진/일러스트</small></span><span class="name-chip">영화관 <small>사진/일러스트</small></span><span class="name-chip">카페 <small>사진/일러스트</small></span><span class="name-chip">편의점 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-instrument" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">악기</div>
+            <div class="badge">26장 · 일러스트 13 · 실사 13</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">기타 <small>사진/일러스트</small></span><span class="name-chip">드럼 <small>사진/일러스트</small></span><span class="name-chip">리코더 <small>사진/일러스트</small></span><span class="name-chip">바이올린 <small>사진/일러스트</small></span><span class="name-chip">실로폰 <small>사진/일러스트</small></span><span class="name-chip">첼로 <small>사진/일러스트</small></span><span class="name-chip">캐스터네츠 <small>사진/일러스트</small></span><span class="name-chip">탬버린 <small>사진/일러스트</small></span><span class="name-chip">트라이앵글 <small>사진/일러스트</small></span><span class="name-chip">트럼펫 <small>사진/일러스트</small></span><span class="name-chip">플루트 <small>사진/일러스트</small></span><span class="name-chip">피아노 <small>사진/일러스트</small></span><span class="name-chip">하프 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-recreation" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">여가</div>
+            <div class="badge">14장 · 일러스트 7 · 실사 7</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">낚시터 <small>사진/일러스트</small></span><span class="name-chip">놀이공원 <small>사진/일러스트</small></span><span class="name-chip">바다 <small>사진/일러스트</small></span><span class="name-chip">산 <small>사진/일러스트</small></span><span class="name-chip">수영장 <small>사진/일러스트</small></span><span class="name-chip">스키장 <small>사진/일러스트</small></span><span class="name-chip">운동장 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-food" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">음식</div>
+            <div class="badge">52장 · 일러스트 26 · 실사 26</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">계란말이 <small>사진/일러스트</small></span><span class="name-chip">계란후라이 <small>사진/일러스트</small></span><span class="name-chip">김밥 <small>사진/일러스트</small></span><span class="name-chip">김치찌개 <small>사진/일러스트</small></span><span class="name-chip">돈가스 <small>사진/일러스트</small></span><span class="name-chip">된장찌개 <small>사진/일러스트</small></span><span class="name-chip">떡 <small>사진/일러스트</small></span><span class="name-chip">떡볶이 <small>사진/일러스트</small></span><span class="name-chip">라면 <small>사진/일러스트</small></span><span class="name-chip">마라탕 <small>사진/일러스트</small></span><span class="name-chip">만두 <small>사진/일러스트</small></span><span class="name-chip">볶음밥 <small>사진/일러스트</small></span><span class="name-chip">빵 <small>사진/일러스트</small></span><span class="name-chip">샌드위치 <small>사진/일러스트</small></span><span class="name-chip">스파게티 <small>사진/일러스트</small></span><span class="name-chip">아이스크림 <small>사진/일러스트</small></span><span class="name-chip">요아정 <small>사진/일러스트</small></span><span class="name-chip">우동 <small>사진/일러스트</small></span><span class="name-chip">짜장면 <small>사진/일러스트</small></span><span class="name-chip">초밥 <small>사진/일러스트</small></span><span class="name-chip">치킨 <small>사진/일러스트</small></span><span class="name-chip">케이크 <small>사진/일러스트</small></span><span class="name-chip">탕후루 <small>사진/일러스트</small></span><span class="name-chip">피자 <small>사진/일러스트</small></span><span class="name-chip">핫도그 <small>사진/일러스트</small></span><span class="name-chip">햄버거 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-clothing" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">의복 및 악세사리</div>
+            <div class="badge">38장 · 일러스트 19 · 실사 19</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">귀걸이 <small>사진/일러스트</small></span><span class="name-chip">모자 <small>사진/일러스트</small></span><span class="name-chip">목도리 <small>사진/일러스트</small></span><span class="name-chip">바지 <small>사진/일러스트</small></span><span class="name-chip">반지 <small>사진/일러스트</small></span><span class="name-chip">벨트 <small>사진/일러스트</small></span><span class="name-chip">셔츠 <small>사진/일러스트</small></span><span class="name-chip">슬리퍼 <small>사진/일러스트</small></span><span class="name-chip">안경 <small>사진/일러스트</small></span><span class="name-chip">양말 <small>사진/일러스트</small></span><span class="name-chip">옷 <small>사진/일러스트</small></span><span class="name-chip">우산 <small>사진/일러스트</small></span><span class="name-chip">운동화 <small>사진/일러스트</small></span><span class="name-chip">잠옷 <small>사진/일러스트</small></span><span class="name-chip">장갑 <small>사진/일러스트</small></span><span class="name-chip">치마 <small>사진/일러스트</small></span><span class="name-chip">코트 <small>사진/일러스트</small></span><span class="name-chip">티셔츠 <small>사진/일러스트</small></span><span class="name-chip">한복 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-nature" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">자연</div>
+            <div class="badge">40장 · 일러스트 20 · 실사 20</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">강 <small>사진/일러스트</small></span><span class="name-chip">구름 <small>사진/일러스트</small></span><span class="name-chip">꽃 <small>사진/일러스트</small></span><span class="name-chip">나무 <small>사진/일러스트</small></span><span class="name-chip">눈 <small>사진/일러스트</small></span><span class="name-chip">달 <small>사진/일러스트</small></span><span class="name-chip">돌 <small>사진/일러스트</small></span><span class="name-chip">땅 <small>사진/일러스트</small></span><span class="name-chip">모래 <small>사진/일러스트</small></span><span class="name-chip">무지개 <small>사진/일러스트</small></span><span class="name-chip">바람 <small>사진/일러스트</small></span><span class="name-chip">별 <small>사진/일러스트</small></span><span class="name-chip">비 <small>사진/일러스트</small></span><span class="name-chip">우주 <small>사진/일러스트</small></span><span class="name-chip">잎 <small>사진/일러스트</small></span><span class="name-chip">풀 <small>사진/일러스트</small></span><span class="name-chip">하늘 <small>사진/일러스트</small></span><span class="name-chip">해 <small>사진/일러스트</small></span><span class="name-chip">호수 <small>사진/일러스트</small></span><span class="name-chip">흙 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-bird" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">조류</div>
+            <div class="badge">28장 · 일러스트 14 · 실사 14</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">거위 <small>사진/일러스트</small></span><span class="name-chip">공작새 <small>사진/일러스트</small></span><span class="name-chip">까마귀 <small>사진/일러스트</small></span><span class="name-chip">까치 <small>사진/일러스트</small></span><span class="name-chip">닭 <small>사진/일러스트</small></span><span class="name-chip">독수리 <small>사진/일러스트</small></span><span class="name-chip">두루미 <small>사진/일러스트</small></span><span class="name-chip">백조 <small>사진/일러스트</small></span><span class="name-chip">병아리 <small>사진/일러스트</small></span><span class="name-chip">부엉이 <small>사진/일러스트</small></span><span class="name-chip">비둘기 <small>사진/일러스트</small></span><span class="name-chip">앵무새 <small>사진/일러스트</small></span><span class="name-chip">참새 <small>사진/일러스트</small></span><span class="name-chip">펭귄 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-job" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">직업</div>
+            <div class="badge">52장 · 일러스트 26 · 실사 26</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">가수 <small>사진/일러스트</small></span><span class="name-chip">간호사 <small>사진/일러스트</small></span><span class="name-chip">경찰관 <small>사진/일러스트</small></span><span class="name-chip">과학자 <small>사진/일러스트</small></span><span class="name-chip">농구선수 <small>사진/일러스트</small></span><span class="name-chip">농부 <small>사진/일러스트</small></span><span class="name-chip">마술사 <small>사진/일러스트</small></span><span class="name-chip">미용사 <small>사진/일러스트</small></span><span class="name-chip">발레리나 <small>사진/일러스트</small></span><span class="name-chip">배구선수 <small>사진/일러스트</small></span><span class="name-chip">배드민턴 선수 <small>사진/일러스트</small></span><span class="name-chip">버스기사 <small>사진/일러스트</small></span><span class="name-chip">사진작가 <small>사진/일러스트</small></span><span class="name-chip">선생님 <small>사진/일러스트</small></span><span class="name-chip">소방관 <small>사진/일러스트</small></span><span class="name-chip">수의사 <small>사진/일러스트</small></span><span class="name-chip">야구선수 <small>사진/일러스트</small></span><span class="name-chip">요리사 <small>사진/일러스트</small></span><span class="name-chip">유튜버 <small>사진/일러스트</small></span><span class="name-chip">의사 <small>사진/일러스트</small></span><span class="name-chip">제빵사 <small>사진/일러스트</small></span><span class="name-chip">조종사 <small>사진/일러스트</small></span><span class="name-chip">청소원 <small>사진/일러스트</small></span><span class="name-chip">축구선수 <small>사진/일러스트</small></span><span class="name-chip">피아니스트 <small>사진/일러스트</small></span><span class="name-chip">화가 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-house" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">집</div>
+            <div class="badge">28장 · 일러스트 14 · 실사 14</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">거실 <small>사진/일러스트</small></span><span class="name-chip">계단 <small>사진/일러스트</small></span><span class="name-chip">마당 <small>사진/일러스트</small></span><span class="name-chip">문 <small>사진/일러스트</small></span><span class="name-chip">바닥 <small>사진/일러스트</small></span><span class="name-chip">방 <small>사진/일러스트</small></span><span class="name-chip">베란다 <small>사진/일러스트</small></span><span class="name-chip">벽 <small>사진/일러스트</small></span><span class="name-chip">부엌 <small>사진/일러스트</small></span><span class="name-chip">울타리 <small>사진/일러스트</small></span><span class="name-chip">지붕 <small>사진/일러스트</small></span><span class="name-chip">창문 <small>사진/일러스트</small></span><span class="name-chip">천장 <small>사진/일러스트</small></span><span class="name-chip">화장실 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-vehicle" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">차량</div>
+            <div class="badge">30장 · 일러스트 15 · 실사 15</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">견인차 <small>사진/일러스트</small></span><span class="name-chip">경찰차 <small>사진/일러스트</small></span><span class="name-chip">구급차 <small>사진/일러스트</small></span><span class="name-chip">굴착기 <small>사진/일러스트</small></span><span class="name-chip">덤프트럭 <small>사진/일러스트</small></span><span class="name-chip">레미콘차 <small>사진/일러스트</small></span><span class="name-chip">버스 <small>사진/일러스트</small></span><span class="name-chip">소방차 <small>사진/일러스트</small></span><span class="name-chip">우체국차 <small>사진/일러스트</small></span><span class="name-chip">자동차 <small>사진/일러스트</small></span><span class="name-chip">청소차 <small>사진/일러스트</small></span><span class="name-chip">캠핑카 <small>사진/일러스트</small></span><span class="name-chip">택시 <small>사진/일러스트</small></span><span class="name-chip">탱크로리 <small>사진/일러스트</small></span><span class="name-chip">트럭 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-vegetable" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">채소</div>
+            <div class="badge">36장 · 일러스트 18 · 실사 18</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">가지 <small>사진/일러스트</small></span><span class="name-chip">감자 <small>사진/일러스트</small></span><span class="name-chip">고구마 <small>사진/일러스트</small></span><span class="name-chip">깻잎 <small>사진/일러스트</small></span><span class="name-chip">당근 <small>사진/일러스트</small></span><span class="name-chip">대파 <small>사진/일러스트</small></span><span class="name-chip">마늘 <small>사진/일러스트</small></span><span class="name-chip">배추 <small>사진/일러스트</small></span><span class="name-chip">버섯 <small>사진/일러스트</small></span><span class="name-chip">브로콜리 <small>사진/일러스트</small></span><span class="name-chip">시금치 <small>사진/일러스트</small></span><span class="name-chip">애호박 <small>사진/일러스트</small></span><span class="name-chip">양파 <small>사진/일러스트</small></span><span class="name-chip">오이 <small>사진/일러스트</small></span><span class="name-chip">옥수수 <small>사진/일러스트</small></span><span class="name-chip">토마토 <small>사진/일러스트</small></span><span class="name-chip">파프리카 <small>사진/일러스트</small></span><span class="name-chip">호박 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-conveyance" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">탈것</div>
+            <div class="badge">24장 · 일러스트 12 · 실사 12</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">롤러스케이트 <small>사진/일러스트</small></span><span class="name-chip">세발자전거 <small>사진/일러스트</small></span><span class="name-chip">스노우보드 <small>사진/일러스트</small></span><span class="name-chip">스케이트보드 <small>사진/일러스트</small></span><span class="name-chip">스키 <small>사진/일러스트</small></span><span class="name-chip">썰매 <small>사진/일러스트</small></span><span class="name-chip">오토바이 <small>사진/일러스트</small></span><span class="name-chip">유모차 <small>사진/일러스트</small></span><span class="name-chip">인라인스케이트 <small>사진/일러스트</small></span><span class="name-chip">자전거 <small>사진/일러스트</small></span><span class="name-chip">킥보드 <small>사진/일러스트</small></span><span class="name-chip">휠체어 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-craft" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">탈것</div>
+            <div class="badge">20장 · 일러스트 10 · 실사 10</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">로켓 <small>사진/일러스트</small></span><span class="name-chip">보트 <small>사진/일러스트</small></span><span class="name-chip">비행기 <small>사진/일러스트</small></span><span class="name-chip">여객선 <small>사진/일러스트</small></span><span class="name-chip">열기구 <small>사진/일러스트</small></span><span class="name-chip">우주선 <small>사진/일러스트</small></span><span class="name-chip">잠수함 <small>사진/일러스트</small></span><span class="name-chip">전투기 <small>사진/일러스트</small></span><span class="name-chip">패러글라이더 <small>사진/일러스트</small></span><span class="name-chip">헬리콥터 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-school-supplies" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">학용품</div>
+            <div class="badge">34장 · 일러스트 17 · 실사 17</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">가방 <small>사진/일러스트</small></span><span class="name-chip">가위 <small>사진/일러스트</small></span><span class="name-chip">공책 <small>사진/일러스트</small></span><span class="name-chip">물감 <small>사진/일러스트</small></span><span class="name-chip">분필 <small>사진/일러스트</small></span><span class="name-chip">붓 <small>사진/일러스트</small></span><span class="name-chip">색연필 <small>사진/일러스트</small></span><span class="name-chip">색종이 <small>사진/일러스트</small></span><span class="name-chip">연필 <small>사진/일러스트</small></span><span class="name-chip">연필깎이 <small>사진/일러스트</small></span><span class="name-chip">자 <small>사진/일러스트</small></span><span class="name-chip">지우개 <small>사진/일러스트</small></span><span class="name-chip">칠판 <small>사진/일러스트</small></span><span class="name-chip">크레파스 <small>사진/일러스트</small></span><span class="name-chip">테이프 <small>사진/일러스트</small></span><span class="name-chip">풀 <small>사진/일러스트</small></span><span class="name-chip">필통 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-sea-animal" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">해양동물</div>
+            <div class="badge">24장 · 일러스트 12 · 실사 12</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">게 <small>사진/일러스트</small></span><span class="name-chip">고래 <small>사진/일러스트</small></span><span class="name-chip">돌고래 <small>사진/일러스트</small></span><span class="name-chip">문어 <small>사진/일러스트</small></span><span class="name-chip">물개 <small>사진/일러스트</small></span><span class="name-chip">불가사리 <small>사진/일러스트</small></span><span class="name-chip">상어 <small>사진/일러스트</small></span><span class="name-chip">새우 <small>사진/일러스트</small></span><span class="name-chip">오징어 <small>사진/일러스트</small></span><span class="name-chip">조개 <small>사진/일러스트</small></span><span class="name-chip">해마 <small>사진/일러스트</small></span><span class="name-chip">해파리 <small>사진/일러스트</small></span></div>
+      </article>
+      <article id="category-motion-card" class="category-card">
+        <div class="category-head">
+          <div>
+            <div class="category-title">모션카드</div>
+            <div class="badge">56장 · 동작 40 · 감정 10 · 날씨 6</div>
+          </div>
+        </div>
+        <div class="name-list"><span class="name-chip">빗기 <small>영상</small></span><span class="name-chip">따라 쓰기 <small>영상</small></span><span class="name-chip">기어가기 <small>영상</small></span><span class="name-chip">구기기 <small>영상</small></span><span class="name-chip">자르기 <small>영상</small></span><span class="name-chip">내려가기 <small>영상</small></span><span class="name-chip">마시기 <small>영상</small></span><span class="name-chip">먹기 <small>영상</small></span><span class="name-chip">찾기 <small>영상</small></span><span class="name-chip">주기 <small>영상</small></span><span class="name-chip">넣기 <small>영상</small></span><span class="name-chip">차기 <small>영상</small></span><span class="name-chip">두드리기 <small>영상</small></span><span class="name-chip">눕기 <small>영상</small></span><span class="name-chip">열기 <small>영상</small></span><span class="name-chip">건네기 <small>영상</small></span><span class="name-chip">줍기 <small>영상</small></span><span class="name-chip">가리키기 <small>영상</small></span><span class="name-chip">따르기 <small>영상</small></span><span class="name-chip">누르기 <small>영상</small></span><span class="name-chip">빼기 <small>영상</small></span><span class="name-chip">당기기 <small>영상</small></span><span class="name-chip">밀기 <small>영상</small></span><span class="name-chip">받기 <small>영상</small></span><span class="name-chip">받기 <small>영상</small></span><span class="name-chip">흔들기 <small>영상</small></span><span class="name-chip">나누기 <small>영상</small></span><span class="name-chip">펼치기 <small>영상</small></span><span class="name-chip">젓기 <small>영상</small></span><span class="name-chip">멈추기 <small>영상</small></span><span class="name-chip">벗기 <small>영상</small></span><span class="name-chip">잡기 <small>영상</small></span><span class="name-chip">찢기 <small>영상</small></span><span class="name-chip">던지기 <small>영상</small></span><span class="name-chip">묶기 <small>영상</small></span><span class="name-chip">돌리기 <small>영상</small></span><span class="name-chip">사용하기 <small>영상</small></span><span class="name-chip">기다리기 <small>영상</small></span><span class="name-chip">씻기 <small>영상</small></span><span class="name-chip">닦기 <small>영상</small></span></div>
+        <div class="name-list"><span class="name-chip">화 <small>영상</small></span><span class="name-chip">부끄러움 <small>영상</small></span><span class="name-chip">지루함 <small>영상</small></span><span class="name-chip">싫어함 <small>영상</small></span><span class="name-chip">두려움 <small>영상</small></span><span class="name-chip">미안함 <small>영상</small></span><span class="name-chip">기쁨 <small>영상</small></span><span class="name-chip">슬픔 <small>영상</small></span><span class="name-chip">피곤함 <small>영상</small></span><span class="name-chip">걱정 <small>영상</small></span></div>
+        <div class="name-list"><span class="name-chip">날씨가 더워요 <small>영상</small></span><span class="name-chip">날씨가 흐리다 <small>영상</small></span><span class="name-chip">눈이 내려요 <small>영상</small></span><span class="name-chip">바람이 불어요 <small>영상</small></span><span class="name-chip">비가 내려요 <small>영상</small></span><span class="name-chip">우박이 내려요 <small>영상</small></span></div>
+      </article></div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="wrap"><strong>HAHA LAB</strong><span>카드 목록은 실제 등록 자료를 기준으로 생성됩니다.</span></div></footer>
+  <a class="to-top" href="#top" aria-label="위로 올라가기">↑</a>
+  <script>
+    document.addEventListener('contextmenu', function (event) { event.preventDefault(); });
+    document.addEventListener('dragstart', function (event) { if (event.target && event.target.tagName === 'IMG') event.preventDefault(); });
+    var countUpQuery = '(min-width: 1024px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)';
+    function canCountUp() {
+      return window.matchMedia && window.matchMedia(countUpQuery).matches;
+    }
+    function animateCountUp(el, value) {
+      if (!el) return;
+      var target = Number(value || el.dataset.countValue || String(el.textContent).replace(/,/g, ''));
+      if (!Number.isFinite(target)) return;
+      el.dataset.countValue = String(target);
+      if (!canCountUp()) {
+        el.textContent = target.toLocaleString('ko-KR');
+        return;
+      }
+      var start = target > 80 ? Math.floor(target * 0.68) : Math.max(0, target - 18);
+      var startedAt = performance.now();
+      var duration = 1150;
+      function tick(now) {
+        var progress = Math.min(1, (now - startedAt) / duration);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(start + ((target - start) * eased)).toLocaleString('ko-KR');
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      el.textContent = start.toLocaleString('ko-KR');
+      requestAnimationFrame(tick);
+    }
+    document.querySelectorAll('[data-count-up]').forEach(function (el) {
+      animateCountUp(el);
+    });
+    fetch('playlab/webp-manifest.json', { cache: 'no-store' }).then(function (res) { return res.ok ? res.json() : null; }).then(function (manifest) {
+      if (!manifest || !Array.isArray(manifest.assets)) return;
+      var assets = manifest.assets.filter(function (asset) { return asset && asset.is_active !== false && ['illust','photo'].includes(String(asset.asset_type || '').toLowerCase()); });
+      var el = document.getElementById('cardCount');
+      if (el) animateCountUp(el, assets.length);
+    }).catch(function () {});
+  </script>
+</body>
+</html>

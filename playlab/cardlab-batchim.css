@@ -1,0 +1,1142 @@
+.batchim-shell {
+  --batchim-ink: #15314f;
+  --batchim-muted: #607089;
+  --batchim-blue: #2f80ed;
+  --batchim-green: #10b981;
+  --batchim-orange: #f59e0b;
+  --batchim-red: #ef4444;
+  --batchim-card: rgba(255, 255, 255, 0.9);
+  color: var(--batchim-ink);
+}
+
+.batchim-screen {
+  display: none;
+  width: min(1900px, calc(100vw - 44px));
+  margin: 0 auto;
+}
+
+.batchim-shell .shell-topbar-inner {
+  width: min(1460px, 100%);
+}
+
+.batchim-screen.is-active {
+  display: block;
+}
+
+.batchim-shell [hidden] {
+  display: none !important;
+}
+
+.batchim-stage-head,
+.batchim-game-shell,
+.batchim-report-card,
+.batchim-help-card {
+  border: 1px solid rgba(159, 196, 255, 0.72);
+  background: var(--batchim-card);
+  box-shadow: 0 24px 70px rgba(35, 86, 140, 0.18);
+  backdrop-filter: blur(18px);
+}
+
+.batchim-stage-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 22px;
+  align-items: center;
+  margin-bottom: 14px;
+  padding: 18px 22px;
+  border-radius: 24px;
+}
+
+.batchim-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #eaf4ff;
+  color: #0f66b5;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.batchim-stage-head h1,
+.batchim-report-title {
+  margin: 10px 0 0;
+  font-size: 34px;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.batchim-summary-pills,
+.batchim-report-metrics,
+.batchim-mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.batchim-pill {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 142px;
+  min-height: 74px;
+  padding: 10px 16px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid #cae0ff;
+  font-weight: 900;
+}
+
+.batchim-pill small {
+  color: var(--batchim-muted);
+  font-size: 12px;
+}
+
+.batchim-pill strong {
+  font-size: 26px;
+}
+
+.batchim-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.batchim-stage-card {
+  min-height: 148px;
+  padding: 18px;
+  border: 1px solid rgba(168, 205, 255, 0.9);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--batchim-ink);
+  text-align: left;
+  box-shadow: 0 18px 38px rgba(38, 93, 155, 0.12);
+  cursor: pointer;
+  transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+.batchim-stage-card:hover,
+.batchim-stage-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--accent, #2f80ed);
+  box-shadow: 0 22px 44px rgba(38, 93, 155, 0.2);
+  outline: none;
+}
+
+.batchim-stage-card .badge {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 12px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--accent, #2f80ed) 17%, white);
+  color: var(--accent, #2f80ed);
+  font-size: 18px;
+  font-weight: 1000;
+}
+
+.batchim-stage-card h2 {
+  margin: 0 0 10px;
+  font-size: 21px;
+  line-height: 1.25;
+}
+
+.batchim-final-chip {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  min-height: 34px;
+  margin-bottom: 0;
+  padding: 0 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent, #2f80ed) 12%, white);
+  color: color-mix(in srgb, var(--accent, #2f80ed) 74%, #102a43);
+  font-size: 14px;
+  font-weight: 1000;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.batchim-stage-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  color: #31506d;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.batchim-stage-meta span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: #f3f8ff;
+}
+
+.batchim-game-shell {
+  display: block;
+  width: 100%;
+  padding: clamp(14px, 1.2vw, 22px);
+  border-radius: 32px;
+}
+
+.batchim-main-card,
+.batchim-side-card,
+.batchim-answer-panel,
+.batchim-final-bank,
+.batchim-report-section {
+  border: 1px solid #cfe3ff;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.batchim-main-card {
+  width: 100%;
+  min-height: clamp(520px, calc(100dvh - 148px), 760px);
+  padding: clamp(18px, 1.5vw, 28px);
+}
+
+.batchim-game-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.batchim-game-top h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.batchim-counter {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #24537d;
+  font-weight: 1000;
+}
+
+.batchim-mode-tabs {
+  margin-bottom: 22px;
+}
+
+.batchim-mode-chip {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid #cfe3ff;
+  border-radius: 999px;
+  background: #fff;
+  color: #48637e;
+  font-weight: 1000;
+}
+
+.batchim-mode-chip.is-active {
+  background: var(--batchim-blue);
+  color: #fff;
+  border-color: var(--batchim-blue);
+}
+
+.batchim-prompt-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: clamp(380px, calc(100dvh - 270px), 610px);
+  padding: clamp(18px, 2.6vw, 28px);
+  border-radius: 26px;
+  background: linear-gradient(135deg, #f8fbff, #edf7ff);
+  border: 1px solid #cce2ff;
+  transition: box-shadow 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.batchim-prompt-card.is-correct {
+  border-color: rgba(16, 185, 129, 0.52);
+  box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.12), 0 20px 48px rgba(16, 95, 74, 0.12);
+}
+
+.batchim-prompt-card.is-wrong {
+  animation: batchimShake 0.34s ease both;
+  border-color: rgba(239, 68, 68, 0.48);
+}
+
+.batchim-mode-title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.25;
+}
+
+.batchim-word-display {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+  align-content: center;
+  margin: clamp(28px, 6vh, 82px) auto auto;
+  min-height: clamp(210px, 24vh, 320px);
+  font-size: clamp(58px, 4.8vw, 86px);
+  line-height: 1.1;
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.batchim-prompt-card.is-read .batchim-word-display {
+  flex: 1 1 auto;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.batchim-read-word-card {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.4vw, 22px);
+  min-width: min(760px, 100%);
+  min-height: clamp(190px, 18vh, 260px);
+  padding: clamp(30px, 3vw, 48px) clamp(54px, 4vw, 84px);
+  border: 2px solid rgba(148, 190, 246, 0.9);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0) 42%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(237, 247, 255, 0.9));
+  box-shadow: 0 18px 40px rgba(52, 98, 153, 0.14), inset 0 -8px 0 rgba(47, 128, 237, 0.06);
+}
+
+.batchim-prompt-card.is-read .batchim-read-word-card {
+  min-width: min(860px, 100%);
+  min-height: clamp(230px, 26vh, 340px);
+  padding: clamp(42px, 4vw, 70px) clamp(62px, 5vw, 104px);
+}
+
+.batchim-prompt-card.is-read .batchim-read-word-card .batchim-letter-box {
+  width: clamp(118px, 8vw, 184px);
+  height: clamp(132px, 9vw, 204px);
+  border-radius: clamp(24px, 2.2vw, 34px);
+  font-size: clamp(78px, 6vw, 122px);
+}
+
+.batchim-letter-box,
+.batchim-syllable {
+  border: 2px solid rgba(151, 192, 250, 0.86);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0) 42%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(240, 247, 255, 0.96));
+  box-shadow: 0 12px 24px rgba(52, 98, 153, 0.14), inset 0 -6px 0 rgba(47, 128, 237, 0.06);
+}
+
+.batchim-letter-box {
+  display: inline-grid;
+  place-items: center;
+  width: 82px;
+  height: 92px;
+  color: var(--batchim-ink);
+  line-height: 1;
+  text-align: center;
+}
+
+.batchim-letter-box.target {
+  color: #0f66b5;
+  border-color: rgba(47, 128, 237, 0.56);
+  box-shadow: 0 14px 28px rgba(47, 128, 237, 0.16), inset 0 -6px 0 rgba(47, 128, 237, 0.12);
+}
+
+.batchim-dictation-display {
+  display: flex;
+  align-items: center;
+  min-height: 8px;
+  margin: 0;
+  color: #27435d;
+  font-size: clamp(1.35rem, 2.5vw, 2.1rem);
+  line-height: 1.25;
+  font-weight: 1000;
+  word-break: keep-all;
+}
+
+.batchim-masked-word {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  margin: auto auto 10px;
+  min-height: 168px;
+  font-size: 58px;
+  line-height: 1.12;
+  font-weight: 1000;
+}
+
+.batchim-prompt-card.is-build .batchim-masked-word {
+  margin: auto auto 16px;
+  min-height: clamp(220px, 27vh, 340px);
+}
+
+.batchim-build-word-card {
+  --batchim-build-tile-size: clamp(108px, 7.2vw, 158px);
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  min-width: min(760px, 100%);
+  min-height: clamp(190px, 18vh, 260px);
+  padding: clamp(30px, 3vw, 48px) clamp(54px, 4vw, 84px);
+  border: 2px solid rgba(148, 190, 246, 0.9);
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0) 42%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(237, 247, 255, 0.9));
+  box-shadow: 0 18px 40px rgba(52, 98, 153, 0.14), inset 0 -8px 0 rgba(47, 128, 237, 0.06);
+}
+
+.batchim-build-word-card .batchim-letter-box,
+.batchim-build-word-card .batchim-syllable.batchim-syllable-svg {
+  width: var(--batchim-build-tile-size);
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.batchim-syllable {
+  position: relative;
+  display: inline-block;
+  width: 82px;
+  height: 92px;
+  line-height: 1;
+  vertical-align: top;
+}
+
+.batchim-syllable-metric {
+  visibility: hidden;
+  display: inline-block;
+  width: 82px;
+  height: 92px;
+}
+
+.batchim-complete-letter,
+.batchim-base-letter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 82px;
+  height: 92px;
+  line-height: 1;
+  padding-top: 14px;
+}
+
+.batchim-base-letter {
+  color: var(--batchim-ink);
+}
+
+.batchim-complete-letter {
+  color: var(--batchim-blue);
+  opacity: 0;
+}
+
+.batchim-syllable.is-filled .batchim-complete-letter {
+  opacity: 1;
+}
+
+.batchim-syllable.is-filled .batchim-base-letter,
+.batchim-syllable.is-filled .batchim-final-slot {
+  opacity: 0;
+}
+
+.batchim-final-slot {
+  display: inline-grid;
+  place-items: center;
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: 42px;
+  height: 20px;
+  transform: translateX(-50%);
+  border: 3px dashed #5f9ff0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--batchim-blue);
+  font-size: inherit;
+  font-weight: 1000;
+  box-shadow: 0 6px 12px rgba(47, 128, 237, 0.1), inset 0 0 0 2px rgba(255, 255, 255, 0.72);
+}
+
+.batchim-final-slot.is-hover {
+  background: #e7f1ff;
+  transform: translateX(-50%) scale(1.04);
+}
+
+.batchim-final-slot.is-wrong {
+  border-color: rgba(239, 68, 68, 0.7);
+  background: #fff1f2;
+}
+
+.batchim-syllable.batchim-syllable-svg {
+  width: clamp(108px, 7.2vw, 158px);
+  height: auto;
+  aspect-ratio: 1;
+  overflow: visible;
+  border-color: rgba(137, 177, 235, 0.9);
+  background:
+    radial-gradient(circle at 26% 16%, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0) 38%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(237, 247, 255, 0.96));
+  transform-origin: 50% 70%;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.batchim-syllable-svg .batchim-syllable-metric {
+  width: 100%;
+  height: 100%;
+}
+
+.batchim-jamo-svg {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.batchim-jamo-layer {
+  pointer-events: none;
+}
+
+.batchim-jamo-text {
+  font-family: "SeoulNotice", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  font-weight: 1000;
+  line-height: 1;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: var(--batchim-ink);
+  paint-order: stroke fill;
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 1.2px;
+  stroke-linejoin: round;
+}
+
+.batchim-jamo-final-guide {
+  fill: rgba(255, 255, 255, 0.58);
+  stroke: #5f9ff0;
+  stroke-width: 4.4px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 8 7;
+  filter: drop-shadow(0 4px 5px rgba(47, 128, 237, 0.12));
+  transition: opacity 160ms ease, stroke 160ms ease, fill 160ms ease, transform 180ms ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.batchim-jamo-final-fill {
+  opacity: 0;
+  fill: var(--batchim-blue);
+  stroke: rgba(255, 255, 255, 0.32);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.batchim-final-hitbox {
+  position: absolute;
+  left: 50%;
+  top: 78%;
+  bottom: auto;
+  width: 58%;
+  height: 32%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  box-shadow: none;
+  color: transparent;
+  cursor: pointer;
+  font-size: 0;
+  outline-offset: 4px;
+  transform: translate(-50%, -50%);
+  touch-action: none;
+}
+
+.batchim-final-hitbox.is-hover {
+  background: transparent;
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+.batchim-final-hitbox.is-wrong {
+  background: rgba(239, 68, 68, 0.08);
+  border: 0;
+}
+
+.batchim-syllable.is-magnet {
+  border-color: rgba(16, 185, 129, 0.68);
+  box-shadow: 0 15px 28px rgba(16, 185, 129, 0.14), inset 0 -6px 0 rgba(16, 185, 129, 0.08);
+  transform: translateY(-3px) scale(1.035);
+}
+
+.batchim-syllable.is-magnet .batchim-jamo-final-guide {
+  fill: rgba(236, 253, 245, 0.82);
+  stroke: #10b981;
+  stroke-dasharray: 11 5;
+  transform: scale(1.08);
+}
+
+.batchim-syllable.is-filled .batchim-jamo-final-guide {
+  opacity: 0;
+}
+
+.batchim-syllable.is-filled .batchim-jamo-final-fill {
+  opacity: 1;
+}
+
+.batchim-syllable.is-filled .batchim-final-hitbox {
+  opacity: 0;
+}
+
+.batchim-syllable.is-snapping .batchim-jamo-final-fill {
+  animation: batchimFinalSnap 320ms cubic-bezier(0.22, 1.32, 0.36, 1) both;
+}
+
+.batchim-final-tile.is-dragging {
+  opacity: 0.72;
+  transform: translateY(-4px) scale(1.04);
+}
+
+.batchim-final-tile.is-snapping {
+  animation: batchimTileSnap 320ms cubic-bezier(0.22, 1.24, 0.36, 1) both;
+}
+
+.batchim-drag-ghost {
+  position: fixed;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  width: clamp(58px, 5.8vw, 78px);
+  height: clamp(58px, 5.8vw, 78px);
+  border: 2px solid rgba(151, 192, 250, 0.86);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--batchim-ink);
+  box-shadow: 0 18px 34px rgba(51, 88, 140, 0.18), inset 0 -5px 0 rgba(47, 128, 237, 0.16);
+  font-size: 34px;
+  font-weight: 1000;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.batchim-final-bank {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 16px auto 0;
+  padding: 14px;
+}
+
+.batchim-prompt-card.is-build .batchim-final-bank {
+  margin: 0 auto auto;
+}
+
+.batchim-final-tile {
+  display: inline-grid;
+  place-items: center;
+  min-width: 78px;
+  min-height: 70px;
+  border: 0;
+  border-radius: 18px;
+  background: #fff;
+  color: var(--batchim-ink);
+  box-shadow: inset 0 -5px 0 rgba(47, 128, 237, 0.16), 0 10px 20px rgba(51, 88, 140, 0.12);
+  font-size: 34px;
+  font-weight: 1000;
+  cursor: grab;
+}
+
+.batchim-final-tile:active {
+  cursor: grabbing;
+  transform: translateY(2px);
+}
+
+.batchim-answer-panel {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  margin: auto 0 12px;
+  padding: 14px;
+}
+
+.batchim-prompt-card.is-dictation .batchim-dictation-display {
+  display: none;
+}
+
+.batchim-prompt-card.is-dictation .batchim-answer-panel {
+  align-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin: 0;
+}
+
+.batchim-answer-row {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.batchim-input {
+  width: min(620px, 100%);
+  min-height: 66px;
+  padding: 10px 22px;
+  border: 2px solid rgba(148, 190, 246, 0.9);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--batchim-ink);
+  box-shadow: inset 0 -5px 0 rgba(47, 128, 237, 0.08), 0 12px 28px rgba(51, 88, 140, 0.1);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 1000;
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-align: center;
+  outline: none;
+  caret-color: #2f80ed;
+  ime-mode: active;
+}
+
+.batchim-input:focus {
+  border-color: rgba(47, 128, 237, 0.78);
+  box-shadow: inset 0 -5px 0 rgba(47, 128, 237, 0.12), 0 0 0 5px rgba(47, 128, 237, 0.14), 0 14px 30px rgba(51, 88, 140, 0.12);
+}
+
+.batchim-input::placeholder {
+  color: #93a5b8;
+}
+
+.batchim-keyboard {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.batchim-keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.batchim-key {
+  width: clamp(44px, 5vw, 62px);
+  min-height: 50px;
+  border: 1px solid #c7defb;
+  border-radius: 16px;
+  background: #fff;
+  color: var(--batchim-ink);
+  box-shadow: inset 0 -4px 0 rgba(47, 128, 237, 0.12), 0 8px 18px rgba(51, 88, 140, 0.1);
+  font-size: 24px;
+  font-weight: 1000;
+  cursor: pointer;
+  transition: transform 60ms ease, background-color 60ms ease, border-color 60ms ease, box-shadow 60ms ease, color 60ms ease;
+  will-change: transform;
+}
+
+.batchim-key[data-key="힌트"] {
+  width: auto;
+  min-width: 132px;
+  padding: 0 18px;
+  background: linear-gradient(135deg, #2f80ed, #13b6ff);
+  color: #fff;
+  box-shadow: inset 0 -4px 0 rgba(15, 80, 155, 0.24), 0 12px 24px rgba(47, 128, 237, 0.22);
+  font-size: 18px;
+}
+
+.batchim-key[data-key="space"] {
+  width: clamp(180px, 24vw, 280px);
+  font-size: 18px;
+}
+
+.batchim-answer-reveal {
+  justify-self: center;
+  min-height: 42px;
+  padding: 0 22px;
+  border: 1px solid rgba(47, 128, 237, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f4f8f;
+  box-shadow: 0 8px 18px rgba(51, 88, 140, 0.08);
+  font-size: 16px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.batchim-answer-reveal:active {
+  transform: translateY(1px);
+}
+
+.batchim-key:active,
+.batchim-key.is-pressed {
+  transform: translateY(2px) scale(0.97);
+  background-color: #e3f2ff;
+  border-color: rgba(47, 128, 237, 0.72);
+  color: #0f4f8f;
+  box-shadow: inset 0 -2px 0 rgba(47, 128, 237, 0.16), 0 5px 12px rgba(51, 88, 140, 0.08);
+}
+
+.batchim-key[data-key="힌트"].is-pressed,
+.batchim-key[data-key="힌트"]:active {
+  background: linear-gradient(135deg, #176fd5, #0aa7f0);
+  color: #fff;
+}
+
+.batchim-btn {
+  min-height: 54px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 18px;
+  background: #eaf3ff;
+  color: #174466;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.batchim-actions .batchim-btn:not(.is-orange):not(.is-primary):not(.is-green) {
+  border: 2px solid rgba(47, 128, 237, 0.28);
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f4f8f;
+  box-shadow: 0 10px 22px rgba(47, 128, 237, 0.12);
+}
+
+.batchim-btn.is-primary {
+  background: linear-gradient(135deg, #2f80ed, #13b6ff);
+  color: #fff;
+}
+
+.batchim-btn.is-green {
+  background: var(--batchim-green);
+  color: #fff;
+}
+
+.batchim-btn.is-orange {
+  background: var(--batchim-orange);
+  color: #fff;
+}
+
+.batchim-feedback {
+  order: 40;
+  min-height: 42px;
+  margin-top: 14px;
+  color: #31506d;
+  font-size: 18px;
+  line-height: 1.45;
+  font-weight: 900;
+}
+
+.batchim-feedback.is-good {
+  color: #08794d;
+}
+
+.batchim-feedback.is-bad {
+  color: #c2410c;
+}
+
+.batchim-side-card {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 16px;
+}
+
+.batchim-progress {
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dbeafe;
+}
+
+.batchim-progress span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2f80ed, #10b981);
+}
+
+.batchim-side-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.batchim-side-list dt {
+  color: var(--batchim-muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.batchim-side-list dd {
+  margin: 2px 0 0;
+  font-size: 20px;
+  font-weight: 1000;
+}
+
+.batchim-report-card {
+  padding: 26px;
+  border-radius: 32px;
+}
+
+.batchim-report-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: start;
+}
+
+.batchim-report-metrics {
+  margin: 18px 0;
+}
+
+.batchim-report-section {
+  padding: 18px;
+  margin-top: 14px;
+}
+
+.batchim-report-section h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.batchim-report-section p {
+  margin: 0;
+  color: #284762;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 800;
+}
+
+.batchim-registered-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 164px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.batchim-registered-list span {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #f2f7ff;
+  color: #31506d;
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.batchim-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  order: 50;
+  margin-top: auto;
+  justify-content: flex-end;
+  align-self: flex-end;
+}
+
+.batchim-report-actions {
+  width: 100%;
+  margin: 24px auto 0;
+  padding: 24px 0 0;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  border-top: 1px solid rgba(148, 190, 246, 0.28);
+}
+
+.batchim-report-actions .batchim-btn {
+  min-width: 260px;
+}
+
+.batchim-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  place-items: center;
+  padding: 24px;
+}
+
+.batchim-modal.is-active {
+  display: grid;
+}
+
+.batchim-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 31, 52, 0.45);
+}
+
+.batchim-help-card {
+  position: relative;
+  width: min(840px, 100%);
+  padding: 24px;
+  border-radius: 28px;
+}
+
+.batchim-help-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.batchim-help-close {
+  min-width: 86px;
+  min-height: 42px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2f80ed, #13b6ff);
+  color: #fff;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.batchim-help-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.batchim-help-grid section {
+  padding: 18px;
+  border-radius: 18px;
+  background: #f4f9ff;
+}
+
+.batchim-help-grid h4,
+.batchim-help-card h3 {
+  margin: 0 0 8px;
+}
+
+.batchim-help-grid p {
+  margin: 0;
+  color: #31506d;
+  font-weight: 800;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.batchim-correct-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  display: none;
+  place-items: center;
+  pointer-events: none;
+}
+
+.batchim-correct-modal.is-active {
+  display: grid;
+}
+
+.batchim-correct-card {
+  min-width: min(360px, calc(100vw - 44px));
+  padding: 28px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(16, 185, 129, 0.34);
+  box-shadow: 0 24px 70px rgba(16, 95, 74, 0.2);
+  text-align: center;
+}
+
+.batchim-correct-card span {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #08794d;
+  font-size: 13px;
+  font-weight: 1000;
+}
+
+.batchim-correct-card strong {
+  display: block;
+  margin-top: 12px;
+  color: var(--batchim-ink);
+  font-size: clamp(2.6rem, 7vw, 4.6rem);
+  line-height: 1;
+  font-weight: 1000;
+}
+
+@keyframes batchimShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  50% { transform: translateX(7px); }
+  75% { transform: translateX(-4px); }
+}
+
+@keyframes batchimFinalSnap {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.78);
+  }
+  62% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes batchimTileSnap {
+  0% { transform: translateY(-2px) scale(1.02); }
+  50% { transform: translateY(3px) scale(0.96); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 1180px) {
+  .batchim-stage-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .batchim-game-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .batchim-side-card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .batchim-screen {
+    width: min(100vw - 22px, 100%);
+  }
+
+  .batchim-stage-head,
+  .batchim-report-top,
+  .batchim-answer-row,
+  .batchim-help-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .batchim-stage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .batchim-word-display,
+  .batchim-masked-word {
+    font-size: 42px;
+  }
+}

@@ -1,0 +1,513 @@
+:root {
+  --playlab-result-bg: rgba(255, 255, 255, 0.94);
+  --playlab-result-border: rgba(15, 23, 42, 0.12);
+  --playlab-result-text: #172033;
+  --playlab-result-muted: #617089;
+  --playlab-result-accent: #2563eb;
+  --playlab-result-soft: #eef5ff;
+}
+
+:where(#resultView, #completeView, #completeScreen).is-active:has(:is(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .time-result-card,
+  .spotlight-result-card,
+  .colorseq-result-card,
+  .quiz-complete,
+  .cloze-complete-card,
+  .phonics-complete,
+  .synonym-complete,
+  .association-complete,
+  .context-complete,
+  .df-complete,
+  .wordbuild-complete
+)) {
+  width: 100%;
+  min-height: calc(100vh - 78px);
+  min-height: calc(100dvh - 78px);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: clamp(12px, 2vh, 28px) clamp(12px, 2vw, 28px) !important;
+  overflow: hidden !important;
+}
+
+:where(#resultView, #completeView, #completeScreen).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .time-result-card,
+  .spotlight-result-card,
+  .colorseq-result-card,
+  .quiz-complete,
+  .cloze-complete-card,
+  .phonics-complete,
+  .synonym-complete,
+  .association-complete,
+  .context-complete,
+  .df-complete,
+  .wordbuild-complete
+) {
+  min-height: min(420px, calc(100dvh - 112px));
+  max-height: none;
+  margin: auto !important;
+  overflow-x: hidden;
+  overflow-y: visible;
+  overscroll-behavior: contain;
+  transform: none !important;
+  transform-origin: center center !important;
+}
+
+:where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .time-result-card,
+  .spotlight-result-card,
+  .colorseq-result-card,
+  .quiz-complete,
+  .cloze-complete-card,
+  .phonics-complete,
+  .synonym-complete,
+  .association-complete,
+  .context-complete,
+  .df-complete
+) {
+  width: min(860px, calc(100vw - 40px));
+  margin: 0 auto;
+  border: 1px solid var(--playlab-result-border);
+  border-radius: 24px;
+  background: var(--playlab-result-bg);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.16);
+  color: var(--playlab-result-text);
+}
+
+:where(
+  .playlab-result-eyebrow,
+  .number-agency-kicker,
+  .time-intro-eyebrow.is-result,
+  .spotlight-result-kicker,
+  .colorseq-kicker,
+  .phonics-complete-clear,
+  .wordbuild-complete-clear,
+  .cloze-complete-card > span:first-child,
+  .df-complete-kicker
+) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--playlab-result-soft) !important;
+  color: var(--playlab-result-accent) !important;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+:where(
+  .playlab-result-title,
+  .number-agency-result-card h2,
+  .time-result-title,
+  .spotlight-result-title,
+  .colorseq-result-card h2,
+  .quiz-complete-title,
+  .wordbuild-complete-title,
+  .phonics-complete-score,
+  .cloze-complete-card h2,
+  .df-complete-title
+) {
+  color: var(--playlab-result-text);
+  letter-spacing: 0;
+}
+
+:where(
+  .playlab-result-title,
+  .number-agency-result-card h2,
+  .time-result-title,
+  .spotlight-result-title,
+  .colorseq-result-card h2,
+  .quiz-complete-title,
+  .quiz-empty-title,
+  .wordbuild-complete-clear,
+  .wordbuild-complete-title,
+  .phonics-complete-clear,
+  .phonics-complete-score,
+  .cloze-complete-card h2,
+  .df-complete-title,
+  .hangul-complete-card h2,
+  .jamo-report-card h2,
+  .batchim-report-title,
+  .hevi-result-title
+) {
+  font-size: clamp(18px, 1.9vw, 22px) !important;
+  font-weight: 800 !important;
+  line-height: 1.32 !important;
+  letter-spacing: 0 !important;
+}
+
+:where(
+  .playlab-result-stat strong,
+  .number-agency-result-stat strong,
+  .time-result-stat strong,
+  .spotlight-result-stat strong,
+  .colorseq-result-stat strong,
+  .phonics-complete-stat-value,
+  .wordbuild-complete-stat-value,
+  .synonym-complete-stat strong,
+  .context-complete-stat strong,
+  .cloze-complete-stat strong,
+  .df-complete-stats strong,
+  .zoo-complete-score,
+  .hevi-score-badge strong,
+  .hevi-metric strong,
+  .hevi-scoring-card strong,
+  .hevi-guardian-summary-card strong
+) {
+  font-size: clamp(15px, 1.55vw, 20px) !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  letter-spacing: 0 !important;
+}
+
+.hevi-result-card {
+  font-size: 13px !important;
+  letter-spacing: 0 !important;
+}
+
+.hevi-result-card :is(p, li) {
+  font-size: 12.5px !important;
+  line-height: 1.62 !important;
+  font-weight: 500 !important;
+  color: #405568 !important;
+}
+
+.hevi-result-card :is(.hevi-result-title, h2) {
+  font-size: clamp(18px, 1.7vw, 22px) !important;
+  line-height: 1.28 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+}
+
+.hevi-result-card .hevi-report-section h3 {
+  font-size: 13.5px !important;
+  line-height: 1.35 !important;
+  font-weight: 800 !important;
+  color: #17334a !important;
+}
+
+.hevi-result-card .hevi-score-badge strong {
+  font-size: 20px !important;
+  font-weight: 800 !important;
+}
+
+.hevi-result-card :is(.hevi-metric strong, .hevi-scoring-card strong, .hevi-guardian-summary-card strong) {
+  font-size: 14.5px !important;
+  line-height: 1.25 !important;
+  font-weight: 800 !important;
+}
+
+.hevi-result-card :is(.hevi-metric span, .hevi-scoring-card span, .hevi-guardian-summary-card span) {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+.hevi-result-card .hevi-report-note,
+.hevi-result-card .hevi-scoring-note,
+.hevi-result-card .hevi-word-pill {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+}
+
+:where(
+  .playlab-intro-subtitle,
+  .number-agency-result-card #resultSummary,
+  .time-result-summary,
+  .spotlight-result-summary,
+  .colorseq-result-card #resultSummary,
+  .quiz-complete-desc,
+  .wordbuild-complete-summary,
+  .phonics-complete-summary,
+  .cloze-complete-card #completeSummary,
+  .df-complete-desc
+) {
+  color: var(--playlab-result-muted);
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  line-height: 1.6;
+}
+
+:where(
+  .playlab-result-stats,
+  .number-agency-result-stats,
+  .time-result-stats,
+  .spotlight-result-stats,
+  .colorseq-result-body,
+  .zoo-complete-score,
+  .cloze-complete-stats,
+  .phonics-complete-stats,
+  .synonym-complete-stats,
+  .context-complete-stats,
+  .df-complete-stats
+) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 12px;
+}
+
+:where(
+  .playlab-result-stat,
+  .number-agency-result-stat,
+  .time-result-stat,
+  .spotlight-result-stat,
+  .colorseq-result-stat,
+  .phonics-complete-stat,
+  .synonym-complete-stat,
+  .context-complete-stat,
+  .cloze-complete-stat,
+  .df-complete-stats div
+) {
+  border: 1px solid rgba(37, 99, 235, 0.12);
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.92);
+  color: var(--playlab-result-text);
+}
+
+:where(
+  .playlab-result-actions,
+  .number-agency-actions,
+  .time-result-actions,
+  .spotlight-result-actions,
+  .colorseq-result-actions,
+  .quiz-complete-actions,
+  .wordbuild-complete-actions,
+  .phonics-complete-actions,
+  .cloze-actions,
+  .cloze-complete-actions,
+  .df-complete-actions
+) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: clamp(18px, 3vh, 34px) !important;
+  padding-top: 0 !important;
+}
+
+:where(
+  .playlab-result-actions button,
+  .number-agency-actions button,
+  .time-result-actions button,
+  .spotlight-result-actions button,
+  .colorseq-result-actions button,
+  .quiz-complete-actions button,
+  .wordbuild-complete-actions button,
+  .phonics-complete-actions button,
+  .cloze-actions button,
+  .cloze-complete-actions button,
+  .df-complete-actions button
+) {
+  min-height: 38px !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0 !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) {
+  width: min(980px, calc(100vw - 56px)) !important;
+  min-height: auto !important;
+  padding: clamp(30px, 3.5vw, 44px) clamp(30px, 3.5vw, 44px) clamp(22px, 2.4vw, 30px) !important;
+  border-radius: 30px !important;
+  background:
+    radial-gradient(circle at 92% 78%, rgba(34, 197, 94, 0.1), transparent 26%),
+    radial-gradient(circle at 12% 8%, rgba(56, 189, 248, 0.12), transparent 28%),
+    rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 32px 86px rgba(15, 23, 42, 0.2) !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  .playlab-result-eyebrow,
+  .number-agency-kicker,
+  .cloze-complete-card > span:first-child
+) {
+  min-height: 36px !important;
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  .playlab-result-title,
+  h2
+) {
+  margin-top: 16px !important;
+  font-size: clamp(30px, 3.1vw, 42px) !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  #resultSummary,
+  #completeSummary,
+  .playlab-intro-subtitle
+) {
+  max-width: 760px;
+  margin-top: 16px !important;
+  font-size: clamp(17px, 1.35vw, 20px) !important;
+  font-weight: 700 !important;
+  line-height: 1.65 !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  .playlab-result-stats,
+  .number-agency-result-stats,
+  .cloze-complete-stats
+) {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)) !important;
+  gap: 18px !important;
+  margin-top: 22px !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  .playlab-result-stat,
+  .number-agency-result-stat,
+  .cloze-complete-stat,
+  .cloze-stat
+) {
+  min-height: 116px !important;
+  padding: 22px 24px !important;
+  border-radius: 22px !important;
+  background: rgba(240, 249, 255, 0.96) !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  .playlab-result-stat span,
+  .number-agency-result-stat span,
+  .cloze-complete-stat span,
+  .cloze-stat span
+) {
+  font-size: 15px !important;
+  line-height: 1.3 !important;
+  font-weight: 900 !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  .playlab-result-stat strong,
+  .number-agency-result-stat strong,
+  .cloze-complete-stat strong,
+  .cloze-stat strong
+) {
+  margin-top: 8px !important;
+  font-size: clamp(32px, 3vw, 42px) !important;
+  line-height: 1.05 !important;
+  font-weight: 900 !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  .playlab-result-actions,
+  .number-agency-actions,
+  .cloze-actions
+) {
+  gap: 16px !important;
+  margin-top: 26px !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  .playlab-result-actions button,
+  .number-agency-actions button,
+  .cloze-actions button,
+  .playlab-action-btn,
+  .playlab-secondary-btn,
+  .number-agency-btn,
+  .cloze-btn
+) {
+  min-width: 260px !important;
+  min-height: 70px !important;
+  padding: 0 32px !important;
+  border-radius: 999px !important;
+  font-size: clamp(19px, 1.45vw, 22px) !important;
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+  box-shadow: 0 18px 34px rgba(15, 56, 92, 0.18) !important;
+}
+
+:where(#resultView, #completeView).is-active > :where(
+  .playlab-result-card,
+  .number-agency-result-card,
+  .cloze-complete-card
+) :where(
+  .playlab-secondary-btn,
+  .number-agency-btn.is-ghost,
+  .cloze-btn.is-secondary
+) {
+  border: 1px solid rgba(15, 56, 92, 0.12) !important;
+  background: #ffffff !important;
+  color: #17334a !important;
+}
+
+#completeView.is-active > .cloze-complete-card > span:first-child {
+  min-height: 36px !important;
+  padding: 8px 16px !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+@media (max-width: 720px) {
+  :where(
+    .playlab-result-card,
+    .number-agency-result-card,
+    .time-result-card,
+    .spotlight-result-card,
+    .colorseq-result-card,
+    .quiz-complete,
+    .cloze-complete-card,
+    .phonics-complete,
+    .synonym-complete,
+    .association-complete,
+    .context-complete,
+    .df-complete
+  ) {
+    width: min(100%, calc(100vw - 24px));
+    border-radius: 20px;
+  }
+}

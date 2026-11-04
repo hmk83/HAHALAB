@@ -1,0 +1,50 @@
+# Project-owned free rules. Precise blocking checks, not a claim of complete SAST.
+rules:
+  - id: hahalab.browser-dom-location-injection
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Untrusted URL data must not be assigned directly to an HTML sink.
+    pattern-either:
+      - pattern: $NODE.innerHTML = location.hash
+      - pattern: $NODE.innerHTML = window.location.hash
+      - pattern: $NODE.innerHTML = location.search
+      - pattern: $NODE.innerHTML = window.location.search
+      - pattern: document.write(location.hash)
+      - pattern: document.write(location.search)
+    metadata:
+      category: security
+      cwe: CWE-79
+      confidence: HIGH
+  - id: hahalab.disabled-tls-validation
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: Do not disable certificate verification.
+    pattern-either:
+      - pattern: process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
+      - pattern: "{..., rejectUnauthorized: false, ...}"
+    metadata:
+      category: security
+      cwe: CWE-295
+      confidence: HIGH
+  - id: hahalab.authorization-from-editable-user-metadata
+    languages: [generic]
+    severity: ERROR
+    message: Authorization must not use editable JWT user_metadata.
+    pattern-regex: 'auth\.jwt\s*\(\s*\)\s*->>?\s*\x27user_metadata\x27'
+    paths:
+      include: ["*.sql"]
+    metadata:
+      category: security
+      cwe: CWE-863
+      confidence: HIGH
+  - id: hahalab.inline-service-role-key
+    languages: [generic]
+    severity: ERROR
+    message: Server secret keys must not be embedded in browser source.
+    pattern-regex: '\bsb_secret_[A-Za-z0-9_-]{12,}\b'
+    paths:
+      include: ["*.html", "*.js", "*.jsx"]
+    metadata:
+      category: security
+      cwe: CWE-798
+      confidence: HIGH

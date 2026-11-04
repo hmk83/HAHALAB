@@ -1,0 +1,32 @@
+{
+  "version": "2026-11-04",
+  "purpose": "Exact vendored package versions not discoverable from npm CDN URLs. The CI also derives pinned npm CDN dependencies directly from source.",
+  "packages": [
+    {
+      "name": "xlsx",
+      "version": "0.20.3",
+      "purl": "pkg:npm/xlsx@0.20.3",
+      "source": "js/vendor/xlsx-0.20.3.full.min.js",
+      "versionMarker": "0.20.3",
+      "sha256": "cc015130aa8521e7f088f88898eba949ccdcbfb38df0bd129b44b7273c3a6f41"
+    }
+  ],
+  "vendorAdvisoryExceptions": [
+    {
+      "package": "xlsx",
+      "version": "0.20.3",
+      "source": "js/vendor/xlsx-0.20.3.full.min.js",
+      "sha256": "cc015130aa8521e7f088f88898eba949ccdcbfb38df0bd129b44b7273c3a6f41",
+      "advisories": [
+        "GHSA-4r6h-8v6p-xvw6",
+        "GHSA-5pgg-2g8v-p4x9"
+      ],
+      "reason": "The npm xlsx registry is unmaintained and the advisory metadata has no patched npm release. This official SheetJS CE 0.20.3 artifact is newer than the upstream fixes 0.19.3 and 0.20.2. Only these two registry mismatches on this exact immutable vendor artifact are classified as upstream-fixed. All other packages/versions/advisories remain blocking.",
+      "references": [
+        "https://github.com/advisories/GHSA-4r6h-8v6p-xvw6",
+        "https://github.com/advisories/GHSA-5pgg-2g8v-p4x9",
+        "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
+      ]
+    }
+  ]
+}

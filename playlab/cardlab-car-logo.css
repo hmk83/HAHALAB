@@ -1,0 +1,695 @@
+.car-logo-shell {
+  --car-ink: #16324a;
+  --car-muted: #5c7284;
+  --car-line: rgba(33, 77, 112, 0.14);
+  --car-panel: rgba(255, 255, 255, 0.78);
+  --car-screen-max: 1180px;
+  --car-stage-max: 1080px;
+  --car-study-card-min: min(52vh, 430px);
+  --car-quiz-card-min: min(58vh, 490px);
+  --car-logo-render-width: auto;
+  --car-logo-max-width: min(64%, 380px);
+  --car-logo-max-height: 260px;
+  --car-nav-size: 64px;
+  --car-nav-font-size: 2.8rem;
+  --car-choice-min-height: 86px;
+}
+
+.car-logo-shell .shell-brand-title {
+  white-space: nowrap;
+}
+
+.car-logo-shell .shell-topbar-center {
+  display: none;
+}
+
+.car-logo-shell .shell-brand {
+  flex: 1 1 auto;
+}
+
+.car-logo-shell .shell-screen {
+  width: min(100%, var(--car-screen-max));
+}
+
+.car-logo-shell .shell-topbar-side .shell-header-change-btn {
+  min-width: 92px;
+  min-height: 38px;
+  padding: 0.45rem 0.78rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+}
+
+.car-intro-panel {
+  width: min(1100px, 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.car-mode-grid {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.7rem, 1.25vw, 0.95rem);
+}
+
+.car-mode-card {
+  min-height: 138px;
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 20px 46px rgba(43, 84, 119, 0.15);
+  color: var(--car-ink);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.48rem;
+  padding: clamp(0.82rem, 1.4vw, 1.05rem);
+  text-align: left;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.car-mode-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 24px 54px rgba(43, 84, 119, 0.2);
+}
+
+.car-mode-card:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+.car-mode-card strong {
+  font-size: clamp(1.05rem, 1.7vw, 1.45rem);
+  line-height: 1.1;
+  font-weight: 900;
+  color: #18324a;
+}
+
+.car-mode-card span:last-child {
+  font-size: 0.86rem;
+  line-height: 1.48;
+  font-weight: 800;
+  color: var(--car-muted);
+  word-break: keep-all;
+}
+
+.car-mode-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 0.62rem;
+  border-radius: 999px;
+  background: rgba(255, 210, 92, 0.28);
+  color: #8a5a00;
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.car-stage {
+  width: min(var(--car-stage-max), 100%);
+  min-width: 0;
+  margin: 0 auto;
+  padding: clamp(0.9rem, 1.7vw, 1.25rem);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  border-radius: 34px;
+  background: var(--car-panel);
+  box-shadow: 0 26px 62px rgba(35, 72, 108, 0.14);
+  backdrop-filter: blur(14px);
+}
+
+.car-stage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.15rem 0.2rem 0.95rem;
+}
+
+.car-stage-kicker {
+  color: #956200;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.car-stage-title {
+  margin: 0.22rem 0 0;
+  color: var(--car-ink);
+  font-size: clamp(1.28rem, 2.1vw, 1.82rem);
+  line-height: 1.18;
+  font-weight: 900;
+  word-break: keep-all;
+}
+
+.car-study-layout {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 72px;
+  align-items: center;
+  gap: clamp(0.65rem, 1.4vw, 1rem);
+}
+
+.car-nav-button {
+  width: var(--car-nav-size);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.76);
+  color: #1d4964;
+  box-shadow: 0 12px 28px rgba(33, 67, 96, 0.12);
+  cursor: pointer;
+  font-size: var(--car-nav-font-size);
+  line-height: 1;
+  font-weight: 900;
+}
+
+.car-logo-card,
+.car-question-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  min-height: var(--car-study-card-min);
+  border: 1px solid var(--car-line);
+  border-radius: 32px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,252,255,0.94));
+  box-shadow: inset 0 -8px 0 rgba(44, 92, 124, 0.05), 0 18px 46px rgba(34, 70, 104, 0.13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.2rem, 4vw, 3rem);
+}
+
+.car-logo-card {
+  width: 100%;
+  cursor: pointer;
+}
+
+.car-logo-card:hover {
+  box-shadow: inset 0 -8px 0 rgba(44, 92, 124, 0.05), 0 22px 54px rgba(34, 70, 104, 0.18);
+}
+
+.car-logo-card-index {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  min-width: 42px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(255, 226, 142, 0.46);
+  color: #795000;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.car-logo-image {
+  display: block;
+  width: var(--car-logo-render-width);
+  max-width: var(--car-logo-max-width);
+  max-height: var(--car-logo-max-height);
+  object-fit: contain;
+  filter: drop-shadow(0 14px 22px rgba(16, 42, 66, 0.12));
+}
+
+.car-reveal-panel {
+  margin: 0.95rem auto 0;
+  min-height: 92px;
+  width: min(620px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.64);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.72);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  box-shadow: 0 16px 34px rgba(33, 67, 96, 0.1);
+}
+
+.car-reveal-label {
+  color: #7b8d9a;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.car-reveal-name {
+  color: var(--car-ink);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  line-height: 1.1;
+  font-weight: 900;
+}
+
+.car-quiz-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.92fr) minmax(320px, 1fr);
+  gap: clamp(0.85rem, 2vw, 1.2rem);
+  align-items: stretch;
+}
+
+.car-question-card {
+  min-height: var(--car-quiz-card-min);
+}
+
+.car-question-card.is-drop-ready {
+  border-color: rgba(33, 132, 232, 0.42);
+  background: linear-gradient(180deg, rgba(235,247,255,0.98), rgba(248,252,255,0.95));
+  box-shadow: inset 0 -8px 0 rgba(44, 92, 124, 0.05), 0 0 0 8px rgba(61, 148, 246, 0.12), 0 22px 58px rgba(34, 105, 190, 0.16);
+}
+
+.car-question-card.is-drop-ready::after {
+  content: "여기에 놓기";
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  min-height: 34px;
+  padding: 0 0.86rem;
+  border-radius: 999px;
+  background: rgba(33, 132, 232, 0.14);
+  color: #1762a8;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.car-question-card.is-correct {
+  animation: carLogoCorrect 0.48s ease both;
+}
+
+.car-question-card.is-wrong {
+  animation: carLogoWrong 0.42s ease both;
+}
+
+.car-choice-panel {
+  min-width: 0;
+  min-height: var(--car-quiz-card-min);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  padding: clamp(0.9rem, 1.6vw, 1.15rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+.car-score-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.car-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.car-choice-button {
+  min-height: var(--car-choice-min-height);
+  border: 1px solid rgba(47, 89, 120, 0.14);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--car-ink);
+  cursor: pointer;
+  font-size: clamp(1rem, 1.65vw, 1.34rem);
+  line-height: 1.18;
+  font-weight: 900;
+  box-shadow: 0 11px 26px rgba(36, 74, 108, 0.11);
+  transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+  word-break: keep-all;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 0.8rem;
+  user-select: none;
+  touch-action: none;
+}
+
+.car-choice-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #ffffff;
+}
+
+.car-choice-button.is-dragging {
+  opacity: 0.58;
+  transform: scale(0.98);
+}
+
+.car-choice-button.is-correct {
+  border-color: rgba(14, 148, 96, 0.5);
+  background: rgba(199, 246, 224, 0.94);
+  color: #075e40;
+}
+
+.car-choice-button.is-wrong {
+  border-color: rgba(226, 93, 93, 0.48);
+  background: rgba(255, 224, 224, 0.94);
+  color: #8b1f1f;
+}
+
+.car-choice-button:disabled {
+  cursor: default;
+}
+
+.car-feedback {
+  min-height: 32px;
+  color: var(--car-muted);
+  font-size: 1rem;
+  line-height: 1.45;
+  font-weight: 900;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.car-feedback.is-correct {
+  color: #087248;
+}
+
+.car-feedback.is-wrong {
+  color: #a42929;
+}
+
+.car-next-button {
+  display: none;
+}
+
+.car-choice-drag-ghost {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  max-width: min(260px, 60vw);
+  min-height: 58px;
+  padding: 0.65rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(47, 89, 120, 0.16);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--car-ink);
+  box-shadow: 0 18px 38px rgba(16, 42, 66, 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-size: 1.08rem;
+  font-weight: 900;
+  word-break: keep-all;
+}
+
+.car-complete .quiz-complete-title {
+  color: var(--car-ink);
+}
+
+.car-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.8rem, 1.6vw, 1.15rem);
+  padding: clamp(1.5rem, 3vw, 2.35rem);
+  text-align: center;
+}
+
+.car-complete .quiz-complete-desc {
+  max-width: 680px;
+  margin: 0 auto;
+  word-break: keep-all;
+}
+
+.car-complete-stats {
+  width: min(760px, 100%);
+  margin: clamp(0.35rem, 1vw, 0.7rem) auto 0;
+}
+
+.car-complete-stat {
+  min-height: 94px;
+  padding: 1rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.car-complete-stat .playlab-result-stat-label {
+  color: var(--car-muted);
+  font-size: 0.78rem;
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+.car-complete-stat strong {
+  color: var(--car-ink);
+  word-break: keep-all;
+}
+
+.car-complete-actions {
+  width: min(520px, 100%);
+}
+
+.car-complete-actions .shell-icon-btn {
+  min-width: min(220px, 100%);
+}
+
+.car-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .car-quiz-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .car-mode-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .car-study-layout {
+    grid-template-columns: 54px minmax(0, 1fr) 54px;
+  }
+
+  .car-nav-button {
+    width: 52px;
+    border-radius: 18px;
+    font-size: 2.2rem;
+  }
+
+  .car-logo-card,
+  .car-question-card,
+  .car-choice-panel {
+    min-height: auto;
+  }
+
+  .car-logo-card,
+  .car-question-card {
+    aspect-ratio: 1.48;
+  }
+
+  .car-logo-image {
+    max-width: min(58%, 260px);
+    max-height: 180px;
+  }
+}
+
+@media (min-width: 1500px) and (min-height: 850px) {
+  .car-logo-shell {
+    --car-screen-max: 1480px;
+    --car-stage-max: 1360px;
+    --car-study-card-min: min(58vh, 570px);
+    --car-quiz-card-min: min(60vh, 620px);
+    --car-logo-render-width: min(70%, 560px);
+    --car-logo-max-width: min(70%, 560px);
+    --car-logo-max-height: 380px;
+    --car-nav-size: 72px;
+    --car-nav-font-size: 3.1rem;
+    --car-choice-min-height: 104px;
+  }
+
+  .car-stage {
+    padding: clamp(1.35rem, 2vw, 2.15rem);
+    border-radius: 38px;
+  }
+
+  .car-stage-title {
+    font-size: clamp(1.75rem, 1.8vw, 2.2rem);
+  }
+
+  .car-logo-card,
+  .car-question-card {
+    border-radius: 36px;
+  }
+
+  .car-reveal-panel {
+    width: min(760px, 100%);
+    min-height: 108px;
+  }
+}
+
+@media (min-width: 2200px) and (min-height: 1150px) {
+  .car-logo-shell {
+    --car-screen-max: 1740px;
+    --car-stage-max: 1600px;
+    --car-study-card-min: min(60vh, 710px);
+    --car-quiz-card-min: min(62vh, 740px);
+    --car-logo-render-width: min(72%, 760px);
+    --car-logo-max-width: min(72%, 760px);
+    --car-logo-max-height: 500px;
+    --car-nav-size: 84px;
+    --car-nav-font-size: 3.5rem;
+    --car-choice-min-height: 122px;
+  }
+
+  .car-stage {
+    padding: clamp(1.7rem, 2.2vw, 2.8rem);
+    border-radius: 44px;
+  }
+
+  .car-stage-head {
+    padding-bottom: 1.25rem;
+  }
+
+  .car-stage-kicker,
+  .car-logo-card-index {
+    font-size: 0.92rem;
+  }
+
+  .car-stage-title {
+    font-size: clamp(2.05rem, 1.65vw, 2.55rem);
+  }
+
+  .car-reveal-panel {
+    width: min(860px, 100%);
+    min-height: 124px;
+    border-radius: 32px;
+  }
+
+  .car-reveal-label {
+    font-size: 0.9rem;
+  }
+
+  .car-reveal-name {
+    font-size: clamp(2.25rem, 2vw, 3rem);
+  }
+}
+
+@media (max-width: 760px) {
+  .car-mode-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes carLogoCorrect {
+  0% {
+    transform: scale(1);
+    box-shadow: inset 0 -8px 0 rgba(44, 92, 124, 0.05), 0 18px 46px rgba(34, 70, 104, 0.13);
+  }
+  45% {
+    transform: scale(1.018);
+    box-shadow: inset 0 -8px 0 rgba(44, 92, 124, 0.05), 0 0 0 8px rgba(54, 211, 153, 0.18), 0 24px 56px rgba(22, 163, 74, 0.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes carLogoWrong {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-8px);
+  }
+  40% {
+    transform: translateX(8px);
+  }
+  60% {
+    transform: translateX(-5px);
+  }
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+@media (max-width: 640px) {
+  .car-logo-shell .shell-topbar {
+    padding-inline: 0.35rem;
+  }
+
+  .car-logo-shell .shell-topbar-inner {
+    gap: 0.35rem;
+    padding-inline: 0.25rem;
+  }
+
+  .car-logo-shell .shell-brand-title {
+    max-width: 38vw;
+    font-size: 0.82rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .car-logo-shell .shell-topbar-side {
+    gap: 0.35rem;
+  }
+
+  .car-logo-shell .shell-topbar-side .shell-header-change-btn {
+    min-width: 76px;
+    min-height: 34px;
+    padding: 0.35rem 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  .car-stage {
+    border-radius: 26px;
+    padding: 0.8rem;
+  }
+
+  .car-stage-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .car-score-wrap {
+    justify-content: flex-start;
+  }
+
+  .car-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .car-choice-button {
+    min-height: 64px;
+  }
+}
+
+@media (max-width: 1280px) and (max-height: 900px) {
+  .car-stage {
+    padding: 0.85rem;
+  }
+
+  .car-logo-card,
+  .car-question-card,
+  .car-choice-panel {
+    min-height: min(50vh, 380px);
+  }
+
+  .car-choice-button {
+    min-height: 68px;
+  }
+}

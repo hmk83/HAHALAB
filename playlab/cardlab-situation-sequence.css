@@ -1,0 +1,622 @@
+.situation-shell {
+  --situation-accent: #22c55e;
+  --situation-blue: #2563eb;
+  --situation-ink: #172033;
+  --situation-muted: #64748b;
+  --situation-card: rgba(255, 255, 255, 0.92);
+}
+
+.situation-screen {
+  display: none;
+  width: 100%;
+  min-height: calc(100dvh - 64px);
+  padding: clamp(0.25rem, 0.9vw, 0.7rem);
+}
+
+.situation-screen.is-active {
+  display: grid;
+  place-items: center;
+}
+
+.situation-stage-grid {
+  width: min(1180px, 100%);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.situation-intro,
+.situation-board,
+.situation-custom,
+.situation-result {
+  width: min(1180px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.93), rgba(255, 255, 255, 0.84));
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.18);
+}
+
+.situation-intro {
+  display: grid;
+  gap: 1.2rem;
+  padding: clamp(1.5rem, 4vw, 2.3rem);
+}
+
+.situation-intro h1,
+.situation-question,
+.situation-result h2 {
+  margin: 0.25rem 0 0;
+  color: var(--situation-ink);
+  letter-spacing: 0;
+}
+
+.situation-intro h1 {
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  line-height: 1.08;
+}
+
+.situation-intro p,
+.situation-result p {
+  margin: 0;
+  max-width: 760px;
+  color: #475569;
+  font-size: clamp(1rem, 1.7vw, 1.22rem);
+  line-height: 1.6;
+}
+
+.situation-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 2rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  background: color-mix(in srgb, var(--situation-accent) 16%, white);
+  color: #14532d;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.situation-intro-meta,
+.situation-result-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.situation-intro-meta span,
+.situation-result-stats div {
+  min-height: 4.5rem;
+  border-radius: 18px;
+  background: #f8fafc;
+  color: #334155;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-weight: 800;
+}
+
+.situation-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.situation-board {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  width: min(96vw, 2400px);
+  min-height: calc(100dvh - 86px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  gap: clamp(0.65rem, 1.6vw, 1.4rem);
+  padding: clamp(0.3rem, 1vw, 0.9rem);
+}
+
+.situation-status-row,
+.situation-bank-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.situation-status-row {
+  margin-bottom: 0.75rem;
+}
+
+.situation-question {
+  font-size: clamp(1.35rem, 3vw, 2.35rem);
+}
+
+.situation-progress {
+  flex: 0 0 auto;
+  min-width: 6.2rem;
+  min-height: 3.2rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #ecfdf5;
+  color: #047857;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.situation-slot-board,
+.situation-card-bank {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(0.55rem, 1.3vw, 1.35rem);
+  min-height: 0;
+}
+
+.situation-slot-board {
+  margin-bottom: 0;
+}
+
+.situation-slot,
+.situation-card {
+  aspect-ratio: 1 / 1;
+  width: min(100%, 46dvh);
+  max-height: 100%;
+  border-radius: clamp(12px, 1.2vw, 24px);
+  position: relative;
+  overflow: hidden;
+  justify-self: center;
+}
+
+.situation-slot {
+  border: clamp(2px, 0.18vw, 4px) dashed rgba(37, 99, 235, 0.38);
+  background: rgba(239, 246, 255, 0.78);
+  display: grid;
+  place-items: center;
+  color: #1d4ed8;
+  font-weight: 900;
+}
+
+.situation-slot.is-drop-ready {
+  border-style: solid;
+  background: #dbeafe;
+  transform: translateY(-2px);
+}
+
+.situation-slot.is-filled {
+  border: clamp(2px, 0.18vw, 4px) solid rgba(34, 197, 94, 0.42);
+  background: #f0fdf4;
+}
+
+.situation-slot.is-wrong,
+.situation-card.is-wrong {
+  animation: situationWrong 0.34s ease;
+  outline: 4px solid rgba(239, 68, 68, 0.4);
+  background: #fee2e2;
+}
+
+.situation-card {
+  border: 0;
+  padding: 0;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.situation-card:disabled {
+  cursor: default;
+  opacity: 1;
+  filter: grayscale(1);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+
+.situation-card.is-pointer-dragging {
+  opacity: 0.5;
+}
+
+.situation-card:not(:disabled):hover,
+.situation-card:not(:disabled):focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.18);
+}
+
+.situation-card img,
+.situation-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+.situation-slot span {
+  z-index: 1;
+  font-size: clamp(1rem, 2.2vw, 1.55rem);
+}
+
+.situation-card-order {
+  position: absolute;
+  top: 0.45rem;
+  left: 0.45rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  color: #fff;
+  font-weight: 900;
+}
+
+.situation-drag-ghost {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 120;
+  pointer-events: none;
+  opacity: 0.94;
+  box-shadow: 0 24px 54px rgba(15, 23, 42, 0.28);
+}
+
+.situation-bank-head {
+  min-height: 2.15rem;
+  color: #334155;
+  font-size: 0.95rem;
+}
+
+#feedbackText {
+  color: var(--situation-muted);
+  font-weight: 800;
+}
+
+.situation-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.situation-question-toast {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.situation-question-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.situation-question-toast-card {
+  max-width: min(760px, calc(100vw - 2rem));
+  border-radius: 24px;
+  padding: clamp(1.1rem, 3vw, 1.6rem) clamp(1.4rem, 4vw, 2rem);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 24px 54px rgba(15, 23, 42, 0.22);
+  color: var(--situation-ink);
+  font-size: clamp(1.5rem, 4vw, 2.7rem);
+  font-weight: 900;
+  text-align: center;
+}
+
+.situation-advance-toast {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 95;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.situation-advance-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.situation-advance-card {
+  width: min(720px, 100%);
+  min-height: 4.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.24);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.85rem 0.75rem 1.2rem;
+}
+
+.situation-advance-card span {
+  color: var(--situation-ink);
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.situation-custom {
+  max-height: min(76dvh, 720px);
+  display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.situation-custom-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.situation-custom h2 {
+  margin: 0.35rem 0 0;
+  color: var(--situation-ink);
+  font-size: clamp(1.45rem, 3vw, 2.25rem);
+  letter-spacing: 0;
+}
+
+.situation-count-field {
+  flex: 0 0 auto;
+  display: grid;
+  gap: 0.35rem;
+  color: #334155;
+  font-weight: 900;
+}
+
+.situation-count-field input {
+  width: 7.5rem;
+  min-height: 3rem;
+  border: 2px solid rgba(139, 92, 246, 0.28);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--situation-ink);
+  font-size: 1.25rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.situation-custom-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.situation-custom-summary {
+  margin: 0;
+  color: #475569;
+  font-weight: 900;
+}
+
+.situation-custom-list {
+  display: grid;
+  gap: 0.85rem;
+  overflow: auto;
+  padding-right: 0.25rem;
+}
+
+.situation-custom-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.situation-custom-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: var(--situation-ink);
+  font-weight: 900;
+}
+
+.situation-custom-category span {
+  color: var(--stage-accent);
+  font-size: 0.9rem;
+}
+
+.situation-custom-items {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.situation-custom-item {
+  min-height: 2.85rem;
+  border: 2px solid rgba(148, 163, 184, 0.28);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.84);
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.65rem;
+  font: inherit;
+  font-weight: 850;
+  text-align: left;
+  cursor: pointer;
+}
+
+.situation-custom-item span {
+  flex: 0 0 auto;
+  min-width: 2rem;
+  color: var(--stage-accent);
+  font-weight: 900;
+}
+
+.situation-custom-item.is-selected {
+  border-color: color-mix(in srgb, var(--stage-accent) 62%, white);
+  background: color-mix(in srgb, var(--stage-accent) 13%, white);
+}
+
+.situation-result {
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 1rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.situation-result-stats {
+  width: min(760px, 100%);
+}
+
+.situation-result-stats span {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.situation-result-stats strong {
+  color: var(--situation-ink);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.situation-effect-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 80;
+  overflow: hidden;
+}
+
+.situation-confetti {
+  position: absolute;
+  width: 0.7rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  animation: situationConfetti 900ms ease-out forwards;
+}
+
+.situation-help-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  text-align: left;
+}
+
+.situation-help-grid section {
+  border-radius: 18px;
+  background: #f8fafc;
+  padding: 1rem;
+}
+
+.situation-help-grid h3,
+.situation-help-grid p {
+  margin: 0;
+}
+
+.situation-help-grid p {
+  margin-top: 0.45rem;
+  color: #475569;
+  line-height: 1.55;
+}
+
+@keyframes situationWrong {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  50% { transform: translateX(8px); }
+  75% { transform: translateX(-5px); }
+}
+
+@keyframes situationConfetti {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(42vh) rotate(540deg);
+  }
+}
+
+@media (max-width: 860px) {
+  .situation-stage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .situation-slot-board,
+  .situation-card-bank {
+    grid-template-columns: repeat(5, minmax(86px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+  }
+
+  .situation-custom-items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .situation-screen {
+    padding: 0.65rem;
+    min-height: calc(100dvh - 74px);
+  }
+
+  .situation-intro-meta,
+  .situation-result-stats,
+  .situation-help-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .situation-status-row,
+  .situation-bank-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .situation-stage-grid,
+  .situation-custom-items {
+    grid-template-columns: 1fr;
+  }
+
+  .situation-custom {
+    max-height: none;
+  }
+
+  .situation-custom-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .situation-actions {
+    justify-content: stretch;
+  }
+
+  .situation-actions .shell-icon-btn {
+    flex: 1 1 13rem;
+  }
+
+  .situation-advance-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .situation-advance-card .shell-icon-btn {
+    width: 100%;
+  }
+}

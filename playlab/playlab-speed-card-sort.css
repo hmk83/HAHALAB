@@ -1,0 +1,203 @@
+:root {
+  --speed-ink: #172554;
+  --speed-indigo: #4f46e5;
+  --speed-blue: #2563eb;
+  --speed-coral: #f97316;
+  --speed-green: #16a34a;
+  --speed-red: #dc2626;
+  --speed-panel: rgba(255, 255, 255, 0.96);
+}
+
+* { box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; margin: 0; overflow-x: hidden; }
+body { background: linear-gradient(145deg, #fff9df 0%, #e8f7ff 52%, #f4ebff 100%); color: var(--speed-ink); }
+button { font: inherit; }
+.speed-card-shell { min-height: 100dvh; background: radial-gradient(circle at 16% 16%, rgba(255,255,255,.92), transparent 28%), radial-gradient(circle at 84% 24%, rgba(255,245,183,.7), transparent 26%), linear-gradient(145deg, #fff9df 0%, #e8f7ff 52%, #f4ebff 100%); }
+.speed-card-shell .shell-main { min-height: calc(100dvh - 74px); padding: clamp(12px, 2vw, 28px); display: grid; place-items: center; }
+.speed-card-page[data-speed-screen="game"] .speed-card-shell .shell-main { height: calc(100dvh - 74px); min-height: 0; padding: 0; display: block; overflow: hidden; }
+.speed-card-page[data-speed-screen="game"] #gameView.is-active { width: 100%; height: 100%; }
+.speed-card-screen { display: none; width: 100%; }
+.speed-card-screen.is-active { display: grid; place-items: center; }
+
+.speed-stage-wrap { width: min(1120px, 96vw); display: grid; gap: clamp(18px, 2.6vh, 32px); }
+.speed-stage-title { text-align: center; }
+.speed-stage-title span, .speed-kicker { display: inline-flex; color: var(--speed-indigo); font-size: clamp(11px, 1vw, 14px); font-weight: 900; letter-spacing: .14em; }
+.speed-stage-title h1 { margin: 8px 0; font-size: clamp(34px, 4.4vw, 62px); letter-spacing: -.055em; }
+.speed-stage-title p { margin: 0; color: #475569; font-size: clamp(15px, 1.5vw, 20px); font-weight: 700; }
+.speed-stage-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px); }
+.speed-stage-card { min-height: clamp(230px, 32vh, 320px); border: 2px solid rgba(79,70,229,.12); border-radius: 34px; padding: clamp(22px, 3vw, 38px); text-align: left; color: var(--speed-ink); background: rgba(255,255,255,.94); box-shadow: 0 22px 50px rgba(30,64,175,.13); cursor: pointer; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; position: relative; overflow: hidden; }
+.speed-stage-card::after { content: ''; position: absolute; width: 170px; height: 170px; border-radius: 50%; right: -40px; bottom: -55px; background: var(--stage-soft); }
+.speed-stage-card:hover, .speed-stage-card:focus-visible { transform: translateY(-5px); border-color: var(--stage-color); box-shadow: 0 26px 58px rgba(30,64,175,.18); outline: none; }
+.speed-stage-card .speed-stage-number { display: inline-grid; place-items: center; min-width: 66px; height: 34px; border-radius: 999px; color: #fff; background: var(--stage-color); font-weight: 900; }
+.speed-stage-card h2 { margin: 20px 0 7px; font-size: clamp(25px, 2.4vw, 36px); }
+.speed-stage-card p { margin: 0; max-width: 520px; color: #64748b; line-height: 1.55; font-weight: 700; }
+.speed-stage-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; position: relative; z-index: 1; }
+.speed-stage-meta span { border-radius: 999px; padding: 7px 11px; background: #f1f5f9; color: #334155; font-size: 13px; font-weight: 900; }
+
+.speed-intro-card, .speed-result-card { width: min(920px, 94vw); border: 1px solid rgba(99,102,241,.15); border-radius: 38px; padding: clamp(24px, 4vw, 48px); text-align: center; background: var(--speed-panel); box-shadow: 0 28px 70px rgba(30,64,175,.16); }
+.speed-intro-card h2 { margin: 10px 0; font-size: clamp(32px, 4.2vw, 54px); letter-spacing: -.05em; }
+.speed-intro-card > p { margin: 0 auto; max-width: 700px; color: #64748b; font-size: clamp(15px, 1.6vw, 20px); line-height: 1.6; font-weight: 700; }
+.speed-demo { width: min(650px, 90%); margin: clamp(18px, 3vh, 28px) auto; display: grid; grid-template-columns: 1fr .82fr 1fr; align-items: center; gap: clamp(10px, 2vw, 24px); }
+.speed-demo-side, .speed-demo-center { display: grid; place-items: center; aspect-ratio: 1 / .8; border-radius: 26px; font-size: clamp(44px, 7vw, 80px); }
+.speed-demo-side { background: #f8fafc; border: 2px solid #e2e8f0; }
+.speed-demo-center { background: linear-gradient(145deg, #4f46e5, #2563eb); box-shadow: 0 16px 30px rgba(79,70,229,.3); animation: speed-demo-pulse 1.6s ease-in-out infinite; }
+@keyframes speed-demo-pulse { 0%,100% { transform: translateX(-6%); } 50% { transform: translateX(6%); } }
+.speed-intro-rules { display: flex; justify-content: center; flex-wrap: wrap; gap: 9px; }
+.speed-intro-rules span { border-radius: 999px; padding: 9px 14px; background: #eef2ff; color: #3730a3; font-weight: 900; }
+.speed-actions, .playlab-result-actions { display: flex; justify-content: center; gap: 12px; margin-top: clamp(20px, 3vh, 30px); }
+.speed-primary-btn, .speed-secondary-btn, .playlab-action-btn, .playlab-secondary-btn { min-height: 50px; border-radius: 16px; padding: 0 24px; font-weight: 900; cursor: pointer; }
+.speed-primary-btn, .playlab-action-btn { border: 0; color: #fff; background: linear-gradient(135deg, #4f46e5, #2563eb); box-shadow: 0 10px 22px rgba(79,70,229,.25); }
+.speed-secondary-btn, .playlab-secondary-btn { border: 1px solid #cbd5e1; color: #334155; background: #fff; }
+
+.speed-game-panel { width: 100%; height: 100%; min-height: 0; display: flex; flex-direction: column; border-radius: 0; padding: clamp(12px, 1.6vw, 24px); background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,252,255,.98)); box-shadow: none; }
+.speed-game-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: clamp(10px, 1.6vh, 18px); }
+.speed-game-head h2 { margin: 5px 0 0; font-size: clamp(22px, 2.4vw, 34px); letter-spacing: -.04em; }
+.speed-status-row { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.speed-status-row span { border-radius: 999px; padding: 9px 13px; background: #eef2ff; color: #3730a3; font-size: clamp(12px, 1.1vw, 15px); font-weight: 900; white-space: nowrap; }
+.speed-status-row .is-warning { background: #fee2e2; color: #b91c1c; }
+.speed-match-board { flex: 1 1 auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(230px, .78fr) minmax(0, 1fr); align-items: center; gap: clamp(12px, 2vw, 34px); min-height: 0; border: 3px solid rgba(255,255,255,.9); border-radius: 30px; padding: clamp(14px, 2vw, 30px); background: radial-gradient(circle at 12% 18%, rgba(255,255,255,.95) 0 7%, transparent 7.4%), radial-gradient(circle at 88% 22%, rgba(255,255,255,.85) 0 6%, transparent 6.4%), linear-gradient(180deg, #c9efff 0%, #e4f7ff 58%, #fff3c8 58%, #ffe8a7 100%); overflow: hidden; position: relative; }
+.speed-match-board::before { content: ''; position: absolute; inset: auto 0 0; height: 24%; background: repeating-linear-gradient(90deg, rgba(255,183,77,.17) 0 42px, rgba(255,255,255,.22) 42px 84px); }
+.speed-match-board::after { content: ''; position: absolute; inset: 4% 4% auto; height: 16%; pointer-events: none; background: radial-gradient(ellipse at 8% 70%, rgba(255,255,255,.8) 0 16%, transparent 17%), radial-gradient(ellipse at 50% 35%, rgba(255,255,255,.68) 0 13%, transparent 14%), radial-gradient(ellipse at 92% 70%, rgba(255,255,255,.78) 0 16%, transparent 17%); opacity: .82; }
+.speed-reference-card { position: relative; z-index: 1; width: 100%; max-width: 390px; justify-self: center; min-height: clamp(250px, 43vh, 460px); border: 5px solid rgba(255,255,255,.96); border-radius: 38px; padding: clamp(14px, 2vw, 24px); color: var(--speed-ink); background: rgba(255,255,255,.96); box-shadow: 0 14px 0 rgba(80,116,164,.1), 0 20px 38px rgba(30,64,175,.14); cursor: pointer; transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+.speed-reference-card.is-left { border-color: #ffb6a3; background: linear-gradient(180deg, #fff 0%, #fff8f5 100%); }
+.speed-reference-card.is-right { border-color: #91e2c4; background: linear-gradient(180deg, #fff 0%, #f4fff9 100%); }
+.speed-reference-card:hover, .speed-reference-card:focus-visible { transform: translateY(-5px); border-color: #818cf8; outline: 4px solid rgba(99,102,241,.2); outline-offset: 3px; }
+.speed-reference-card.is-correct-pulse { border-color: #22c55e; box-shadow: 0 0 0 10px rgba(34,197,94,.16), 0 18px 34px rgba(30,64,175,.18); }
+.speed-reference-card.is-wrong-pulse { border-color: #ef4444; animation: speed-shake .36s ease; }
+.speed-side-label { position: absolute; top: 14px; left: 14px; border-radius: 999px; padding: 6px 11px; background: #eef2ff; color: #3730a3; font-size: 12px; font-weight: 900; }
+.speed-reference-card img { display: block; width: 100%; height: clamp(165px, 31vh, 330px); object-fit: contain; }
+.speed-reference-card strong { display: block; margin-top: 4px; font-size: clamp(18px, 2vw, 27px); }
+.speed-center-lane { position: relative; z-index: 2; display: grid; justify-items: center; gap: 10px; }
+.speed-pair-notice { min-height: 27px; border-radius: 999px; padding: 6px 12px; color: #fff; background: rgba(23,37,84,.78); font-size: 13px; font-weight: 900; }
+.speed-deck-stack { position: relative; isolation: isolate; width: min(280px, 24vw); aspect-ratio: .82 / 1; margin-top: 14px; --fly-x: 0px; --fly-y: 0px; }
+.speed-deck-stack::before, .speed-deck-stack::after { content: ''; position: absolute; inset: 0; border: 7px solid rgba(255,255,255,.98); border-radius: 34px; background: linear-gradient(145deg, #ffd96a, #ff9f73); box-shadow: 0 14px 28px rgba(107,65,24,.16); pointer-events: none; }
+.speed-deck-stack::before { z-index: 0; transform: translate3d(-7px,-22px,0) rotate(-3deg) scale(.97); opacity: .72; }
+.speed-deck-stack::after { z-index: 1; transform: translate3d(7px,-11px,0) rotate(2.5deg) scale(.985); opacity: .9; }
+.speed-target-card { position: relative; z-index: 2; width: 100%; height: 100%; display: grid; place-items: center; border: 8px solid #fff; border-radius: 34px; background: linear-gradient(145deg, #ffcf57, #ff8f70); box-shadow: 0 18px 0 rgba(190,105,41,.14), 0 24px 42px rgba(76,83,150,.25); transition: transform .26s cubic-bezier(.2,.8,.25,1), opacity .2s ease; }
+.speed-target-card img { width: 88%; height: 88%; object-fit: contain; }
+.speed-target-card.is-dealing { animation: speed-card-deal .34s cubic-bezier(.2,.82,.22,1) both; }
+.speed-target-card.is-flying { will-change: transform, opacity; transform: translate3d(var(--fly-x),var(--fly-y),0) rotate(var(--fly-rotate, 0deg)) scale(.78); }
+.speed-target-card.is-correct-impact { transform: translate3d(var(--fly-x),var(--fly-y),0) rotate(var(--fly-rotate, 0deg)) scale(1.05); opacity: .12; }
+.speed-target-card.is-wrong-impact { animation: speed-wrong-impact .32s ease both; box-shadow: 0 0 0 10px rgba(239,68,68,.22), 0 22px 45px rgba(30,64,175,.32); }
+.speed-target-card.is-returning { will-change: transform; transform: translate3d(0,0,0) rotate(0deg) scale(1); transition-duration: .28s; }
+@keyframes speed-card-deal { from { transform: translate3d(0,-46px,0) rotate(-2deg) scale(.94); opacity: .18; } to { transform: translate3d(0,0,0) rotate(0) scale(1); opacity: 1; } }
+@keyframes speed-shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-9px); } 75% { transform: translateX(9px); } }
+@keyframes speed-wrong-impact {
+  0%,100% { transform: translate3d(var(--fly-x),var(--fly-y),0) rotate(var(--fly-rotate, 0deg)) scale(.78); }
+  24% { transform: translate3d(calc(var(--fly-x) - 11px),var(--fly-y),0) rotate(var(--fly-rotate, 0deg)) scale(.8); }
+  52% { transform: translate3d(calc(var(--fly-x) + 11px),var(--fly-y),0) rotate(var(--fly-rotate, 0deg)) scale(.8); }
+  78% { transform: translate3d(calc(var(--fly-x) - 6px),var(--fly-y),0) rotate(var(--fly-rotate, 0deg)) scale(.79); }
+}
+.speed-answer-effect { position: absolute; z-index: 4; inset: 50% auto auto 50%; width: 1px; height: 1px; pointer-events: none; opacity: 0; }
+.speed-answer-effect::before, .speed-answer-effect::after { position: absolute; left: 0; top: 0; opacity: 0; pointer-events: none; }
+.speed-answer-effect::before { content: '★'; color: #16a34a; font-size: 88px; line-height: 1; text-shadow: 0 5px 0 #fff, 0 0 24px rgba(34,197,94,.7); transform: translate(-50%,-50%) scale(.25) rotate(-18deg); }
+.speed-answer-effect::after { content: ''; width: 112px; height: 112px; border: 10px solid rgba(34,197,94,.82); border-radius: 50%; transform: translate(-50%,-50%) scale(.3); }
+.speed-answer-effect i { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: #5ee29a; box-shadow: 0 0 0 4px rgba(255,255,255,.75); opacity: 0; }
+.speed-answer-effect.is-visible { opacity: 1; transform: translate3d(var(--fly-x),var(--fly-y),0); }
+.speed-answer-effect.is-visible::before { animation: speed-effect-pop .66s cubic-bezier(.18,.82,.2,1) both; }
+.speed-answer-effect.is-visible::after { animation: speed-effect-ring .66s ease-out both; }
+.speed-answer-effect.is-visible i { animation: speed-particle-burst .66s ease-out both; }
+.speed-answer-effect.is-wrong i { border-radius: 4px; background: #ff6f7d; transform: rotate(45deg); }
+.speed-answer-effect.is-wrong::before { content: '✕'; color: #ef4444; text-shadow: 0 5px 0 #fff, 0 0 24px rgba(239,68,68,.66); }
+.speed-answer-effect.is-wrong::after { border-color: rgba(239,68,68,.82); border-radius: 28px; }
+.speed-answer-effect i:nth-child(1) { --dx: -108px; --dy: -82px; }
+.speed-answer-effect i:nth-child(2) { --dx: -34px; --dy: -118px; animation-delay: .03s; }
+.speed-answer-effect i:nth-child(3) { --dx: 54px; --dy: -108px; animation-delay: .06s; }
+.speed-answer-effect i:nth-child(4) { --dx: 112px; --dy: -42px; animation-delay: .02s; }
+.speed-answer-effect i:nth-child(5) { --dx: 104px; --dy: 64px; animation-delay: .05s; }
+.speed-answer-effect i:nth-child(6) { --dx: 28px; --dy: 116px; animation-delay: .08s; }
+.speed-answer-effect i:nth-child(7) { --dx: -62px; --dy: 104px; animation-delay: .04s; }
+.speed-answer-effect i:nth-child(8) { --dx: -116px; --dy: 34px; animation-delay: .07s; }
+@keyframes speed-particle-burst { 0% { transform: translate3d(0,0,0) scale(.5); opacity: 0; } 22% { opacity: 1; } 100% { transform: translate3d(var(--dx),var(--dy),0) scale(1.18); opacity: 0; } }
+@keyframes speed-effect-pop { 0% { transform: translate(-50%,-50%) scale(.2) rotate(-18deg); opacity: 0; } 24%,68% { transform: translate(-50%,-50%) scale(1.05) rotate(5deg); opacity: 1; } 100% { transform: translate(-50%,-50%) scale(1.38) rotate(12deg); opacity: 0; } }
+@keyframes speed-effect-ring { 0% { transform: translate(-50%,-50%) scale(.3); opacity: 0; } 25% { opacity: 1; } 100% { transform: translate(-50%,-50%) scale(1.65); opacity: 0; } }
+html[data-speed-harness="1"] .speed-target-card { transition-duration: .02s; }
+html[data-speed-harness="1"] .speed-target-card.is-wrong-impact,
+html[data-speed-harness="1"] .speed-answer-effect.is-visible i,
+html[data-speed-harness="1"] .speed-answer-effect.is-visible::before,
+html[data-speed-harness="1"] .speed-answer-effect.is-visible::after { animation-duration: .02s; }
+.speed-key-hint { margin: 0; display: flex; align-items: center; gap: 7px; color: #334155; font-size: 12px; font-weight: 900; }
+.speed-key-hint kbd { display: grid; place-items: center; min-width: 30px; height: 28px; border: 1px solid #cbd5e1; border-bottom-width: 3px; border-radius: 8px; background: #fff; }
+.speed-direction-controls { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(220px, 1.2fr) minmax(150px, 1fr); align-items: center; gap: 12px; margin-top: 14px; }
+.speed-direction-controls button { min-height: 58px; border: 0; border-radius: 18px; color: #fff; background: linear-gradient(135deg, #6558f5, #3f8cf5); font-size: clamp(16px, 1.5vw, 22px); font-weight: 900; cursor: pointer; box-shadow: 0 8px 0 rgba(50,67,173,.16), 0 12px 20px rgba(79,70,229,.18); }
+.speed-direction-controls button:focus-visible { outline: 4px solid rgba(37,99,235,.25); outline-offset: 3px; }
+.speed-direction-controls button:disabled { opacity: .5; cursor: default; }
+.speed-feedback-status { text-align: center; color: #475569; font-weight: 900; }
+.speed-feedback-status.is-correct { color: #15803d; }
+.speed-feedback-status.is-wrong { color: #b91c1c; }
+
+.speed-result-card { text-align: center; }
+.speed-result-card { padding: clamp(18px, 2.4vw, 34px); }
+.speed-result-summary { margin: 10px auto 0; color: #64748b; font-size: clamp(15px, 1.6vw, 19px); line-height: 1.6; font-weight: 700; }
+.speed-result-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px; margin-top: 24px; }
+.speed-result-stats > div { border-radius: 22px; padding: 17px 10px; background: #f8fafc; border: 1px solid #e2e8f0; }
+.speed-result-stats span { display: block; color: #64748b; font-size: 12px; font-weight: 800; }
+.speed-result-stats strong { display: block; margin-top: 7px; color: var(--speed-ink); font-size: clamp(21px, 2.4vw, 30px); }
+.speed-professional-report { margin-top: 16px; border-radius: 22px; padding: 17px; text-align: left; color: #334155; background: #eef2ff; line-height: 1.65; font-size: 14px; font-weight: 700; }
+
+@media (max-width: 900px) {
+  .speed-card-shell .shell-main { padding: 10px; }
+  .speed-card-page[data-speed-screen="game"] .speed-card-shell .shell-main { padding: 0; }
+  .speed-game-panel { padding: 10px; }
+  .speed-match-board { grid-template-columns: minmax(0, 1fr) minmax(180px, .8fr) minmax(0, 1fr); min-height: 0; gap: 10px; padding: 12px; }
+  .speed-reference-card { min-height: 310px; border-radius: 24px; padding: 10px; }
+  .speed-reference-card img { height: 230px; }
+  .speed-deck-stack { width: min(200px, 22vw); }
+  .speed-target-card { border-width: 6px; border-radius: 24px; }
+  .speed-game-head { margin-bottom: 8px; }
+  .speed-direction-controls { margin-top: 9px; }
+}
+
+@media (max-width: 720px) {
+  .speed-stage-grid { grid-template-columns: 1fr; }
+  .speed-stage-card { min-height: 190px; }
+  .speed-match-board { grid-template-columns: 1fr 1fr; grid-template-areas: 'center center' 'left right'; min-height: 470px; }
+  .speed-center-lane { grid-area: center; }
+  .speed-reference-card.is-left { grid-area: left; }
+  .speed-reference-card.is-right { grid-area: right; }
+  .speed-reference-card { min-height: 190px; }
+  .speed-reference-card img { height: 130px; }
+  .speed-deck-stack { width: 128px; }
+  .speed-key-hint { display: none; }
+  .speed-direction-controls { grid-template-columns: 1fr 1fr; }
+  .speed-feedback-status { grid-column: 1 / -1; grid-row: 1; }
+  .speed-result-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-height: 820px) and (min-width: 721px) {
+  .speed-card-shell .shell-main { min-height: calc(100dvh - 64px); padding: 8px 12px; }
+  .speed-card-page[data-speed-screen="game"] .speed-card-shell .shell-main { height: calc(100dvh - 64px); min-height: 0; padding: 0; }
+  .speed-game-panel { padding: 10px 14px; }
+  .speed-match-board { min-height: 0; }
+  .speed-reference-card { min-height: 285px; }
+  .speed-reference-card img { height: 205px; }
+  .speed-deck-stack { width: min(190px, 20vw); }
+  .speed-direction-controls button { min-height: 50px; }
+  .speed-intro-card, .speed-result-card { padding: 20px 30px; }
+  .speed-demo { margin: 12px auto; }
+  .speed-demo-side, .speed-demo-center { font-size: 48px; max-height: 120px; }
+  .speed-result-card { padding: 14px 24px; }
+  .speed-result-summary { line-height: 1.45; }
+  .speed-result-stats { margin-top: 12px; gap: 8px; }
+  .speed-result-stats > div { padding: 10px 8px; border-radius: 17px; }
+  .speed-result-stats strong { margin-top: 3px; }
+  .speed-professional-report { margin-top: 10px; padding: 11px 14px; line-height: 1.45; }
+  .speed-result-card .playlab-result-actions { margin-top: 12px; }
+}
+
+.speed-card-page .playlab-unified-help-modal { width: 100vw; height: 100dvh; overflow: hidden; }
+.speed-card-page .playlab-unified-help-card { width: min(1120px, calc(100vw - 24px)); max-height: calc(100dvh - 28px); }
+.speed-card-page .playlab-unified-help-inner { max-height: calc(100dvh - 28px); }
+
+@media (max-width: 720px) {
+  .speed-card-page[data-speed-screen="game"] .speed-card-shell .shell-main { height: auto; min-height: calc(100dvh - 64px); overflow-y: auto; }
+  .speed-card-page[data-speed-screen="game"] #gameView.is-active { min-height: calc(100dvh - 64px); }
+  .speed-game-panel { min-height: calc(100dvh - 64px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+  .speed-target-card.is-flying, .speed-target-card.is-correct-impact, .speed-target-card.is-wrong-impact, .speed-target-card.is-returning, .speed-target-card.is-dealing { transform: none !important; }
+  .speed-answer-effect i { display: none !important; }
+  .speed-answer-effect::before, .speed-answer-effect::after { display: none !important; }
+}

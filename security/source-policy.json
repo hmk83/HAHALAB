@@ -1,0 +1,116 @@
+{
+  "version": "2026-11-04-security-source-1",
+  "purpose": "Publish the current deployable application source for security checks without exporting customer records, credentials, original media, private learning HTML, or Git history.",
+  "requiredSources": [
+    "admin.html",
+    "class-new.html",
+    "class-new-mobile.html",
+    "cloudflare-worker.js",
+    "js/app.js",
+    "js/auth.js",
+    "security/source-policy.json",
+    "security/tools.lock.json",
+    ".github/workflows/security.yml",
+    "scripts/security-ci.mjs"
+  ],
+  "rootFiles": [
+    "index.html",
+    "index-app.js",
+    "admin.html",
+    "cards.html",
+    "class-new.html",
+    "class-new-mobile.html",
+    "class-app.jsx",
+    "cloudflare-worker.js",
+    "functions/_middleware.js",
+    "playlab-history-report-viewer.html",
+    "policy-docs.js",
+    "_headers",
+    "_redirects",
+    "sw.js",
+    "package.json",
+    "package-lock.json",
+    "js/vendor/xlsx-0.20.3.provenance.json",
+    "js/vendor/xlsx-0.20.3.LICENSE.txt"
+  ],
+  "trees": [
+    {
+      "path": "js",
+      "extensions": [
+        ".js",
+        ".mjs",
+        ".cjs"
+      ]
+    },
+    {
+      "path": "css",
+      "extensions": [
+        ".css"
+      ]
+    },
+    {
+      "path": "playlab",
+      "extensions": [
+        ".js",
+        ".css"
+      ],
+      "topLevelOnly": true
+    },
+    {
+      "path": "supabase/functions",
+      "extensions": [
+        ".ts",
+        ".js",
+        ".json"
+      ]
+    },
+    {
+      "path": "security",
+      "extensions": [
+        ".json",
+        ".yml",
+        ".toml",
+        ".xml",
+        ".md"
+      ]
+    },
+    {
+      "path": ".github",
+      "extensions": [
+        ".yml",
+        ".yaml",
+        ".md"
+      ]
+    }
+  ],
+  "scriptPrefixes": [
+    "scripts/security-",
+    "scripts/validate-security-",
+    "scripts/validate-edge-resource-security",
+    "scripts/validate-production-security-syntax"
+  ],
+  "excludedSegments": [
+    ".git",
+    "node_modules",
+    "output",
+    "artifacts",
+    "backup",
+    "scratch",
+    "private",
+    "tmp",
+    "deliverables",
+    ".venv",
+    "__pycache__"
+  ],
+  "excludedFilenamePatterns": [
+    ".env",
+    ".env.local",
+    "credentials",
+    "secrets",
+    "*.zip",
+    "*.bak",
+    "*.log",
+    "*.map"
+  ],
+  "privateHtmlPolicy": "private/playlab/**/*.html stays private. Run local checks on these separately; do not publish to the public security repository."
+}

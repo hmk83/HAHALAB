@@ -1,0 +1,1887 @@
+.cognitive-shell {
+  --cognitive-accent: #0ea5e9;
+  --cognitive-accent-dark: #075985;
+  --cognitive-accent-soft: rgba(224, 242, 254, 0.9);
+  --cognitive-warm: #fff7ed;
+  --cognitive-ink: #10233f;
+  --cognitive-muted: #64748b;
+  --cognitive-card: rgba(255, 255, 255, 0.94);
+  --cognitive-line: rgba(125, 211, 252, 0.36);
+  --cognitive-shadow: 0 24px 60px rgba(15, 23, 42, 0.14);
+  color: var(--cognitive-ink);
+}
+
+.cognitive-shell .shell-main {
+  min-height: calc(100dvh - 110px);
+  align-items: center;
+  padding: 1rem 0 1.2rem;
+}
+
+.cognitive-shell .shell-topbar-inner,
+.cognitive-shell .cognitive-main {
+  width: min(1180px, calc(100% - 2.8rem));
+}
+
+.cognitive-shell .cognitive-main {
+  margin: 0 auto;
+}
+
+.cognitive-stage-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 1rem;
+}
+
+.cognitive-stage-head.is-kicker-centered {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.cognitive-stage-head.is-kicker-centered > div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.cognitive-stage-kicker,
+.cognitive-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--cognitive-accent-soft);
+  color: var(--cognitive-accent-dark);
+  font-weight: 900;
+}
+
+.cognitive-stage-kicker {
+  padding: 0.58rem 0.9rem;
+  font-size: 1rem;
+}
+
+.cognitive-stage-title {
+  margin: 0.55rem 0 0;
+  font-size: clamp(2rem, 3.6vw, 3.25rem);
+  line-height: 1.06;
+  letter-spacing: 0;
+}
+
+.cognitive-stage-note {
+  margin: 0.45rem 0 0;
+  color: var(--cognitive-muted);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.cognitive-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.cognitive-stage-card {
+  appearance: none;
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  border-radius: 26px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(240, 249, 255, 0.94));
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.1);
+  min-height: 158px;
+  padding: 1.1rem;
+  color: var(--cognitive-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.cognitive-stage-card:hover,
+.cognitive-stage-card:focus-visible {
+  border-color: var(--cognitive-accent);
+  box-shadow: 0 20px 46px rgba(14, 165, 233, 0.24);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.cognitive-stage-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.cognitive-stage-no {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #fff7ad, #ffc83d);
+  color: #8a4300;
+  font-weight: 1000;
+  font-size: 1.05rem;
+}
+
+.cognitive-stage-score {
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #8a4300;
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
+.cognitive-stage-card h3 {
+  margin: 1rem 0 0.35rem;
+  font-size: 1.38rem;
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+.cognitive-stage-card p {
+  margin: 0;
+  color: var(--cognitive-muted);
+  font-size: 1rem;
+  line-height: 1.45;
+  font-weight: 800;
+}
+
+.cognitive-game-card,
+.cognitive-result-card {
+  border-radius: 32px;
+  background: var(--cognitive-card);
+  box-shadow: var(--cognitive-shadow);
+  border: 1px solid rgba(255, 255, 255, 0.74);
+  padding: clamp(1.15rem, 2vw, 1.7rem);
+}
+
+.cognitive-game-card {
+  min-height: min(690px, calc(100dvh - 150px));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.cognitive-game-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cognitive-game-title {
+  min-width: 0;
+}
+
+.cognitive-game-title h2 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.75rem, 3.1vw, 2.8rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.cognitive-signal-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.36em;
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-game-title {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-game-title h2 {
+  font-size: clamp(1.12rem, 1.8vw, 1.72rem);
+  line-height: 1.18;
+}
+
+.cognitive-reaction-keyword {
+  display: inline-block;
+  border-radius: 0.48em;
+  padding: 0.04em 0.28em 0.08em;
+  color: #082f49;
+  box-shadow: inset 0 -0.14em 0 rgba(255, 255, 255, 0.42);
+}
+
+.cognitive-reaction-keyword.is-green {
+  background: linear-gradient(180deg, #bbf7d0 0%, #86efac 100%);
+}
+
+.cognitive-reaction-keyword.is-red {
+  background: linear-gradient(180deg, #fecdd3 0%, #fda4af 100%);
+}
+
+.cognitive-signal-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.08em 0.34em 0.13em;
+  color: #fff;
+  line-height: 1.02;
+}
+
+.cognitive-signal-badge.is-green {
+  background: #16a34a;
+}
+
+.cognitive-signal-badge.is-red {
+  background: #ef4444;
+}
+
+.cognitive-score-board {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  font-weight: 900;
+}
+
+.cognitive-pill {
+  min-height: 2.6rem;
+  padding: 0.45rem 0.9rem;
+  font-size: 1rem;
+}
+
+.cognitive-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.cognitive-panel {
+  border: 1px solid var(--cognitive-line);
+  border-radius: 28px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(240, 249, 255, 0.92));
+  min-height: 440px;
+  padding: clamp(1rem, 2vw, 1.35rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.cognitive-question-panel {
+  justify-content: center;
+}
+
+.cognitive-choice-panel {
+  gap: 0.8rem;
+}
+
+.cognitive-prompt {
+  margin: 0;
+  font-size: clamp(1.45rem, 2.3vw, 2.25rem);
+  line-height: 1.24;
+  font-weight: 1000;
+  color: #713f12;
+}
+
+.cognitive-lead {
+  margin: 0.45rem 0 0;
+  color: var(--cognitive-muted);
+  font-size: 1.12rem;
+  font-weight: 900;
+  line-height: 1.4;
+}
+
+.cognitive-visual {
+  flex: 1;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+}
+
+.cognitive-sequence,
+.cognitive-grid-visual,
+.cognitive-analogy,
+.cognitive-story,
+.cognitive-maze {
+  width: 100%;
+  display: grid;
+  gap: 0.85rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.cognitive-sequence {
+  grid-template-columns: repeat(var(--item-count, 5), minmax(0, 1fr));
+}
+
+.cognitive-grid-visual {
+  grid-template-columns: repeat(2, minmax(0, 190px));
+}
+
+.cognitive-analogy {
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+}
+
+.cognitive-story {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: clamp(0.55rem, 1.3vw, 1rem);
+}
+
+.cognitive-card-mini,
+.cognitive-question-mark,
+.cognitive-story-card {
+  min-height: 150px;
+  border-radius: 24px;
+  border: 2px solid rgba(186, 230, 253, 0.9);
+  background: rgba(255, 255, 255, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+
+.cognitive-card-mini img,
+.cognitive-story-card img {
+  width: min(128px, 72%);
+  height: 105px;
+  object-fit: contain;
+  border-radius: 18px;
+}
+
+.cognitive-card-mini span,
+.cognitive-story-card span {
+  font-size: 1.18rem;
+  font-weight: 1000;
+}
+
+.cognitive-card-mini.is-image-only span {
+  display: none;
+}
+
+.cognitive-card-mini.is-image-only img {
+  width: min(210px, 86%);
+  height: clamp(150px, 22vw, 220px);
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-question-panel {
+  justify-content: stretch;
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-question-panel .cognitive-visual,
+.cognitive-game-card.is-reaction-mode .cognitive-question-panel .cognitive-sequence,
+.cognitive-game-card.is-reaction-mode .cognitive-question-panel .cognitive-card-mini {
+  width: 100%;
+  height: 100%;
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-question-panel .cognitive-visual {
+  margin-top: 0;
+  min-height: clamp(360px, calc(100dvh - 340px), 540px);
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-question-panel .cognitive-sequence {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-question-panel .cognitive-card-mini {
+  min-height: inherit;
+  padding: clamp(1rem, 2.4vw, 1.8rem);
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-question-panel .cognitive-card-mini img {
+  width: min(88%, 430px);
+  height: min(86%, 390px);
+  max-height: 100%;
+  border: 8px solid var(--reaction-image-border, #16a34a);
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
+  padding: 0.25rem;
+  background: #fff;
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-question-panel .cognitive-card-mini span {
+  display: none;
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-choice span {
+  display: none;
+}
+
+.cognitive-game-card.is-reaction-mode .cognitive-choice img {
+  width: min(178px, 84%);
+  height: clamp(128px, 16vw, 178px);
+}
+
+.cognitive-game-card.is-reaction-mode.is-signal-green {
+  --reaction-image-border: #16a34a;
+}
+
+.cognitive-game-card.is-reaction-mode.is-signal-red {
+  --reaction-image-border: #ef4444;
+}
+
+.cognitive-game-card.is-memory-mode .cognitive-game-head {
+  align-items: flex-start;
+}
+
+.cognitive-game-card.is-memory-mode .cognitive-workspace {
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+}
+
+.cognitive-memory-player {
+  position: relative;
+  width: min(460px, 100%);
+  min-height: clamp(260px, 36vw, 390px);
+  display: grid;
+  place-items: center;
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 206, 36, 0.18), transparent 38%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(219, 234, 254, 0.88));
+  border: 2px solid rgba(186, 230, 253, 0.95);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88), 0 18px 38px rgba(30, 64, 175, 0.12);
+  overflow: hidden;
+}
+
+.cognitive-memory-player::after {
+  content: "";
+  position: absolute;
+  inset: auto 13% 9%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(99, 102, 241, 0.13);
+}
+
+.cognitive-memory-start-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: clamp(1.2rem, 3vw, 2.4rem);
+  background:
+    radial-gradient(circle at 22% 20%, rgba(255, 206, 36, 0.24), transparent 34%),
+    radial-gradient(circle at 80% 76%, rgba(129, 140, 248, 0.3), transparent 34%),
+    rgba(15, 23, 42, 0.62);
+  backdrop-filter: blur(10px);
+  animation: cognitiveMemoryStartModal var(--memory-intro-ms, 1180ms) ease-in-out forwards;
+}
+
+.cognitive-memory-start-modal strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: min(52dvh, 420px);
+  width: min(92vw, 980px);
+  padding: clamp(1.8rem, 5vw, 4.2rem);
+  border: clamp(5px, 0.8vw, 8px) solid rgba(255, 255, 255, 0.94);
+  border-radius: clamp(34px, 5vw, 64px);
+  background: linear-gradient(180deg, #fffdf2, #fef3c7);
+  color: #35246b;
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.32), inset 0 -14px 0 rgba(99, 102, 241, 0.1);
+  font-size: clamp(2.8rem, 7.2vw, 6.6rem);
+  font-weight: 1000;
+  line-height: 1.04;
+  text-align: center;
+  word-break: keep-all;
+}
+
+.cognitive-memory-frame {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: translateX(24px) scale(0.94);
+  animation: cognitiveMemoryFrame var(--memory-frame-ms, 980ms) ease-in-out forwards;
+  animation-delay: calc(var(--memory-intro-ms, 1180ms) + var(--frame-index, 0) * var(--memory-frame-ms, 980ms));
+}
+
+.cognitive-memory-frame .cognitive-card-mini {
+  width: min(300px, 80%);
+  min-height: clamp(230px, 32vw, 330px);
+}
+
+.cognitive-memory-frame .cognitive-card-mini img {
+  width: min(230px, 84%);
+  height: clamp(180px, 26vw, 260px);
+}
+
+.cognitive-memory-recall-mark {
+  width: min(340px, 82%);
+  min-height: clamp(230px, 30vw, 320px);
+  display: grid;
+  place-items: center;
+  border-radius: 34px;
+  border: 3px dashed rgba(99, 102, 241, 0.46);
+  background: rgba(238, 242, 255, 0.82);
+  color: #4f46e5;
+  font-size: clamp(5rem, 9vw, 8rem);
+  font-weight: 1000;
+  box-shadow: inset 0 0 0 8px rgba(255, 255, 255, 0.48);
+}
+
+.cognitive-choice-panel.is-memory-choice-waiting .cognitive-choice-grid {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cognitive-choice-grid.is-memory-image-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cognitive-game-card.is-memory-mode .cognitive-choice {
+  min-height: clamp(150px, 18vw, 210px);
+  padding: clamp(0.55rem, 1.2vw, 0.9rem);
+}
+
+.cognitive-game-card.is-memory-mode .cognitive-choice img {
+  width: min(190px, 84%);
+  height: clamp(120px, 15vw, 170px);
+}
+
+.cognitive-question-mark {
+  color: var(--cognitive-accent);
+  font-size: 4.5rem;
+  font-weight: 1000;
+}
+
+.cognitive-story-arrow {
+  width: clamp(2.4rem, 4vw, 3.4rem);
+  height: clamp(2.4rem, 4vw, 3.4rem);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fef3c7, #bae6fd 52%, #ddd6fe);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  color: #0f766e;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
+  font-weight: 1000;
+  box-shadow: 0 12px 26px rgba(14, 165, 233, 0.16);
+}
+
+.cognitive-symbol {
+  color: #a16207;
+  font-size: 2.4rem;
+  font-weight: 1000;
+}
+
+.cognitive-choice-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.cognitive-choice-grid.text-only {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.cognitive-choice {
+  appearance: none;
+  border: 2px solid rgba(186, 230, 253, 0.9);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--cognitive-ink);
+  min-height: 138px;
+  padding: 0.8rem;
+  font-size: clamp(1.35rem, 2vw, 1.85rem);
+  font-weight: 1000;
+  line-height: 1.18;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+}
+
+.cognitive-choice:hover,
+.cognitive-choice:focus-visible {
+  border-color: var(--cognitive-accent);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.cognitive-choice[draggable="true"] {
+  user-select: none;
+}
+
+.cognitive-question-panel.is-drag-ready,
+.cognitive-question-mark.is-drag-ready {
+  border-color: var(--cognitive-accent);
+  background: rgba(219, 234, 254, 0.92);
+  box-shadow: inset 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+.cognitive-choice.is-selected {
+  border-color: #2563eb;
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.cognitive-choice.is-correct {
+  border-color: #10b981;
+  background: #dcfce7;
+  color: #065f46;
+}
+
+.cognitive-choice.is-wrong {
+  border-color: #ef4444;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.cognitive-choice img {
+  width: min(148px, 78%);
+  height: 112px;
+  object-fit: contain;
+  border-radius: 18px;
+}
+
+.cognitive-drag-ghost {
+  position: fixed;
+  z-index: 9999;
+  width: clamp(128px, 14vw, 178px);
+  min-height: clamp(112px, 16dvh, 160px);
+  pointer-events: none;
+  opacity: 0.86;
+  transform: translate(-50%, -50%) scale(0.96);
+  box-shadow: 0 22px 44px rgba(15, 23, 42, 0.22);
+}
+
+.cognitive-game-card.is-pattern-mode {
+  justify-content: stretch;
+  gap: clamp(0.55rem, 1.1vw, 0.9rem);
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-game-head {
+  align-items: center;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-game-title h2 {
+  margin-top: 0.25rem;
+  font-size: clamp(1.45rem, 2.2vw, 2.05rem);
+  white-space: nowrap;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-workspace {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(180px, 0.82fr) minmax(190px, 1fr);
+  gap: clamp(0.75rem, 1.4vw, 1rem);
+  min-height: 0;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-panel {
+  min-height: 0;
+  padding: clamp(0.8rem, 1.5vw, 1.1rem);
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-question-panel {
+  justify-content: center;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-choice-panel {
+  justify-content: center;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-visual {
+  min-height: 0;
+  margin-top: 0;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-sequence {
+  grid-template-columns: repeat(var(--item-count, 5), minmax(72px, 1fr));
+  gap: clamp(0.45rem, 1vw, 0.8rem);
+  align-items: center;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-sequence.is-pattern-sequence {
+  width: min(100%, 1080px);
+  grid-template-columns: minmax(62px, 1fr) repeat(calc(var(--item-count, 5) - 1), minmax(18px, 0.22fr) minmax(62px, 1fr));
+  gap: clamp(0.16rem, 0.42vw, 0.36rem);
+}
+
+.cognitive-pattern-arrow {
+  width: clamp(18px, 2.4vw, 34px);
+  height: clamp(18px, 2.4vw, 34px);
+  border-radius: 999px;
+  position: relative;
+  justify-self: center;
+  align-self: center;
+  background: rgba(14, 165, 233, 0.12);
+  box-shadow: inset 0 0 0 2px rgba(14, 165, 233, 0.22);
+  pointer-events: none;
+}
+
+.cognitive-pattern-arrow::before {
+  content: "";
+  position: absolute;
+  width: 46%;
+  height: 46%;
+  top: 50%;
+  left: 46%;
+  border-top: 4px solid #0ea5e9;
+  border-right: 4px solid #0ea5e9;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border-radius: 2px;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-card-mini,
+.cognitive-game-card.is-pattern-mode .cognitive-pattern-token-card,
+.cognitive-game-card.is-pattern-mode .cognitive-question-mark {
+  width: 100%;
+  min-height: clamp(96px, 11.5vw, 148px);
+  aspect-ratio: 1 / 1;
+  padding: clamp(0.45rem, 0.9vw, 0.65rem);
+}
+
+.cognitive-pattern-token-card {
+  display: grid;
+  place-items: center;
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.95) 0 18%, transparent 19%),
+    linear-gradient(145deg, var(--pattern-soft, #f8fafc), #fff);
+  border: 3px solid color-mix(in srgb, var(--pattern-color, #0ea5e9) 34%, #ffffff);
+  box-shadow: 0 14px 24px rgba(15, 23, 42, 0.12), inset 0 -8px 0 rgba(15, 23, 42, 0.04);
+}
+
+.cognitive-pattern-token-card.is-choice {
+  min-height: clamp(112px, 13vw, 148px);
+}
+
+.cognitive-pattern-symbol {
+  display: block;
+  width: clamp(58px, 7.2vw, 92px);
+  height: clamp(58px, 7.2vw, 92px);
+  background: var(--pattern-color, #0ea5e9);
+  filter: drop-shadow(0 10px 14px rgba(15, 23, 42, 0.16));
+}
+
+.cognitive-pattern-symbol.is-dot {
+  width: clamp(42px, 5.4vw, 68px);
+  height: clamp(42px, 5.4vw, 68px);
+  border-radius: 999px;
+}
+
+.cognitive-pattern-symbol.is-circle {
+  border-radius: 999px;
+  background: transparent;
+  border: clamp(10px, 1.2vw, 16px) solid var(--pattern-color, #0ea5e9);
+}
+
+.cognitive-pattern-symbol.is-triangle {
+  clip-path: polygon(50% 5%, 95% 88%, 5% 88%);
+}
+
+.cognitive-pattern-symbol.is-square {
+  border-radius: 1.15rem;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-card-mini img,
+.cognitive-game-card.is-pattern-mode .cognitive-choice img {
+  width: min(116px, 84%);
+  height: min(116px, 84%);
+  object-fit: contain;
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-card-mini span,
+.cognitive-game-card.is-pattern-mode .cognitive-choice span {
+  display: none;
+}
+
+.cognitive-choice-grid.is-pattern-image-grid {
+  flex: 0 0 auto;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.65rem, 1.3vw, 1rem);
+}
+
+.cognitive-choice-grid.is-pattern-image-grid .cognitive-choice {
+  min-height: clamp(132px, 16vw, 176px);
+  padding: clamp(0.5rem, 1vw, 0.8rem);
+}
+
+.cognitive-game-card.is-pattern-mode .cognitive-feedback:empty {
+  display: none;
+}
+
+.cognitive-game-card.is-missing-mode {
+  justify-content: stretch;
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-workspace {
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-panel {
+  min-height: clamp(390px, calc(100dvh - 310px), 500px);
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-question-panel {
+  padding: clamp(0.85rem, 1.5vw, 1.15rem);
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-visual {
+  margin-top: 0;
+  min-height: 0;
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-grid-visual {
+  grid-template-columns: repeat(2, minmax(0, min(46%, 250px)));
+  gap: clamp(0.7rem, 1.25vw, 1rem);
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-card-mini,
+.cognitive-game-card.is-missing-mode .cognitive-question-mark {
+  min-height: clamp(190px, 24.5dvh, 238px);
+  padding: clamp(0.55rem, 1.1vw, 0.8rem);
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-card-mini img {
+  width: min(100%, 236px);
+  height: clamp(158px, 20.5dvh, 204px);
+  object-fit: contain;
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-card-mini span,
+.cognitive-game-card.is-missing-mode .cognitive-choice span {
+  display: none;
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-question-mark {
+  font-size: clamp(4.6rem, 8vw, 7rem);
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-choice-panel {
+  gap: 0.65rem;
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-choice-grid {
+  gap: clamp(0.65rem, 1.1vw, 0.85rem);
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-choice {
+  min-height: clamp(132px, 17.5dvh, 172px);
+  padding: clamp(0.5rem, 1vw, 0.7rem);
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-choice img {
+  width: min(100%, 184px);
+  height: clamp(112px, 14.5dvh, 150px);
+  object-fit: contain;
+}
+
+.cognitive-game-card.is-missing-mode .cognitive-feedback {
+  min-height: 2.6rem;
+}
+
+.cognitive-feedback {
+  min-height: 3.1rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  font-size: 1.24rem;
+  font-weight: 1000;
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--cognitive-muted);
+}
+
+.cognitive-feedback.is-correct {
+  background: #dcfce7;
+  color: #047857;
+}
+
+.cognitive-feedback.is-wrong {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.cognitive-game-card.is-story-mode {
+  background:
+    radial-gradient(circle at 14% 16%, rgba(250, 204, 21, 0.22), transparent 26%),
+    radial-gradient(circle at 88% 24%, rgba(45, 212, 191, 0.18), transparent 28%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.97), rgba(255, 247, 237, 0.94));
+}
+
+.cognitive-game-card.is-story-mode .cognitive-game-head {
+  min-height: 0;
+}
+
+.cognitive-game-card.is-story-mode .cognitive-workspace {
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+.cognitive-game-card.is-story-mode .cognitive-question-panel {
+  min-height: 250px;
+  padding: clamp(1rem, 1.7vw, 1.45rem);
+  background:
+    linear-gradient(135deg, rgba(240, 253, 250, 0.96), rgba(239, 246, 255, 0.94)),
+    repeating-linear-gradient(45deg, rgba(14, 165, 233, 0.08) 0 8px, transparent 8px 18px);
+}
+
+.cognitive-game-card.is-story-mode .cognitive-choice-panel {
+  min-height: 230px;
+  padding: clamp(0.85rem, 1.4vw, 1.1rem);
+  background: linear-gradient(135deg, rgba(255, 251, 235, 0.96), rgba(255, 255, 255, 0.94));
+}
+
+.cognitive-game-card.is-story-mode .cognitive-visual {
+  min-height: 0;
+  margin-top: 0;
+}
+
+.cognitive-game-card.is-story-mode .cognitive-story-card,
+.cognitive-game-card.is-story-mode .cognitive-question-mark {
+  min-height: clamp(132px, 18vh, 178px);
+  border-color: rgba(125, 211, 252, 0.95);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(240, 249, 255, 0.95));
+}
+
+.cognitive-game-card.is-story-mode .cognitive-story-card strong {
+  font-size: clamp(1.3rem, 2.2vw, 2rem);
+  line-height: 1.18;
+  word-break: keep-all;
+  text-align: center;
+}
+
+.cognitive-game-card.is-story-mode .cognitive-choice-grid.text-only {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.cognitive-game-card.is-story-mode .cognitive-choice {
+  min-height: clamp(110px, 15vh, 138px);
+  border-color: rgba(253, 186, 116, 0.8);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 247, 237, 0.92));
+}
+
+.cognitive-game-card.is-story-mode .cognitive-feedback {
+  margin-top: 0.15rem;
+}
+
+.cognitive-game-card.is-emotion-mode {
+  min-height: min(640px, calc(100dvh - 128px));
+  justify-content: flex-start;
+  gap: 0.65rem;
+  padding: clamp(0.9rem, 1.5vw, 1.25rem);
+}
+
+.cognitive-game-card.is-emotion-mode .cognitive-game-head {
+  align-items: center;
+  min-height: 2.6rem;
+}
+
+.cognitive-game-card.is-emotion-mode .cognitive-workspace {
+  gap: 0.8rem;
+}
+
+.cognitive-game-card.is-emotion-mode .cognitive-panel {
+  min-height: clamp(420px, calc(100dvh - 220px), 530px);
+  padding: clamp(0.8rem, 1.4vw, 1.05rem);
+}
+
+.cognitive-game-card.is-emotion-mode .cognitive-question-panel {
+  justify-content: stretch;
+}
+
+.cognitive-emotion-scene {
+  width: 100%;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 0.7rem;
+  align-items: center;
+  justify-items: center;
+}
+
+.cognitive-emotion-image-card {
+  width: min(100%, 560px);
+  min-height: clamp(300px, calc(100dvh - 356px), 430px);
+  border: 2px solid rgba(186, 230, 253, 0.95);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.96);
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 2vw, 1.8rem);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+}
+
+.cognitive-emotion-image-card img {
+  width: min(100%, 440px);
+  height: clamp(260px, calc(100dvh - 430px), 360px);
+  object-fit: contain;
+  border-radius: 24px;
+}
+
+.cognitive-hint-button {
+  appearance: none;
+  width: min(520px, 100%);
+  min-height: 64px;
+  border: 0;
+  border-radius: 26px;
+  background: linear-gradient(180deg, #fef3c7, #fed7aa);
+  color: #92400e;
+  font-family: inherit;
+  font-size: clamp(1.55rem, 2.2vw, 2rem);
+  font-weight: 1000;
+  line-height: 1.24;
+  padding: 0.72rem 1rem;
+  cursor: pointer;
+  box-shadow: 0 16px 34px rgba(180, 83, 9, 0.16);
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+
+.cognitive-hint-button:hover,
+.cognitive-hint-button:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 38px rgba(180, 83, 9, 0.24);
+  outline: none;
+}
+
+.cognitive-hint-button.is-open {
+  background: linear-gradient(180deg, #dbeafe, #bfdbfe);
+  color: #1e40af;
+}
+
+.cognitive-emotion-hint {
+  width: min(620px, 100%);
+  margin: 0;
+  padding: 1rem 1.2rem;
+  border: 2px solid rgba(186, 230, 253, 0.95);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--cognitive-ink);
+  text-align: center;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 1000;
+  line-height: 1.34;
+}
+
+.cognitive-emotion-hint[hidden] {
+  display: none;
+}
+
+.cognitive-game-card.is-emotion-mode .cognitive-choice {
+  min-height: clamp(110px, calc((100dvh - 350px) / 2), 145px);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+}
+
+.cognitive-game-card.is-emotion-mode .cognitive-feedback {
+  min-height: 3.45rem;
+  font-size: clamp(1.25rem, 1.9vw, 1.75rem);
+}
+
+.cognitive-game-card.is-emotion-mode .cognitive-feedback.is-correct {
+  background: #dcfce7;
+  color: #047857;
+  box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.14);
+}
+
+.cognitive-game-card.is-emotion-mode .cognitive-feedback.is-wrong {
+  background: #fee2e2;
+  color: #b91c1c;
+  box-shadow: 0 0 0 5px rgba(239, 68, 68, 0.12);
+}
+
+.cognitive-maze {
+  width: min(400px, 100%);
+  grid-template-columns: repeat(var(--maze-size, 5), 1fr);
+  padding: 0.65rem;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.cognitive-maze-cell {
+  aspect-ratio: 1;
+  border-radius: 16px;
+  border: 2px solid rgba(14, 165, 233, 0.16);
+  background: rgba(240, 249, 255, 0.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 1000;
+}
+
+.cognitive-maze-wall {
+  background: #334155;
+  border-color: #334155;
+}
+
+.cognitive-maze-start {
+  background: #dcfce7;
+  color: #047857;
+}
+
+.cognitive-maze-goal {
+  background: #fef3c7;
+  color: #a16207;
+}
+
+.cognitive-result-card {
+  width: min(900px, 100%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.cognitive-result-title {
+  margin: 0.6rem 0 0.35rem;
+  font-size: clamp(2.15rem, 3.4vw, 3.2rem);
+}
+
+.cognitive-result-score {
+  margin: 1rem auto;
+  width: min(330px, 100%);
+  border-radius: 28px;
+  background: linear-gradient(180deg, #fff7ad, #ffc83d);
+  color: #78350f;
+  padding: 1.1rem;
+  font-size: 2.6rem;
+  font-weight: 1000;
+}
+
+.cognitive-result-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.cognitive-result-stat {
+  border-radius: 20px;
+  background: rgba(240, 249, 255, 0.86);
+  padding: 0.85rem;
+}
+
+.cognitive-result-stat strong {
+  display: block;
+  font-size: 1.55rem;
+}
+
+#cognitiveReport {
+  margin-top: 1rem;
+}
+
+.cognitive-report {
+  border: 1px solid rgba(186, 230, 253, 0.9);
+  border-radius: 26px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(240, 249, 255, 0.92));
+  padding: 1rem;
+  text-align: left;
+}
+
+.cognitive-report-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.cognitive-report-kicker {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: var(--cognitive-accent-soft);
+  color: var(--cognitive-accent-dark);
+  padding: 0.35rem 0.65rem;
+  font-size: 0.84rem;
+  font-weight: 1000;
+}
+
+.cognitive-report h3 {
+  margin: 0.45rem 0 0;
+  font-size: 1.45rem;
+  line-height: 1.18;
+}
+
+.cognitive-report-badge {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fff7ad, #ffc83d);
+  color: #78350f;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 1000;
+}
+
+.cognitive-report-metrics,
+.cognitive-report-axis-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.cognitive-report-metrics div,
+.cognitive-report-axis,
+.cognitive-report-note {
+  border: 1px solid rgba(186, 230, 253, 0.72);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.cognitive-report-metrics div,
+.cognitive-report-axis {
+  padding: 0.72rem;
+}
+
+.cognitive-report-metrics span,
+.cognitive-report-axis span {
+  display: block;
+  color: var(--cognitive-muted);
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.cognitive-report-metrics strong,
+.cognitive-report-axis strong {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--cognitive-ink);
+  font-size: 1.18rem;
+  line-height: 1.18;
+  font-weight: 1000;
+}
+
+.cognitive-report-axis-list {
+  margin-top: 0.65rem;
+}
+
+.cognitive-report-note {
+  margin-top: 0.65rem;
+  padding: 0.85rem;
+}
+
+.cognitive-report-note h4 {
+  margin: 0 0 0.35rem;
+  color: #713f12;
+  font-size: 1.05rem;
+}
+
+.cognitive-report-note p {
+  margin: 0;
+  color: #334155;
+  font-size: 1rem;
+  line-height: 1.52;
+  font-weight: 800;
+}
+
+.cognitive-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.cognitive-action-btn,
+.cognitive-secondary-btn {
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  min-width: 190px;
+  min-height: 58px;
+  padding: 0 1.4rem;
+  font-size: 1.15rem;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.cognitive-action-btn {
+  background: linear-gradient(180deg, #fff7ad, #ffc83d);
+  color: #582a00;
+  box-shadow: 0 14px 28px rgba(234, 179, 8, 0.2);
+}
+
+.cognitive-secondary-btn {
+  background: #f8fafc;
+  color: #334155;
+  border: 1px solid #dbeafe;
+}
+
+.cognitive-help-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: max(14px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+}
+
+.cognitive-help-modal.is-open {
+  display: flex;
+}
+
+.cognitive-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.54);
+  backdrop-filter: blur(8px);
+}
+
+.cognitive-help-card {
+  position: relative;
+  width: min(1080px, 100%);
+  max-height: min(92dvh, 860px);
+  overflow: auto;
+  scrollbar-gutter: stable;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.28);
+  padding: clamp(1.45rem, 3.2vw, 2.6rem);
+}
+
+.cognitive-help-card h2 {
+  margin: 0;
+  color: #111827;
+  font-size: clamp(1.55rem, 2.9vw, 2.25rem);
+  line-height: 1.26;
+}
+
+.cognitive-help-intro {
+  max-width: 78ch;
+  margin: 0.65rem 0 1.25rem;
+  color: var(--cognitive-muted);
+  font-size: clamp(0.96rem, 1.35vw, 1.08rem);
+  line-height: 1.72;
+  font-weight: 500;
+}
+
+.cognitive-help-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.cognitive-help-section {
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: clamp(1rem, 2vw, 1.35rem);
+}
+
+.cognitive-help-section h3 {
+  margin: 0 0 0.65rem;
+  color: #111827;
+  font-size: clamp(1.06rem, 1.7vw, 1.24rem);
+  line-height: 1.34;
+}
+
+.cognitive-help-copy p {
+  margin: 0.5rem 0;
+  color: #334155;
+  font-size: clamp(0.94rem, 1.3vw, 1.04rem);
+  line-height: 1.76;
+  font-weight: 500;
+  word-break: keep-all;
+}
+
+.cognitive-help-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.cognitive-game-card.is-maze-mode {
+  min-height: min(660px, calc(100dvh - 140px));
+  padding: clamp(0.8rem, 1.35vw, 1.2rem);
+  background:
+    linear-gradient(180deg, rgba(240, 253, 244, 0.96), rgba(239, 246, 255, 0.94)),
+    repeating-linear-gradient(0deg, rgba(34, 197, 94, 0.08) 0 8px, transparent 8px 16px);
+}
+
+.maze-game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
+  gap: clamp(0.8rem, 1.6vw, 1.25rem);
+  align-items: stretch;
+  min-height: min(620px, calc(100dvh - 176px));
+}
+
+.maze-board-panel,
+.maze-status-panel {
+  border: 1px solid rgba(134, 239, 172, 0.72);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 28px;
+  box-shadow: 0 16px 38px rgba(22, 101, 52, 0.12);
+}
+
+.maze-board-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.65rem, 1.4vw, 1rem);
+  overflow: hidden;
+  position: relative;
+}
+
+.maze-board-wrap {
+  width: min(100%, calc(100dvh - 205px), 680px);
+  aspect-ratio: 1;
+}
+
+.maze-board {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(var(--maze-visible), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--maze-visible), minmax(0, 1fr));
+  gap: clamp(2px, 0.32vw, 5px);
+  padding: clamp(5px, 0.7vw, 10px);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(187, 247, 208, 0.55), transparent 32%),
+    linear-gradient(135deg, #0f2f3a, #12324c 58%, #123c2d);
+  outline: none;
+  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, 0.16), 0 18px 42px rgba(15, 23, 42, 0.18);
+}
+
+.maze-board.is-shaking {
+  animation: mazeShake 0.36s ease;
+}
+
+.maze-tile {
+  appearance: none;
+  border: 0;
+  border-radius: 7px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  position: relative;
+}
+
+.maze-tile.is-wall {
+  background:
+    linear-gradient(135deg, #1e293b, #0f172a),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.08) 0 2px, transparent 2px 6px);
+  box-shadow: inset 0 -3px 0 rgba(255, 255, 255, 0.08);
+}
+
+.maze-tile.is-path {
+  cursor: pointer;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.75) 0 20%, transparent 22%),
+    linear-gradient(135deg, #ecfdf5, #dbeafe);
+  background-size: 12px 12px, 100% 100%;
+  box-shadow: inset 0 0 0 1px rgba(14, 165, 233, 0.1);
+}
+
+.maze-tile.is-path:hover,
+.maze-tile.is-path:focus-visible {
+  outline: 3px solid rgba(34, 197, 94, 0.55);
+  outline-offset: -2px;
+}
+
+.maze-tile.is-start {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.8) 0 18%, transparent 20%),
+    linear-gradient(135deg, #cffafe, #bfdbfe);
+  background-size: 12px 12px, 100% 100%;
+}
+
+.maze-tile.is-goal {
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.72) 0 18%, transparent 20%),
+    linear-gradient(135deg, #fef3c7, #bbf7d0);
+  background-size: 12px 12px, 100% 100%;
+}
+
+.maze-tile.is-trail {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.65), inset 0 -4px 0 rgba(15, 23, 42, 0.08);
+}
+
+.maze-tile.is-trail.trail-color-1 {
+  background: linear-gradient(135deg, #fde68a, #fbbf24);
+}
+
+.maze-tile.is-trail.trail-color-2 {
+  background: linear-gradient(135deg, #bae6fd, #38bdf8);
+}
+
+.maze-tile.is-trail.trail-color-3 {
+  background: linear-gradient(135deg, #fecdd3, #fb7185);
+}
+
+.maze-tile.is-trail.trail-color-4 {
+  background: linear-gradient(135deg, #ddd6fe, #a78bfa);
+}
+
+.maze-tile.is-trail.trail-color-5 {
+  background: linear-gradient(135deg, #bbf7d0, #4ade80);
+}
+
+.maze-tile.is-trail.trail-color-6 {
+  background: linear-gradient(135deg, #fed7aa, #fb923c);
+}
+
+.maze-dog {
+  width: auto;
+  height: auto;
+  max-width: 118%;
+  max-height: 118%;
+  object-fit: contain;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 3;
+  filter: drop-shadow(0 10px 10px rgba(15, 23, 42, 0.22));
+  transform-origin: center;
+  transform: translate(-50%, -50%) rotate(0deg);
+  pointer-events: none;
+}
+
+.maze-dog.is-right {
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.maze-dog.is-left {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.maze-dog.is-up {
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.maze-minimap {
+  flex: 0 0 auto;
+  width: clamp(78px, 7.5vw, 104px);
+  max-height: 210px;
+  aspect-ratio: var(--mini-cols) / var(--mini-rows);
+  display: grid;
+  grid-template-columns: repeat(var(--mini-cols), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--mini-rows), minmax(0, 1fr));
+  gap: 1px;
+  padding: 0.35rem;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.78);
+  border: 2px solid rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.22);
+  overflow: hidden;
+}
+
+.maze-mini-cell {
+  min-width: 0;
+  min-height: 0;
+  border-radius: 2px;
+  background: rgba(148, 163, 184, 0.34);
+}
+
+.maze-mini-cell.is-wall {
+  background: rgba(15, 23, 42, 0.95);
+}
+
+.maze-mini-cell.is-path {
+  background: rgba(226, 232, 240, 0.9);
+}
+
+.maze-mini-cell.is-trail {
+  background: #fbbf24;
+}
+
+.maze-mini-cell.is-goal {
+  background: #22c55e;
+}
+
+.maze-mini-cell.is-player {
+  background: #ef4444;
+  box-shadow: 0 0 0 2px #fff, 0 0 10px rgba(248, 113, 113, 0.92);
+  z-index: 2;
+}
+
+.maze-goal-marker {
+  position: absolute;
+  inset: 18%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f59e0b;
+  color: #431407;
+  font-size: clamp(0.58rem, 1vw, 0.95rem);
+  font-weight: 1000;
+  box-shadow: inset 0 -3px 0 rgba(120, 53, 15, 0.18);
+}
+
+.maze-status-panel {
+  padding: clamp(1rem, 1.8vw, 1.35rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+@media (min-width: 981px) {
+  .maze-status-panel {
+    margin-top: 64px;
+  }
+}
+
+.maze-status-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.maze-stage-badge {
+  align-self: flex-start;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #dcfce7, #bbf7d0);
+  color: #166534;
+  padding: 0.5rem 0.85rem;
+  font-weight: 1000;
+}
+
+.maze-status-panel h2 {
+  margin: 0;
+  font-size: clamp(1.45rem, 2.5vw, 2.15rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.maze-progress {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.maze-progress span,
+.maze-stat-grid div {
+  border-radius: 16px;
+  background: #f8fafc;
+  border: 1px solid rgba(186, 230, 253, 0.78);
+}
+
+.maze-progress span {
+  min-height: 2.55rem;
+  padding: 0.5rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  color: #0f766e;
+  font-weight: 1000;
+}
+
+.maze-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.maze-stat-grid div {
+  padding: 0.75rem;
+}
+
+.maze-stat-grid span {
+  display: block;
+  color: #64748b;
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.maze-stat-grid strong {
+  display: block;
+  margin-top: 0.15rem;
+  color: #10233f;
+  font-size: 1.45rem;
+  font-weight: 1000;
+}
+
+@keyframes mazeShake {
+  0%, 100% { transform: translateX(0); }
+  22% { transform: translateX(-8px); }
+  44% { transform: translateX(7px); }
+  66% { transform: translateX(-5px); }
+}
+
+@keyframes cognitiveMemoryFrame {
+  0% {
+    opacity: 0;
+    transform: translateX(24px) scale(0.94);
+  }
+  18%, 76% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-24px) scale(0.94);
+  }
+}
+
+@keyframes cognitiveMemoryStartModal {
+  0%, 72% {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+    visibility: hidden;
+  }
+}
+
+@media (min-width: 1600px) and (min-height: 900px) {
+  .cognitive-shell .shell-main:has(#stageSelectView.is-active),
+  .cognitive-shell .shell-main:has(#lessonView.is-active),
+  .cognitive-shell .shell-main:has(#resultView.is-active) {
+    align-items: center !important;
+    justify-content: center !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    overflow-y: hidden !important;
+  }
+
+  .cognitive-shell .shell-main:has(#stageSelectView.is-active #stageGrid),
+  .cognitive-shell .shell-main:has(#resultView.is-active #resultMount) {
+    align-items: center !important;
+    justify-content: center !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .cognitive-shell .cognitive-main {
+    width: min(1520px, calc(100vw - 5rem));
+    min-height: calc(100vh - 74px - 2rem);
+    min-height: calc(100dvh - 74px - 2rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cognitive-shell #stageSelectView.is-active,
+  .cognitive-shell #lessonView.is-active,
+  .cognitive-shell #resultView.is-active {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    align-self: center !important;
+    justify-content: center !important;
+    width: 100%;
+    min-height: calc(100vh - 74px - 2rem) !important;
+    min-height: calc(100dvh - 74px - 2rem) !important;
+  }
+
+  .cognitive-shell #stageSelectView.is-active:has(#stageGrid),
+  .cognitive-shell #resultView.is-active:has(#resultMount) {
+    align-self: center !important;
+    justify-content: center !important;
+    min-height: calc(100vh - 74px - 2rem) !important;
+    min-height: calc(100dvh - 74px - 2rem) !important;
+  }
+
+  .cognitive-shell #lessonMount,
+  .cognitive-shell #resultMount {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cognitive-stage-grid {
+    width: min(1520px, 100%);
+    margin-inline: auto;
+    gap: clamp(1rem, 1.1vw, 1.45rem);
+  }
+
+  .cognitive-stage-card {
+    min-height: clamp(176px, 8.8vw, 218px);
+    padding: clamp(1.15rem, 1.25vw, 1.55rem);
+  }
+
+  .cognitive-game-card {
+    width: min(1480px, 100%);
+    min-height: min(850px, calc(100dvh - 150px));
+    margin-inline: auto;
+  }
+
+  .cognitive-result-card {
+    width: min(1120px, 100%);
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 980px) {
+  .cognitive-shell .shell-main {
+    align-items: flex-start;
+  }
+
+  .cognitive-stage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cognitive-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .cognitive-game-card.is-memory-mode .cognitive-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .cognitive-story {
+    grid-template-columns: 1fr;
+  }
+
+  .cognitive-story-arrow {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+
+  .cognitive-game-card.is-story-mode .cognitive-choice-grid.text-only {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cognitive-game-card {
+    min-height: auto;
+  }
+
+  .maze-game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .maze-board-wrap {
+    width: min(100%, 76dvh, 680px);
+  }
+
+  .cognitive-panel {
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 680px) {
+  .cognitive-shell .shell-topbar-inner,
+  .cognitive-shell .cognitive-main {
+    width: min(100% - 1rem, 1180px);
+  }
+
+  .cognitive-stage-grid,
+  .cognitive-result-stats,
+  .cognitive-report-metrics,
+  .cognitive-report-axis-list,
+  .cognitive-choice-grid,
+  .cognitive-help-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cognitive-game-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

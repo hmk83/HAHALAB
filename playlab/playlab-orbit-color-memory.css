@@ -1,0 +1,960 @@
+.orbit-shell {
+  --orbit-ink: #1f2a44;
+  --orbit-muted: #64748b;
+  --orbit-panel: rgba(255, 255, 255, 0.92);
+  --orbit-line: rgba(193, 213, 237, 0.82);
+  --orbit-shadow: 0 24px 58px rgba(24, 48, 76, 0.16);
+  color: var(--orbit-ink);
+}
+
+.orbit-shell .shell-main {
+  display: flex;
+  flex: 1;
+}
+
+.orbit-shell .shell-topbar {
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.orbit-shell .shell-topbar-inner {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(255, 255, 255, 0.76);
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(24, 48, 76, 0.12);
+  backdrop-filter: blur(14px);
+}
+
+.orbit-screen {
+  display: none;
+  width: min(1120px, calc(100% - 2.8rem));
+  margin: 0 auto;
+}
+
+.orbit-screen.is-active {
+  display: block;
+}
+
+.orbit-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.orbit-stage-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.2rem;
+  text-align: center;
+}
+
+.orbit-stage-head h1 {
+  margin: 0;
+  color: var(--orbit-ink);
+  font-size: clamp(1.85rem, 3.4vw, 3rem);
+  line-height: 1.1;
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.orbit-stage-card,
+.orbit-game,
+.orbit-result-card,
+.orbit-help-card {
+  border: 1px solid var(--orbit-line);
+  background: var(--orbit-panel);
+  border-radius: 22px;
+  box-shadow: var(--orbit-shadow);
+  backdrop-filter: blur(18px);
+}
+
+.orbit-stage-card {
+  min-height: 150px;
+  padding: 16px;
+  color: var(--orbit-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.orbit-stage-card:hover,
+.orbit-stage-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--stage-color, #4cbdc9);
+  box-shadow: 0 28px 64px rgba(24, 48, 76, 0.22);
+  outline: none;
+}
+
+.orbit-stage-badge,
+.orbit-kicker,
+.orbit-status span,
+.orbit-stage-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.orbit-kicker,
+.orbit-status span,
+.orbit-stage-meta span {
+  min-height: 26px;
+  font-size: 12px;
+}
+
+.orbit-stage-badge {
+  background: var(--stage-color, #4cbdc9);
+  color: #fff;
+}
+
+.orbit-stage-card strong {
+  display: block;
+  margin-top: 11px;
+  font-size: 19px;
+  line-height: 1.18;
+  font-weight: 1000;
+}
+
+.orbit-shell .shell-main:has(#stageView.is-active #stageGrid) {
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding-top: clamp(1.1rem, 3vh, 2.25rem) !important;
+  padding-bottom: clamp(1rem, 2.5vh, 1.6rem) !important;
+  overflow-y: visible !important;
+}
+
+.orbit-shell #stageView.is-active:has(#stageGrid) {
+  align-self: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  width: min(1320px, calc(100vw - 4rem)) !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  scroll-margin-top: 0 !important;
+}
+
+.orbit-shell #stageView.is-active:has(#stageGrid) #stageGrid {
+  margin-block: 0 auto !important;
+  max-height: none;
+  overflow: visible;
+  padding: 0.2rem 0 0.35rem;
+}
+
+@media (min-width: 1600px) and (min-height: 900px) {
+  .orbit-shell .shell-main:has(#stageView.is-active),
+  .orbit-shell .shell-main:has(#gameView.is-active),
+  .orbit-shell .shell-main:has(#resultView.is-active),
+  .orbit-shell .shell-main:has(#stageView.is-active #stageGrid) {
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding-top: clamp(1.1rem, 3vh, 2.25rem) !important;
+    padding-bottom: 1rem !important;
+    overflow-y: visible !important;
+  }
+
+  .orbit-screen.is-active {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: min(1520px, calc(100vw - 5rem));
+    min-height: calc(100vh - 74px - 2rem) !important;
+    min-height: calc(100dvh - 74px - 2rem) !important;
+  }
+
+  .orbit-shell #stageView.is-active:has(#stageGrid),
+  .orbit-shell #resultView.is-active {
+    align-self: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: calc(100vh - 74px - 2rem) !important;
+    min-height: calc(100dvh - 74px - 2rem) !important;
+    scroll-margin-top: 0 !important;
+  }
+
+  .orbit-stage-grid {
+    width: min(1320px, 100%);
+    margin-inline: auto;
+    max-height: none;
+    gap: clamp(1rem, 1.1vw, 1.45rem);
+  }
+
+  .orbit-stage-card {
+    min-height: clamp(186px, 8.1vw, 220px);
+  }
+
+  .orbit-game {
+    width: min(1320px, 100%);
+    min-height: 585px;
+  }
+
+  .orbit-result-card {
+    width: min(1120px, 100%);
+    min-height: 360px;
+  }
+}
+
+.orbit-stage-card p {
+  margin: 7px 0 0;
+  color: var(--orbit-muted);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.orbit-stage-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.orbit-stage-meta span,
+.orbit-status span {
+  background: color-mix(in srgb, var(--stage-color, #4cbdc9) 14%, white);
+  color: #194866;
+}
+
+.orbit-joystick-status {
+  width: min(420px, 100%);
+  min-height: 44px;
+  margin: 12px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 2px solid #d5e8ff;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: #64748b;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.orbit-joystick-status span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  box-shadow: 0 0 0 6px rgba(203, 213, 225, 0.18);
+}
+
+.orbit-joystick-status.is-connected {
+  border-color: #9de7c4;
+  background: rgba(230, 255, 242, 0.9);
+  color: #047857;
+}
+
+.orbit-joystick-status.is-connected span {
+  background: #10b981;
+  box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.18);
+}
+
+.orbit-game-joystick-status {
+  width: min(360px, 100%);
+  min-height: 36px;
+  margin-top: 10px;
+  border-width: 1px;
+  font-size: 13px;
+}
+
+.orbit-game-joystick-status span {
+  width: 10px;
+  height: 10px;
+  box-shadow: 0 0 0 5px rgba(203, 213, 225, 0.16);
+}
+
+.orbit-game-joystick-status.is-connected span {
+  box-shadow: 0 0 0 5px rgba(16, 185, 129, 0.16);
+}
+
+.orbit-screen.is-correct-effect .orbit-game {
+  animation: orbit-correct-pop 620ms ease both;
+}
+
+.orbit-screen.is-wrong-effect .orbit-game {
+  animation: orbit-wrong-shake 520ms ease both;
+}
+
+.orbit-screen.is-correct-effect .orbit-input-panel {
+  box-shadow: inset 0 0 0 3px rgba(34, 197, 94, 0.28), 0 0 0 10px rgba(34, 197, 94, 0.08);
+}
+
+.orbit-screen.is-wrong-effect .orbit-input-panel {
+  box-shadow: inset 0 0 0 3px rgba(239, 68, 68, 0.28), 0 0 0 10px rgba(239, 68, 68, 0.08);
+}
+
+.orbit-game,
+.orbit-result-card {
+  padding: clamp(10px, 1.25vw, 16px);
+}
+
+.orbit-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.orbit-kicker {
+  margin: 0;
+  background: #ecfeff;
+  color: #087987;
+  letter-spacing: 0.08em;
+}
+
+.orbit-head h1,
+.orbit-result-card h2 {
+  margin: 6px 0 0;
+  font-size: clamp(22px, 2.6vw, 32px);
+  line-height: 1.08;
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.orbit-status {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.orbit-workspace {
+  display: grid;
+  grid-template-columns: minmax(290px, 0.82fr) minmax(0, 1.18fr);
+  gap: 10px;
+  align-items: stretch;
+}
+
+.orbit-arena-panel,
+.orbit-input-panel {
+  min-height: clamp(310px, calc(100dvh - 250px), 430px);
+  border: 1px solid var(--orbit-line);
+  border-radius: 18px;
+  background: rgba(248, 252, 255, 0.84);
+}
+
+.orbit-arena-panel {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.orbit-arena {
+  position: relative;
+  width: min(82%, 330px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.orbit-arena::before,
+.orbit-arena::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.orbit-arena::before {
+  width: 250px;
+  height: 250px;
+  border: 2px dashed rgba(77, 92, 115, 0.18);
+}
+
+.orbit-arena::after {
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.92), rgba(226, 242, 255, 0.72));
+  box-shadow: inset 0 0 0 1px rgba(191, 219, 254, 0.9);
+}
+
+.orbit-dot {
+  position: absolute;
+  left: calc(50% - 72.5px);
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  offset-path: path("M0,0a72.5,72.5 0 1,0 145,0a72.5,72.5 0 1,0 -145,0");
+  offset-rotate: 0deg;
+  offset-anchor: center;
+  offset-distance: 0%;
+  transform: translate(-50%, -50%) scale(1.28);
+  z-index: var(--dot-layer, 5);
+}
+
+.orbit-dot::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--dot-size, 34px);
+  height: var(--dot-size, 34px);
+  border-radius: 50%;
+  background: var(--dot-color, #4cbdc9);
+  border: 2px solid rgba(255, 255, 255, 0.78);
+  box-shadow: 0 18px 28px color-mix(in srgb, var(--dot-color, #4cbdc9) 28%, transparent);
+  transform: translate(-50%, -50%);
+}
+
+.orbit-dot[data-color-id="white"]::before {
+  border-color: #8fa3ba;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.92),
+    0 18px 28px rgba(100, 116, 139, 0.18);
+}
+
+.orbit-arena:not(.is-orbiting) .orbit-dot {
+  offset-distance: 0%;
+}
+
+.orbit-arena.is-orbiting .orbit-dot {
+  animation: orbit-load var(--orbit-duration, 3.6s) linear var(--orbit-delay, 0s) 1 forwards;
+}
+
+.orbit-arena.is-input .orbit-dot {
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 260ms ease;
+}
+
+@keyframes orbit-load {
+  from {
+    offset-distance: 0%;
+  }
+
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@keyframes orbit-correct-pop {
+  0% {
+    transform: scale(1);
+  }
+
+  42% {
+    transform: scale(1.012);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes orbit-wrong-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  18% {
+    transform: translateX(-6px);
+  }
+
+  36% {
+    transform: translateX(5px);
+  }
+
+  54% {
+    transform: translateX(-3px);
+  }
+
+  72% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes orbit-feedback-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.orbit-input-panel {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 10px;
+  padding: clamp(10px, 1.4vw, 16px);
+}
+
+.orbit-target-slots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 7px;
+  min-height: 40px;
+}
+
+.orbit-slot {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  border: 2px dashed #b7c6d8;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.orbit-slot.is-filled {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--slot-color, #4cbdc9) 58%, white);
+  background: var(--slot-color, #4cbdc9);
+  color: transparent;
+  box-shadow: 0 10px 18px color-mix(in srgb, var(--slot-color, #4cbdc9) 22%, transparent);
+}
+
+.orbit-color-pad {
+  align-self: center;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.orbit-color-btn {
+  position: relative;
+  aspect-ratio: 1 / 0.68;
+  min-height: 66px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--color, #4cbdc9);
+  color: var(--button-text, #fff);
+  cursor: pointer;
+  box-shadow:
+    inset 0 -7px 0 rgba(0, 0, 0, 0.1),
+    inset 0 4px 0 rgba(255, 255, 255, 0.28),
+    0 12px 20px color-mix(in srgb, var(--color, #4cbdc9) 18%, transparent);
+  transition: transform 140ms ease, opacity 140ms ease, filter 140ms ease;
+}
+
+.orbit-color-btn::before {
+  content: attr(data-button);
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  display: inline-grid;
+  place-items: center;
+  min-width: 32px;
+  min-height: 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  color: inherit;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.orbit-color-btn::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  font-size: 14px;
+  font-weight: 1000;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.18);
+}
+
+.orbit-color-btn:disabled {
+  cursor: default;
+}
+
+.orbit-color-btn[data-color-id="white"] {
+  border: 2px solid #8fa3ba;
+}
+
+.orbit-color-btn[data-color-id="white"]::before {
+  background: rgba(51, 65, 85, 0.12);
+}
+
+.orbit-color-btn.is-unavailable {
+  opacity: 0.16;
+  filter: grayscale(0.45);
+}
+
+.orbit-color-btn:not(:disabled):hover,
+.orbit-color-btn:not(:disabled):focus-visible {
+  transform: translateY(-3px) scale(1.02);
+  outline: 3px solid rgba(255, 255, 255, 0.86);
+  outline-offset: -6px;
+}
+
+.orbit-color-btn:not(:disabled):active {
+  transform: translateY(2px) scale(0.99);
+  box-shadow:
+    inset 0 -5px 0 rgba(0, 0, 0, 0.13),
+    inset 0 4px 0 rgba(255, 255, 255, 0.22),
+    0 10px 18px color-mix(in srgb, var(--color, #4cbdc9) 16%, transparent);
+}
+
+.orbit-feedback {
+  min-height: 24px;
+  margin: 0;
+  color: var(--orbit-muted);
+  font-size: 14px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.orbit-feedback.is-correct {
+  color: #0f8a4a;
+  animation: orbit-feedback-pop 420ms ease both;
+}
+
+.orbit-feedback.is-wrong {
+  color: #c2410c;
+  animation: orbit-feedback-pop 420ms ease both;
+}
+
+.orbit-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.orbit-result-actions {
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.orbit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  min-width: 108px;
+  min-height: 40px;
+  border: 0;
+  border-radius: 13px;
+  font-size: 14px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.orbit-btn.is-primary {
+  background: #4cbdc9;
+  color: #fff;
+  box-shadow: 0 14px 24px rgba(76, 189, 201, 0.24);
+}
+
+.orbit-btn.is-ghost {
+  background: #fff7ed;
+  color: #9a4b00;
+}
+
+.orbit-result-actions .orbit-btn {
+  min-width: 184px;
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-size: 15px;
+  letter-spacing: 0;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+}
+
+.orbit-result-actions .orbit-btn.is-primary {
+  background: linear-gradient(135deg, #14b8a6, #4cbdc9);
+  color: #ffffff;
+}
+
+.orbit-result-actions .orbit-btn.is-ghost {
+  border: 1px solid #fed7aa;
+  background: #ffffff;
+  color: #9a4b00;
+}
+
+.orbit-result-card {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding: clamp(18px, 2.2vw, 28px);
+}
+
+.orbit-result-card > p {
+  color: var(--orbit-muted);
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.orbit-result-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.orbit-stat,
+.orbit-report-opinion {
+  border: 1px solid #d2e4f8;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.76);
+  padding: 16px;
+}
+
+.orbit-stat span {
+  display: block;
+  color: var(--orbit-muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.orbit-stat strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 30px;
+  font-weight: 1000;
+}
+
+.orbit-report-opinion {
+  margin-top: 14px;
+  color: #334155;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.65;
+}
+
+.orbit-report-opinion.is-professional {
+  position: relative;
+  left: auto;
+  top: auto;
+  z-index: 80;
+  transform: translateY(-150px);
+  width: min(922px, calc(100vw - 116px));
+  border: 0;
+  background: rgba(255, 255, 255, 0.98);
+  padding: 0;
+  font-weight: 700;
+  height: min(620px, calc(100vh - 180px));
+  height: min(620px, calc(100dvh - 180px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  box-shadow: 0 24px 72px rgba(31, 41, 55, 0.22);
+}
+
+.orbit-report-opinion.is-professional .playlab-report-shell {
+  margin-top: 0;
+}
+
+.orbit-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  place-items: center;
+  padding: 28px;
+}
+
+.orbit-modal.is-open {
+  display: grid;
+}
+
+body.playlab-report-document-flow .orbit-report-opinion.is-professional {
+  position: static !important;
+  transform: none !important;
+  width: min(1000px, 100%) !important;
+  max-width: min(1000px, 100%) !important;
+  height: auto !important;
+  max-height: none !important;
+  margin-inline: auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  line-height: normal !important;
+}
+
+body.playlab-report-document-flow .orbit-report-opinion.is-professional .playlab-report-shell {
+  width: min(1000px, 100%) !important;
+  max-width: min(1000px, 100%) !important;
+  margin-inline: auto !important;
+}
+
+.orbit-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(8px);
+}
+
+.orbit-help-card {
+  position: relative;
+  width: min(820px, 100%);
+  max-height: min(86dvh, 620px);
+  overflow: auto;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid #cfe2ff;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 252, 255, 0.92));
+  box-shadow: 0 28px 70px rgba(31, 66, 114, 0.24);
+}
+
+.orbit-help-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.orbit-help-head h3 {
+  margin: 5px 0 0;
+  color: #1f2a44;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.16;
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.orbit-help-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #e8f7ff;
+  color: #54708d;
+  font-size: 13px;
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.orbit-help-close {
+  flex: 0 0 auto;
+  min-height: 38px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 15px;
+  background: #eef6ff;
+  color: #35506e;
+  font-size: 14px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.orbit-help-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.orbit-help-grid section {
+  border: 1px solid #d2e4f8;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.84);
+  padding: 18px;
+}
+
+.orbit-help-grid h4 {
+  margin: 0 0 10px;
+  color: #1f2a44;
+  font-size: 21px;
+  line-height: 1.2;
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.orbit-help-grid p {
+  margin: 0;
+  color: #52657c;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.72;
+  word-break: keep-all;
+}
+
+.orbit-help-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.orbit-help-primary {
+  min-width: 180px;
+  min-height: 50px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 24px;
+  background: linear-gradient(135deg, #14b8a6, #4cbdc9);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 1000;
+  letter-spacing: 0;
+  cursor: pointer;
+  box-shadow: 0 16px 30px rgba(20, 184, 166, 0.24);
+}
+
+@media (max-width: 760px), (max-width: 980px) and (orientation: portrait) {
+  .orbit-stage-grid,
+  .orbit-workspace,
+  .orbit-help-grid,
+  .orbit-result-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .orbit-workspace {
+    gap: 12px;
+  }
+
+  .orbit-arena-panel,
+  .orbit-input-panel {
+    min-height: auto;
+  }
+
+  .orbit-arena-panel {
+    min-height: 330px;
+  }
+
+  .orbit-color-btn {
+    min-height: 76px;
+  }
+
+  .orbit-result-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .orbit-result-actions .orbit-btn {
+    width: 100%;
+  }
+
+  .orbit-modal {
+    padding: 16px;
+  }
+
+  .orbit-help-head {
+    flex-direction: column;
+  }
+
+  .orbit-help-close {
+    align-self: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-arena.is-orbiting .orbit-dot {
+    animation-duration: 0.01ms;
+  }
+}
