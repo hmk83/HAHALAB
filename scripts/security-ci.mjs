@@ -11,6 +11,18 @@ export function scannerSummary(tool,data,allowedPaths=new Set()){
  if(tool==='osv')return (data.results||[]).flatMap(r=>(r.packages||[]).flatMap(p=>(p.vulnerabilities||[]).map(v=>({id:String(v.id||'unknown'),package:String(p.package?.name||'unknown'),version:String(p.package?.version||''),aliases:(v.aliases||[]).filter(a=>/^(?:CVE-|GHSA-)/.test(a))}))));
  return [];
 }
+export function classifySecretReport(rawFindings,scope,allowedPaths,review,now=new Date()){
+ const expires=Date.parse(review?.expiresAt||'');
+ const allowed=new Set(scope==='git-history'&&Number.isFinite(expires)&&now.getTime()<expires?review?.fingerprints||[]:[]);
+ const blocking=[],reviewedLegacyVerifierFindings=[];
+ for(const finding of Array.isArray(rawFindings)?rawFindings:[]){
+  const summary=scannerSummary('gitleaks',[finding],allowedPaths)[0];
+  const immutableFingerprint=`${finding.Commit}:${finding.File}:${finding.RuleID}:${finding.StartLine}`;
+  if(finding.RuleID==='generic-api-key'&&finding.Fingerprint===immutableFingerprint&&allowed.has(immutableFingerprint))reviewedLegacyVerifierFindings.push({...summary,fingerprint:immutableFingerprint,classification:'retired-browser-only-password-verifier',reviewExpiresAt:review.expiresAt});
+  else blocking.push(summary);
+ }
+ return {findings:blocking,reviewedLegacyVerifierFindings};
+}
 function run(command,args,options={}){const r=spawnSync(command,args,{cwd:ROOT,encoding:'utf8',maxBuffer:32*1024*1024,timeout:12*60*1000,...options});if(r.error)throw new Error('SECURITY_TOOL_EXECUTION_FAILED');return r;}
 async function readJson(file){try{return JSON.parse(await fs.readFile(file,'utf8'));}catch{throw new Error('SECURITY_TOOL_REPORT_INVALID');}}
 export async function buildDependencySbom(root=ROOT){
@@ -38,11 +50,12 @@ async function policy(){
 }
 async function scanSecrets(temp,allowed){
  const tool=await ensureSecurityTool('gitleaks'),reports=[];
+ const emptyIgnore=path.join(temp,'no-ignored-findings');await fs.writeFile(emptyIgnore,'',{mode:0o600});
  const snapshot=await exportSecuritySnapshot();
  try{
   const jobs=[{kind:'current',args:['dir',snapshot.directory]}];
   try{await fs.access(path.join(ROOT,'.git'));jobs.push({kind:'git-history',args:['git',ROOT,'--log-opts=--all']});}catch{}
-  for(const job of jobs){const file=path.join(temp,'gitleaks-'+job.kind+'.json');const result=run(tool,[...job.args,'--config',path.join(ROOT,'security/gitleaks.toml'),'--redact=100','--ignore-gitleaks-allow','--no-banner','--no-color','--log-level=error','--timeout=300','--max-archive-depth=2','--report-format=json','--report-path',file]);if(![0,1].includes(result.status))throw new Error('GITLEAKS_SCAN_INCOMPLETE');const findings=scannerSummary('gitleaks',await readJson(file),allowed);reports.push({scope:job.kind,findings});}
+  for(const job of jobs){const file=path.join(temp,'gitleaks-'+job.kind+'.json');const result=run(tool,[...job.args,'--config',path.join(ROOT,'security/gitleaks.toml'),'--redact=100','--ignore-gitleaks-allow','--gitleaks-ignore-path',emptyIgnore,'--no-banner','--no-color','--log-level=error','--timeout=300','--max-archive-depth=2','--report-format=json','--report-path',file]);if(![0,1].includes(result.status))throw new Error('GITLEAKS_SCAN_INCOMPLETE');const review=JSON.parse(await fs.readFile(path.join(ROOT,'security/reviewed-legacy-verifiers.json'),'utf8'));const classification=classifySecretReport(await readJson(file),job.kind,allowed,review);reports.push({scope:job.kind,...classification});}
  }finally{await fs.rm(snapshot.directory,{recursive:true,force:true});}
  return {passed:reports.every(r=>r.findings.length===0),reports,redaction:'100%; only rule/path/line summaries retained'};
 }

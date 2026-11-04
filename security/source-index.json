@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-04T07:29:21.874Z",
+  "generatedAt": "2026-11-04T07:47:50.397Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -10,8 +10,8 @@
     },
     {
       "path": ".github/workflows/security.yml",
-      "sha256": "38436027f9b55d0bb53a842859cec70c3407523947a1475e8d5ae45b07ad93f1",
-      "bytes": 3336
+      "sha256": "5bf198914e10015acab64640d45dee93d93f1edf694b1b6dffdb679ee14b8b6f",
+      "bytes": 3398
     },
     {
       "path": "_headers",
@@ -20,8 +20,8 @@
     },
     {
       "path": "admin.html",
-      "sha256": "7cba29996b658677f7ad3db164e881e36b0b7aadad633064a09d00e35795416c",
-      "bytes": 1131140
+      "sha256": "906511770307aeb7c964e0538911db6b591065a418a039a0300b3cd290876061",
+      "bytes": 1131164
     },
     {
       "path": "cards.html",
@@ -132,6 +132,11 @@
       "path": "js/offline.js",
       "sha256": "92e1d99e790b2dc086916bc967a92f6727856960ff347e2a4b67a6959267c59a",
       "bytes": 5874
+    },
+    {
+      "path": "js/vendor/tailwind-3.4.17.LICENSE",
+      "sha256": "60e0b68c0f35c078eef3a5d29419d0b03ff84ec1df9c3f9d6e39a519a5ae7985",
+      "bytes": 1071
     },
     {
       "path": "js/vendor/tailwind-3.4.17.js",
@@ -990,13 +995,13 @@
     },
     {
       "path": "scripts/security-ci-selftest.mjs",
-      "sha256": "e55966511786d1d101ae6452e37ab1592f355386d076b3416f1d90a50515f07c",
-      "bytes": 4814
+      "sha256": "f2e5c0abd2e620a401bf2718bd06acd4bedfc019bf47251d0b5ef8e6e8a27cf6",
+      "bytes": 9998
     },
     {
       "path": "scripts/security-ci.mjs",
-      "sha256": "481117702047ca386bab637130398872e38ffdce2212a6347a1c8ff12c06ae50",
-      "bytes": 10434
+      "sha256": "7d5e8a665d502ff0754769c5824e07f76ccf4c8064ef820a86b0e077d76bce2d",
+      "bytes": 11661
     },
     {
       "path": "scripts/security-direct-admin-rls-policy.sql",
@@ -1055,13 +1060,18 @@
     },
     {
       "path": "scripts/security-source-snapshot.mjs",
-      "sha256": "82617c43a2f5de2b63b5a45d27b4cf33b2033ca6c972214503b0f47092ff8b8c",
-      "bytes": 4387
+      "sha256": "e2f61e9d2489bccf6a0bca0c785a58ccae2457150ab4af1dcfe05c965b8cc15e",
+      "bytes": 5013
     },
     {
       "path": "scripts/security-teacher-trigger-policy.sql",
       "sha256": "3d7fd011544bfe8860af7600f445776c642045a88b9ab66164eb54aff940a44a",
       "bytes": 3932
+    },
+    {
+      "path": "scripts/security-tenant-metadata.sql",
+      "sha256": "9a3ef360a47893697771ea11d12f8ec6ea55d7feb9d5f5c7c6a56ba00610f631",
+      "bytes": 1764
     },
     {
       "path": "scripts/security-tenant-transaction-probe.sql",
@@ -1080,8 +1090,8 @@
     },
     {
       "path": "scripts/security-zap-baseline.mjs",
-      "sha256": "56c147870ebf1807adf767519a606562a1dc7387126016559cf1fd60656619a0",
-      "bytes": 2484
+      "sha256": "1e461420a42428740a124adf912bbfc7a9d7adf1947aea4f739053af5d0a1080",
+      "bytes": 2554
     },
     {
       "path": "scripts/validate-edge-resource-security.mjs",
@@ -1120,18 +1130,23 @@
     },
     {
       "path": "security/README.md",
-      "sha256": "b72b0741895a91869d11954b19899f3c17053984d4ea99a20b41eca87951ee0d",
-      "bytes": 5571
+      "sha256": "4e5eb4d3af0bc317de96b631a85d6a8ae776866513b12d7ec4d47d87d1032fdb",
+      "bytes": 7290
     },
     {
       "path": "security/dependency-inventory.json",
-      "sha256": "b0d212fbbeda8f7f17d889d8efe55ad399813f64ec51e50b8743542cabe9e4fe",
-      "bytes": 1399
+      "sha256": "545fdbb19ba96dc5060bb43b4b95e3d99bab9972e6d74b8d56f2cd558f2ba4b8",
+      "bytes": 1676
     },
     {
       "path": "security/gitleaks.toml",
       "sha256": "3d16d2df5ab424c1339e8ccdffb90a9918e4c5be958d09b647110eb5a59a5480",
       "bytes": 749
+    },
+    {
+      "path": "security/reviewed-legacy-verifiers.json",
+      "sha256": "b6626223ff1e047a26ce649aa7ec7c997c7ffef5cbab322a1363a99dc4b51b2b",
+      "bytes": 1509
     },
     {
       "path": "security/semgrep.yml",
@@ -1140,8 +1155,8 @@
     },
     {
       "path": "security/source-policy.json",
-      "sha256": "777eb7f7fa0d9e6d0d15198196e02d372e6ea55a8b47e84c2a77c71515b2a53c",
-      "bytes": 2410
+      "sha256": "8014a0352f5799043fdbbb7b62089ce550ee1e0c5bb79ba19d2614ddf85d2553",
+      "bytes": 2451
     },
     {
       "path": "security/tools.lock.json",

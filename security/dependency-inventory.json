@@ -9,6 +9,14 @@
       "source": "js/vendor/xlsx-0.20.3.full.min.js",
       "versionMarker": "0.20.3",
       "sha256": "cc015130aa8521e7f088f88898eba949ccdcbfb38df0bd129b44b7273c3a6f41"
+    },
+    {
+      "name": "tailwindcss",
+      "version": "3.4.17",
+      "purl": "pkg:npm/tailwindcss@3.4.17",
+      "source": "js/vendor/tailwind-3.4.17.js",
+      "versionMarker": "3.4.17",
+      "sha256": "176e894661aa9cdc9a5cba6c720044cbbf7b8bd80d1c9a142a7c24b1b6c50d15"
     }
   ],
   "vendorAdvisoryExceptions": [

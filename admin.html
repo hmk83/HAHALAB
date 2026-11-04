@@ -5948,7 +5948,7 @@
                 return normalized + heightScript;
             }
             // HTML 조각인 경우 → 최소 문서로 래핑
-            return `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><${s} src="https://cdn.tailwindcss.com"></${s}>${NOTICE_FRAME_RESET_STYLE}</head><body>${raw}${heightScript}</body></html>`;
+            return `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><${s} src="/js/vendor/tailwind-3.4.17.js?v=20261104-security-1"></${s}>${NOTICE_FRAME_RESET_STYLE}</head><body>${raw}${heightScript}</body></html>`;
         };
 
         // iframe 기반 HTML 공지 렌더러 컴포넌트

@@ -15,13 +15,22 @@ export async function collectSecuritySources(root=DEFAULT_ROOT){
   if(path.posix.isAbsolute(rel)||rel.includes('\\')||parts.some(x=>!x||x==='.'||x==='..'))return false;
   return !parts.some(x=>policy.excludedSegments.includes(x))&&!/^(?:\.env(?:\.|$)|.*(?:credentials|secrets)(?:\.|$))/i.test(parts.at(-1))&&!/\.(?:zip|bak|log|map)$/i.test(rel)&&rel!=='security/source-index.json';
  }
+ async function assertNoSymlinkAncestors(rel){
+  let current=root;
+  for(const part of rel.split('/')){current=path.join(current,part);let stat;try{stat=await fs.lstat(current);}catch(e){if(e.code==='ENOENT')return;throw e;}if(stat.isSymbolicLink())throw new Error('SNAPSHOT_SYMLINK_REJECTED');}
+ }
  async function add(rel){
   if(!safe(rel))throw new Error('SNAPSHOT_FORBIDDEN_PATH');
+  await assertNoSymlinkAncestors(rel);
   let stat;try{stat=await fs.lstat(path.join(root,rel));}catch(e){if(e.code==='ENOENT')return;throw e;}
   if(stat.isSymbolicLink())throw new Error('SNAPSHOT_SYMLINK_REJECTED');
   if(stat.isFile())selected.add(rel);
  }
  async function walk(tree,rel=tree.path){
+  if(!safe(rel))throw new Error('SNAPSHOT_FORBIDDEN_PATH');
+  await assertNoSymlinkAncestors(rel);
+  let rootStat;try{rootStat=await fs.lstat(path.join(root,rel));}catch(e){if(e.code==='ENOENT')return;throw e;}
+  if(rootStat.isSymbolicLink())throw new Error('SNAPSHOT_SYMLINK_REJECTED');
   let entries;try{entries=await fs.readdir(path.join(root,rel),{withFileTypes:true});}catch(e){if(e.code==='ENOENT')return;throw e;}
   for(const e of entries){const next=rel+'/'+e.name;if(!safe(next))continue;if(e.isSymbolicLink())throw new Error('SNAPSHOT_SYMLINK_REJECTED');if(e.isDirectory()&&!tree.topLevelOnly)await walk(tree,next);else if(e.isFile()&&tree.extensions.includes(path.extname(e.name)))await add(next);}
  }

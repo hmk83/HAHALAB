@@ -8,7 +8,7 @@ const temp=await fs.mkdtemp(path.join(os.tmpdir(),'hahalab-zap-'));let summary;
 try{
  const context='<?xml version="1.0" encoding="UTF-8"?><configuration><context><name>HAHALAB public passive baseline</name><desc>Fixed public website. No authentication or active scan.</desc><inscope>true</inscope><incregexes>https://thehahalab\\.com/.*</incregexes><excregexes>https://thehahalab\\.com/(?:api|auth|rest|functions|private|admin|class-new|playlab|report-share|logout).*|.*\\?.*</excregexes></context></configuration>';
  await fs.writeFile(path.join(temp,'scope.context'),context);
- const args=['run','--rm','--cap-drop=ALL','--security-opt=no-new-privileges','--user',`${process.getuid?.()??1000}:${process.getgid?.()??1000}`,'-e','HOME=/tmp','--tmpfs','/tmp','-v',temp+':/zap/wrk:rw',lock.zap.image,'zap-baseline.py','-t','https://thehahalab.com/','-n','scope.context','-m','1','-T','5','-I','-J','zap.raw.json'];
+ const args=['run','--rm','--cap-drop=ALL','--security-opt=no-new-privileges','--user',`${process.getuid?.()??1000}:${process.getgid?.()??1000}`,'-e','HOME=/tmp','--tmpfs','/tmp','-v',temp+':/zap/wrk:rw',lock.zap.image,'zap-baseline.py','-t','https://thehahalab.com/','-n','scope.context','-m','1','-T','5','-I','-z','-config spider.processform=false -config spider.postform=false','-J','zap.raw.json'];
  const run=spawnSync('docker',args,{cwd:ROOT,encoding:'utf8',maxBuffer:8*1024*1024,timeout:7*60*1000});
  if(run.error||![0,1,2].includes(run.status))throw new Error('ZAP_BASELINE_INCOMPLETE');
  const data=JSON.parse(await fs.readFile(path.join(temp,'zap.raw.json'),'utf8'));
