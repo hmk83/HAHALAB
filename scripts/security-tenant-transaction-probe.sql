@@ -2,9 +2,10 @@
 -- Real database RLS under SET LOCAL ROLE authenticated, not a signed JWT/API test.
 -- No passwords, tokens, emails to real recipients, schema/policy changes or real
 -- customer rows are used. Every data predicate is scoped to fresh fixture IDs.
--- Bootstrap disables row triggers only in this backend, then restores origin
--- BEFORE testing. Explicit negative bigint identities avoid nontransactional
--- nextval effects. If unreviewed side-effect triggers exist, preflight aborts.
+-- Bootstrap pre-registers the exact synthetic teacher before auth.users, so the
+-- real signup trigger links that row without allocating a new identity. No trigger
+-- is disabled and no privileged session_replication_role setting is changed.
+-- Explicit negative bigint identities avoid nontransactional nextval effects.
 -- The inner exception subtransaction rolls back ALL fixture rows before summary;
 -- the final outer ROLLBACK also restores every transaction-local setting.
 begin;
@@ -47,6 +48,27 @@ begin
      or to_regprocedure('public.security_learning_write_allowed()') is null then
     raise exception 'STRICT_SECURITY_HELPERS_REQUIRED';
   end if;
+  -- Exact reviewed trigger bodies are required for the no-sequence bootstrap.
+  if (select count(*) from pg_trigger tr join pg_class c on c.oid=tr.tgrelid
+       join pg_namespace n on n.oid=c.relnamespace where not tr.tgisinternal and tr.tgenabled in ('O','A')
+       and ((n.nspname='auth' and c.relname='users') or (n.nspname='public' and c.relname='teachers'))) <> 4
+     or exists(select 1 from pg_trigger tr join pg_class c on c.oid=tr.tgrelid
+       join pg_namespace n on n.oid=c.relnamespace where not tr.tgisinternal and tr.tgenabled in ('O','A')
+       and n.nspname='auth' and c.relname='sessions') then
+    raise exception 'AUTH_TEACHER_TRIGGER_SET_CHANGED';
+  end if;
+  if exists(select 1 from (values
+     ('handle_new_auth_user','5176d67dec3d544be0f5135011bf8916'),
+     ('enforce_teacher_identity_uniqueness','059dd9056af4f5b654048b36b1f00462'),
+     ('guard_teacher_self_service_fields','55e0b36056ccb55a550a8fdb6c2b0b86'),
+     ('nullify_legacy_teacher_password','61a6d0cde74c6464b71e462532ed2059'),
+     ('current_teacher_id','f58eda5e472610372b9c08bc1f041614'),
+     ('security_auth_session_active','aca6f1590a09e1be7c7fa361fead7608')
+   ) expected(name,digest)
+   left join pg_proc fn on fn.oid=to_regprocedure('public.'||expected.name||'()')
+   where fn.oid is null or md5(pg_get_functiondef(fn.oid))<>expected.digest) then
+    raise exception 'AUTH_TEACHER_BOOTSTRAP_SNAPSHOT_CHANGED';
+  end if;
   if not exists (select 1 from pg_roles where rolname='authenticated' and not rolbypassrls and not rolsuper) then
     raise exception 'AUTHENTICATED_MUST_NOT_BYPASS_RLS';
   end if;
@@ -88,20 +110,30 @@ begin
   -- Any failure from here is caught after the complete data subtransaction rolls
   -- back. Only SQLSTATE and phase are returned; no raw error/customer data.
   begin
-    v_phase := 'bootstrap';
-    perform set_config('session_replication_role','replica',true);
+    v_phase := 'bootstrap-clear-synthetic-auth-context';
+    perform set_config('request.jwt.claim.sub','',true);
+    perform set_config('request.jwt.claims','{}',true);
+    if auth.uid() is not null then raise exception 'BOOTSTRAP_AUTH_CONTEXT_MUST_BE_EMPTY'; end if;
     for v_index in 1..2 loop
+      v_phase := 'bootstrap-preregister-teacher-'||v_index;
+      insert into public.teachers(id,teacher_id,auth_user_id,name,email,status,role,max_client_limit)
+        overriding system value
+      values(v_teacher_ids[v_index],v_teachers[v_index],null,'격리 SQL 합성 교사',
+        v_teachers[v_index] || '@example.invalid','normal','teacher',40);
+      v_phase := 'bootstrap-auth-user-real-trigger-'||v_index;
       insert into auth.users(id,instance_id,aud,role,email,encrypted_password,email_confirmed_at,
         raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
       values(v_users[v_index],'00000000-0000-0000-0000-000000000000'::uuid,'authenticated','authenticated',
         v_teachers[v_index] || '@example.invalid',null,now(),
         '{"provider":"email","providers":["email"]}'::jsonb,'{}'::jsonb,now(),now());
+      if (select count(*) from public.teachers where id=v_teacher_ids[v_index]
+          and teacher_id=v_teachers[v_index] and auth_user_id=v_users[v_index]
+          and email=v_teachers[v_index] || '@example.invalid' and status='normal' and role='teacher') <> 1 then
+        raise exception 'REAL_SIGNUP_TRIGGER_DID_NOT_LINK_EXACT_TEACHER'; end if;
+      v_phase := 'bootstrap-session-'||v_index;
       insert into auth.sessions(id,user_id,created_at,updated_at,aal,not_after)
       values(v_sessions[v_index],v_users[v_index],now(),now(),'aal1',now()+interval '10 minutes');
-      insert into public.teachers(id,teacher_id,auth_user_id,name,email,status,role,max_client_limit)
-        overriding system value
-      values(v_teacher_ids[v_index],v_teachers[v_index],v_users[v_index],'격리 SQL 합성 교사',
-        v_teachers[v_index] || '@example.invalid','normal','teacher',40);
+      v_phase := 'bootstrap-data-fixtures-'||v_index;
       insert into public.clients(id,teacher_id,name,type,status) overriding system value
       values(v_client_ids[v_index],v_teachers[v_index],'격리 SQL 합성 내담자','client','active');
       insert into public.histories(id,teacher_id,client_id,client_name,type,category,action,details,metadata,memo)
@@ -115,9 +147,8 @@ begin
         'teacher_id',v_teachers[v_index],'client_id',v_client_ids[v_index],'client_name','격리 SQL 합성 내담자',
         'type','client','date','2099-11-04','start_time','10:00','end_time','10:50','status','scheduled','memo',v_tag)) x;
     end loop;
-    perform set_config('session_replication_role','origin',true);
-    if current_setting('session_replication_role') <> 'origin' then raise exception 'TEST_TRIGGER_RESTORE_REQUIRED'; end if;
-    v_checks := v_checks || jsonb_build_array(jsonb_build_object('name','fixture-bootstrap-origin-restored','passed',true));
+    if current_setting('session_replication_role') <> 'origin' then raise exception 'TEST_TRIGGERS_MUST_REMAIN_ENABLED'; end if;
+    v_checks := v_checks || jsonb_build_array(jsonb_build_object('name','fixture-bootstrap-real-triggers-enabled','passed',true));
 
     for v_index in 1..2 loop
       v_other := 3-v_index;
@@ -298,7 +329,7 @@ begin
     'foreignKeyScope','Foreign-client relationship denial is tested regardless of whether enforced by RLS, a native composite FK, or a guarded trigger.',
     'scope','Real database authenticated-role/RLS transaction test; not signed-token or HTTP session verification',
     'limitations',jsonb_build_array('No actual access or refresh tokens issued; GoTrue and Worker transport are not tested.',
-      'Bootstrap bypasses triggers only for synthetic rows; origin mode restored before all policy tests.',
+      'Bootstrap uses exact reviewed real signup/teacher triggers; no trigger or replication setting is changed.',
       'Identity values are explicit negative bigint values; production sequences are never invoked by this script.',
       'Only clients/histories/schedules RLS and foreign-client link checks are exercised; other tables and RPCs require separate verification.'));
   perform set_config('hahalab_security_probe.result',v_result::text,true);

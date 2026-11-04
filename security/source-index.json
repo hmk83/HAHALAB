@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-04T07:47:50.397Z",
+  "generatedAt": "2026-11-04T07:51:33.488Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -1004,6 +1004,11 @@
       "bytes": 11661
     },
     {
+      "path": "scripts/security-client-relationship-policy.sql",
+      "sha256": "e4fcb8766942943b6f673f2cb84beee16b6ed9d40cc6964f6d63d1674738e656",
+      "bytes": 5410
+    },
+    {
       "path": "scripts/security-direct-admin-rls-policy.sql",
       "sha256": "ee50e894afeca78a81066fe63f8c7f50d3ef6e155c90e39c6af58c454ed03c58",
       "bytes": 35054
@@ -1075,8 +1080,8 @@
     },
     {
       "path": "scripts/security-tenant-transaction-probe.sql",
-      "sha256": "b022491e9ba59f6131b865533040b6dbb957d925c0988e1f6d7ee00cd308a3e1",
-      "bytes": 20665
+      "sha256": "886a2ccaa876a14080597068b015828bcd0fe88b6cb2129f56c2204706e79b1c",
+      "bytes": 22862
     },
     {
       "path": "scripts/security-transfer-rpc-policy.sql",
