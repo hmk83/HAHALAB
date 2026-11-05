@@ -515,7 +515,14 @@ await test('report viewer verifies session, account, teacher and expiration befo
       const page = await browser.newPage();
       const token = Object.hasOwn(variant, 'token') ? variant.token : goodToken;
       await page.addInitScript(({ reportKey, token, payload }) => {
-        localStorage.setItem(reportKey, JSON.stringify(payload));
+        // A report now arrives from the authenticated opener's memory channel,
+        // never from an at-rest localStorage snapshot. Isolate transport here;
+        // native cross-window channel behavior has its own remediation harness.
+        window.BroadcastChannel = class {
+          constructor(name) { this.name = name; }
+          postMessage(request) { queueMicrotask(() => this.onmessage?.({ data: { type: 'report-payload', requestId: request.requestId, source: payload } })); }
+          close() {}
+        };
         if (token) localStorage.setItem('sb-gxungzlecmibgvykoiib-auth-token', JSON.stringify({ access_token: token }));
       }, { reportKey, token, payload: { owner: Object.hasOwn(variant, 'owner') ? variant.owner : owner, rawRecord: { title: secret }, entry: {} } });
       await page.route('**/*', async (route) => {

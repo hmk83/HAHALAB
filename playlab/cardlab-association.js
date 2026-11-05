@@ -1108,7 +1108,14 @@
     console.error(error);
     const stageGrid = document.getElementById('stageGrid');
     if (stageGrid) {
-      stageGrid.innerHTML = '<div class="wordbuild-error-box"><strong>꼬리 물기 연상 초기화 실패</strong><div>' + String(error && error.message ? error.message : error) + '</div></div>';
+      const box = document.createElement('div');
+      box.className = 'wordbuild-error-box';
+      const title = document.createElement('strong');
+      title.textContent = '꼬리 물기 연상 초기화 실패';
+      const detail = document.createElement('div');
+      detail.textContent = String(error && error.message ? error.message : error);
+      box.append(title, detail);
+      stageGrid.replaceChildren(box);
     }
     window.CARDLAB_ASSOCIATION_DEBUG = {
       stages: [],

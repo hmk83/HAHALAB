@@ -635,6 +635,7 @@ const buildNoticeFrameSrcDoc = (html, frameId) => {
 };
 
 function NoticeFrame({ content, minHeight = 160 }) {
+    const frameRef = useRef(null);
     const frameIdRef = useRef(`notice-${Date.now()}-${Math.random().toString(36).slice(2)}`);
     const [height, setHeight] = useState(minHeight);
     const [framePointerEvents, setFramePointerEvents] = useState(() => {
@@ -646,6 +647,9 @@ function NoticeFrame({ content, minHeight = 160 }) {
     useEffect(() => {
         if (!srcDoc) return undefined;
         const handler = (event) => {
+            // This sandbox intentionally has an opaque origin; origin alone is
+            // insufficient, so only this component's frame may adjust its height.
+            if (event.origin !== 'null' || event.source !== frameRef.current?.contentWindow) return;
             if (event.data?.type !== 'haha-public-notice-height') return;
             if (event.data?.frameId !== frameIdRef.current) return;
             const nextHeight = Number(event.data?.height || 0);
@@ -672,6 +676,7 @@ function NoticeFrame({ content, minHeight = 160 }) {
 
     if (!srcDoc) return null;
     return e("iframe", {
+        ref: frameRef,
         srcDoc,
         sandbox: "allow-scripts allow-popups allow-popups-to-escape-sandbox",
         title: "공지사항 내용",

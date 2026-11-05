@@ -5953,11 +5953,15 @@
 
         // iframe 기반 HTML 공지 렌더러 컴포넌트
         const NoticeFrame = ({ content, minHeight = 200 }) => {
+            const frameRef = React.useRef(null);
             const [height, setHeight] = React.useState(minHeight);
             const srcDoc = React.useMemo(() => buildNoticeFrameSrcDoc(content), [content]);
             React.useEffect(() => {
                 if (!srcDoc) return;
                 const handler = (e) => {
+                    // sandbox allow-scripts creates an opaque origin. Bind the
+                    // message to this exact frame as well as its expected origin.
+                    if (e.origin !== 'null' || e.source !== frameRef.current?.contentWindow) return;
                     if (e.data?.type === 'haha-notice-height' && typeof e.data.height === 'number' && e.data.height > 0) {
                         setHeight(Math.min(Math.ceil(e.data.height) + 4, 20000));
                     }
@@ -5968,6 +5972,7 @@
             if (!srcDoc) return null;
             return (
                 <iframe
+                    ref={frameRef}
                     srcDoc={srcDoc}
                     sandbox="allow-scripts"
                     style={{ width: '100%', height: `${height}px`, border: 'none', display: 'block' }}

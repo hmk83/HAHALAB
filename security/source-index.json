@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T00:38:05.055Z",
+  "generatedAt": "2026-11-05T00:44:24.116Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -20,8 +20,8 @@
     },
     {
       "path": "admin.html",
-      "sha256": "906511770307aeb7c964e0538911db6b591065a418a039a0300b3cd290876061",
-      "bytes": 1131164
+      "sha256": "fe26ad5365899de401a41405012e1993a70482cb7b6ac468db3d5565e14a390e",
+      "bytes": 1131512
     },
     {
       "path": "cards.html",
@@ -95,8 +95,8 @@
     },
     {
       "path": "index-app.js",
-      "sha256": "75eecb12b22ca9a93684d68129fb346517238f3c5f1640682564959bf036bdc3",
-      "bytes": 119008
+      "sha256": "19a7a5b4682cfd321c774258cae3a9806582dd136addb2f1c5ca78852d796966",
+      "bytes": 119330
     },
     {
       "path": "index.html",
@@ -105,13 +105,13 @@
     },
     {
       "path": "js/app.js",
-      "sha256": "562679c2fada52248e58b9fc29a3cc12d27d79506bab0ce115bd224d2bac97d5",
-      "bytes": 788358
+      "sha256": "4bd6bd7dfd02a9f11ef4e813ee6dbf125f392aa476d373c962a1a1610d511cbe",
+      "bytes": 792720
     },
     {
       "path": "js/auth.js",
-      "sha256": "dba36171c771b7e3ab3d2303682f6b2ed83fcebe644cc7d61646c4776a2c399a",
-      "bytes": 90225
+      "sha256": "0d2b96bc0206b5d6e6e6e3a58e26946b40a99f6ab2d13a05410354d2225a5d18",
+      "bytes": 90732
     },
     {
       "path": "js/clinical-workflow.js",
@@ -170,8 +170,8 @@
     },
     {
       "path": "playlab-history-report-viewer.html",
-      "sha256": "8cd4626f70fd621cf95d789b16f8270db98d34ad0dff4a5ae0718a15cb5fd167",
-      "bytes": 28492
+      "sha256": "e4f9aeca9c5d7c2de85cba9370e07eb3d7fddb09d40c9c7d64c81862120096a9",
+      "bytes": 29522
     },
     {
       "path": "playlab/cardlab-association-data.js",
@@ -185,8 +185,8 @@
     },
     {
       "path": "playlab/cardlab-association.js",
-      "sha256": "01a0a4d32695f27a91fb5a9efc876d4a43e2fa7ac934befa54db3250816b6098",
-      "bytes": 44339
+      "sha256": "b5b258c7d4696b1f839f3ae1f751a94ed23cc2f51c2aa1c5f2423dc928ccad67",
+      "bytes": 44562
     },
     {
       "path": "playlab/cardlab-audio-maps.js",
@@ -210,8 +210,8 @@
     },
     {
       "path": "playlab/cardlab-car-logo.js",
-      "sha256": "7c3cd5d030e85f9c41c288049e69a5f1971b4ebbcaeea0b8290ece9d44b71fe2",
-      "bytes": 38006
+      "sha256": "3dd13f3ba57b58c2d486d773f5fa9903eedf274e9d275811f930fe346b7728b2",
+      "bytes": 38062
     },
     {
       "path": "playlab/cardlab-cloze-connect.css",
@@ -395,8 +395,8 @@
     },
     {
       "path": "playlab/cardlab-shell.js",
-      "sha256": "b7604cf25512f4051a81dde44bbb32c09c967a3c59d338bd1c11669122c395bf",
-      "bytes": 140746
+      "sha256": "07082808a20fe9c6c96c7bf31a0fb6bab18191d4b70f57d6fffb614f83834dc0",
+      "bytes": 141020
     },
     {
       "path": "playlab/cardlab-situation-ox-data.js",
@@ -505,8 +505,8 @@
     },
     {
       "path": "playlab/cardlab-zoo-sound.js",
-      "sha256": "0d55d9090526fa71d2f7b648e519ffd547efc425cbffed7ad65de2bb95de40d1",
-      "bytes": 26280
+      "sha256": "eaa5f8a4d1f1ba11e9fb10a49ec4b5da0479d1b14f627a024f1d1660ff31fe80",
+      "bytes": 26336
     },
     {
       "path": "playlab/game-layer-system.css",
@@ -525,8 +525,8 @@
     },
     {
       "path": "playlab/learning-report-harness.js",
-      "sha256": "d1294ceb42467ba94ed4d5455ab0ec9019926a6b004a3798b04bcdf620d92cd1",
-      "bytes": 34358
+      "sha256": "559a8c70d7cc51f7ac61e5faf55fee2445c1ec46b7b54d191fe66b0d32346d58",
+      "bytes": 34756
     },
     {
       "path": "playlab/musicartlab-core.css",
@@ -605,8 +605,8 @@
     },
     {
       "path": "playlab/numberlab-standalone.js",
-      "sha256": "f546999622a7c618f3c510de8f766fe92be831def9970c247e07033daed45b2e",
-      "bytes": 2329956
+      "sha256": "a1e8a46ff0bc3bb408663cf1b1e46e5a159844a1e48eecb6213685bbb1737f6e",
+      "bytes": 2330076
     },
     {
       "path": "playlab/playlab-arrow-direction-grid.css",
@@ -615,8 +615,8 @@
     },
     {
       "path": "playlab/playlab-arrow-direction-grid.js",
-      "sha256": "1db485f71994697b8ed57fc081af9406150174151e7fb3b4f708adc6de96e999",
-      "bytes": 45127
+      "sha256": "c669427d712f6db67fbd64133d3e093de18adc382b8d63de0da31d82f9f5f9bf",
+      "bytes": 45183
     },
     {
       "path": "playlab/playlab-bilabial-bubble.css",
@@ -625,8 +625,8 @@
     },
     {
       "path": "playlab/playlab-bilabial-bubble.js",
-      "sha256": "86504c117101b61f26c01c3a868f8181fa0eb9d5a79e2dcbe52c60a4487b4fbc",
-      "bytes": 41655
+      "sha256": "af36fae0d0496a20b9d28a2a4c85dc9ab465d85a4ba52760112cc2f2d2282d80",
+      "bytes": 41711
     },
     {
       "path": "playlab/playlab-card-spotlight.css",
@@ -660,8 +660,8 @@
     },
     {
       "path": "playlab/playlab-color-sequence.js",
-      "sha256": "35238250fad1699dadd78b2047b6765337f9974373c84edf3460dd52b987bd51",
-      "bytes": 36822
+      "sha256": "dc6b845361353aaa566250b42cb6dbb8b0a43b50125b1d10d253c01619b593e3",
+      "bytes": 36878
     },
     {
       "path": "playlab/playlab-feedback-overlay.css",
@@ -690,8 +690,8 @@
     },
     {
       "path": "playlab/playlab-grid-color-arithmetic.js",
-      "sha256": "6000e9567708c06af6ca76382e77a10af01c4810279b792b02a2816c8f5d990d",
-      "bytes": 40918
+      "sha256": "63367f496ba56a4aab598633e7a90b5b1ce3e909401a44cffd57833f236e8d80",
+      "bytes": 40974
     },
     {
       "path": "playlab/playlab-hamburger-order.css",
@@ -700,8 +700,8 @@
     },
     {
       "path": "playlab/playlab-hamburger-order.js",
-      "sha256": "61678c20e988e6e751a82947d0fa1bd814a36d5e826af22bcdc13741983561a8",
-      "bytes": 43949
+      "sha256": "d8b8e12b6fe350a421bdd9a87693f7da8e4447b434b3f8c873d69839cb796ca1",
+      "bytes": 44005
     },
     {
       "path": "playlab/playlab-hand-marble-sort.css",
@@ -750,8 +750,8 @@
     },
     {
       "path": "playlab/playlab-partial-card-reasoning.js",
-      "sha256": "d9bbada485309b4d66a787c9c08ab6c1fed1e3dfb0b940f7b0950ab41067bd84",
-      "bytes": 35330
+      "sha256": "b525fbb36bd02504bbdea80b7f8f8cf7462f7afed3b1f202123d5a9fd59d49a0",
+      "bytes": 35386
     },
     {
       "path": "playlab/playlab-plane-shooter.css",
@@ -760,8 +760,8 @@
     },
     {
       "path": "playlab/playlab-plane-shooter.js",
-      "sha256": "4317610dcb27df89b1b758bf0e5ab814adff6cca872b8f92c61acf1dd2fc7502",
-      "bytes": 49046
+      "sha256": "f1689dd92ee14914778318892879326a7f64bc9573a7fd0630a8a78c8c4429ce",
+      "bytes": 49102
     },
     {
       "path": "playlab/playlab-report-engine.css",
@@ -830,8 +830,8 @@
     },
     {
       "path": "playlab/playlab-standalone.js",
-      "sha256": "822a7a3406003386e94a3082888c42e76008f09d24f2cad09fd0e2905ee0dc72",
-      "bytes": 163905
+      "sha256": "a394432d0037e1d295e20bb9f91cd80816a4fa01f1df9f6b4c815b196be66163",
+      "bytes": 164025
     },
     {
       "path": "playlab/playlab-supermarket-errand.css",
@@ -865,8 +865,8 @@
     },
     {
       "path": "playlab/playlab-time-dayparts.js",
-      "sha256": "012806e07e5653fc8833669f938e884a76cd5e9a6d57f2149c3fc6c1df738aca",
-      "bytes": 115384
+      "sha256": "4fdc918e991397d35b84a99da534cb496ad6f3a3e31a0b149c18894f93c81ab0",
+      "bytes": 115504
     },
     {
       "path": "playlab/rehablab-color-block-count.css",
@@ -890,8 +890,8 @@
     },
     {
       "path": "playlab/rehablab-language-card-labs.js",
-      "sha256": "2d04f143f88d94c1cc43d5273f9bf995b8eb7e21c759745706b6ebd341d2594d",
-      "bytes": 31541
+      "sha256": "9a04a9f8baef336d74f5173b87f9473791582db4379f22a744bba5de217d9b6f",
+      "bytes": 31597
     },
     {
       "path": "playlab/rehablab-legacy-cognitive.css",
@@ -1005,8 +1005,13 @@
     },
     {
       "path": "scripts/security-client-relationship-policy.sql",
-      "sha256": "e4fcb8766942943b6f673f2cb84beee16b6ed9d40cc6964f6d63d1674738e656",
-      "bytes": 5410
+      "sha256": "af80978e96eb2cd61dd26d826d1ff81a72cf9d88ed62c262cd7b85ee3b4d4ab2",
+      "bytes": 5899
+    },
+    {
+      "path": "scripts/security-client-relationship-verification.sql",
+      "sha256": "6250f5cd557105135e1a410ca49030fe0c2fe9f88e6b024b91211c2bb4f61005",
+      "bytes": 2110
     },
     {
       "path": "scripts/security-direct-admin-rls-policy.sql",
@@ -1042,6 +1047,11 @@
       "path": "scripts/security-privileged-rpc-policy.sql",
       "sha256": "47206f425288a1d2619c8f9805067a52ec5085400272c4eda6c11d80fe318578",
       "bytes": 19067
+    },
+    {
+      "path": "scripts/security-production-advisors.mjs",
+      "sha256": "a05fa5a28396955ba78aa843546f84589a04619e0d91eec315f61816329229e2",
+      "bytes": 4419
     },
     {
       "path": "scripts/security-production-preflight.sql",
@@ -1080,8 +1090,8 @@
     },
     {
       "path": "scripts/security-tenant-transaction-probe.sql",
-      "sha256": "886a2ccaa876a14080597068b015828bcd0fe88b6cb2129f56c2204706e79b1c",
-      "bytes": 22862
+      "sha256": "bc36c62126168d1e9f463ddbe2e4966f10656290c4b4fefa904e7a367b45b4e2",
+      "bytes": 24737
     },
     {
       "path": "scripts/security-transfer-rpc-policy.sql",
@@ -1125,13 +1135,18 @@
     },
     {
       "path": "scripts/validate-security-hardening.mjs",
-      "sha256": "6b8fbb271d90df50c76ef0f02f15f97ebafab2b5726f15c0eeb3e16d37fa6343",
-      "bytes": 53672
+      "sha256": "91665774f69a205b7671839ff2e4ae17608966c40bc4af5508a5bf862d8e50da",
+      "bytes": 54131
     },
     {
       "path": "scripts/validate-security-live.mjs",
       "sha256": "759b3d6b4bf035706054e3b5ab66ca04ecbfb9ef79f45cb61975eb471b5b9783",
       "bytes": 1616
+    },
+    {
+      "path": "scripts/validate-security-production-advisors.mjs",
+      "sha256": "ad97fc132ed3907d989d7ac5989e3d127029114243a2c952ae7f4e2ac8ee628d",
+      "bytes": 4052
     },
     {
       "path": "security/README.md",

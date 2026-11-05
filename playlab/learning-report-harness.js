@@ -28,6 +28,12 @@
       const inferredKind = String(params.get('labKind') || '').trim()
         || (pageFileName.startsWith('rehablab-') ? 'rehab' : '');
       const launchKey = String(params.get('labLaunchKey') || '').trim();
+      // Identifying display context stays in the authenticated parent memory.
+      // Only minimal routing IDs are retained in the tab's launch storage.
+      if (launchKey && window.parent && window.parent !== window) {
+        const transient = window.parent.readTransientLabLaunchContext?.(launchKey, window);
+        if (transient) return Object.assign({}, transient, { launchKey });
+      }
       if (launchKey && launchKey.indexOf(LAUNCH_PREFIX) === 0 && window.sessionStorage) {
         const parsed = parseMaybeJson(window.sessionStorage.getItem(launchKey), null);
         if (parsed && typeof parsed === 'object') return Object.assign({}, parsed, {

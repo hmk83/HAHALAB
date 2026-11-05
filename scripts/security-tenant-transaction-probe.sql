@@ -245,6 +245,32 @@ begin
           if not v_denied then raise exception using errcode='ZX002',message='PROBE_ASSERTION_FAILED'; end if;
         end if;
 
+        -- Personal schedules / generic histories have no linked client. The
+        -- relationship guard must not turn these pre-existing flows into errors.
+        if v_table in ('histories','schedules') then
+          if v_table='histories' then
+            insert into public.histories(id,teacher_id,client_id,client_name,type,category,action,details,metadata,memo)
+              overriding system value
+            values(v_base-90-v_index*3,v_teachers[v_index],'','격리 SQL 일반 기록',
+              'teacher','session_history','합성 일반 기록','{}','{}'::jsonb,v_tag);
+          else
+            insert into public.schedules(id,teacher_id,client_id,client_name,type,date,start_time,end_time,status,memo)
+              overriding system value
+            select x.id,x.teacher_id,x.client_id,x.client_name,x.type,x.date,x.start_time,x.end_time,x.status,x.memo
+            from jsonb_populate_record(null::public.schedules,jsonb_build_object('id',v_base-90-v_index*3,
+              'teacher_id',v_teachers[v_index],'client_id','','client_name','격리 SQL 개인 일정',
+              'type','personal','date','2099-11-04','start_time','13:00','end_time','13:50','status','scheduled','memo',v_tag)) x;
+          end if;
+          get diagnostics v_rows=row_count;
+          v_ok := v_rows=1;
+          v_checks := v_checks || jsonb_build_array(jsonb_build_object('name',v_phase || '-blank-unlinked-insert-preserved','passed',v_ok));
+          if not v_ok then raise exception using errcode='ZX002',message='PROBE_ASSERTION_FAILED'; end if;
+          execute format('delete from public.%I where id=$1 and teacher_id=$2',v_table)
+            using v_base-90-v_index*3,v_teachers[v_index];
+          get diagnostics v_rows=row_count;
+          if v_rows<>1 then raise exception using errcode='ZX002',message='PROBE_ASSERTION_FAILED'; end if;
+        end if;
+
         -- Positive own UPDATE/INSERT/DELETE proves the negative tests are not
         -- merely failing because the actor has no write privileges at all.
         execute format('update public.%I set %I=$1 where teacher_id=$2',v_table,

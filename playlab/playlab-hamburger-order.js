@@ -220,7 +220,7 @@
 
   function resolveLaunchClientName() {
     const launchKey = getQueryValue('labLaunchKey');
-    const launchPayload = readStoredJson(window.sessionStorage, launchKey)
+    const launchPayload = window.HahaLabLearningHarness?.readLaunchContext?.() || readStoredJson(window.sessionStorage, launchKey)
       || readStoredJson(window.localStorage, launchKey)
       || {};
     return String(

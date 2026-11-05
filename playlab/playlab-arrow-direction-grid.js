@@ -771,7 +771,7 @@
       const params = new URLSearchParams(window.location.search || '');
       const launchKey = String(params.get('labLaunchKey') || '').trim();
       if (launchKey && launchKey.indexOf(LAUNCH_CONTEXT_STORAGE_PREFIX) === 0 && window.sessionStorage) {
-        const parsed = parseMaybeJson(window.sessionStorage.getItem(launchKey), null);
+        const parsed = window.HahaLabLearningHarness?.readLaunchContext?.() || parseMaybeJson(window.sessionStorage.getItem(launchKey), null);
         if (parsed && typeof parsed === 'object') return parsed;
       }
       const teacherId = String(params.get('teacherId') || '').trim();

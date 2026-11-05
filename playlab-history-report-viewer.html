@@ -297,6 +297,17 @@
                 pdfButton.disabled = true;
                 document.title = '상세 리포트';
             };
+            const readTransientReport = (authUserId, sessionId) => new Promise((resolve, reject) => {
+                if (typeof BroadcastChannel !== 'function') { reject(new Error('TRANSIENT_REPORT_UNAVAILABLE')); return; }
+                const channel = new BroadcastChannel(reportKey);
+                const requestId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Array.from(crypto.getRandomValues(new Uint8Array(16)), (value) => value.toString(16).padStart(2, '0')).join('');
+                const finish = (error, source) => { clearTimeout(timeout); channel.close(); error ? reject(error) : resolve(source); };
+                const timeout = setTimeout(() => finish(new Error('REPORT_SOURCE_CLOSED')), 5000);
+                channel.onmessage = (event) => {
+                    if (event.data?.type === 'report-payload' && event.data.requestId === requestId) finish(null, event.data.source);
+                };
+                channel.postMessage({ type: 'read-report', requestId, authUserId, sessionId });
+            });
             const validateLocalAccess = async () => {
                 if (!/^playlab_history_report_[A-Za-z0-9_-]{1,180}$/.test(reportKey)) throw new Error('INVALID_REPORT_KEY');
                 const session = JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || 'null');
@@ -304,7 +315,7 @@
                 if (!token) throw new Error('AUTH_REQUIRED');
                 const claims = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
                 if (!claims.session_id || Number(claims.exp || 0) <= Date.now() / 1000) throw new Error('AUTH_EXPIRED');
-                const source = JSON.parse(localStorage.getItem(reportKey) || 'null');
+                const source = await readTransientReport(session?.user?.id || claims.sub, claims.session_id);
                 const owner = source?.owner;
                 const age = Date.now() - Number(owner?.createdAt || 0);
                 if (!owner?.authUserId || !owner?.teacherId || owner.sessionId !== claims.session_id || age < 0 || age >= LOCAL_REPORT_MAX_AGE_MS) throw new Error('REPORT_OWNER_REQUIRED');
@@ -320,7 +331,7 @@
                 const profile = Array.isArray(profileResult) ? profileResult[0] : profileResult;
                 if (user?.id !== owner.authUserId || String(profile?.teacher_id || profile?.teacherId || '') !== String(owner.teacherId) || !['active', 'normal'].includes(String(profile?.status || '').toLowerCase()) || profile?.withdrawn_at) throw new Error('REPORT_ACCESS_DENIED');
                 // Logout/account changes during the network check must not restore old HTML.
-                if (JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || 'null')?.access_token !== token || !localStorage.getItem(reportKey)) throw new Error('AUTH_CHANGED');
+                if (JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || 'null')?.access_token !== token) throw new Error('AUTH_CHANGED');
                 payload = source;
                 return token;
             };
@@ -489,7 +500,7 @@
                 pdfButton.textContent = 'PDF 준비 중…';
                 try {
                     if (!payload || !window.PlaylabReportEngine) throw new Error('리포트를 다시 열어 주세요.');
-                    const sourceStorage = shareMatch ? '' : localStorage.getItem(reportKey);
+                    const sourceFingerprint = shareMatch ? '' : JSON.stringify(payload);
                     const root = bodyNode.querySelector('.playlab-report-shell') || bodyNode;
                     const validateExportAccess = async () => {
                         if (!payload || !root.isConnected || !bodyNode.contains(root)) return false;
@@ -498,7 +509,7 @@
                             return Boolean(resolved.snapshot && new Date(resolved.expiresAt).getTime() > Date.now() && root.isConnected);
                         }
                         await validateLocalAccess();
-                        return localStorage.getItem(reportKey) === sourceStorage && root.isConnected;
+                        return JSON.stringify(payload) === sourceFingerprint && root.isConnected;
                     };
                     await window.PlaylabReportEngine.triggerPdfSave({ root, title: document.title, ...(shareMatch ? { reportMode: 'guardian' } : {}), validateBeforeDownload: validateExportAccess });
                     showToast('리포트를 PDF로 저장했습니다.');

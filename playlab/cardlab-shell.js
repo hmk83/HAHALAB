@@ -271,6 +271,8 @@
     }
 
     function getStoredLabSessionContext() {
+        const launch = window.HahaLabLearningHarness?.readLaunchContext?.();
+        if (launch?.teacherId) return { teacherId: launch.teacherId, clientId: launch.clientId || '', clientName: launch.clientName || '', sessionKind: launch.kind || '', currentSession: launch };
         const storedUser = readStoredJson(localStorage, STORAGE_USER_KEY)
             || readStoredJson(sessionStorage, STORAGE_USER_KEY)
             || {};

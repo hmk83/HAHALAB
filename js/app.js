@@ -6,6 +6,11 @@ let sensitiveAppEpoch = 0;
 
 window.clearSensitiveAppState = function () {
     sensitiveAppEpoch += 1;
+    window.__hahaLabTransientHistoryRecords = [];
+    window.__hahaLabShellViewState = null;
+    window.__hahaLabLaunchContexts?.clear();
+    window.__hahaLabTransientReports?.forEach((entry) => entry.channel?.close());
+    window.__hahaLabTransientReports?.clear();
     currentDetailClientId = '';
     closeLabDirectTargetOverlay({ restoreShell: false });
     clearDetailRealtimeChannels();
@@ -403,6 +408,7 @@ function parseMaybeJson(value, fallback = {}) {
 
 function readLocalLearningHarnessRecords() {
     try {
+        if (Array.isArray(window.__hahaLabTransientHistoryRecords)) return window.__hahaLabTransientHistoryRecords;
         const parsed = parseMaybeJson(localStorage.getItem(LAB_LEARNING_HARNESS_STORAGE_KEY), []);
         return Array.isArray(parsed) ? parsed : [];
     } catch (_error) {
@@ -737,7 +743,8 @@ function clonePersistableState(value) {
 function readPersistedShellViewState() {
     try {
         const raw = localStorage.getItem(SHELL_VIEW_STORAGE_KEY);
-        return raw ? JSON.parse(raw) : null;
+        const preferences = raw ? JSON.parse(raw) : {};
+        return { ...preferences, ...(window.__hahaLabShellViewState || {}) };
     } catch (_error) {
         return null;
     }
@@ -1582,7 +1589,17 @@ function persistShellViewState(patch = {}) {
             outputDetailOpen: Boolean(patch.outputDetailOpen ?? currentOutputDetailOpen ?? current.outputDetailOpen),
             messageCategoryId: String(patch.messageCategoryId ?? currentMessageCategoryId ?? current.messageCategoryId ?? '').trim()
         };
-        localStorage.setItem(SHELL_VIEW_STORAGE_KEY, JSON.stringify(next));
+        window.__hahaLabShellViewState = next;
+        // Persist only bounded UI preferences, never client IDs, search text,
+        // calendar/birthday dates or arbitrary fields supplied by a caller.
+        const enumValue = (value, allowed, fallback) => allowed.find((candidate) => candidate === value) || fallback;
+        const preferences = {
+            view: enumValue(next.view, ['calendar', 'detail', 'output', 'message', 'lab'], 'calendar'),
+            calendarView: enumValue(next.calendarView, ['month', 'week', 'day'], 'month'),
+            labKind: enumValue(next.labKind, ['cardlab', 'numberlab', 'playlab', 'musicartlab', 'rehab'], 'cardlab'),
+            labWordCardGridMode: enumValue(next.labWordCardGridMode, ['two', 'four'], 'two')
+        };
+        localStorage.setItem(SHELL_VIEW_STORAGE_KEY, JSON.stringify(preferences));
         return next;
     } catch (_error) {
         return null;
@@ -3387,7 +3404,8 @@ function appendLocalLabHistoryRecord(historyRow = {}, clientId = '') {
             clientId: String(clientId || historyRow.client_id || historyRow.clientId || 'local-client').trim() || 'local-client',
             history: historyRow
         };
-        localStorage.setItem(LAB_LEARNING_HARNESS_STORAGE_KEY, JSON.stringify([localRecord, ...currentRecords].slice(0, 500)));
+        window.__hahaLabTransientHistoryRecords = [localRecord, ...currentRecords].slice(0, 500);
+        localStorage.removeItem(LAB_LEARNING_HARNESS_STORAGE_KEY);
     } catch (error) {
         console.warn('[LabDirect] local history save failed:', error);
     }
@@ -4223,6 +4241,16 @@ function persistLabReturnUrl(returnUrl = '') {
     }
 }
 
+window.readTransientLabLaunchContext = function (launchKey, requester) {
+    const record = window.__hahaLabLaunchContexts?.get(String(launchKey || ''));
+    if (!record) return null;
+    if (record.expiresAt <= Date.now() || record.payload.teacherId !== getCurrentTeacherId()) { window.__hahaLabLaunchContexts.delete(String(launchKey || '')); return null; }
+    const frame = currentLabDirectOverlay?.querySelector('iframe');
+    if (!requester || requester !== frame?.contentWindow && requester !== record.detachedWindow) return null;
+    try { if (requester.location.origin !== window.location.origin) return null; } catch (_error) { return null; }
+    return JSON.parse(JSON.stringify(record.payload));
+};
+
 function buildLabLaunchUrl(targetUrl = '', kind = 'cardlab', client = null, options = {}) {
     const raw = String(targetUrl || '').trim();
     if (!raw || typeof window === 'undefined') return raw;
@@ -4244,7 +4272,15 @@ function buildLabLaunchUrl(targetUrl = '', kind = 'cardlab', client = null, opti
         const launchKey = `${LAB_LAUNCH_CONTEXT_STORAGE_PREFIX}${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
         let stored = false;
         try {
-            sessionStorage.setItem(launchKey, JSON.stringify(payload));
+            window.__hahaLabLaunchContexts = window.__hahaLabLaunchContexts || new Map();
+            window.__hahaLabLaunchContexts.set(launchKey, { payload, expiresAt: Date.now() + 30 * 60 * 1000 });
+            window.setTimeout(() => window.__hahaLabLaunchContexts?.delete(launchKey), 30 * 60 * 1000);
+            const routingContext = {
+                kind: normalizeLabKind(kind), teacherId: String(payload.teacherId),
+                clientId: String(payload.clientId), clientType: payload.anonymous ? 'anonymous' : 'client',
+                anonymous: payload.anonymous === true, source: 'class-new-routing-only'
+            };
+            sessionStorage.setItem(launchKey, JSON.stringify(routingContext));
             stored = true;
         } catch (_error) {
             stored = false;
@@ -4273,6 +4309,10 @@ function openDetachedLabWindow(preparedUrl = '') {
         const launchKey = new URL(preparedUrl, window.location.href).searchParams.get('labLaunchKey');
         const context = launchKey && sessionStorage.getItem(launchKey);
         if (context) target.sessionStorage.setItem(launchKey, context);
+        const transient = window.__hahaLabLaunchContexts?.get(launchKey);
+        if (transient) transient.detachedWindow = target;
+        // The detached fallback receives only minimal routing IDs in storage.
+        // It has no access to the full memory context after opener is cleared.
         target.opener = null;
         target.location.replace(preparedUrl);
         return target;
@@ -4303,6 +4343,11 @@ function closeLabDirectTargetOverlay({ restoreShell = true } = {}) {
 
     const returnShellView = String(currentLabDirectOverlay.dataset.returnShellView || '').trim();
     const returnDetailSubTab = String(currentLabDirectOverlay.dataset.returnDetailSubTab || '').trim();
+    try {
+        const frame = currentLabDirectOverlay.querySelector('iframe');
+        const key = frame && new URL(frame.src, window.location.href).searchParams.get('labLaunchKey');
+        if (key) { window.__hahaLabLaunchContexts?.delete(key); sessionStorage.removeItem(key); }
+    } catch (_error) { /* Inaccessible frames have no readable local context. */ }
     const previousBodyOverflow = currentLabDirectOverlayBodyOverflow;
     const previousHtmlOverflow = currentLabDirectOverlayHtmlOverflow;
     const previousBodyHeight = currentLabDirectOverlayBodyHeight;
@@ -6392,7 +6437,7 @@ function formatDateTimeDisplay(value) {
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit'
-    }).replace(/\. /g, '. ').replace(/\.$/, '');
+    }).replace(/\.$/, '');
 }
 
 function stripHtmlTags(value = '') {
@@ -6437,7 +6482,7 @@ function formatMessageDateTime(value) {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false
-    }).replace(/\. /g, '. ').replace(/\.$/, '');
+    }).replace(/\.$/, '');
 }
 
 function isCurrentTeacherPaidMember() {
@@ -8356,7 +8401,7 @@ function persistPlaylabHistoryReportPayload(entry) {
         reportEngineVersion: String(entry?.row?.details?.report_engine_version || entry?.row?.details?.reportEngineVersion || entry?.row?.metadata?.report_engine_version || entry?.row?.metadata?.reportEngineVersion || '')
     } : null;
     if (!report && !rawRecord) return '';
-    const key = `playlab_history_report_${entry.id}_${Date.now()}`;
+    const key = `playlab_history_report_${crypto.randomUUID()}`;
     const payload = {
         owner,
         shareContext: {
@@ -8382,7 +8427,22 @@ function persistPlaylabHistoryReportPayload(entry) {
         rawRecord
     };
     try {
-        localStorage.setItem(key, JSON.stringify(payload));
+        if (typeof BroadcastChannel !== 'function') return '';
+        window.__hahaLabTransientReports = window.__hahaLabTransientReports || new Map();
+        const channel = new BroadcastChannel(key);
+        const source = JSON.parse(JSON.stringify(payload));
+        const expiresAt = Date.now() + 30 * 60 * 1000;
+        const record = { source, channel, expiresAt };
+        window.__hahaLabTransientReports.set(key, record);
+        channel.onmessage = (event) => {
+            const request = event.data;
+            const currentOwner = window.getAuthenticatedReportOwner?.();
+            if (request?.type !== 'read-report' || !currentOwner || expiresAt <= Date.now()
+                || currentOwner.authUserId !== owner.authUserId || currentOwner.sessionId !== owner.sessionId || currentOwner.teacherId !== owner.teacherId
+                || request.authUserId !== owner.authUserId || request.sessionId !== owner.sessionId) return;
+            channel.postMessage({ type: 'report-payload', requestId: request.requestId, source });
+        };
+        window.setTimeout(() => { channel.close(); window.__hahaLabTransientReports?.delete(key); }, 30 * 60 * 1000);
     } catch (_error) {
         return '';
     }

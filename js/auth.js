@@ -64,7 +64,7 @@ let _protectedSessionRequest = Promise.resolve(false);
 let _protectedSessionToken = '';
 let _passwordRecoveryActive = false;
 
-function _purgeSensitiveSessionData() {
+function _purgeSensitiveSessionData({ clearAppState = true } = {}) {
     for (const storage of [window.localStorage, window.sessionStorage]) {
         try {
             Object.keys(storage).forEach((key) => {
@@ -72,7 +72,7 @@ function _purgeSensitiveSessionData() {
             });
         } catch (_error) { /* Storage may be disabled. */ }
     }
-    if (typeof window.clearSensitiveAppState === 'function') window.clearSensitiveAppState();
+    if (clearAppState && typeof window.clearSensitiveAppState === 'function') window.clearSensitiveAppState();
     window.dispatchEvent(new Event('hahalab-session-cleared'));
 }
 
@@ -144,13 +144,10 @@ function _keysToCamel(value) {
 }
 
 function _readStoredTeacherSession() {
-    try {
-        const raw = localStorage.getItem(TEACHER_SESSION_KEY);
-        return raw ? JSON.parse(raw) : null;
-    } catch (error) {
-        console.warn('[Auth] Stored teacher session parse failed:', error);
-        return null;
-    }
+    // The server-verified profile lives only in memory. Remove the old duplicate
+    // browser profile cache, including any password-policy/contact fields.
+    try { localStorage.removeItem(TEACHER_SESSION_KEY); } catch (_error) {}
+    return window.currentProfile || null;
 }
 
 function _normalizeTeacherProfile(profile, authUser = _currentSession?.user || null) {
@@ -177,7 +174,9 @@ function _normalizeTeacherProfile(profile, authUser = _currentSession?.user || n
 
 function _persistTeacherSession(profile, authUser = _currentSession?.user || null) {
     const normalizedProfile = _normalizeTeacherProfile(profile, authUser);
-    localStorage.setItem(TEACHER_SESSION_KEY, JSON.stringify(normalizedProfile));
+    try { localStorage.removeItem(TEACHER_SESSION_KEY); } catch (_error) {}
+    // Supabase's own session storage is unchanged; do not persist a second copy
+    // of the teacher record or credentials as an application cache.
     return normalizedProfile;
 }
 
@@ -203,8 +202,12 @@ function _applyResolvedProfile(profile, authUser = _currentSession?.user || null
     let sessionId = '';
     try { sessionId = JSON.parse(atob(String(_currentSession?.access_token || '').split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).session_id || ''; } catch (_error) { /* Invalid sessions are rejected by the auth server. */ }
     const ownerKey = `${authUser?.id || ''}:${sessionId}`;
-    if (localStorage.getItem('haha_lab_sensitive_session_owner') !== ownerKey) _purgeSensitiveSessionData();
-    localStorage.setItem('haha_lab_sensitive_session_owner', ownerKey);
+    if (window.__hahaLabSensitiveSessionOwner !== ownerKey) {
+        _purgeSensitiveSessionData({ clearAppState: Boolean(window.__hahaLabSensitiveSessionOwner || window.currentProfile) });
+    }
+    window.__hahaLabSensitiveSessionOwner = ownerKey;
+    // Retire the old raw auth-user/session-id marker, not the SDK session.
+    try { localStorage.removeItem('haha_lab_sensitive_session_owner'); } catch (_error) {}
     const normalizedProfile = _persistTeacherSession(profile, authUser);
     window.currentProfile = normalizedProfile;
     _syncProtectedPlaylabCookie(_currentSession);
@@ -2052,6 +2055,7 @@ function _showLoginOverlay() {
 }
 
 function _clearAuth() {
+    window.__hahaLabSensitiveSessionOwner = '';
     window.currentProfile = null;
     _currentSession = null;
     _signupGoogleUser = null;

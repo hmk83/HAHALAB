@@ -2,7 +2,8 @@
 -- Narrow INSERT/UPDATE ownership relationship checks; no customer rows are
 -- migrated, deleted, selected or repaired. Existing read/delete scope is kept.
 -- Old orphan/mismatched records remain intact; a subsequent write must link a
--- client from the same nominated teacher. AAL2 admin still needs a valid pair.
+-- client from the same nominated teacher when client_id is nonblank. Personal
+-- schedules and generic unlinked histories keep their existing blank/null flow.
 -- Also guard the schedule SECURITY DEFINER RPC, which otherwise bypasses RLS.
 begin;
 set local lock_timeout='2s';
@@ -32,16 +33,16 @@ $relationship_preflight$;
 
 create policy security_client_relation_insert on public.histories
  as restrictive for insert to authenticated
- with check(exists(select 1 from public.clients c where c.id::text=histories.client_id and c.teacher_id=histories.teacher_id));
+ with check(nullif(btrim(histories.client_id),'') is null or exists(select 1 from public.clients c where c.id::text=histories.client_id and c.teacher_id=histories.teacher_id));
 create policy security_client_relation_update on public.histories
  as restrictive for update to authenticated using(true)
- with check(exists(select 1 from public.clients c where c.id::text=histories.client_id and c.teacher_id=histories.teacher_id));
+ with check(nullif(btrim(histories.client_id),'') is null or exists(select 1 from public.clients c where c.id::text=histories.client_id and c.teacher_id=histories.teacher_id));
 create policy security_client_relation_insert on public.schedules
  as restrictive for insert to authenticated
- with check(exists(select 1 from public.clients c where c.id::text=schedules.client_id and c.teacher_id=schedules.teacher_id));
+ with check(nullif(btrim(schedules.client_id),'') is null or exists(select 1 from public.clients c where c.id::text=schedules.client_id and c.teacher_id=schedules.teacher_id));
 create policy security_client_relation_update on public.schedules
  as restrictive for update to authenticated using(true)
- with check(exists(select 1 from public.clients c where c.id::text=schedules.client_id and c.teacher_id=schedules.teacher_id));
+ with check(nullif(btrim(schedules.client_id),'') is null or exists(select 1 from public.clients c where c.id::text=schedules.client_id and c.teacher_id=schedules.teacher_id));
 
 do $schedule_relationship_rpc$
 declare
@@ -52,17 +53,19 @@ declare
  anchor text := '  -- Move current conflicts first, but inside the same database transaction.';
  guard text := $guard$
   -- Row-level checks do not constrain this owner-executed mutator.
-  if p_operation='insert' and not exists(
+  if p_operation='insert' and nullif(btrim(p_schedule->>'client_id'),'') is not null and not exists(
     select 1 from public.clients c
     where c.id::text=p_schedule->>'client_id' and c.teacher_id=p_teacher_id
   ) then raise exception 'CLIENT_TEACHER_MISMATCH' using errcode='42501'; end if;
   if p_operation='move' and not exists(
-    select 1 from public.schedules s join public.clients c on c.id::text=s.client_id and c.teacher_id=s.teacher_id
-    where s.id::text=p_schedule->>'id' and s.teacher_id=p_teacher_id
+    select 1 from public.schedules s where s.id::text=p_schedule->>'id' and s.teacher_id=p_teacher_id
+      and (nullif(btrim(s.client_id),'') is null or exists(select 1 from public.clients c
+        where c.id::text=s.client_id and c.teacher_id=s.teacher_id))
   ) then raise exception 'CLIENT_TEACHER_MISMATCH' using errcode='42501'; end if;
   if exists(select 1 from jsonb_array_elements(coalesce(p_updates,'[]'::jsonb)) u where not exists(
-    select 1 from public.schedules s join public.clients c on c.id::text=s.client_id and c.teacher_id=s.teacher_id
-    where s.id::text=u->>'id' and s.teacher_id=p_teacher_id
+    select 1 from public.schedules s where s.id::text=u->>'id' and s.teacher_id=p_teacher_id
+      and (nullif(btrim(s.client_id),'') is null or exists(select 1 from public.clients c
+        where c.id::text=s.client_id and c.teacher_id=s.teacher_id))
   )) then raise exception 'CLIENT_TEACHER_MISMATCH' using errcode='42501'; end if;
 $guard$;
 begin

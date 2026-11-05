@@ -119,7 +119,7 @@
         const params = new URLSearchParams(window.location.search || '');
         const launchKey = String(params.get('labLaunchKey') || '').trim();
         const launchContext = launchKey
-            ? (readStoredJson(window.sessionStorage, launchKey) || readStoredJson(window.localStorage, launchKey) || {})
+            ? (window.HahaLabLearningHarness?.readLaunchContext?.() || readStoredJson(window.sessionStorage, launchKey) || readStoredJson(window.localStorage, launchKey) || {})
             : {};
         const storedUser = readStoredJson(window.localStorage, STORAGE_USER_KEY) || readStoredJson(window.sessionStorage, STORAGE_USER_KEY) || {};
         const storedPage = readStoredJson(window.sessionStorage, STORAGE_PAGE_KEY) || readStoredJson(window.localStorage, STORAGE_PAGE_KEY) || {};

@@ -124,7 +124,7 @@
   function getStoredLabLaunchPayload() {
     const launchKey = getQueryValue('labLaunchKey');
     if (!launchKey || !launchKey.startsWith(LAB_LAUNCH_CONTEXT_STORAGE_PREFIX)) return {};
-    return readStoredJson(sessionStorage, launchKey) || {};
+    return window.HahaLabLearningHarness?.readLaunchContext?.() || readStoredJson(sessionStorage, launchKey) || {};
   }
 
   function normalizeRequestedMode(value) {

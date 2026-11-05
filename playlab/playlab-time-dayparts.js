@@ -650,7 +650,8 @@
       const params = new URLSearchParams(window.location.search || '');
       const launchKey = String(params.get('labLaunchKey') || '').trim();
       if (launchKey && launchKey.indexOf(LAB_LAUNCH_CONTEXT_STORAGE_PREFIX) === 0 && typeof sessionStorage !== 'undefined') {
-        const raw = sessionStorage.getItem(launchKey);
+        const transient = window.HahaLabLearningHarness?.readLaunchContext?.();
+        const raw = transient ? JSON.stringify(transient) : sessionStorage.getItem(launchKey);
         if (raw) {
           const parsed = JSON.parse(raw);
           if (parsed && typeof parsed === 'object') {
