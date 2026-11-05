@@ -1,4 +1,8 @@
 var HAHAClassAppFile = (() => {
+  // Retired dashboard bundle: retained for source history, never an app entry.
+  const retiredRoot = document.getElementById('root');
+  if (retiredRoot) retiredRoot.textContent = '이전 학습 화면은 더 이상 지원되지 않습니다. 숫자랩에서 다시 시작해 주세요.';
+  return;
   const { useState, useEffect, useRef, useMemo, useCallback, useDeferredValue } = React;
   const MODAL_OVERLAY_Z_INDEX = 2147483e3;
   const getViewportSafeAreaPaddingStyle = (basePadding = 16) => ({

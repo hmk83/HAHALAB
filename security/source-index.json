@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T03:35:13.632Z",
+  "generatedAt": "2026-11-05T04:08:59.105Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -45,8 +45,8 @@
     },
     {
       "path": "cloudflare-worker.js",
-      "sha256": "4016e6ef4a57b60ea1c7cea6773adab7e85849ad3b17123cca167251b0d9631f",
-      "bytes": 14348
+      "sha256": "e387d87419a72a40cc5043d3ea25dc466b127de05f96a5edc94f9a1ee76d490e",
+      "bytes": 15478
     },
     {
       "path": "css/admin-renewal.css",
@@ -64,9 +64,649 @@
       "bytes": 2141
     },
     {
+      "path": "css/fonts/noto-sans-kr/OFL.txt",
+      "sha256": "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+      "bytes": 4388
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/noto-sans-kr.css",
+      "sha256": "a55688e57c13f029fbd083a828d449771d59c67fe59a5c3bac3eb87957c70521",
+      "bytes": 83954
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/provenance.json",
+      "sha256": "7fc8cb8e49edcace81a7f1b3d604064509b1580a80d6dcbbb4362fe22c12f388",
+      "bytes": 38530
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/000.woff2",
+      "sha256": "bb01003f627a2198870f16e24f69cb9ec8d34d6611b23dce0524712c3cc38f9a",
+      "bytes": 34712
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/001.woff2",
+      "sha256": "8398087714d3a4818056ab548e8ef0d29c0cf64cf94d6f541f483984ac0db051",
+      "bytes": 55972
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/002.woff2",
+      "sha256": "0c462ee708ef62d806c0ce02aa1ad4f408c3d5cf409c6c6c0d219eb3a111b534",
+      "bytes": 35816
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/003.woff2",
+      "sha256": "cf061b2989470b67fbae33be397d759e7c4a09c54148f51b27b4bd2471081f2f",
+      "bytes": 24600
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/004.woff2",
+      "sha256": "9cfed10f65e94b04429ebaa892c02f3fe3b3f09696d2c80e52e0736f894790e8",
+      "bytes": 23108
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/005.woff2",
+      "sha256": "7c3d669828099d4832d193c34297b72904968f767acbae76deeeeefb6d49bf3c",
+      "bytes": 20616
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/006.woff2",
+      "sha256": "df37562749052bde2a8d0744fac7a051a6aad580fb2c5a75bf347d5607fcc326",
+      "bytes": 20460
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/007.woff2",
+      "sha256": "2ca2db45d3650c7727954dd4f2edf2b7bcb4536e0ec4e1657bae145d66a78bb5",
+      "bytes": 20872
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/008.woff2",
+      "sha256": "68ff143376e2c695316229f6326bd4208d5949f6040db028837d9b0c3b809302",
+      "bytes": 19552
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/009.woff2",
+      "sha256": "8ba5ccd70f73f287a7986781ccd361c28eef6366ca2c5ab0ca9039a91d308dc0",
+      "bytes": 22188
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/010.woff2",
+      "sha256": "08447f5c09626ab8d921a3c31d3b394a0a7beb806695be659a24f5c0a9cea045",
+      "bytes": 20300
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/011.woff2",
+      "sha256": "7b1793fb8fe2756cae6def59dd40588faaf8a1d47c2b95731bdf76848a3aeb41",
+      "bytes": 20000
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/012.woff2",
+      "sha256": "eef31d2f6122645b1af01943d9af5c01099a3c38f9468d2c8c2f194d2807bcfb",
+      "bytes": 22552
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/013.woff2",
+      "sha256": "454d1f2d0ae7bc572e1a3f59d93706aae612ec85a2ea5e619f5cd3fb8deb89e9",
+      "bytes": 22492
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/014.woff2",
+      "sha256": "9a9e9b27c6c70c82a07317fafe9ec726e7ed5d0609563f578a7fa56807823ec1",
+      "bytes": 21956
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/015.woff2",
+      "sha256": "6a1fa138af79318644428cf5cf8d53d1b6f8354029db7d25150b54d807f0e3ec",
+      "bytes": 22560
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/016.woff2",
+      "sha256": "4749ff1ea61d7f43e6cdcf0126a2f148719bd8e9f63fe62657294c0ead5fd67e",
+      "bytes": 21384
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/017.woff2",
+      "sha256": "656ccb735f450263c918c18ce5470b45a8e328f1b0fcc5efd102b945bcc3fa83",
+      "bytes": 23392
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/018.woff2",
+      "sha256": "45b6b29b57d103d234551c3100b06016781e4b1609dcb60b646fe85e26050817",
+      "bytes": 21508
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/019.woff2",
+      "sha256": "94e7964702b899aa9c0a357b1ccf18c8a900817df71a64e2db40ce28f7df3986",
+      "bytes": 24988
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/020.woff2",
+      "sha256": "9c03be67139f1e6b60f34127574d8ff66ba5db2c4ca7a471726bf72251e5bf48",
+      "bytes": 25716
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/021.woff2",
+      "sha256": "5b39a2270fd09cc12ce2f5bd183db9e1060861242fd11bf6208bad7cb1bb0a3f",
+      "bytes": 22096
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/022.woff2",
+      "sha256": "d8bbb0f939146adda58476b9b9838c75527a7f7278a39bf422e2d6be5d56048f",
+      "bytes": 23444
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/023.woff2",
+      "sha256": "9959c3138e998fd4398e64e2c3aa981ce18c283a76675894b1820ebf15ad4019",
+      "bytes": 23860
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/024.woff2",
+      "sha256": "d2e677f311f042abc57bf24aa57b2e94fd8b2ca5ac14ea87c85bec29775a151e",
+      "bytes": 25384
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/025.woff2",
+      "sha256": "9e2c1fce1208bd6190dbcfedf6a50f79b7904ecb9319bf2146a4bfcf1989bd6b",
+      "bytes": 19636
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/026.woff2",
+      "sha256": "d609902ff93e251a022423aa09e606e420e149d7728fab65026f674b20aa1c03",
+      "bytes": 25444
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/027.woff2",
+      "sha256": "b63bddc2881b6c5da599ebbeabb5126cd9d14d102f10a424f4201ed762152202",
+      "bytes": 24316
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/028.woff2",
+      "sha256": "902abfe30485fd161ff04337057c3ce60a617965c3a5d52cbdf86a7ef63ab685",
+      "bytes": 21784
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/029.woff2",
+      "sha256": "2ff126e20de2caae58f6a00a27f398bc909b59fa6b0f2250e73bc00898bcf7d7",
+      "bytes": 22972
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/030.woff2",
+      "sha256": "7ec43c08742dea7082f25a5368ec493ac1a0172cf8355387432bbc58a03170ea",
+      "bytes": 23332
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/031.woff2",
+      "sha256": "f17cc7565b3aeb8754c64b17ccecd5610f57c43f30e0adef952a730c9e4590e2",
+      "bytes": 23444
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/032.woff2",
+      "sha256": "5050f644fd2de6dd47e64458cc353bd000f26d9ebda15a1630006e5504cf5a57",
+      "bytes": 26096
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/033.woff2",
+      "sha256": "020aff13e93efcf6c88abb1e3ed1ea653f8f6cb439f7fa411cfb70d75ee07c39",
+      "bytes": 24944
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/034.woff2",
+      "sha256": "5bb9de35e478591313593d666d392b41f958965ced1a68726a04de054dde490a",
+      "bytes": 21364
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/035.woff2",
+      "sha256": "f2bd1979b25cff04e790d581f2040938f6a0387cf543ba5b89e2050889f2c33a",
+      "bytes": 21176
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/036.woff2",
+      "sha256": "3c11c8e35eb61d0f542f83f182b643e60eed1be22bf32d48dbafcbc044f37c67",
+      "bytes": 21104
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/037.woff2",
+      "sha256": "ae96b6766e78b59cf2b5277cead5f40384a7bbca9e5b85a6f1e4814b78b1200e",
+      "bytes": 21120
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/038.woff2",
+      "sha256": "913f0b5d2073887d490112e2789e8028f4a62ec868888464fea00ee3e2a2868b",
+      "bytes": 16468
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/039.woff2",
+      "sha256": "f8c8dcbb5453e77a6eb2cce683fdb7a9c77fd0816a4567c866eca243ca320f7e",
+      "bytes": 21252
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/040.woff2",
+      "sha256": "d4904b43d5b12830865ad70418a6d3812dd94c30c82317c67df17ed7f56b141c",
+      "bytes": 20704
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/041.woff2",
+      "sha256": "cf3713448bb84d158920fb0b5dd7bed144c78cc3c950fd076acc0c6a469e3e91",
+      "bytes": 17944
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/042.woff2",
+      "sha256": "eb72349600dacb534c49c892726c325aeb1859aefbfcbb75c53312b110561187",
+      "bytes": 20040
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/043.woff2",
+      "sha256": "15e532763385ad99be46e83292591b5ac8b262ff10b695fded162098f58b7f35",
+      "bytes": 21308
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/044.woff2",
+      "sha256": "90e71e1749c1cb8941574c023159be180c197f346d1dab9d2cfb4eeea61a99cb",
+      "bytes": 18296
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/045.woff2",
+      "sha256": "35c01666587ac334494c19e433c545ad2672a2befcaf1a1379e749a8aebc0aca",
+      "bytes": 19492
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/046.woff2",
+      "sha256": "3d6655faaed3641b5ae4b9f2f77f6b55d3715d0ccb5d10f0ded881c65ace47fc",
+      "bytes": 20768
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/047.woff2",
+      "sha256": "329d5850cf7ba14b6bd6f71e7ebac9df857960d106bd051c1aa76354bb86669c",
+      "bytes": 22028
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/048.woff2",
+      "sha256": "0a17f4970e49f88e2b2f06c50fee11ee8e90c192daad8e77ee8bd23b3c42f13f",
+      "bytes": 21268
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/049.woff2",
+      "sha256": "ebc9410c99296c5bff9e5039bf0bcf54b6897c2c5971e94fcc27ecd605cb693d",
+      "bytes": 22620
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/050.woff2",
+      "sha256": "dd5aec90f6ccf5b9d89332719a2cdf05523925f127c905bb5c2c10a3344e1c34",
+      "bytes": 21328
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/051.woff2",
+      "sha256": "04ae9ef683400635073aa08be633c2bc404eca48f0350dfb9570783ffdb53498",
+      "bytes": 19552
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/052.woff2",
+      "sha256": "c55243b5465bc5b0ea0447f96389783eed3b7d75e9e92511b4e9db6cbe03f036",
+      "bytes": 22068
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/053.woff2",
+      "sha256": "00894cf360691b6fbccf222c3bd9c2567ec21ef0fcf412fc0a054176340633d0",
+      "bytes": 20940
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/054.woff2",
+      "sha256": "0c76b9b9cd45d70ecebe2e01e6a97c12a54861c3dd6dccd2eafb7c9f9e7fda3e",
+      "bytes": 20836
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/055.woff2",
+      "sha256": "0075649f1b28f1bb4f04cc75fe13ee0885d1ebba887d1f4bc140a642b340a39d",
+      "bytes": 20512
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/056.woff2",
+      "sha256": "32d95b816611b20b95076ac2073741ddb0069f55c4bf9d78a5099324c2006ef3",
+      "bytes": 21168
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/057.woff2",
+      "sha256": "d0500719a713dbe3f1a78af862a0623b42fd9b867cf627890264d3a0626ad55f",
+      "bytes": 21100
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/058.woff2",
+      "sha256": "69232f2e86b9c7af32bce6d26eb64c6f661da1756112d5cb9f2f08d079821681",
+      "bytes": 21904
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/059.woff2",
+      "sha256": "618f3ad9909a845f8fa6ffc9d36458f9447271ba6a9d78f990653cb90260d82a",
+      "bytes": 25024
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/060.woff2",
+      "sha256": "0cb206c69a4ceca7bd3469c2a13292470c7e6122031bfd7b614f17a8434d7192",
+      "bytes": 24352
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/061.woff2",
+      "sha256": "fc63298d5e0f217c63278169caf7c3604c32d61cf3e1b1276bda62eb46ee41c5",
+      "bytes": 23648
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/062.woff2",
+      "sha256": "55b3765b6c931d176f6ae20f1dc5dc906b831a86925ddf0878018f59080ef5c2",
+      "bytes": 21772
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/063.woff2",
+      "sha256": "8b9e97be2807c046393a8ea273db29e8dbe6f379783d20d7b61cea54468732a6",
+      "bytes": 20884
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/064.woff2",
+      "sha256": "0261d51e3cdd8429d70386587054945fae9aae493b0054ea8d5c469392586ce6",
+      "bytes": 18388
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/065.woff2",
+      "sha256": "842af898b69976907ec12aee803e6befd9f6008268d5bb7ab984b3769bcb18bf",
+      "bytes": 64868
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/066.woff2",
+      "sha256": "7f5ed7f9c44f8b2d461d49f26bcad1e31ed7725bb4eb3c042f9e5ab9ed79d112",
+      "bytes": 55812
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/067.woff2",
+      "sha256": "478f0a42a123352b718bbab140f11f59c07d41790e8ca60a1a487de355a57822",
+      "bytes": 48256
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/068.woff2",
+      "sha256": "e43fa8a0294f19affb3626150ab80a01d6e20b486b0ae30c6ae8126dd7880983",
+      "bytes": 51588
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/069.woff2",
+      "sha256": "12a948dfed1b2fedf924c57db5f5203b2a14893d633d90f77a6ec456e5a96e84",
+      "bytes": 48296
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/070.woff2",
+      "sha256": "85de0a340bed7293fc09deb2b55378fefe5a3209cb7a19c5ae35cfda0c1f48a3",
+      "bytes": 47956
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/071.woff2",
+      "sha256": "526f52d65badc7c2583bdf192e75a0eb1af32dd8c00a70242a37bd8929441d60",
+      "bytes": 57108
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/072.woff2",
+      "sha256": "b39ddcaff056f4cabffb4ba17f27a1585f18f1e2a858179364a8d6e4097f733c",
+      "bytes": 45648
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/073.woff2",
+      "sha256": "bc76ff2bce96596bf2cfda486d8b9a048c281f68a410c34c1beae4f32f7914ff",
+      "bytes": 50236
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/074.woff2",
+      "sha256": "dc10157cffc20eff5cfa2644bcd76c6e74118827718508ad241c01d207ad0865",
+      "bytes": 54284
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/075.woff2",
+      "sha256": "f8381dab6653428d50cc893e2055f8e9ae747d602e80840b6dde7d7eb48ff9a1",
+      "bytes": 56548
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/076.woff2",
+      "sha256": "bdc8c0584f881244dac36b56006259b6554909d93ec4aa6e63816ff527af61cc",
+      "bytes": 48424
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/077.woff2",
+      "sha256": "29613dfc49ea34b94146f0b02ccda55d7310e1d72c0649eaaf299893d580e7f3",
+      "bytes": 52852
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/078.woff2",
+      "sha256": "6e657fddf7c92574c3b293f44be932d30719a82c14c2bbeb89b0d4fb82a3b316",
+      "bytes": 48248
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/079.woff2",
+      "sha256": "05f9eb66eec19964b1da803e3a82859e563b2d66a4d9b9b8e0834b32c2ed76b9",
+      "bytes": 60672
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/080.woff2",
+      "sha256": "d9573841a0e2557a5eeccee5c06ad48ae231c613c16abf6e2a90737899472793",
+      "bytes": 50812
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/081.woff2",
+      "sha256": "67354ac8a154b9b0c6178d5200692e6bd493be6df8e02565a20a1fab9b538c6d",
+      "bytes": 47892
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/082.woff2",
+      "sha256": "6f0d185287820e7254a740025e835810b0be04da6f1705fda350034dac0261ba",
+      "bytes": 50740
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/083.woff2",
+      "sha256": "3ef3c836e48d9da629d4bde4ef4570c8eab7b251a4f5d0220d30ea7cfb28a556",
+      "bytes": 41472
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/084.woff2",
+      "sha256": "9837c153693389214abeea8cc19f378adbd4244812a06d5d0f49f81695a3c7ce",
+      "bytes": 54412
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/085.woff2",
+      "sha256": "16be33070cd2dc3ebe8748581160e486614ee8a9e7dd6107ff06473481f284cd",
+      "bytes": 52400
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/086.woff2",
+      "sha256": "d516ea1ae10ddb32a460bccafb9761665d9371d79d21a0c0ebe24661419f82dd",
+      "bytes": 51492
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/087.woff2",
+      "sha256": "71fbd2f251aca339d861100d9599952b5448d7fb74679595e19eb5928b6eb945",
+      "bytes": 44780
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/088.woff2",
+      "sha256": "1441e48ae42deb2abe8e13f4a6b7dbed8b5eec2cb26902fd00dc678d9338b615",
+      "bytes": 46300
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/089.woff2",
+      "sha256": "91fdcfb735fe6b24c4d83e7cd63d5d7371bd2f69111272177ef0fe86d73fb8bc",
+      "bytes": 45324
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/090.woff2",
+      "sha256": "0b1be1e8f112f0789877c8543713b197c2116ca29ac6cffb738dd7f368bb5c6f",
+      "bytes": 41768
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/091.woff2",
+      "sha256": "3b86043943ce6aec5fb86f86333e4fbe3b2689708ebc1737e88b7e6ab6bc8276",
+      "bytes": 45092
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/092.woff2",
+      "sha256": "125f296a6c457b0c64306bda84608d2bb9b276943dd58b19f8c5d0d327537e23",
+      "bytes": 42456
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/093.woff2",
+      "sha256": "5a76595a80fdcfa9411dbdb3e66fcd2ad90df36d5e81d0987b952244c6ebd95a",
+      "bytes": 28872
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/094.woff2",
+      "sha256": "06d8f882ae3a6af8b427a1238f1280423fb666584d5fb6d5879523dafe186629",
+      "bytes": 19232
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/095.woff2",
+      "sha256": "ae95f0442bb262826d65f6b6b35dd075a6c2b2b3716ba4fe8ef72ba6b9e20c44",
+      "bytes": 53708
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/096.woff2",
+      "sha256": "b97fb15c666bdb71d18f7345871f545af334a387c9aa7911121920baeea495bf",
+      "bytes": 21100
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/097.woff2",
+      "sha256": "02ab8356764726eecb8f4538518bcb87d43e2fca0bb19535a44a2208a362520e",
+      "bytes": 14016
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/098.woff2",
+      "sha256": "8e071d38e4860876927d9cd5faf0194a58093dfb8c77ab6393e8f4011ce0ac85",
+      "bytes": 12080
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/099.woff2",
+      "sha256": "e949783b1b29e223e396fa198f5aae85ae4c82ad3c9b75933ce7c894cba6ef75",
+      "bytes": 16776
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/100.woff2",
+      "sha256": "97db605ccfd6f9d4780e33ff6cda4b265904ca0962a1a0b48b47bf4aec858718",
+      "bytes": 26388
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/101.woff2",
+      "sha256": "c9ecd3f12ad8e7d06c6321303bc5391f53f511499324657a8e7a60e81c397fa8",
+      "bytes": 26048
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/102.woff2",
+      "sha256": "44036a80362ac1b81b6b9b488e37f39f296af725f5e988b2e8cf245b03c0aa92",
+      "bytes": 26324
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/103.woff2",
+      "sha256": "055d34fc399415c8a1aaba2909daff4cf3cc72b95c51fec6de0b46add1acb18e",
+      "bytes": 24464
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/104.woff2",
+      "sha256": "8bfc5f2dae637317f3b2bf76ee1979a54028d37a44488bdf70c4d424f00db73e",
+      "bytes": 29136
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/105.woff2",
+      "sha256": "e94ebec97a34f33bb4588fd3c4ea8c2a8208ce4396f5044adb1861df04114e82",
+      "bytes": 25312
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/106.woff2",
+      "sha256": "9c22ec18eafa66d3f75c021ccef86beed47b27ec60676315411d3c5e39688f47",
+      "bytes": 24736
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/107.woff2",
+      "sha256": "704b9bf46ddc42a7df2b42e33d018bd281e57572bd1c6037f575e4f0f1acff62",
+      "bytes": 18388
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/108.woff2",
+      "sha256": "0df0ea94e7ab63e706bf1815628102f303c7304127b0f39055b70d03ba0c2217",
+      "bytes": 19612
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/109.woff2",
+      "sha256": "b18aabe1b00bdcb9f21dc0325aa3067330baf5b49a4b2a0983207d7a1336f8c9",
+      "bytes": 17912
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/110.woff2",
+      "sha256": "34b0f37f98b36c94bc63bfb5c3604838e9a8b78e8f338523c6cf5e65b8422e06",
+      "bytes": 17492
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/111.woff2",
+      "sha256": "235370b16bd341fdfbd83e29b7b357d4f33d395fb6b2affa32a3151584fe7e70",
+      "bytes": 17332
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/112.woff2",
+      "sha256": "2aaeebf049ee0e3ab0a731db5f9ba38a00402d87f4c4fa1a664f7ad7119bdcfb",
+      "bytes": 16344
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/113.woff2",
+      "sha256": "9ba53efd1632ad970fc5b7eb3969474929da676fecfb67eda903798554839ad6",
+      "bytes": 16368
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/114.woff2",
+      "sha256": "f1e6ed1ffbe6866d9910245c46498553a9ec011bd86483ccc1b35f5ea1360e4d",
+      "bytes": 16088
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/115.woff2",
+      "sha256": "9d91f8b9095ab25b60cf60d3a7fa17d6022edbb936331618240bae5becfae901",
+      "bytes": 16132
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/116.woff2",
+      "sha256": "4a67267e9475319dc18b55075f89b570c9606338c23a0fc82998dccd63f06724",
+      "bytes": 16104
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/117.woff2",
+      "sha256": "013470e5e25a0ae32ca54b1ed73d4d824b921990bbb75dedbe4ee977753938e5",
+      "bytes": 14296
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/118.woff2",
+      "sha256": "2675ec59461a52c76da1839c24c8865108f1592695863e8e4c4e5255f7a2516c",
+      "bytes": 14600
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/119.woff2",
+      "sha256": "19d9e49c46756d7092e182d6ab14152b8137b534591b4cbae2e9a44017ead74f",
+      "bytes": 16568
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/120.woff2",
+      "sha256": "bc6bc616a59a478f4c33ecd15f2c18fc947bcb87d5d1eb5f278117de6314055b",
+      "bytes": 9964
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/121.woff2",
+      "sha256": "af0ceecb73288ffa6985a6867676a04f214f85806be5fbb2287d2398d60499d5",
+      "bytes": 9028
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/122.woff2",
+      "sha256": "5568243788ae314cf864dfe06c2d57a65612e644aeccd8d738617c6260ca7abf",
+      "bytes": 8240
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40/123.woff2",
+      "sha256": "767124ae502ae722fa6d84e237ab5652980d7cf273813301542865ed078308b9",
+      "bytes": 25804
+    },
+    {
       "path": "css/global.css",
       "sha256": "2ccebfb3a6db8f55f43b24c9035792c715e6838e18e60b2cc82e7ea519e6745f",
       "bytes": 4586
+    },
+    {
+      "path": "css/homepage.css",
+      "sha256": "91b8431bdb8ff7ac4fe3ed6176a16d85dd4586a26011a34794f80a019f8427cb",
+      "bytes": 18344
     },
     {
       "path": "css/main.css",
@@ -105,8 +745,8 @@
     },
     {
       "path": "index.html",
-      "sha256": "ec16c38b492d90561f674892e2b1ec7c061a503edec9e9e58891d8284df64b06",
-      "bytes": 52307
+      "sha256": "f0d95b2bfc4af5825f5a1c8ea6bdc37be7afa016a210f5834df406b8b153c4bd",
+      "bytes": 8940
     },
     {
       "path": "js/app.js",
@@ -122,6 +762,11 @@
       "path": "js/clinical-workflow.js",
       "sha256": "afdeba792dd77ead703e04315951c9df3f73050c5a44c347ddd4ec38829475a8",
       "bytes": 15203
+    },
+    {
+      "path": "js/homepage.js",
+      "sha256": "34676cc08bda630377c49b204abd3b158519f165c72a431195f9fd8cb7ad81bf",
+      "bytes": 26282
     },
     {
       "path": "js/learning-queue-secure-store.js",
@@ -270,8 +915,8 @@
     },
     {
       "path": "playlab/cardlab-context.js",
-      "sha256": "460149e2497abd8c13dcd13e41ba2f63dd6dc4d7112a40185e169d47512a193e",
-      "bytes": 70078
+      "sha256": "5f0fc43d8871c59b48e90e3cbba2f62e09d376735ef000ba557fc1f255e46db6",
+      "bytes": 70150
     },
     {
       "path": "playlab/cardlab-description-find.css",
@@ -435,8 +1080,8 @@
     },
     {
       "path": "playlab/cardlab-situation-ox.js",
-      "sha256": "3d709d11156ff3180b3417ebcba7a5e905987bac1b1dad238f90bfbcbccc741d",
-      "bytes": 22149
+      "sha256": "1fe228ecfcd56a7c0d818e665599e398cf9b8a585d13d07e96a0392cf01657c7",
+      "bytes": 22091
     },
     {
       "path": "playlab/cardlab-situation-sequence-data.js",
@@ -575,8 +1220,8 @@
     },
     {
       "path": "playlab/number-app.file.js",
-      "sha256": "802d00e9480be678daaa2ec8daa6a0fb341bf8b133356858d0f336c3bec70a98",
-      "bytes": 2067731
+      "sha256": "60c046f4aa67c12095f80d8cc42c8ece1ecdbdd14c3633570306fa7bbadbfbd5",
+      "bytes": 2068030
     },
     {
       "path": "playlab/number-cross-math-puzzle-levels.js",
@@ -595,8 +1240,8 @@
     },
     {
       "path": "playlab/number-launch.js",
-      "sha256": "009ffde24dde2894be41110160e8c80b05941ca704239fe9be6e15c072371eef",
-      "bytes": 6541
+      "sha256": "c5e179d1190a255d5d134b0cb3370b121770bcc4d86cda74cee8e73e461ed601",
+      "bytes": 1022
     },
     {
       "path": "playlab/number-police-chase.css",
@@ -615,8 +1260,8 @@
     },
     {
       "path": "playlab/numberlab-agency.js",
-      "sha256": "5424b320d9ddb6c5e6f47abe023cce69ebec611e2505b87d9d2ad5d2f89c411b",
-      "bytes": 302564
+      "sha256": "b395a25cd39bb0ee386a9ee7f9b5d63b026769dc1181d8604fd876a6373deb8c",
+      "bytes": 302503
     },
     {
       "path": "playlab/numberlab-shell.css",
@@ -625,13 +1270,13 @@
     },
     {
       "path": "playlab/numberlab-standalone-sequence-fix.js",
-      "sha256": "a7bf3f40e0722dd9cfb4b3e88ca423c4e3c79f51d512d6f822e078d250afebde",
-      "bytes": 2107412
+      "sha256": "4446f5400b0b17741ede85bd794a924e446ab8ad7ca696d858402dc35ec9a8b1",
+      "bytes": 2107675
     },
     {
       "path": "playlab/numberlab-standalone.js",
-      "sha256": "a1e8a46ff0bc3bb408663cf1b1e46e5a159844a1e48eecb6213685bbb1737f6e",
-      "bytes": 2330076
+      "sha256": "cd0fd047f7362130f0bf64c0483edaec7648bf1b86a51279b00fff694e999786",
+      "bytes": 2330339
     },
     {
       "path": "playlab/playlab-arrow-direction-grid.css",
@@ -825,8 +1470,8 @@
     },
     {
       "path": "playlab/playlab-spatial-block-count.js",
-      "sha256": "48fa6c4655b9f91ad5e81dd646656fb9fe1775ef8f3f07e101d98d2fc93abddd",
-      "bytes": 36928
+      "sha256": "1a7b817f1fb088bd6eea5988a55a408c66eb542132bda3c395132c4967e16651",
+      "bytes": 36784
     },
     {
       "path": "playlab/playlab-speed-card-sort.css",
@@ -855,8 +1500,8 @@
     },
     {
       "path": "playlab/playlab-standalone.js",
-      "sha256": "a394432d0037e1d295e20bb9f91cd80816a4fa01f1df9f6b4c815b196be66163",
-      "bytes": 164025
+      "sha256": "251fc7891fc45b6278320b89e2739e3cdfb33d8bd06c9b78fd41417d5f890a50",
+      "bytes": 163866
     },
     {
       "path": "playlab/playlab-supermarket-errand.css",
@@ -900,8 +1545,8 @@
     },
     {
       "path": "playlab/rehablab-color-block-count.js",
-      "sha256": "1edc38a64f51cf22e74aba0e2b6fdfab18aa5d22ded0b4eeacdf722a331b2695",
-      "bytes": 52813
+      "sha256": "c2dd2d1a736031f1d0f6547905b36a6bd18f96222badb6b8b26f3cfd6dc2063b",
+      "bytes": 52634
     },
     {
       "path": "playlab/rehablab-intro-standard.css",
@@ -915,8 +1560,8 @@
     },
     {
       "path": "playlab/rehablab-language-card-labs.js",
-      "sha256": "9a04a9f8baef336d74f5173b87f9473791582db4379f22a744bba5de217d9b6f",
-      "bytes": 31597
+      "sha256": "930a1c0627c290a523629f4896661a11edc2b3817c31961d93b36d5832320cde",
+      "bytes": 31439
     },
     {
       "path": "playlab/rehablab-legacy-cognitive.css",
@@ -1002,6 +1647,11 @@
       "path": "policy-docs.js",
       "sha256": "b5df4e6e2f728281fdcbc2feda8c158e76bc0d7d4be4786fd29868e5d5df1bce",
       "bytes": 15876
+    },
+    {
+      "path": "scripts/fixtures/security-main51-minimum-baseline.json",
+      "sha256": "5c5c99783619e2d534d311b86ab56b03dee1f0f1a38bf967d8c21f177ddbeb01",
+      "bytes": 8686
     },
     {
       "path": "scripts/security-additional-rpc-policy.sql",
@@ -1239,6 +1889,11 @@
       "bytes": 54388
     },
     {
+      "path": "scripts/validate-security-homepage.mjs",
+      "sha256": "78a517d977d7643c63c384b417909709ca7b510e8857e6d56d259adad309c7ed",
+      "bytes": 12162
+    },
+    {
       "path": "scripts/validate-security-learning-queue-key-policy.mjs",
       "sha256": "df1fa0ec7e5a1fd9a9eed4951a72fd8363446c09dc11be51151345efea8ca7d1",
       "bytes": 10008
@@ -1252,6 +1907,11 @@
       "path": "scripts/validate-security-live.mjs",
       "sha256": "759b3d6b4bf035706054e3b5ab66ca04ecbfb9ef79f45cb61975eb471b5b9783",
       "bytes": 1616
+    },
+    {
+      "path": "scripts/validate-security-main51-minimum-fixes.mjs",
+      "sha256": "7a085e110f98c4a1493da3b8f6aeefdd1c1fb856662a0080649555d0a2b81e0b",
+      "bytes": 13942
     },
     {
       "path": "scripts/validate-security-production-advisors.mjs",
@@ -1295,8 +1955,8 @@
     },
     {
       "path": "security/source-policy.json",
-      "sha256": "16daa8debdc30f9404948d54e27eb9ccc39e04b8fac436d616ddc9235e772225",
-      "bytes": 2571
+      "sha256": "552baae86280bf61ab6af481612f78bd073ff69a84f1b045aa21605496c27cd4",
+      "bytes": 2821
     },
     {
       "path": "security/tools.lock.json",
@@ -1325,8 +1985,8 @@
     },
     {
       "path": "supabase/functions/worksheet-r2-storage/index.ts",
-      "sha256": "b81b2af4d4bada8959e1a93cddf0fe42c0bf9660153bb1f87287777888470d50",
-      "bytes": 7554
+      "sha256": "0eb8b6e49e6c29bc92c036691834ab207f91d5fd01278d639c3dd39eda7979b8",
+      "bytes": 7560
     },
     {
       "path": "sw.js",

@@ -2259,9 +2259,7 @@
     stopDoorAudio();
     clearDoorKeyTimer();
     state.run = {
-      sessionId: typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-        ? crypto.randomUUID()
-        : `standalone-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      sessionId: crypto.randomUUID(),
       stageId: stage.id,
       stageTitle: stage.title,
       status: 'playing',

@@ -35,7 +35,10 @@
     "js/vendor/xlsx-0.20.3.LICENSE.txt",
     "js/vendor/tailwind-3.4.17.LICENSE",
     "js/vendor/noble-ciphers-2.4.0.LICENSE.txt",
-    "js/vendor/noble-ciphers-2.4.0.provenance.json"
+    "js/vendor/noble-ciphers-2.4.0.provenance.json",
+    "css/fonts/noto-sans-kr/OFL.txt",
+    "css/fonts/noto-sans-kr/provenance.json",
+    "scripts/fixtures/security-main51-minimum-baseline.json"
   ],
   "trees": [
     {
@@ -84,6 +87,12 @@
         ".yml",
         ".yaml",
         ".md"
+      ]
+    },
+    {
+      "path": "css/fonts/noto-sans-kr/v40",
+      "extensions": [
+        ".woff2"
       ]
     }
   ],

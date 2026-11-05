@@ -703,9 +703,7 @@
     state.stage = stage;
     state.trialIndex = 0;
     state.startedAt = Date.now();
-    state.sessionId = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-      ? crypto.randomUUID()
-      : `language-card-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    state.sessionId = crypto.randomUUID();
     state.selected = new Set();
     state.cueLevel = 0;
     state.logs = [];

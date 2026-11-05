@@ -47,7 +47,7 @@
     if(bank.length<12){alert('상황 자료를 준비 중입니다. 잠시 후 다시 열어 주세요.');return;}
     clearTimers();state.level=level;state.deck=shuffle([...shuffle(bank.filter(i=>answerOf(i)===true)).slice(0,6),...shuffle(bank.filter(i=>answerOf(i)===false)).slice(0,6)]);
     if(state.deck.length!==12)state.deck=shuffle(bank).slice(0,12);
-    state.index=0;state.results=[];state.started=Date.now();state.sessionId='situation-ox-'+(crypto.randomUUID?.() || Date.now()+'-'+Math.random().toString(36).slice(2));state.saved=false;view('game');render();
+    state.index=0;state.results=[];state.started=Date.now();state.sessionId='situation-ox-'+crypto.randomUUID();state.saved=false;view('game');render();
   }
   function renderActors() {
     const colors=['#df9878','#8973ca','#4b9ec2','#d3ad46','#78a56b'];

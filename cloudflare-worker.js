@@ -64,7 +64,7 @@ function isBlockedPublicPath(pathname = '') {
     || /^\/(?:cloudflare-worker\.js|package(?:-lock)?\.json|_headers|_redirects|wrangler[^/]*|AGENTS\.md)$/i.test(path);
 }
 
-function applySecurityHeaders(response) {
+function applySecurityHeaders(response, request) {
   const headers = new Headers(response.headers);
   headers.set('X-Content-Type-Options', 'nosniff');
   headers.set('Strict-Transport-Security', 'max-age=31536000');
@@ -75,6 +75,14 @@ function applySecurityHeaders(response) {
   // Explicit sources constrain external scripts/connections; removing inline/eval
   // remains a separate migration, so this policy is not a complete XSS defense.
   headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://cdn.tailwindcss.com https://accounts.google.com https://t1.daumcdn.net https://www.googletagmanager.com https://static.cloudflareinsights.com; connect-src 'self' https://gxungzlecmibgvykoiib.supabase.co wss://gxungzlecmibgvykoiib.supabase.co https://accounts.google.com https://people.googleapis.com https://www.googleapis.com https://texttospeech.googleapis.com https://kapi.kakao.com https://cdn.jsdelivr.net https://unpkg.com https://esm.sh https://lottie.host https://tonejs.github.io https://21a020877fab0971928ba66fc76702df.r2.cloudflarestorage.com https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com https://cdn.jsdelivr.net; font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:; worker-src 'self' blob:; frame-src 'self' blob: https://accounts.google.com https://www.youtube.com https://www.youtube-nocookie.com https://www.googletagmanager.com https://postcode.map.daum.net https://t1.daumcdn.net; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://accounts.google.com; manifest-src 'self'; upgrade-insecure-requests");
+  const homepagePath = request ? new URL(request.url).pathname : '';
+  if ((homepagePath === '/' || homepagePath === '/index.html') && response.status === 200 && headers.get('Content-Type')?.startsWith('text/html')) {
+    // The public homepage has its own externalized assets. Learning/admin pages
+    // retain their existing policy until their separate migration is verified.
+    headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; script-src-attr 'none'; style-src 'self'; font-src 'self'; img-src 'self' https: data: blob:; media-src 'self' https: data: blob:; connect-src 'self' https://gxungzlecmibgvykoiib.supabase.co https://cloudflareinsights.com; frame-src 'none'; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; upgrade-insecure-requests");
+    headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+    headers.set('Cross-Origin-Resource-Policy', 'same-site');
+  }
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
 
@@ -209,6 +217,8 @@ function getContentType(key = '') {
   if (key.endsWith('.css')) return 'text/css; charset=utf-8';
   if (key.endsWith('.js') || key.endsWith('.mjs')) return 'application/javascript; charset=utf-8';
   if (key.endsWith('.json')) return 'application/json; charset=utf-8';
+  if (key.endsWith('.woff2')) return 'font/woff2';
+  if (key.endsWith('.woff')) return 'font/woff';
   if (key.endsWith('.svg')) return 'image/svg+xml';
   if (key.endsWith('.png')) return 'image/png';
   if (key.endsWith('.jpg') || key.endsWith('.jpeg')) return 'image/jpeg';
@@ -258,7 +268,7 @@ async function serveProtectedPlaylabHtml(request, env, url) {
 
 export default {
   async fetch(request, env) {
-    return applySecurityHeaders(await routeRequest(request, env));
+    return applySecurityHeaders(await routeRequest(request, env), request);
   },
 };
 
