@@ -6518,6 +6518,7 @@ function formatDateTimeDisplay(value) {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
+        hourCycle: 'h23',
         hour: '2-digit',
         minute: '2-digit'
     }).replace(/\.$/, '');
@@ -12875,11 +12876,12 @@ function renderCardlabReport() {
         const wrongCount = Number(attempt.wrongCount || attempt.wrong_count || 0) || 0;
         const totalQuestions = Math.max(Number(attempt.totalQuestions || attempt.total_questions || 0) || 0, correctCount + wrongCount);
         const accuracy = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : Math.max(0, Math.min(100, Number(attempt.score) || 0));
+        const durationSeconds = getObservedReportNumber(attempt.durationSeconds ?? attempt.duration_seconds);
         return {
             playedAt: new Date(String(attempt.completedAt || attempt.completed_at || '').replace(' ', 'T')),
             score: Math.max(0, Math.min(100, Number(attempt.score) || 0)),
             accuracy,
-            durationMinutes: Math.max(0, Math.round((Number(attempt.durationSeconds || attempt.duration_seconds) || 0) / 60))
+            durationMinutes: durationSeconds === null ? null : durationSeconds / 60
         };
     }).filter((entry) => entry.playedAt instanceof Date && !Number.isNaN(entry.playedAt.getTime()));
     const averageAccuracy = trendEntries.length
