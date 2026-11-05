@@ -25,6 +25,8 @@ jobs:
         with:
           persist-credentials: false
       - run: node scripts/security-ci-selftest.mjs
+      - run: node scripts/validate-security-registry-lock.mjs
+      - run: node scripts/validate-security-zap-runner.mjs
       - run: node scripts/security-ci.mjs policy
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
