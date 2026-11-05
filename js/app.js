@@ -12632,9 +12632,9 @@ function renderSimpleHistoryReport(containerId, rows, options = {}) {
 
     const now = new Date();
     const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-    const scoredRows = reportRows.filter((row) => getHistoryScore(row) > 0);
-    const averageScore = scoredRows.length ? Math.round(scoredRows.reduce((sum, row) => sum + getHistoryScore(row), 0) / scoredRows.length) : 0;
-    const totalMinutes = reportRows.reduce((sum, row) => sum + getHistoryDurationMinutes(row), 0);
+    const averageScore = getObservedReportAverage(reportRows.map(getHistoryScore));
+    const averageMinutes = getObservedReportAverage(reportRows.map(getHistoryDurationMinutes), 6);
+    const durationApproximate = reportRows.some((row) => getReportDurationObservation(row).approximate);
     const latestRow = reportRows[0] || {};
     const reportMode = normalizeDetailReportMode(currentDetailReportMode);
     const isGuardianMode = reportMode === 'guardian';
@@ -12652,7 +12652,8 @@ function renderSimpleHistoryReport(containerId, rows, options = {}) {
         playedAt: new Date(String(row.eventDatetime || row.event_datetime || row.createdAt || row.created_at || '').replace(' ', 'T')),
         score: getHistoryScore(row),
         accuracy: getHistoryAccuracyScore(row),
-        durationMinutes: getHistoryDurationMinutes(row)
+        durationMinutes: getHistoryDurationMinutes(row),
+        durationObservation: getReportDurationObservation(row)
     })).filter((entry) => entry.playedAt instanceof Date && !Number.isNaN(entry.playedAt.getTime()));
     const chartKey = `${containerId}-trend`;
     const monthCount = reportRows.filter((row) => {
@@ -12677,7 +12678,7 @@ function renderSimpleHistoryReport(containerId, rows, options = {}) {
                     ? `${options.scopeLabel || '학습'} 최근 활동을 보호자가 이해하기 쉬운 변화와 관찰 포인트 중심으로 정리했습니다.`
                     : `${options.scopeLabel || '학습'} 최근 수행을 플레이랩 리포트 화면과 같은 흐름으로 정리했습니다.`,
                 badges: [
-                    isGuardianMode ? `${options.scopeLabel || '리포트'} 활동 기록` : (latestScore > 0 ? `통합 ${latestScore}점` : `${options.scopeLabel || '리포트'} 기록`),
+                    isGuardianMode ? `${options.scopeLabel || '리포트'} 활동 기록` : (latestScore !== null ? `통합 ${formatObservedReportMetric(latestScore, '점')}` : `${options.scopeLabel || '리포트'} 기록`),
                     isGuardianMode ? '선생님 검토' : (monthCount > 0 ? `이번 달 ${monthCount}회` : `누적 ${reportRows.length}회`)
                 ],
                 stats: isGuardianMode ? [
@@ -12688,8 +12689,8 @@ function renderSimpleHistoryReport(containerId, rows, options = {}) {
                 ] : [
                     { label: '완료 횟수', value: `${reportRows.length}회` },
                     { label: '이번 달', value: `${monthCount}회` },
-                    { label: '평균 점수', value: averageScore > 0 ? `${averageScore}점` : '-' },
-                    { label: '평균 시간', value: reportRows.length ? `${Math.round(totalMinutes / reportRows.length)}분` : '-' }
+                    { label: '평균 점수', value: formatObservedReportMetric(averageScore, '점') },
+                    { label: '평균 시간', value: formatObservedReportDuration(averageMinutes, durationApproximate) }
                 ]
             })}
             ${isGuardianMode ? '' : renderDetailDualTrendChartShell(chartKey, {
@@ -12737,9 +12738,9 @@ function renderSimpleHistoryReport(containerId, rows, options = {}) {
                                     <strong>${escapeHtml(getLabReportRowTitle(row))}</strong>
                                     <em>${escapeHtml(getLabReportRowSubtitle(row) || (options.scopeLabel || '리포트'))}</em>
                                 </span>
-                                <span>${isGuardianMode ? escapeHtml(buildGuardianHistoryNarrative(reportRows.slice(index, index + 2), options.scopeLabel || '학습').statusLabel || '흐름 확인') : (getHistoryScore(row) > 0 ? `${getHistoryScore(row)}점` : '-')}</span>
-                                <span>${isGuardianMode ? escapeHtml(buildGuardianHistoryNarrative(reportRows.slice(index, index + 2), options.scopeLabel || '학습').nextLabel || '선생님 확인') : (getHistoryAccuracyScore(row) > 0 ? `${getHistoryAccuracyScore(row)}점` : '-')}</span>
-                                ${isGuardianMode ? '' : `<span>${getHistoryDurationMinutes(row) > 0 ? `${getHistoryDurationMinutes(row)}분` : '-'}</span>`}
+                                <span>${isGuardianMode ? escapeHtml(buildGuardianHistoryNarrative(reportRows.slice(index, index + 2), options.scopeLabel || '학습').statusLabel || '흐름 확인') : formatObservedReportMetric(getHistoryScore(row), '점')}</span>
+                                <span>${isGuardianMode ? escapeHtml(buildGuardianHistoryNarrative(reportRows.slice(index, index + 2), options.scopeLabel || '학습').nextLabel || '선생님 확인') : formatObservedReportMetric(getHistoryAccuracyScore(row), '%')}</span>
+                                ${isGuardianMode ? '' : `<span>${formatObservedReportDuration(getHistoryDurationMinutes(row), getReportDurationObservation(row).approximate)}</span>`}
                                 <span>${escapeHtml(isGuardianMode ? getLabHistoryGuardianSummary(row, options.scopeLabel || '학습') : (getLabHistoryClinicalSummary(row) || '-'))}</span>
                             </div>
                         `).join('')}
