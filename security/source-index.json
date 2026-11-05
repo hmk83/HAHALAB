@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T04:34:45.906Z",
+  "generatedAt": "2026-11-05T06:19:50.524Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -25,8 +25,8 @@
     },
     {
       "path": "admin.html",
-      "sha256": "fe26ad5365899de401a41405012e1993a70482cb7b6ac468db3d5565e14a390e",
-      "bytes": 1131512
+      "sha256": "3642549328319baf7cbc83ab6c68e12beda9ff891112f1f0e299b127ed4f8fa4",
+      "bytes": 1132721
     },
     {
       "path": "cards.html",
@@ -35,13 +35,13 @@
     },
     {
       "path": "class-new-mobile.html",
-      "sha256": "bbca7e5c1ec952e4460e6a0f0af1a4b62874a200a116c9a3bfc194948f306b4a",
-      "bytes": 25336
+      "sha256": "517e53389349de79bc9e040b6fa4d6bd1e1f7812158aa5e2a6fcd1fb1e226fb9",
+      "bytes": 25341
     },
     {
       "path": "class-new.html",
-      "sha256": "3c4130358651e0043f0ab902e9e8be5c1a3bb3eba7f555c75a9671f4ead1c0a3",
-      "bytes": 106308
+      "sha256": "b05a419b8b2babec987b6d20db85abeb85a99aa4d55c42673159f4d4490eac0d",
+      "bytes": 106318
     },
     {
       "path": "cloudflare-worker.js",
@@ -755,8 +755,8 @@
     },
     {
       "path": "js/auth.js",
-      "sha256": "1046927823b56c2cd288ebd4f7f418fa9641027544d634090513107766c44ede",
-      "bytes": 91193
+      "sha256": "d1dcdbaf14c815262e76d9e0b0fd839f42a557496d5f60be04acb3d3001adef1",
+      "bytes": 92340
     },
     {
       "path": "js/clinical-workflow.js",
