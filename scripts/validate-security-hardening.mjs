@@ -389,14 +389,14 @@ await test('share creation derives snapshot from owned server history', async ()
   assert.equal(JSON.stringify(inserted.payload.snapshot).includes('untrusted-client-snapshot'), false);
 });
 
-await test('logout purges sensitive storage and clears active application state', async () => {
+await test('logout purges caches while preserving unacknowledged owner-scoped pending data', async () => {
   const source = read('js/auth.js');
   const start = source.indexOf('function _purgeSensitiveSessionData(');
   const end = source.indexOf('\nwindow.getAuthenticatedReportOwner', start);
   assert.ok(start >= 0 && end > start);
   const storage = () => {
     const store = { removeItem(key) { delete store[key]; } };
-    for (const key of ['playlab_history_report_old', 'h_evi_history_report_old', 'haha_lab_learning_harness_records_v1', 'haha_lab_direct_launch_old', 'haha_lab_current_session', 'haha_lab_session', 'haha_lab_shell_view_state', 'haha_lab_last_lab_return_url', 'keep_theme']) store[key] = 'fixture';
+    for (const key of ['playlab_history_report_old', 'h_evi_history_report_old', 'haha_lab_learning_harness_records_v1', 'haha_lab_direct_launch_old', 'haha_lab_current_session', 'haha_lab_session', 'haha_lab_shell_view_state', 'haha_lab_last_lab_return_url', 'keep_theme', 'haha_lab_learning_harness_sync_queue_v1', 'haha_lab_learning_harness_sync_queue_v1::pending-fixture']) store[key] = 'fixture';
     return store;
   };
   let cleared = false;
@@ -405,7 +405,7 @@ await test('logout purges sensitive storage and clears active application state'
   const context = vm.createContext({ window, Event });
   vm.runInContext(`${source.slice(start, end)};_purgeSensitiveSessionData();`, context);
   for (const store of [window.localStorage, window.sessionStorage]) {
-    assert.deepEqual(Object.keys(store).filter((key) => typeof store[key] !== 'function'), ['keep_theme']);
+    assert.deepEqual(Object.keys(store).filter((key) => typeof store[key] !== 'function'), ['keep_theme', 'haha_lab_learning_harness_sync_queue_v1', 'haha_lab_learning_harness_sync_queue_v1::pending-fixture']);
   }
   assert.equal(cleared, true);
   assert.equal(eventName, 'hahalab-session-cleared');

@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T00:44:24.116Z",
+  "generatedAt": "2026-11-05T01:46:53.264Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -15,8 +15,8 @@
     },
     {
       "path": "_headers",
-      "sha256": "76958193321bf15fcb469f9a18dff01083dfee162cf382fa3f8688204913f3fe",
-      "bytes": 3071
+      "sha256": "77365c0e9e74a4f90f427349a5cb7488cfb8a6da8c0d775533903b32db17d9a3",
+      "bytes": 3190
     },
     {
       "path": "admin.html",
@@ -40,8 +40,8 @@
     },
     {
       "path": "cloudflare-worker.js",
-      "sha256": "a8aac35c6ffc8f4bcbcdc7a484ab101d64d5731be4e7aac489779105953edb53",
-      "bytes": 14229
+      "sha256": "4016e6ef4a57b60ea1c7cea6773adab7e85849ad3b17123cca167251b0d9631f",
+      "bytes": 14348
     },
     {
       "path": "css/admin-renewal.css",
@@ -105,13 +105,13 @@
     },
     {
       "path": "js/app.js",
-      "sha256": "4bd6bd7dfd02a9f11ef4e813ee6dbf125f392aa476d373c962a1a1610d511cbe",
-      "bytes": 792720
+      "sha256": "ec95ec47d98c99ae6fcb914cfbb56d550440e779ff498e218ff4e2d74e19bfbf",
+      "bytes": 800474
     },
     {
       "path": "js/auth.js",
-      "sha256": "0d2b96bc0206b5d6e6e6e3a58e26946b40a99f6ab2d13a05410354d2225a5d18",
-      "bytes": 90732
+      "sha256": "b7304717690c06ef500e1d9969c230bd96acbdbfcba25ef98209c17d019d338e",
+      "bytes": 91143
     },
     {
       "path": "js/clinical-workflow.js",
@@ -395,8 +395,8 @@
     },
     {
       "path": "playlab/cardlab-shell.js",
-      "sha256": "07082808a20fe9c6c96c7bf31a0fb6bab18191d4b70f57d6fffb614f83834dc0",
-      "bytes": 141020
+      "sha256": "406f2d2099f628e3f83a350aad505f074fbd7138daa27bf1f4b612d12ffab00b",
+      "bytes": 146351
     },
     {
       "path": "playlab/cardlab-situation-ox-data.js",
@@ -525,8 +525,8 @@
     },
     {
       "path": "playlab/learning-report-harness.js",
-      "sha256": "559a8c70d7cc51f7ac61e5faf55fee2445c1ec46b7b54d191fe66b0d32346d58",
-      "bytes": 34756
+      "sha256": "711559a69a80c7e34011610eef94157be12607fdefc90fb05d966f147307e602",
+      "bytes": 41730
     },
     {
       "path": "playlab/musicartlab-core.css",
@@ -690,8 +690,8 @@
     },
     {
       "path": "playlab/playlab-grid-color-arithmetic.js",
-      "sha256": "63367f496ba56a4aab598633e7a90b5b1ce3e909401a44cffd57833f236e8d80",
-      "bytes": 40974
+      "sha256": "dc4b72862a4669965b7b2d80fec4064df4f0e8a6d59129a1189106d12f6f925c",
+      "bytes": 42741
     },
     {
       "path": "playlab/playlab-hamburger-order.css",
@@ -989,6 +989,36 @@
       "bytes": 9214
     },
     {
+      "path": "scripts/security-advisor-anonymous-helper-diagnostic.mjs",
+      "sha256": "1e26bc4c48032472b85594d4447c4653546a0af505a0b4a560ce198de16a92b3",
+      "bytes": 2698
+    },
+    {
+      "path": "scripts/security-advisor-function-metadata.sql",
+      "sha256": "cc62a38712b3fca67eaeb322a3a148a645dc26bcbcb85ae3747c574ed1dabae6",
+      "bytes": 4055
+    },
+    {
+      "path": "scripts/security-advisor-function-policy.sql",
+      "sha256": "dca7392988823136c9942b2fb68df655be4efa1d21a0e5c2c9c8c28320a54303",
+      "bytes": 15769
+    },
+    {
+      "path": "scripts/security-advisor-function-verification.sql",
+      "sha256": "7215e8dbac40acc4fcc00eb456f685b3a56fa9e8471080d863cbb7fdba30bcf6",
+      "bytes": 1410
+    },
+    {
+      "path": "scripts/security-advisor-session-helper-metadata.sql",
+      "sha256": "6bbd0bb98b162d0c396dd1913dcdf2697599b5313f71c4993380f75c5cfb41f6",
+      "bytes": 626
+    },
+    {
+      "path": "scripts/security-cardlab-attempt-metadata.sql",
+      "sha256": "616a73c0b492a8b2c00d2382d15fbef4be3fefd3bf2378a986c3c12b8e74f8b2",
+      "bytes": 398
+    },
+    {
       "path": "scripts/security-cardlab-transfer-isolation-policy.sql",
       "sha256": "538fa23cf4f6feb3234741453247070230490c7430c19d2680c2609cfcc1822c",
       "bytes": 10630
@@ -1124,6 +1154,21 @@
       "bytes": 5256
     },
     {
+      "path": "scripts/validate-security-advisor-anonymous-helper-diagnostic.mjs",
+      "sha256": "21d0094b143eba27d086677dce85aaf683b5669bc75f6181f5e83d995bb691aa",
+      "bytes": 2750
+    },
+    {
+      "path": "scripts/validate-security-advisor-function-policy.mjs",
+      "sha256": "fc32cb2397d5adce0de92aca212848f58ffaa5365f613299fc6e543e6c1c06c1",
+      "bytes": 7029
+    },
+    {
+      "path": "scripts/validate-security-cardlab-queue-isolation.mjs",
+      "sha256": "2204a727c1fa7cc563937c543d558d7379c527e9b627b5adaa0e09171fae3c1b",
+      "bytes": 10695
+    },
+    {
       "path": "scripts/validate-security-data-isolation.mjs",
       "sha256": "c19134f20065190a57bd7e85c815815f51d126af3fff602436c8d502c819dd44",
       "bytes": 2694
@@ -1134,9 +1179,14 @@
       "bytes": 4218
     },
     {
+      "path": "scripts/validate-security-grid-receipt-protection.mjs",
+      "sha256": "b3546f0151c3ee16bb1f28cc6eaed2a5c50a6448b5314cd9ed1bccd8df2f7966",
+      "bytes": 10419
+    },
+    {
       "path": "scripts/validate-security-hardening.mjs",
-      "sha256": "91665774f69a205b7671839ff2e4ae17608966c40bc4af5508a5bf862d8e50da",
-      "bytes": 54131
+      "sha256": "b3e907b432cd75097e6b19b242002ccdf438edf63f45e0df73e870a49844558b",
+      "bytes": 54348
     },
     {
       "path": "scripts/validate-security-live.mjs",

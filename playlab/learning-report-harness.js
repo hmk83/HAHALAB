@@ -8,6 +8,10 @@
   const DEFAULT_SUPABASE_URL = 'https://gxungzlecmibgvykoiib.supabase.co';
   const DEFAULT_SUPABASE_KEY = 'sb_publishable_hzQriBXTJeAwATA2NjnV7A_Tr9E1hfE';
   let syncInFlight = null;
+  let verifiedQueueOwner = null;
+  let observedAuthClient = null;
+  let queueStorageCorrupt = false;
+  const DURABLE_QUEUE_PREFIX = SYNC_STORAGE_KEY + '::';
 
   function parseMaybeJson(value, fallback) {
     if (!value) return fallback;
@@ -65,7 +69,8 @@
   function readRecords() {
     try {
       const parsed = parseMaybeJson(window.localStorage.getItem(STORAGE_KEY), []);
-      return Array.isArray(parsed) ? parsed : [];
+      const owner = currentQueueOwner();
+      return owner && Array.isArray(parsed) ? parsed.filter((record) => belongsToQueueOwner(record, owner)) : [];
     } catch (_error) {
       return [];
     }
@@ -77,19 +82,80 @@
     } catch (_error) {}
   }
 
-  function readSyncQueue() {
+  function currentQueueOwner() {
     try {
-      const parsed = parseMaybeJson(window.localStorage.getItem(SYNC_STORAGE_KEY), []);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (_error) {
-      return [];
-    }
+      if (typeof window.getAuthenticatedReportOwner === 'function') return window.currentProfile && !['normal', 'active'].includes(String(window.currentProfile.status)) ? null : window.getAuthenticatedReportOwner();
+      if (window.parent && window.parent !== window && typeof window.parent.getAuthenticatedReportOwner === 'function') return window.parent.currentProfile && !['normal', 'active'].includes(String(window.parent.currentProfile.status)) ? null : window.parent.getAuthenticatedReportOwner();
+    } catch (_error) { return null; }
+    return verifiedQueueOwner && verifiedQueueOwner.expiresAt > Date.now() ? verifiedQueueOwner : null;
+  }
+
+  function belongsToQueueOwner(job, owner) {
+    return Boolean(owner?.authUserId && owner?.teacherId
+      && String(job?.history?.teacher_id || job?.history?.teacherId || '') === String(owner.teacherId)
+      && (!job.authUserId || job.authUserId === owner.authUserId));
+  }
+
+  function readAllSyncQueue() {
+    const jobs = []; queueStorageCorrupt = false;
+    try {
+      const raw = window.localStorage.getItem(SYNC_STORAGE_KEY);
+      const parsed = raw ? parseMaybeJson(raw, null) : [];
+      if (!Array.isArray(parsed)) queueStorageCorrupt = true;
+      else jobs.push(...parsed);
+      for (let index = 0; index < window.localStorage.length; index += 1) {
+        const key = window.localStorage.key(index);
+        if (!key?.startsWith(DURABLE_QUEUE_PREFIX)) continue;
+        const job = parseMaybeJson(window.localStorage.getItem(key), null);
+        if (!job || !job.id || !job.history) { queueStorageCorrupt = true; continue; }
+        jobs.push(Object.assign({}, job, { __durableStorageKey: key }));
+      }
+    } catch (_error) { queueStorageCorrupt = true; }
+    return jobs;
+  }
+
+  function readSyncQueue() {
+    const owner = currentQueueOwner();
+    return owner ? readAllSyncQueue().filter((job) => belongsToQueueOwner(job, owner)) : [];
   }
 
   function writeSyncQueue(queue) {
     try {
-      window.localStorage.setItem(SYNC_STORAGE_KEY, JSON.stringify(queue.slice(-240)));
-    } catch (_error) {}
+      // Pending work is never evicted to enforce a display/retention cap.
+      // Per-job entries avoid cross-tab read/modify/write loss for parent fallbacks.
+      const legacy = queue.filter((job) => !job.__durableStorageKey);
+      for (const job of queue.filter((item) => item.__durableStorageKey)) {
+        const current = parseMaybeJson(window.localStorage.getItem(job.__durableStorageKey), null);
+        if (!current || syncJobPayloadKey(current) !== syncJobPayloadKey(job)) continue;
+        const { __durableStorageKey: key, ...stored } = job;
+        window.localStorage.setItem(key, JSON.stringify(stored));
+      }
+      window.localStorage.setItem(SYNC_STORAGE_KEY, JSON.stringify(legacy));
+      return true;
+    } catch (_error) { return false; }
+  }
+
+  async function resolveQueueOwner(client) {
+    const provided = currentQueueOwner();
+    if (provided?.authUserId && provided?.teacherId) return provided;
+    // An application owner provider returning null means signed-out/blocked.
+    try {
+      if (typeof window.getAuthenticatedReportOwner === 'function'
+        || window.parent && window.parent !== window && typeof window.parent.getAuthenticatedReportOwner === 'function') return null;
+    } catch (_error) { return null; }
+    try {
+      if (observedAuthClient !== client && client.auth?.onAuthStateChange) {
+        observedAuthClient = client;
+        client.auth.onAuthStateChange(() => { verifiedQueueOwner = null; });
+      }
+      const userResult = await client.auth.getUser();
+      if (userResult?.error || !userResult?.data?.user?.id) return null;
+      const [profileResult, active] = await Promise.all([client.rpc('get_my_teacher_profile'), client.rpc('security_session_active')]);
+      const profile = Array.isArray(profileResult.data) ? profileResult.data[0] : profileResult.data;
+      if (profileResult.error || active.error || active.data !== true || !profile?.teacher_id || !['normal', 'active'].includes(profile.status)) return null;
+      verifiedQueueOwner = { authUserId: userResult.data.user.id, teacherId: String(profile.teacher_id), expiresAt: Date.now() + 30000 };
+      return verifiedQueueOwner;
+    } catch (_error) { verifiedQueueOwner = null; return null; }
   }
 
   function hasRemoteContext(record) {
@@ -171,26 +237,43 @@
     return Promise.resolve(null);
   }
 
-  function queueSyncRecord(record) {
-    if (!hasRemoteContext(record)) return null;
+  function queueSyncRecord(record, options) {
+    const durable = options?.durable === true;
+    const fail = (code) => { if (durable) throw new Error(code); return null; };
+    if (!hasRemoteContext(record)) return fail('SESSION_SYNC_OWNER_MISSING');
     const historyRow = buildRemoteHistoryRow(record.history);
     const attemptRow = buildRemoteCardlabAttemptRow(record.cardlabAttempt);
-    if (!historyRow) return null;
-    const queue = readSyncQueue();
-    const sessionId = String(historyRow && parseMaybeJson(historyRow.details, {}).session_id || '').trim();
-    const existingJob = sessionId
-      ? queue.find((item) => String(item?.history && parseMaybeJson(item.history.details, {}).session_id || '').trim() === sessionId)
-      : null;
-    if (existingJob) return existingJob;
-    const job = {
-      id: record.id || `sync-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-      createdAt: new Date().toISOString(),
-      attempts: 0,
-      history: historyRow,
-      cardlabAttempt: attemptRow
-    };
-    queue.push(job);
-    writeSyncQueue(queue);
+    if (!historyRow) return fail('SESSION_SYNC_HISTORY_MISSING');
+    const owner = currentQueueOwner();
+    if (owner && String(historyRow.teacher_id) !== String(owner.teacherId)) return fail('SESSION_SYNC_OWNER_MISMATCH');
+    const queue = readAllSyncQueue();
+    if (queueStorageCorrupt) return fail('SESSION_SYNC_STORAGE_UNREADABLE');
+    const sessionId = String(parseMaybeJson(historyRow.details, {}).session_id || '').trim();
+    const existingJob = sessionId ? queue.find((item) => String(item?.history?.teacher_id) === String(historyRow.teacher_id)
+      && String(item?.history?.client_id) === String(historyRow.client_id)
+      && String(parseMaybeJson(item?.history?.details, {}).session_id || '').trim() === sessionId) : null;
+    if (existingJob) {
+      if (JSON.stringify([existingJob.history, existingJob.cardlabAttempt]) !== JSON.stringify([historyRow, attemptRow])) return fail('SESSION_SYNC_EXISTING_PAYLOAD_MISMATCH');
+      return existingJob;
+    }
+    const job = { id: record.id || `sync-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, createdAt: new Date().toISOString(), attempts: 0,
+      history: historyRow, cardlabAttempt: attemptRow, ...(owner?.authUserId ? { authUserId: owner.authUserId } : {}) };
+    if (durable) {
+      if (!sessionId) return fail('SESSION_SYNC_SESSION_ID_MISSING');
+      if (queue.length >= 240) return fail('SESSION_SYNC_QUEUE_FULL');
+      const key = DURABLE_QUEUE_PREFIX + encodeURIComponent(String(job.id));
+      try {
+        const current = parseMaybeJson(window.localStorage.getItem(key), null);
+        if (current && syncJobPayloadKey(current) !== syncJobPayloadKey(job)) return fail('SESSION_SYNC_JOB_COLLISION');
+        window.localStorage.setItem(key, JSON.stringify(job));
+        const verified = parseMaybeJson(window.localStorage.getItem(key), null);
+        if (!verified || syncJobPayloadKey(verified) !== syncJobPayloadKey(job)) return fail('SESSION_SYNC_DURABILITY_UNCONFIRMED');
+        job.__durableStorageKey = key;
+      } catch (_error) { return fail('SESSION_SYNC_STORAGE_WRITE_FAILED'); }
+    } else {
+      queue.push(job);
+      if (!writeSyncQueue(queue) || !readAllSyncQueue().some((item) => item.id === job.id && syncJobPayloadKey(item) === syncJobPayloadKey(job))) return null;
+    }
     flushSyncQueue();
     return job;
   }
@@ -202,12 +285,16 @@
     }
     syncInFlight = Promise.resolve().then(getSupabaseClient).then(async (client) => {
       if (!client) return { skipped: true, reason: 'supabase-client-unavailable' };
-      const queue = readSyncQueue();
+      const owner = await resolveQueueOwner(client);
+      if (!owner) return { skipped: true, reason: 'verified-owner-unavailable' };
+      const queue = readAllSyncQueue().filter((job) => belongsToQueueOwner(job, owner));
       const outcomes = new Map();
       let synced = 0;
       for (const job of queue) {
         const original = syncJobPayloadKey(job);
         try {
+          const currentOwner = currentQueueOwner() || await resolveQueueOwner(client);
+          if (!belongsToQueueOwner(job, currentOwner)) continue;
           const payload = buildSyncRpcPayload(job);
           const requestPayloadKey = JSON.stringify(payload);
           let timeoutId;
@@ -241,11 +328,17 @@
       }
       // Another tab or a completion event can append while RPCs are in flight.
       // Apply acknowledgements only to unchanged jobs in the latest queue.
-      const remaining = readSyncQueue().flatMap((job) => {
+      const remaining = readAllSyncQueue().flatMap((job) => {
         const outcome = outcomes.get(job?.id);
         if (!outcome || outcome.original !== syncJobPayloadKey(job)) return [job];
         if (outcome.acknowledged) {
           if (!preserveLocalRemoteReceipt(job, outcome)) return [Object.assign({}, job, { lastError: 'SESSION_SYNC_LOCAL_ACK_WRITE_FAILED' })];
+          if (job.__durableStorageKey) {
+            const current = parseMaybeJson(window.localStorage.getItem(job.__durableStorageKey), null);
+            if (current && syncJobPayloadKey(current) !== syncJobPayloadKey(job)) return [job];
+            window.localStorage.removeItem(job.__durableStorageKey);
+            if (window.localStorage.getItem(job.__durableStorageKey)) return [job];
+          }
           return [];
         }
         return [Object.assign({}, job, outcome.update)];
@@ -628,12 +721,17 @@
     const records = readRecords();
     const sessionId = String(history?.details?.session_id || '').trim();
     const existingRecord = sessionId
-      ? records.find((item) => String(item?.history?.details?.session_id || '').trim() === sessionId)
+      ? records.find((item) => String(item?.history?.details?.session_id || '').trim() === sessionId
+        && String(item?.history?.teacher_id || '') === String(history.teacher_id || '')
+        && String(item?.history?.client_id || '') === String(history.client_id || ''))
       : null;
-    if (existingRecord) return existingRecord;
+    if (existingRecord) {
+      existingRecord.pendingDurable = existingRecord.remotePayloadVerified === true || Boolean(queueSyncRecord(existingRecord));
+      return existingRecord;
+    }
     records.push(record);
     writeRecords(records);
-    queueSyncRecord(record);
+    record.pendingDurable = Boolean(queueSyncRecord(record));
     try {
       window.dispatchEvent(new CustomEvent('haha-lab-learning-recorded', { detail: record }));
     } catch (_error) {}

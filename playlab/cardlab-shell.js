@@ -104,79 +104,127 @@
         }
     }
 
+    let verifiedAttemptOwner = null;
+    let attemptFlushPromise = null;
+    const attemptInFlightKeys = new Set();
+    let observedAttemptAuthClient = null;
+
+    function currentAttemptOwner() {
+        try {
+            const getter = window.getAuthenticatedReportOwner || (window.parent && window.parent !== window && window.parent.getAuthenticatedReportOwner);
+            if (typeof getter === 'function') return getter.call(window.parent && window.parent !== window ? window.parent : window);
+        } catch (_error) { return null; }
+        return verifiedAttemptOwner && verifiedAttemptOwner.expiresAt > Date.now() ? verifiedAttemptOwner : null;
+    }
+
+    async function verifyAttemptOwner(client) {
+        const current = currentAttemptOwner();
+        if (current) return current;
+        try {
+            if (observedAttemptAuthClient !== client && client.auth?.onAuthStateChange) {
+                observedAttemptAuthClient = client;
+                client.auth.onAuthStateChange(function () { verifiedAttemptOwner = null; });
+            }
+            const user = await client.auth.getUser();
+            if (user.error || !user.data?.user?.id) return null;
+            const [profileResult, active] = await Promise.all([client.rpc('get_my_teacher_profile'), client.rpc('security_session_active')]);
+            const profile = Array.isArray(profileResult.data) ? profileResult.data[0] : profileResult.data;
+            if (profileResult.error || active.error || active.data !== true || !profile?.teacher_id || !['normal', 'active'].includes(profile.status)) return null;
+            verifiedAttemptOwner = { authUserId: user.data.user.id, teacherId: String(profile.teacher_id), expiresAt: Date.now() + 30000 };
+            return verifiedAttemptOwner;
+        } catch (_error) { verifiedAttemptOwner = null; return null; }
+    }
+
+    function readAllQueuedQuizAttempts() {
+        const raw = localStorage.getItem(OFFLINE_ATTEMPT_QUEUE_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(parsed)) throw new Error('CARDLAB_PENDING_STORAGE_INVALID');
+        return parsed;
+    }
+
+    function attemptBelongsToOwner(item, owner, context) {
+        return Boolean(item?.runId && item.payload && owner?.authUserId && owner?.teacherId && context?.clientId
+            && String(context.teacherId) === String(owner.teacherId)
+            && String(item.payload.p_teacher_id) === String(owner.teacherId)
+            && String(item.payload.p_client_id) === String(context.clientId));
+    }
+
     function readQueuedQuizAttempts() {
-        const parsed = readStoredJson(localStorage, OFFLINE_ATTEMPT_QUEUE_KEY);
-        return Array.isArray(parsed) ? parsed.filter(function (item) {
-            return item && item.runId && item.payload;
-        }) : [];
+        try { const owner = currentAttemptOwner(); const context = getStoredLabSessionContext();
+            return readAllQueuedQuizAttempts().filter(function (item) { return attemptBelongsToOwner(item, owner, context); });
+        } catch (_error) { return []; }
     }
 
     function writeQueuedQuizAttempts(queue) {
         try {
-            localStorage.setItem(OFFLINE_ATTEMPT_QUEUE_KEY, JSON.stringify(Array.isArray(queue) ? queue : []));
-            return true;
-        } catch (_error) {
-            return false;
-        }
+            const raw = JSON.stringify(queue);
+            localStorage.setItem(OFFLINE_ATTEMPT_QUEUE_KEY, raw);
+            return localStorage.getItem(OFFLINE_ATTEMPT_QUEUE_KEY) === raw;
+        } catch (_error) { return false; }
+    }
+
+    function attemptJobKey(item) { return JSON.stringify([item?.runId, item?.payload]); }
+
+    function sameAttemptJob(left, right) {
+        return left?.runId === right?.runId && JSON.stringify(left?.payload) === JSON.stringify(right?.payload);
+    }
+
+    function hasConflictingAttempt(snapshot, queue) {
+        return queue.some(function (item) { return item?.runId === snapshot?.runId
+            && String(item.payload?.p_teacher_id) === String(snapshot.payload?.p_teacher_id)
+            && String(item.payload?.p_client_id) === String(snapshot.payload?.p_client_id)
+            && !sameAttemptJob(item, snapshot); });
     }
 
     function queueQuizAttempt(snapshot) {
-        if (!snapshot || !snapshot.runId || !snapshot.payload) return false;
-        const queue = readQueuedQuizAttempts();
-        const exists = queue.some(function (item) {
-            return item && item.runId === snapshot.runId;
-        });
-        if (exists) {
-            queue.forEach(function (item, index) {
-                if (item && item.runId === snapshot.runId) {
-                    queue[index] = {
-                        runId: snapshot.runId,
-                        reason: snapshot.reason || item.reason || 'queued',
-                        payload: snapshot.payload,
-                        queuedAt: item.queuedAt || new Date().toISOString(),
-                        updatedAt: new Date().toISOString()
-                    };
-                }
-            });
-        } else {
-            queue.push({
-                runId: snapshot.runId,
-                reason: snapshot.reason || 'queued',
-                payload: snapshot.payload,
-                queuedAt: new Date().toISOString()
-            });
-        }
-        return writeQueuedQuizAttempts(queue);
+        if (!snapshot?.runId || !snapshot.payload) return false;
+        try {
+            const queue = readAllQueuedQuizAttempts();
+            // A pending canonical payload is immutable until its own RPC ACK.
+            if (queue.some(function (item) { return sameAttemptJob(item, snapshot); })) return true;
+            queue.push({ runId: snapshot.runId, reason: snapshot.reason || 'queued', payload: snapshot.payload, queuedAt: new Date().toISOString() });
+            return writeQueuedQuizAttempts(queue);
+        } catch (_error) { return false; }
     }
 
-    function removeQueuedQuizAttempt(runId) {
-        const key = String(runId || '').trim();
-        if (!key) return false;
-        const queue = readQueuedQuizAttempts().filter(function (item) {
-            return item && item.runId !== key;
-        });
-        return writeQueuedQuizAttempts(queue);
+    function removeQueuedQuizAttempt(snapshot, owner) {
+        try {
+            const context = getStoredLabSessionContext();
+            if (!attemptBelongsToOwner(snapshot, owner, context)) return false;
+            const latest = readAllQueuedQuizAttempts();
+            if (!latest.some(function (item) { return sameAttemptJob(item, snapshot); }) || hasConflictingAttempt(snapshot, latest)) return false;
+            return writeQueuedQuizAttempts(latest.filter(function (item) { return !sameAttemptJob(item, snapshot); }));
+        } catch (_error) { return false; }
     }
 
-    async function flushQueuedQuizAttempts(supabaseClient) {
-        if (!supabaseClient || (typeof navigator !== 'undefined' && navigator.onLine === false)) {
-            return { flushed: 0, remaining: readQueuedQuizAttempts().length };
-        }
-        const queue = readQueuedQuizAttempts();
-        if (!queue.length) return { flushed: 0, remaining: 0 };
-        const remaining = [];
-        let flushed = 0;
-        for (const item of queue) {
-            try {
-                const result = await supabaseClient.rpc('record_cardlab_learning_attempt', item.payload);
-                if (result && result.error) throw result.error;
-                flushed += 1;
-            } catch (_error) {
-                remaining.push(item);
+    function flushQueuedQuizAttempts(supabaseClient) {
+        if (attemptFlushPromise) return attemptFlushPromise;
+        attemptFlushPromise = (async function () {
+            if (!supabaseClient || (typeof navigator !== 'undefined' && navigator.onLine === false)) return { flushed: 0, remaining: readQueuedQuizAttempts().length };
+            const owner = await verifyAttemptOwner(supabaseClient);
+            if (!owner) return { flushed: 0, remaining: 0 };
+            const queue = readQueuedQuizAttempts();
+            let flushed = 0;
+            for (const item of queue) {
+                const requestKey = attemptJobKey(item);
+                if (attemptInFlightKeys.has(requestKey)) continue;
+                attemptInFlightKeys.add(requestKey);
+                try {
+                    if (hasConflictingAttempt(item, readAllQueuedQuizAttempts())) continue;
+                    const now = currentAttemptOwner();
+                    if (!now || now.authUserId !== owner.authUserId || !attemptBelongsToOwner(item, now, getStoredLabSessionContext())) break;
+                    const result = await supabaseClient.rpc('record_cardlab_learning_attempt', item.payload);
+                    // Existing RPC RETURNS void: transport success is its only ACK.
+                    if (!result || result.error || result.data != null) throw new Error('CARDLAB_ATTEMPT_ACK_MISMATCH');
+                    const after = currentAttemptOwner();
+                    if (!after || after.authUserId !== owner.authUserId || !attemptBelongsToOwner(item, after, getStoredLabSessionContext())) break;
+                    if (removeQueuedQuizAttempt(item, after)) flushed += 1;
+                } catch (_error) { /* Preserve the exact pending original for retry. */ }
+                finally { attemptInFlightKeys.delete(requestKey); }
             }
-        }
-        writeQueuedQuizAttempts(remaining);
-        return { flushed: flushed, remaining: remaining.length };
+            return { flushed: flushed, remaining: readQueuedQuizAttempts().length };
+        })().finally(function () { attemptFlushPromise = null; });
+        return attemptFlushPromise;
     }
 
     function getCardDifficultyScore(card) {
@@ -2174,27 +2222,36 @@
             const snapshot = buildCardQuizAttemptPayload(persistOptions);
             if (!snapshot) return false;
             if (persistOptions.queueOnly || !supabase || (typeof navigator !== 'undefined' && navigator.onLine === false)) {
-                state.savedRunIds[snapshot.runId] = 'queued';
-                queueQuizAttempt(snapshot);
-                updateSyncStatus();
+                const queued = queueQuizAttempt(snapshot);
+                state.savedRunIds[snapshot.runId] = queued ? 'queued' : '';
+                updateSyncStatus(queued ? '' : '기록 저장 대기: 이 화면을 유지해 주세요.');
                 return false;
             }
+            const requestKey = attemptJobKey(snapshot);
+            if (attemptInFlightKeys.has(requestKey)) return false;
+            attemptInFlightKeys.add(requestKey);
             try {
                 state.savedRunIds[snapshot.runId] = 'saving';
+                const owner = await verifyAttemptOwner(supabase);
+                if (!attemptBelongsToOwner(snapshot, owner, getStoredLabSessionContext())) throw new Error('CARDLAB_ATTEMPT_OWNER_REQUIRED');
+                if (hasConflictingAttempt(snapshot, readAllQueuedQuizAttempts())) throw new Error('CARDLAB_ATTEMPT_CONFLICT_PENDING');
+                if (!queueQuizAttempt(snapshot)) throw new Error('CARDLAB_ATTEMPT_DURABILITY_REQUIRED');
                 const result = await supabase.rpc('record_cardlab_learning_attempt', snapshot.payload);
-                if (result && result.error) throw result.error;
+                if (!result || result.error || result.data != null) throw new Error('CARDLAB_ATTEMPT_ACK_MISMATCH');
+                const after = currentAttemptOwner();
+                if (!after || after.authUserId !== owner.authUserId || !attemptBelongsToOwner(snapshot, after, getStoredLabSessionContext())) throw new Error('CARDLAB_ATTEMPT_OWNER_CHANGED');
                 state.savedRunIds[snapshot.runId] = snapshot.reason || 'completed';
-                removeQueuedQuizAttempt(snapshot.runId);
+                removeQueuedQuizAttempt(snapshot, currentAttemptOwner());
                 updateSyncStatus();
                 void syncQueuedQuizAttempts();
                 return true;
             } catch (error) {
-                state.savedRunIds[snapshot.runId] = 'queued';
-                queueQuizAttempt(snapshot);
-                updateSyncStatus();
+                const queued = queueQuizAttempt(snapshot);
+                state.savedRunIds[snapshot.runId] = queued ? 'queued' : '';
+                updateSyncStatus(queued ? '' : '기록 저장 대기: 이 화면을 유지해 주세요.');
                 console.error('[CardLabQuiz] save failed:', error);
                 return false;
-            }
+            } finally { attemptInFlightKeys.delete(requestKey); }
         }
 
         function updateFooter() {

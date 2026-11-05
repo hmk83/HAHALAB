@@ -52,6 +52,7 @@
     startedAtMs: 0,
     stageStartedAtMs: 0,
     savedRunId: '',
+    reportSessionId: '', pendingReport: null, pendingRecord: null, pendingDirectRow: null,
     supabaseClientPromise: null,
     metrics: {
       correct: 0,
@@ -560,6 +561,8 @@
     state.tutorialStep = 0;
     state.stageStartedAtMs = Date.now();
     state.savedRunId = '';
+    state.reportSessionId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Array.from(crypto.getRandomValues(new Uint8Array(16)), (value) => value.toString(16).padStart(2, '0')).join('');
+    state.pendingReport = null; state.pendingRecord = null; state.pendingDirectRow = null;
     state.metrics = { correct: 0, attempts: 0, wrong: 0, responseTimes: [] };
     renderQuestion();
     setScreen('game');
@@ -684,6 +687,7 @@
     };
     return {
       labKind: 'playlab',
+      sessionId: state.reportSessionId,
       reportScope: 'playlab',
       labScope: 'playlab',
       saveToClientReport: true,
@@ -718,6 +722,7 @@
       details: {
         curriculum_key: CURRICULUM_KEY,
         stage_key: stage.id || '',
+        session_id: state.reportSessionId,
         report_scope: 'playlab',
         lab_scope: 'playlab',
         lab_label: '플레이랩',
@@ -750,9 +755,9 @@
 
   async function saveSupabaseReport(payload) {
     const launchContext = readLaunchContext();
-    if (!launchContext || !launchContext.teacherId || !launchContext.clientId) return { skipped: true };
+    if (!launchContext || !launchContext.teacherId || !launchContext.clientId) throw new Error('GRID_LAUNCH_CONTEXT_REQUIRED');
     const client = await getSupabaseClient();
-    if (!client) return { skipped: true };
+    if (!client) throw new Error('GRID_CLIENT_UNAVAILABLE');
     const completedAt = new Date().toISOString();
     const startedAt = new Date(Number(payload.startedAtMs || Date.now())).toISOString();
     const durationMinutes = Math.max(1, Math.round(Number(payload.durationSeconds || 0) / 60));
@@ -815,52 +820,58 @@
       },
       memo: payload.stageTitle || LAB_TITLE
     };
-    const result = await client.from('histories').insert(row);
+    // A detached degraded path uses the same atomic session receipt, never a
+    // second INSERT whose success could erase unrelated pending records.
+    const canonical = state.pendingDirectRow || (state.pendingDirectRow = row);
+    const result = await client.rpc('record_learning_session', { p_session_id: payload.sessionId, p_history: canonical, p_cardlab_attempt: null });
     if (result && result.error) throw result.error;
+    const receipt = result?.data;
+    if (!receipt || !['committed', 'already_committed'].includes(receipt.status) || receipt.session_id !== payload.sessionId || typeof receipt.history_id !== 'string' || !receipt.history_id.trim()) throw new Error('GRID_SESSION_RECEIPT_MISMATCH');
     return result;
   }
 
-  function pruneSyncedHarnessQueue(payload) {
-    const syncStorageKey = window.HahaLabLearningHarness && window.HahaLabLearningHarness.syncStorageKey
-      ? window.HahaLabLearningHarness.syncStorageKey
-      : 'haha_lab_learning_harness_sync_queue_v1';
-    try {
-      const queue = parseMaybeJson(window.localStorage.getItem(syncStorageKey), []);
-      if (!Array.isArray(queue) || !queue.length) return;
-      const filtered = queue.filter((job) => {
-        const history = job && job.history ? job.history : {};
-        const details = parseMaybeJson(history.details, {});
-        return !(
-          String(history.action_type || '').trim() === LAB_TITLE &&
-          String(details.source_page || '').trim() === 'playlab-grid-color-arithmetic.html' &&
-          String(details.stage_id || details.stage_key || '').trim() === String(payload.stageKey || '').trim() &&
-          Number(details.total_questions || 0) === Number(payload.totalQuestions || 0)
-        );
-      });
-      if (filtered.length !== queue.length) {
-        window.localStorage.setItem(syncStorageKey, JSON.stringify(filtered.slice(-240)));
-      }
-    } catch (_error) {}
+  function pruneSyncedHarnessQueue() {
+    // Only the shared atomic-RPC receipt owner may remove an acknowledged job.
+    // A different successful INSERT is not proof that any queued run was saved.
+    const harness = window.HahaLabLearningHarness;
+    return harness && typeof harness.flushSyncQueue === 'function'
+      ? harness.flushSyncQueue() : Promise.resolve({ skipped: true });
   }
 
   function saveResult(payload) {
     if (!state.stage || state.savedRunId) return;
-    const reportPayload = buildResultPayload(payload);
+    const reportPayload = state.pendingReport || (state.pendingReport = buildResultPayload(payload));
     state.savedRunId = `saving-${Date.now()}`;
     try {
       const harness = window.HahaLabLearningHarness;
       if (harness && typeof harness.recordSession === 'function') {
-        const record = harness.recordSession(reportPayload);
-        state.savedRunId = record && record.id ? record.id : state.savedRunId;
+        const record = state.pendingRecord || (state.pendingRecord = harness.recordSession(reportPayload));
+        if (!record?.id) throw new Error('GRID_PENDING_RECORD_REQUIRED');
+        if (record?.pendingDurable === false) {
+          if (typeof harness.queueSyncRecord !== 'function' || !harness.queueSyncRecord(record, { durable: true })) throw new Error('GRID_PENDING_STORAGE_FAILED');
+          record.pendingDurable = true;
+        }
+        state.savedRunId = record?.id || '';
+        if (state.savedRunId) void pruneSyncedHarnessQueue().catch((error) => console.warn('[gridcalc] pending sync', error));
+        return;
       }
     } catch (error) {
-      console.warn('[gridcalc] report save skipped', error);
+      state.savedRunId = '';
+      console.warn('[gridcalc] report save pending', error);
+      if (els.resultSummary && !els.resultSummary.textContent.includes('기록 저장 대기 중')) els.resultSummary.textContent += ' 기록 저장 대기 중입니다. 동기화될 때까지 이 화면을 유지해 주세요.';
+      return;
+    }
+    if (window.parent && window.parent !== window) {
+      state.savedRunId = `parent-pending-${state.reportSessionId}`;
+      window.dispatchEvent(new CustomEvent('hahalab:playlab-event', { detail: { type: 'study-complete', detail: reportPayload } }));
+      return;
     }
     saveSupabaseReport(reportPayload)
-      .then((result) => {
-        if (!result || result.skipped !== true) pruneSyncedHarnessQueue(reportPayload);
-      })
+      .then(() => { if (state.reportSessionId === reportPayload.sessionId) state.savedRunId = reportPayload.sessionId; })
       .catch((error) => {
+        if (state.reportSessionId !== reportPayload.sessionId) return;
+        state.savedRunId = '';
+        if (els.resultSummary && !els.resultSummary.textContent.includes('기록 저장 대기 중')) els.resultSummary.textContent += ' 기록 저장 대기 중입니다. 동기화될 때까지 이 화면을 유지해 주세요.';
         console.error('[gridcalc] history save failed:', error);
       });
   }

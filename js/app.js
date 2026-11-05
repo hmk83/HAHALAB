@@ -1,5 +1,9 @@
 window.appClients = [];
 window.appSchedules = [];
+window.addEventListener('beforeunload', (event) => {
+    if (!window.__hahaLabUnstoredCompletions?.size && (!currentLabDirectOverlay?.__pendingCompletionRequest || !['error', 'saving'].includes(currentLabDirectOverlay.dataset.learningCompletionSaveState))) return;
+    event.preventDefault(); event.returnValue = '';
+});
 window.appWorksheetCategories = [];
 window.appWorksheets = [];
 let sensitiveAppEpoch = 0;
@@ -3497,38 +3501,105 @@ function buildLabDirectCompletionHistoryRow({
 
 async function persistLabDirectCompletionEvent(eventPayload = {}, options = {}) {
     if (!eventPayload || String(eventPayload.type || '').trim() !== 'study-complete') return;
-    if (!currentLabDirectOverlay || currentLabDirectOverlay.dataset.learningCompletionSaved === 'true') return;
+    const overlay = currentLabDirectOverlay;
+    if (!overlay || overlay.dataset.learningCompletionSaved === 'true' || overlay.dataset.learningCompletionSaving === 'true') return;
     if (currentLabAnonymousMode) {
-        currentLabDirectOverlay.dataset.learningCompletionSaved = 'skipped-anonymous';
+        overlay.dataset.learningCompletionSaved = 'skipped-anonymous';
         return;
     }
-    currentLabDirectOverlay.dataset.learningCompletionSaved = 'true';
-    const historyRow = buildLabDirectCompletionHistoryRow({
-        kind: options.kind || currentLabKind,
-        targetUrl: options.targetUrl || '',
-        title: options.title || '',
-        eventPayload
-    });
-    const clientId = String(historyRow.client_id || historyRow.clientId || '').trim();
-    let savedRemote = false;
-    if (window.supabaseClient && historyRow.teacher_id && clientId) {
-        try {
-            const { id: _localId, ...remoteHistoryRow } = historyRow;
-            const { error } = await window.supabaseClient.from('histories').insert(remoteHistoryRow);
-            if (error) throw error;
-            savedRemote = true;
-        } catch (error) {
-            console.warn('[LabDirect] history save failed:', error);
+    overlay.__pendingCompletionRequest = { eventPayload, options };
+    overlay.dataset.learningCompletionSaving = 'true';
+    overlay.dataset.learningCompletionSaveState = 'saving';
+    const saveOwner = window.getAuthenticatedReportOwner?.();
+    let pendingRecord = overlay.__pendingCompletionRecord || null;
+    try {
+        const harness = window.HahaLabLearningHarness;
+        const client = currentLabClient || getCurrentDetailClient() || {};
+        const teacherId = String(getCurrentTeacherId() || '').trim();
+        const clientId = String(client.id || currentDetailClientId || '').trim();
+        if (!teacherId || !clientId) throw new Error('LEARNING_PENDING_OWNER_MISSING');
+        let record = overlay.__pendingCompletionRecord;
+        if (!record) {
+            const harnessRecordId = String(eventPayload.detail?.harnessRecordId || '').trim();
+            const original = options.harnessRecord || (harnessRecordId ? harness?.readRecords?.().find((item) => String(item.id || '') === harnessRecordId) : null);
+            if (harnessRecordId && !original) throw new Error('LEARNING_PENDING_SOURCE_MISSING');
+            const history = original ? JSON.parse(JSON.stringify(original.history)) : buildLabDirectCompletionHistoryRow({ kind: options.kind || currentLabKind, targetUrl: options.targetUrl || '', title: options.title || '', eventPayload });
+            if (String(history?.teacher_id || history?.teacherId || '') !== teacherId || String(history?.client_id || history?.clientId || '') !== clientId) throw new Error('LEARNING_PENDING_OWNER_MISMATCH');
+            const details = parseMaybeJson(history.details, {});
+            if (details.session_id && details.sessionId && String(details.session_id) !== String(details.sessionId)) throw new Error('LEARNING_PENDING_SESSION_MISMATCH');
+            const sessionId = String(details.session_id || details.sessionId || overlay.dataset.learningCompletionSessionId || '').trim()
+                || `lab-direct-${typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2)}`;
+            overlay.dataset.learningCompletionSessionId = sessionId;
+            if (!details.session_id) details.session_id = sessionId;
+            history.details = typeof history.details === 'string' ? JSON.stringify(details) : details;
+            // Legacy pending data needs routing IDs and original task data, not
+            // another persisted copy of the learner's display name.
+            if (!original) { delete history.client_name; delete history.clientName; }
+            record = { id: original?.id || history.id, clientId, history, ...(original?.cardlabAttempt ? { cardlabAttempt: JSON.parse(JSON.stringify(original.cardlabAttempt)) } : {}) };
+            overlay.__pendingCompletionRecord = record;
         }
-    }
-    if (!savedRemote) {
-        appendLocalLabHistoryRecord(historyRow, clientId);
-    }
-    if (clientId && String(currentDetailClientId || '') === clientId) {
-        await loadDetailSupplementalData(getCurrentDetailClient() || currentLabClient || { id: clientId, type: 'client' });
-        renderLabViewShell();
+        pendingRecord = record;
+        if (!harness?.queueSyncRecord || !harness?.readSyncQueue || !harness?.flushSyncQueue) throw new Error('LEARNING_PENDING_QUEUE_UNAVAILABLE');
+        if (String(record.history.teacher_id || record.history.teacherId || '') !== teacherId || String(record.history.client_id || record.history.clientId || '') !== clientId) throw new Error('LEARNING_PENDING_OWNER_MISMATCH');
+        const expectedDetails = parseMaybeJson(record.history.details, {});
+        const sessionId = String(expectedDetails.session_id || expectedDetails.sessionId || '');
+        const job = harness.queueSyncRecord(record, { durable: true });
+        const queued = harness.readSyncQueue().find((item) => item.id === job?.id && String(parseMaybeJson(item.history?.details, {}).session_id || '') === sessionId);
+        if (!queued || String(queued.history.teacher_id) !== teacherId || String(queued.history.client_id) !== clientId || JSON.stringify(parseMaybeJson(queued.history.details, {})) !== JSON.stringify(expectedDetails)) throw new Error('LEARNING_PENDING_DURABILITY_UNCONFIRMED');
+        // The duplicate guard becomes true only after the exact pending job is
+        // read back from durable storage. It is not a claim of server commit.
+        window.__hahaLabUnstoredCompletions?.delete(record.id);
+        overlay.dataset.learningCompletionSaved = 'true';
+        overlay.dataset.learningCompletionSaveState = 'pending';
+        if (typeof showBottomToast === 'function') showBottomToast('학습 기록을 임시 보관했습니다. 연결되면 서버 저장을 다시 확인합니다.');
+        void harness.flushSyncQueue().then(async (result) => {
+            const remains = harness.readSyncQueue().some((item) => item.id === job.id);
+            if (currentLabDirectOverlay !== overlay || overlay.__pendingCompletionRecord !== record || remains || result?.error || !(result?.synced > 0)) return;
+            overlay.dataset.learningCompletionSaveState = 'committed';
+            if (String(currentDetailClientId || '') === clientId) {
+                await loadDetailSupplementalData(getCurrentDetailClient() || currentLabClient || { id: clientId, type: 'client' });
+                renderLabViewShell();
+            }
+        }).catch(() => {});
+        void window.retryUnstoredLabCompletions?.();
+    } catch (error) {
+        if (pendingRecord && saveOwner?.authUserId) {
+            window.__hahaLabUnstoredCompletions = window.__hahaLabUnstoredCompletions || new Map();
+            window.__hahaLabUnstoredCompletions.set(pendingRecord.id, { record: pendingRecord, authUserId: saveOwner.authUserId, teacherId: saveOwner.teacherId });
+        }
+        overlay.dataset.learningCompletionSaved = 'false';
+        overlay.dataset.learningCompletionSaveState = 'error';
+        if (typeof showBottomToast === 'function') showBottomToast('학습 기록을 보관하지 못했습니다. 창을 닫지 말고 저장을 다시 시도해 주세요.');
+        console.warn('[LabDirect] completion durability check failed:', error?.message || 'SAVE_FAILED');
+    } finally {
+        overlay.dataset.learningCompletionSaving = 'false';
     }
 }
+
+
+async function retryUnstoredLabCompletions() {
+    const owner = window.getAuthenticatedReportOwner?.();
+    const harness = window.HahaLabLearningHarness;
+    if (!owner?.authUserId || !harness?.queueSyncRecord || !harness?.readSyncQueue) return;
+    for (const [key, pending] of window.__hahaLabUnstoredCompletions || []) {
+        if (pending.authUserId !== owner.authUserId || pending.teacherId !== owner.teacherId) continue;
+        try {
+            const job = harness.queueSyncRecord(pending.record, { durable: true });
+            const queued = harness.readSyncQueue().find((item) => item.id === job?.id);
+            if (!queued || String(queued.history.teacher_id) !== String(owner.teacherId)
+                || String(queued.history.client_id) !== String(pending.record.history.client_id)
+                || JSON.stringify(parseMaybeJson(queued.history.details, {})) !== JSON.stringify(parseMaybeJson(pending.record.history.details, {}))) continue;
+            window.__hahaLabUnstoredCompletions.delete(key);
+            if (currentLabDirectOverlay?.__pendingCompletionRecord?.id === pending.record.id) {
+                currentLabDirectOverlay.dataset.learningCompletionSaved = 'true';
+                currentLabDirectOverlay.dataset.learningCompletionSaveState = 'pending';
+            }
+        } catch (_error) { /* Keep the only raw copy in RAM until durable retry. */ }
+    }
+    void harness.flushSyncQueue?.();
+}
+window.retryUnstoredLabCompletions = retryUnstoredLabCompletions;
+window.addEventListener('online', () => void retryUnstoredLabCompletions());
 
 function isLabHistoryForKind(row = {}, kind = 'playlab') {
     const normalizedKind = normalizeLabKind(kind);
@@ -4407,6 +4478,12 @@ function closeLabDirectTargetOverlay({ restoreShell = true } = {}) {
 }
 
 function confirmCloseLabDirectTargetOverlay(options = {}) {
+    if (currentLabDirectOverlay?.__pendingCompletionRequest && ['error', 'saving'].includes(currentLabDirectOverlay.dataset.learningCompletionSaveState)) {
+        const request = currentLabDirectOverlay.__pendingCompletionRequest;
+        if (typeof showBottomToast === 'function') showBottomToast('기록 보관을 확인하지 못했습니다. 저장을 다시 시도한 뒤 종료해 주세요.');
+        if (currentLabDirectOverlay.dataset.learningCompletionSaveState === 'error') void persistLabDirectCompletionEvent(request.eventPayload, request.options);
+        return;
+    }
     if (currentLabDirectOverlay) {
         const existing = currentLabDirectOverlay.querySelector('.lab-direct-confirm');
         if (existing) return;
@@ -5052,6 +5129,10 @@ function openLabDirectTargetOverlay(targetUrl = '', title = '') {
             if (!payload || typeof payload !== 'object') return;
             if (String(payload.type || '').trim() === 'study-start' && currentLabDirectOverlay) {
                 currentLabDirectOverlay.dataset.learningCompletionSaved = 'false';
+                currentLabDirectOverlay.dataset.learningCompletionSessionId = '';
+                currentLabDirectOverlay.dataset.learningCompletionSaveState = 'idle';
+                delete currentLabDirectOverlay.__pendingCompletionRequest;
+                delete currentLabDirectOverlay.__pendingCompletionRecord;
                 currentLabDirectOverlay.dataset.learningStartedAtMs = String(Date.now());
             }
             persistLabDirectCompletionEvent(payload, {
@@ -5067,7 +5148,8 @@ function openLabDirectTargetOverlay(targetUrl = '', title = '') {
             persistLabDirectCompletionEvent(payload, {
                 kind: targetLabKind || currentLabKind,
                 targetUrl: normalizedUrl,
-                title
+                title,
+                harnessRecord: event?.detail
             }).catch((error) => {
                 console.warn('[LabDirect] harness record handling failed:', error);
             });
