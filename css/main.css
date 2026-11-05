@@ -1,8 +1,41 @@
 body {
     font-family: 'Noto Sans KR', sans-serif;
+    color: #0f172a;
 }
 
-/* Custom Animations */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+    display: block;
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -16,7 +49,38 @@ body {
 }
 
 .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+    animation: fadeIn 0.42s ease-out forwards;
+}
+
+@keyframes fadeInOpacityOnly {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.animate-fade-in-safe {
+    animation: fadeInOpacityOnly 0.28s ease-out forwards;
+}
+
+@keyframes stageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.animate-stage-enter {
+    animation: stageEnter 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    will-change: transform, opacity;
 }
 
 @keyframes bounceCustom {
@@ -37,7 +101,6 @@ body {
     animation: bounceCustom 1s infinite;
 }
 
-/* Scrollbar Hide Utilities */
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
 }
@@ -47,7 +110,6 @@ body {
     scrollbar-width: none;
 }
 
-/* Custom Scrollbar for other areas */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -66,66 +128,367 @@ body {
     background: #94a3b8;
 }
 
-/* Custom Animations */
-@keyframes fadeIn {
+@keyframes hahalabShimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+@keyframes cardlabAutoAdvanceProgress {
     from {
-        opacity: 0;
-        transform: translateY(10px);
+        transform: scaleX(0);
     }
 
     to {
+        transform: scaleX(1);
+    }
+}
+
+.cardlab-auto-advance-progress {
+    animation-name: cardlabAutoAdvanceProgress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    transform-origin: left center;
+    will-change: transform;
+}
+
+.skeleton-shimmer,
+.skeleton-shimmer-dark {
+    position: relative;
+    overflow: hidden;
+    background-size: 200% 100%;
+    animation: hahalabShimmer 1.45s linear infinite;
+}
+
+.skeleton-shimmer {
+    background: linear-gradient(90deg, rgba(226, 232, 240, 0.78) 0%, rgba(248, 250, 252, 1) 50%, rgba(226, 232, 240, 0.78) 100%);
+}
+
+.skeleton-shimmer-dark {
+    background: linear-gradient(90deg, rgba(148, 163, 184, 0.24) 0%, rgba(226, 232, 240, 0.72) 50%, rgba(148, 163, 184, 0.24) 100%);
+}
+
+@keyframes pairToastIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes pairToastOut {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to { opacity: 0; transform: translateY(-8px) scale(0.97); }
+}
+
+.touch-target {
+    min-width: 48px;
+    min-height: 48px;
+}
+
+.touch-feedback,
+[data-touch-feedback="true"] {
+    transform: translateZ(0);
+    transition: transform 0.12s ease, opacity 0.12s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.perf-card {
+    contain: layout paint style;
+    content-visibility: auto;
+    contain-intrinsic-size: 280px 320px;
+}
+
+.cardlab-title-ellipsis {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.cardlab-meta-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.worksheet-card-overlay,
+.worksheet-card-cta {
+    transition: opacity 0.14s ease, background-color 0.14s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .worksheet-card:hover .worksheet-card-overlay {
+        background: rgba(15, 23, 42, 0.28);
+    }
+
+    .worksheet-card:hover .worksheet-card-cta {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
-.animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
-}
+@media (prefers-reduced-motion: reduce) {
 
-@keyframes bounceCustom {
-
-    0%,
-    100% {
-        transform: translateY(-5%);
-        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    }
-
-    50% {
-        transform: translateY(0);
-        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    .skeleton-shimmer,
+    .skeleton-shimmer-dark,
+    .animate-fade-in,
+    .animate-bounce-custom,
+    .touch-feedback,
+    [data-touch-feedback="true"] {
+        animation: none !important;
+        transition: none !important;
     }
 }
 
-.animate-bounce-custom {
-    animation: bounceCustom 1s infinite;
+html[data-touch-device="true"] {
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Scrollbar Hide Utilities */
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
+html[data-touch-device="true"] .touch-feedback:active,
+html[data-touch-device="true"] [data-touch-feedback="true"]:active {
+    transform: translate3d(0, 1px, 0) scale(0.98);
+    opacity: 0.92;
 }
 
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+html[data-touch-device="true"] .worksheet-card:hover,
+html[data-touch-device="true"] .cardlab-card-shell:hover,
+html[data-touch-device="true"] .cardlab-stage-tile:hover,
+html[data-touch-device="true"] .motion-card:hover {
+    transform: none !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
 }
 
-/* Custom Scrollbar for other areas */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+html[data-touch-device="true"] .worksheet-card .worksheet-card-overlay {
+    background: transparent !important;
 }
 
-::-webkit-scrollbar-track {
-    background: #f1f5f9;
+html[data-touch-device="true"] .worksheet-card .worksheet-card-cta {
+    opacity: 0 !important;
 }
 
-::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 3px;
+html[data-touch-device="true"] .cardlab-shell button,
+html[data-touch-device="true"] .playlab-shell button,
+html[data-touch-device="true"] .printshop-shell button,
+html[data-touch-device="true"] .dashboard-shell button,
+html[data-touch-device="true"] .cardlab-shell [role="button"],
+html[data-touch-device="true"] .printshop-shell [role="button"] {
+    min-height: 48px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+html[data-tablet-landscape="true"] body {
+    font-size: 16px;
+}
+
+html[data-tablet-landscape="true"] .tablet-gnb {
+    height: 56px !important;
+    min-height: 56px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+    gap: 12px !important;
+}
+
+html[data-ipad-mini-landscape="true"] .tablet-gnb {
+    height: 52px !important;
+    min-height: 52px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    gap: 10px !important;
+}
+
+html[data-tablet-landscape="true"] .dashboard-sidebar {
+    width: 228px !important;
+    min-width: 228px !important;
+}
+
+html[data-ipad-mini-landscape="true"] .dashboard-sidebar {
+    width: 208px !important;
+    min-width: 208px !important;
+}
+
+html[data-tablet-landscape="true"] .playlab-sidebar[data-sidebar-collapsed="false"] {
+    width: var(--tablet-playlab-sidebar-width, 248px) !important;
+    min-width: var(--tablet-playlab-sidebar-width, 248px) !important;
+    max-width: var(--tablet-playlab-sidebar-width, 248px) !important;
+    flex-basis: var(--tablet-playlab-sidebar-width, 248px) !important;
+}
+
+html[data-ipad-mini-landscape="true"] .playlab-sidebar[data-sidebar-collapsed="false"] {
+    width: var(--tablet-playlab-sidebar-width, 214px) !important;
+    min-width: var(--tablet-playlab-sidebar-width, 214px) !important;
+    max-width: var(--tablet-playlab-sidebar-width, 214px) !important;
+    flex-basis: var(--tablet-playlab-sidebar-width, 214px) !important;
+}
+
+html[data-tablet-landscape="true"] .playlab-sidebar[data-sidebar-collapsed="true"],
+html[data-tablet-landscape="true"] .cardlab-sidebar[data-sidebar-collapsed="true"] {
+    width: var(--tablet-sidebar-collapsed-width, 64px) !important;
+    min-width: var(--tablet-sidebar-collapsed-width, 64px) !important;
+    max-width: var(--tablet-sidebar-collapsed-width, 64px) !important;
+    flex-basis: var(--tablet-sidebar-collapsed-width, 64px) !important;
+}
+
+html[data-tablet-landscape="true"] .cardlab-sidebar[data-sidebar-collapsed="false"] {
+    width: var(--tablet-cardlab-sidebar-width, 252px) !important;
+    min-width: var(--tablet-cardlab-sidebar-width, 252px) !important;
+    max-width: var(--tablet-cardlab-sidebar-width, 252px) !important;
+    flex-basis: var(--tablet-cardlab-sidebar-width, 252px) !important;
+}
+
+html[data-ipad-mini-landscape="true"] .cardlab-sidebar[data-sidebar-collapsed="false"] {
+    width: var(--tablet-cardlab-sidebar-width, 214px) !important;
+    min-width: var(--tablet-cardlab-sidebar-width, 214px) !important;
+    max-width: var(--tablet-cardlab-sidebar-width, 214px) !important;
+    flex-basis: var(--tablet-cardlab-sidebar-width, 214px) !important;
+}
+
+html[data-tablet-landscape="true"] .cardlab-workspace-header,
+html[data-tablet-landscape="true"] .cardlab-workspace-body {
+    padding: 12px 14px !important;
+}
+
+html[data-ipad-mini-landscape="true"] .cardlab-workspace-header,
+html[data-ipad-mini-landscape="true"] .cardlab-workspace-body {
+    padding: 10px 12px !important;
+}
+
+html[data-tablet-landscape="true"] .printshop-shell {
+    grid-template-columns: minmax(196px, 220px) minmax(0, 1fr) !important;
+}
+
+html[data-ipad-mini-landscape="true"] .printshop-shell {
+    grid-template-columns: 196px minmax(0, 1fr) !important;
+}
+
+html[data-tablet-landscape="true"] .worksheet-grid {
+    grid-template-columns: repeat(auto-fit, minmax(182px, 1fr)) !important;
+}
+
+html[data-ipad-mini-landscape="true"] .worksheet-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+html[data-tablet-landscape="true"] .cardlab-grid {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 12px !important;
+}
+
+html[data-tablet-landscape="true"] .cardlab-grid > .cardlab-card-shell {
+    flex: 1 1 calc(33.333% - 12px);
+    min-width: 180px;
+    max-width: calc(33.333% - 8px);
+}
+
+html[data-ipad-mini-landscape="true"] .cardlab-grid > .cardlab-card-shell {
+    flex-basis: calc(50% - 8px);
+    min-width: 168px;
+    max-width: calc(50% - 8px);
+}
+
+html[data-tablet-landscape="true"] .cardlab-stage-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+html[data-ipad-mini-landscape="true"] .cardlab-stage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+html[data-tablet-landscape="true"] .cardlab-stage-tile {
+    min-height: 94px;
+}
+
+html[data-ipad-mini-landscape="true"] .cardlab-stage-tile {
+    min-height: 88px;
+}
+
+html[data-tablet-landscape="true"] .cardlab-shell .cardlab-title-ellipsis,
+html[data-tablet-landscape="true"] .printshop-shell .cardlab-title-ellipsis {
+    font-size: clamp(14px, 1.5vw, 16px);
+    line-height: 1.35;
+}
+
+@media (max-resolution: 1.5dppx) {
+    .perf-card {
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+    }
+
+    .touch-feedback,
+    [data-touch-feedback="true"] {
+        transition-duration: 0.08s !important;
+    }
+}
+
+/* =============================================
+   PLAYLAB: ipad-mini / ≤1180px landscape 최적화
+   ============================================= */
+
+html[data-ipad-mini-landscape="true"] [data-playlab-sidebar-title] {
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+}
+
+html[data-ipad-mini-landscape="true"] [data-playlab-category-button] {
+    min-height: 40px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    font-size: 12px !important;
+}
+
+html[data-ipad-mini-landscape="true"] [data-playlab-content-card] {
+    padding: 8px 10px !important;
+    border-radius: 16px !important;
+    min-height: 52px !important;
+}
+
+html[data-ipad-mini-landscape="true"] [data-playlab-card-tags] {
+    display: none !important;
+}
+
+html[data-ipad-mini-landscape="true"] [data-playlab-detail-html] {
+    border-radius: 20px !important;
+}
+
+/* =============================================
+   PLAYLAB: 낮은 해상도 태블릿 768–900px landscape
+   ============================================= */
+
+@media (min-width: 768px) and (max-width: 900px) and (orientation: landscape) {
+    html[data-tablet-landscape="true"] {
+        --tablet-playlab-sidebar-width: 188px;
+        --tablet-sidebar-collapsed-width: 54px;
+        --tablet-shell-gap: 8px;
+        --tablet-shell-padding: 10px;
+    }
+
+    [data-playlab-sidebar-title] {
+        font-size: 14px !important;
+        line-height: 1.15 !important;
+    }
+
+    [data-playlab-category-button] {
+        min-height: 36px !important;
+        padding: 5px 8px !important;
+        font-size: 11px !important;
+    }
+
+    [data-playlab-content-card] {
+        padding: 6px 8px !important;
+        min-height: 44px !important;
+        border-radius: 12px !important;
+    }
+
+    [data-playlab-card-tags] {
+        display: none !important;
+    }
+
+    [data-playlab-detail-html] {
+        border-radius: 16px !important;
+    }
+
+    .playlab-shell [data-playlab-sidebar] {
+        border-radius: 0 !important;
+    }
 }

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <meta name="referrer" content="no-referrer">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://gxungzlecmibgvykoiib.supabase.co; frame-ancestors 'none'; base-uri 'none'; form-action 'none'">
+    <title>플레이랩 상세 리포트</title>
+    <link rel="stylesheet" href="./playlab/playlab-report-engine.css?v=20261104-security-report-2">
+    <style>
+        :root {
+            color-scheme: light;
+        }
+        body {
+            margin: 0;
+            font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+            background: linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+            color: #0f172a;
+        }
+        .viewer-shell {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 20px 48px;
+        }
+        .viewer-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 14px 16px;
+            border: 1px solid #dbe7f3;
+            border-radius: 18px;
+            background: rgba(255,255,255,0.94);
+        }
+        .viewer-kicker {
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            color: #94a3b8;
+        }
+        .viewer-title {
+            margin-top: 8px;
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+        .viewer-meta {
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #475569;
+            white-space: pre-line;
+        }
+        .viewer-actions {
+            display: flex;
+            flex: 0 0 auto;
+            gap: 8px;
+        }
+        .viewer-share-copy {
+            min-width: 0;
+        }
+        .viewer-share-copy strong,
+        .viewer-share-copy span {
+            display: block;
+        }
+        .viewer-share-copy strong {
+            color: #334155;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+        .viewer-share-copy span {
+            margin-top: 3px;
+            color: #64748b;
+            font-size: 11px;
+            line-height: 1.45;
+        }
+        .viewer-share-status {
+            position: fixed;
+            left: 50%;
+            bottom: 28px;
+            z-index: 1000;
+            display: block;
+            margin: 0;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: #0f172a;
+            color: #fff !important;
+            font-size: 13px !important;
+            font-weight: 700;
+            line-height: 1.45 !important;
+            box-shadow: 0 12px 32px rgba(15, 23, 42, 0.24);
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, 12px);
+            transition: opacity 160ms ease, transform 160ms ease;
+        }
+        .viewer-share-status:empty {
+            display: none;
+        }
+        .viewer-share-status.is-visible {
+            opacity: 1;
+            transform: translate(-50%, 0);
+        }
+        .viewer-share-status.is-error {
+            background: #991b1b;
+        }
+        body.is-shared-report .viewer-head {
+            justify-content: center;
+            padding: 12px 16px;
+            text-align: center;
+        }
+        body.is-shared-report .viewer-share-copy strong {
+            font-size: 12px;
+        }
+        .viewer-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 16px;
+            border-radius: 999px;
+            border: 1px solid #dbe6f3;
+            background: #fff;
+            color: #0f172a;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .viewer-btn.is-primary {
+            border-color: #0f172a;
+            background: #0f172a;
+            color: #fff;
+        }
+        .viewer-btn:disabled {
+            cursor: wait;
+            opacity: 0.65;
+        }
+        .viewer-card {
+            border-radius: 28px;
+            background: rgba(255,255,255,0.94);
+            border: 1px solid #e7edf4;
+            box-shadow: 0 18px 60px rgba(15, 23, 42, 0.08);
+            padding: 24px;
+        }
+        .viewer-card .playlab-report-shell {
+            width: 100%;
+            max-width: none;
+        }
+        .viewer-shell.has-engine-report .viewer-card {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+        .viewer-empty {
+            border-radius: 24px;
+            background: #fff;
+            border: 1px dashed #cbd5e1;
+            padding: 56px 24px;
+            text-align: center;
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        .viewer-raw-report {
+            max-width: 920px;
+            margin: 0 auto;
+        }
+        .viewer-raw-badge {
+            display: inline-flex;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #fff7ed;
+            color: #9a3412;
+            font-size: 12px;
+            font-weight: 800;
+        }
+        .viewer-raw-report h1 {
+            margin: 14px 0 6px;
+            font-size: clamp(24px, 4vw, 36px);
+            line-height: 1.25;
+        }
+        .viewer-raw-meta,
+        .viewer-raw-note {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .viewer-raw-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin: 26px 0;
+        }
+        .viewer-raw-metrics > div,
+        .viewer-raw-section {
+            padding: 18px;
+            border: 1px solid #dbe6f3;
+            border-radius: 16px;
+            background: #f8fbff;
+        }
+        .viewer-raw-metrics span,
+        .viewer-raw-section h2 {
+            display: block;
+            margin: 0 0 6px;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .viewer-raw-metrics strong {
+            font-size: 18px;
+        }
+        .viewer-raw-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .viewer-raw-section p {
+            margin: 0;
+            line-height: 1.7;
+        }
+        .viewer-raw-note {
+            margin: 22px 0 0;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: #f1f5f9;
+        }
+        @media (max-width: 720px) {
+            .viewer-shell { padding: 20px 14px 36px; }
+            .viewer-head { align-items: stretch; flex-direction: column; padding: 14px; }
+            .viewer-actions { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+            .viewer-btn { min-height: 44px; }
+            .viewer-card { padding: 18px; }
+            .viewer-raw-metrics,
+            .viewer-raw-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media print {
+            body {
+                background: #fff;
+            }
+            .viewer-shell {
+                max-width: none;
+                padding: 0;
+            }
+            .viewer-actions {
+                display: none;
+            }
+            .viewer-card {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="viewer-shell">
+        <div class="viewer-head">
+            <div class="viewer-share-copy">
+                <strong>공유 링크는 생성일로부터 30일 뒤 만료됩니다.</strong>
+                <span>만료 시 공유 사본은 자동 삭제되며 원래 회기 기록은 유지됩니다.</span>
+                <span id="viewerShareStatus" class="viewer-share-status" aria-live="polite"></span>
+            </div>
+            <div class="viewer-actions">
+                <button type="button" id="viewerPdfButton" class="viewer-btn" disabled>PDF 저장</button>
+                <button type="button" id="viewerShareButton" class="viewer-btn is-primary">URL 복사</button>
+                <button type="button" id="viewerCloseButton" class="viewer-btn">닫기</button>
+            </div>
+        </div>
+        <div id="viewerBody" class="viewer-card"></div>
+    </div>
+
+    <script charset="utf-8" src="./playlab/playlab-report-engine.js?v=20261104-observation-opinion-1"></script>
+    <script type="module">
+        import { sanitizeGuardianSnapshot } from './playlab/guardian-share-snapshot.js?v=20261104-guardian-aggregate-1';
+        (async function () {
+            const SUPABASE_URL = 'https://gxungzlecmibgvykoiib.supabase.co';
+            const SUPABASE_KEY = 'sb_publishable_hzQriBXTJeAwATA2NjnV7A_Tr9E1hfE';
+            const SHARE_ENDPOINT = `${SUPABASE_URL}/functions/v1/report-share`;
+            const params = new URLSearchParams(window.location.search);
+            const reportKey = params.get('reportKey') || '';
+            const shareMatch = window.location.hash.match(/^#share\/([a-z0-9-]{1,96})\.([A-Za-z0-9_-]{32,})$/);
+            const bodyNode = document.getElementById('viewerBody');
+            const shareButton = document.getElementById('viewerShareButton');
+            const pdfButton = document.getElementById('viewerPdfButton');
+            const closeButton = document.getElementById('viewerCloseButton');
+            const statusNode = document.getElementById('viewerShareStatus');
+            const AUTH_STORAGE_KEY = 'sb-gxungzlecmibgvykoiib-auth-token';
+            const LOCAL_REPORT_MAX_AGE_MS = 30 * 60 * 1000;
+            const denyLocalReport = () => {
+                payload = null;
+                cachedShareUrl = '';
+                bodyNode.innerHTML = '<div class="viewer-empty">로그인 세션이 종료되었거나 이 계정의 리포트가 아닙니다. 내담자 리포트에서 다시 열어주세요.</div>';
+                shareButton.disabled = true;
+                pdfButton.disabled = true;
+                document.title = '상세 리포트';
+            };
+            const readTransientReport = (authUserId, sessionId) => new Promise((resolve, reject) => {
+                if (typeof BroadcastChannel !== 'function') { reject(new Error('TRANSIENT_REPORT_UNAVAILABLE')); return; }
+                const channel = new BroadcastChannel(reportKey);
+                const requestId = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Array.from(crypto.getRandomValues(new Uint8Array(16)), (value) => value.toString(16).padStart(2, '0')).join('');
+                const finish = (error, source) => { clearTimeout(timeout); channel.close(); error ? reject(error) : resolve(source); };
+                const timeout = setTimeout(() => finish(new Error('REPORT_SOURCE_CLOSED')), 5000);
+                channel.onmessage = (event) => {
+                    if (event.data?.type === 'report-payload' && event.data.requestId === requestId) finish(null, event.data.source);
+                };
+                channel.postMessage({ type: 'read-report', requestId, authUserId, sessionId });
+            });
+            const validateLocalAccess = async () => {
+                if (!/^playlab_history_report_[A-Za-z0-9_-]{1,180}$/.test(reportKey)) throw new Error('INVALID_REPORT_KEY');
+                const session = JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || 'null');
+                const token = session?.access_token;
+                if (!token) throw new Error('AUTH_REQUIRED');
+                const claims = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+                if (!claims.session_id || Number(claims.exp || 0) <= Date.now() / 1000) throw new Error('AUTH_EXPIRED');
+                const source = await readTransientReport(session?.user?.id || claims.sub, claims.session_id);
+                const owner = source?.owner;
+                const age = Date.now() - Number(owner?.createdAt || 0);
+                if (!owner?.authUserId || !owner?.teacherId || owner.sessionId !== claims.session_id || age < 0 || age >= LOCAL_REPORT_MAX_AGE_MS) throw new Error('REPORT_OWNER_REQUIRED');
+                const headers = { apikey: SUPABASE_KEY, Authorization: `Bearer ${token}` };
+                const [userResponse, profileResponse, activeSessionResponse] = await Promise.all([
+                    fetch(`${SUPABASE_URL}/auth/v1/user`, { headers, cache: 'no-store', referrerPolicy: 'no-referrer' }),
+                    fetch(`${SUPABASE_URL}/rest/v1/rpc/get_my_teacher_profile`, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: '{}', cache: 'no-store', referrerPolicy: 'no-referrer' }),
+                    fetch(`${SUPABASE_URL}/rest/v1/rpc/security_session_active`, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: '{}', cache: 'no-store', referrerPolicy: 'no-referrer' })
+                ]);
+                if (!userResponse.ok || !profileResponse.ok || !activeSessionResponse.ok || await activeSessionResponse.json() !== true) throw new Error('AUTH_INVALID');
+                const user = await userResponse.json();
+                const profileResult = await profileResponse.json();
+                const profile = Array.isArray(profileResult) ? profileResult[0] : profileResult;
+                if (user?.id !== owner.authUserId || String(profile?.teacher_id || profile?.teacherId || '') !== String(owner.teacherId) || !['active', 'normal'].includes(String(profile?.status || '').toLowerCase()) || profile?.withdrawn_at) throw new Error('REPORT_ACCESS_DENIED');
+                // Logout/account changes during the network check must not restore old HTML.
+                if (JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY) || 'null')?.access_token !== token) throw new Error('AUTH_CHANGED');
+                payload = source;
+                return token;
+            };
+            const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[char]));
+            let payload = null;
+            let sharedMeta = null;
+            let cachedShareUrl = '';
+            let toastTimer = 0;
+
+            const showToast = (message, isError = false) => {
+                window.clearTimeout(toastTimer);
+                statusNode.textContent = message;
+                statusNode.classList.toggle('is-error', isError);
+                statusNode.classList.add('is-visible');
+                toastTimer = window.setTimeout(() => {
+                    statusNode.classList.remove('is-visible', 'is-error');
+                    statusNode.textContent = '';
+                }, 2200);
+            };
+            const formatKstSlug = (value) => {
+                const date = new Date(value || Date.now());
+                const parts = new Intl.DateTimeFormat('en-CA', {
+                    timeZone: 'Asia/Seoul', year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+                }).formatToParts(date).reduce((acc, item) => ({ ...acc, [item.type]: item.value }), {});
+                return `${parts.year}${parts.month}${parts.day}-${parts.hour}${parts.minute}`;
+            };
+            const slugify = (value) => String(value || '')
+                .normalize('NFKD').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 56);
+            const copyText = async (value) => {
+                if (navigator.clipboard && window.isSecureContext) {
+                    try {
+                        await navigator.clipboard.writeText(value);
+                        return true;
+                    } catch (_error) {
+                        // Continue with the selection-based fallback below.
+                    }
+                }
+                const field = document.createElement('textarea');
+                field.value = value;
+                field.setAttribute('readonly', '');
+                field.style.position = 'fixed';
+                field.style.opacity = '0';
+                document.body.appendChild(field);
+                field.focus();
+                field.select();
+                field.setSelectionRange(0, field.value.length);
+                const copied = document.execCommand('copy') === true;
+                field.remove();
+                return copied;
+            };
+            const requestShare = async (body, accessToken = '') => {
+                const response = await fetch(SHARE_ENDPOINT, {
+                    method: 'POST',
+                    cache: 'no-store',
+                    referrerPolicy: 'no-referrer',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        apikey: SUPABASE_KEY,
+                        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+                    },
+                    body: JSON.stringify(body)
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    const error = new Error(result.message || result.error || '공유 링크 처리에 실패했습니다.');
+                    error.status = response.status;
+                    throw error;
+                }
+                return result;
+            };
+            const renderRawRecord = (entry, rawRecord) => {
+                const knownNumber = (value) => (typeof value === 'number' || typeof value === 'string' && value.trim() !== '') && Number.isFinite(Number(value)) && Number(value) >= 0;
+                const correctLabel = knownNumber(rawRecord.totalQuestions) && knownNumber(rawRecord.correctCount)
+                    ? `${Number(rawRecord.correctCount)}/${Number(rawRecord.totalQuestions)}`
+                    : '원자료 미기록';
+                bodyNode.innerHTML = `
+                    <article class="viewer-raw-report">
+                        <span class="viewer-raw-badge">요약 원자료 상세</span>
+                        <h1>${escapeHtml(rawRecord.title || entry.title || '재활랩 활동')}</h1>
+                        <p class="viewer-raw-meta">${escapeHtml(rawRecord.playedAt || entry.playedAt || '')}</p>
+                        <h2>디지털 수행지표</h2>
+                        <div class="viewer-raw-metrics">
+                            <div><span>정확 반응</span><strong>${escapeHtml(rawRecord.accuracyLabel || correctLabel)}</strong></div>
+                            <div><span>정반응 / 전체</span><strong>${escapeHtml(correctLabel)}</strong></div>
+                            <div><span>소요시간</span><strong>${knownNumber(rawRecord.durationMinutes) ? `${Math.round(Number(rawRecord.durationMinutes) * 100) / 100}분` : '미기록'}</strong></div>
+                            <div><span>반응시간</span><strong>${escapeHtml(rawRecord.reactionLabel || '미기록')}</strong></div>
+                        </div>
+                        <div class="viewer-raw-grid">
+                            <section class="viewer-raw-section"><h2>영역 · 조건</h2><p>${escapeHtml((rawRecord.domains || []).join(' · ') || '영역 미기록')}<br>${escapeHtml(rawRecord.responseCondition || '조건 미기록')}</p></section>
+                            <section class="viewer-raw-section"><h2>오류 기록</h2><p>${escapeHtml(rawRecord.errorDetail || '오류 원자료 미기록')}</p></section>
+                        </div>
+                        <p class="viewer-raw-note">저장 당시 전문 리포트 원자료가 없어 현재 보존된 수행 원기록만 표시합니다. 전문가 소견을 새로 생성하지 않으며, 임상 척도·치료사 소견과 구분됩니다.</p>
+                    </article>`;
+            };
+            const renderPayload = (source, shared = false) => {
+                if (shared) source = sanitizeGuardianSnapshot(source);
+                const entry = source.entry || {};
+                const rawRecord = source.rawRecord || null;
+                const sharedReportInput = shared ? source.guardianInput : source.reportInput;
+                const report = (!shared && source.report) || (sharedReportInput && window.PlaylabReportEngine?.buildReport
+                    ? window.PlaylabReportEngine.buildReport(sharedReportInput)
+                    : null);
+                document.title = entry.title || report?.stageTitle || report?.title || rawRecord?.title || '플레이랩 상세 리포트';
+                if (report) {
+                    bodyNode.innerHTML = window.PlaylabReportEngine
+                        ? window.PlaylabReportEngine.renderHtml(report, {
+                            variant: 'standalone',
+                            ...(shared ? { sharedAudience: 'guardian' } : {})
+                        })
+                        : '<div class="viewer-empty">리포트 엔진을 불러오지 못했습니다.</div>';
+                } else if (rawRecord) {
+                    renderRawRecord(entry, rawRecord);
+                }
+                if (report && window.PlaylabReportEngine && bodyNode.querySelector('.playlab-report-shell')) {
+                    document.querySelector('.viewer-shell')?.classList.add('has-engine-report');
+                }
+                pdfButton.disabled = !report && !rawRecord;
+            };
+            const buildShareSlug = () => {
+                const entry = payload?.entry || {};
+                const report = payload?.report || {};
+                const learning = slugify(report.reportProfileId || entry.reportProfileId || report.reportType || 'rehab-session') || 'rehab-session';
+                const playedAt = entry.playedAt || report.completedAtMs || payload?.rawRecord?.playedAt || Date.now();
+                return `${learning}-${formatKstSlug(playedAt)}`;
+            };
+            const copySharedUrl = async () => {
+                shareButton.disabled = true;
+                try {
+                    const accessToken = await validateLocalAccess();
+                    if (cachedShareUrl) {
+                        if (!await copyText(cachedShareUrl)) throw new Error('링크를 복사하지 못했습니다. 다시 시도해 주세요.');
+                        showToast('링크가 복사되었습니다.');
+                        return;
+                    }
+                    if (!payload?.shareContext?.clientId || !payload?.shareContext?.historyId) {
+                        throw new Error('공유 대상 회기 정보를 확인할 수 없습니다. 내담자 리포트에서 다시 열어주세요.');
+                    }
+                    if (!payload?.report) throw new Error('저장된 전문 리포트 원자료가 있는 회기만 URL로 공유할 수 있습니다.');
+                    if (!accessToken) throw new Error('URL을 만들려면 하하랩에 다시 로그인해 주세요.');
+                    shareButton.textContent = 'URL 생성 중…';
+                    const result = await requestShare({
+                        action: 'create',
+                        audienceScope: 'guardian',
+                        clientId: payload.shareContext.clientId,
+                        historyId: payload.shareContext.historyId,
+                        slug: buildShareSlug()
+                    }, accessToken);
+                    sharedMeta = { expiresAt: result.expiresAt };
+                    cachedShareUrl = `${window.location.origin}${window.location.pathname}#share/${result.slug}.${result.token}`;
+                    if (!await copyText(cachedShareUrl)) throw new Error('링크를 복사하지 못했습니다. 다시 시도해 주세요.');
+                    showToast('링크가 복사되었습니다.');
+                } catch (error) {
+                    showToast(error?.message || '링크를 복사하지 못했습니다.', true);
+                } finally {
+                    shareButton.disabled = false;
+                    shareButton.textContent = 'URL 복사';
+                }
+            };
+
+            pdfButton.addEventListener('click', async () => {
+                if (pdfButton.disabled) return;
+                pdfButton.disabled = true;
+                pdfButton.textContent = 'PDF 준비 중…';
+                try {
+                    if (!payload || !window.PlaylabReportEngine) throw new Error('리포트를 다시 열어 주세요.');
+                    const sourceFingerprint = shareMatch ? '' : JSON.stringify(payload);
+                    const root = bodyNode.querySelector('.playlab-report-shell') || bodyNode;
+                    const validateExportAccess = async () => {
+                        if (!payload || !root.isConnected || !bodyNode.contains(root)) return false;
+                        if (shareMatch) {
+                            const resolved = await requestShare({ action: 'resolve', token: shareMatch[2] });
+                            return Boolean(resolved.snapshot && new Date(resolved.expiresAt).getTime() > Date.now() && root.isConnected);
+                        }
+                        await validateLocalAccess();
+                        return JSON.stringify(payload) === sourceFingerprint && root.isConnected;
+                    };
+                    await window.PlaylabReportEngine.triggerPdfSave({ root, title: document.title, ...(shareMatch ? { reportMode: 'guardian' } : {}), validateBeforeDownload: validateExportAccess });
+                    showToast('리포트를 PDF로 저장했습니다.');
+                } catch (error) {
+                    showToast(error?.message || 'PDF 저장에 실패했습니다. 리포트를 다시 열어 주세요.', true);
+                } finally {
+                    pdfButton.disabled = !payload;
+                    pdfButton.textContent = 'PDF 저장';
+                }
+            });
+
+            closeButton.addEventListener('click', () => {
+                window.close();
+                window.setTimeout(() => {
+                    if (!window.closed && window.history.length > 1) window.history.back();
+                }, 120);
+            });
+            shareButton.addEventListener('click', copySharedUrl);
+
+            if (shareMatch) {
+                document.body.classList.add('is-shared-report');
+                shareButton.remove();
+                closeButton.remove();
+                document.querySelector('.viewer-share-copy').innerHTML = '<strong>30일 뒤 해당 링크가 삭제됩니다.</strong>';
+                bodyNode.innerHTML = '<div class="viewer-empty">공유 리포트를 불러오고 있습니다.</div>';
+                try {
+                    const result = await requestShare({ action: 'resolve', token: shareMatch[2] });
+                    payload = sanitizeGuardianSnapshot(result.snapshot);
+                    sharedMeta = { expiresAt: result.expiresAt };
+                    renderPayload(payload, true);
+                } catch (error) {
+                    bodyNode.innerHTML = '<div class="viewer-empty">공유 기간이 만료되어 삭제되었거나 유효하지 않은 링크입니다.</div>';
+                }
+                return;
+            }
+
+            if (!reportKey) {
+                bodyNode.innerHTML = '<div class="viewer-empty">불러올 리포트 키가 없습니다.</div>';
+                shareButton.disabled = true;
+                return;
+            }
+            bodyNode.innerHTML = '<div class="viewer-empty">로그인 권한을 확인하고 있습니다.</div>';
+            try { await validateLocalAccess(); } catch (_error) { denyLocalReport(); return; }
+            if (!payload || (!payload.report && !payload.rawRecord)) {
+                bodyNode.innerHTML = '<div class="viewer-empty">저장된 상세 리포트를 찾지 못했습니다.\n다시 로그에서 상세 리포트를 열어주세요.</div>';
+                shareButton.disabled = true;
+                return;
+            }
+            renderPayload(payload, false);
+            const revalidate = async () => {
+                denyLocalReport();
+                try {
+                    await validateLocalAccess();
+                    renderPayload(payload, false);
+                    shareButton.disabled = false;
+                } catch (_error) { denyLocalReport(); }
+            };
+            window.addEventListener('storage', (event) => {
+                if (!event.key || event.key === AUTH_STORAGE_KEY || event.key === reportKey || event.key === 'haha_lab_session') void revalidate();
+            });
+            window.addEventListener('pageshow', () => void revalidate());
+            window.addEventListener('pagehide', denyLocalReport);
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) denyLocalReport();
+                else void revalidate();
+            });
+            window.setInterval(() => void revalidate(), 60000);
+        })();
+    </script>
+</body>
+</html>

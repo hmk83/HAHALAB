@@ -1,0 +1,2310 @@
+.playlab-shell {
+    --playlab-panel: rgba(255, 255, 255, 0.94);
+    --playlab-panel-strong: rgba(255, 255, 255, 0.98);
+    --playlab-border: rgba(255, 255, 255, 0.7);
+    --playlab-text: #17324a;
+    --playlab-subtext: #577089;
+    --playlab-soft: #eef7ff;
+    --playlab-shadow: 0 22px 54px rgba(19, 61, 93, 0.18);
+    --playlab-shape-accent: #8b5cf6;
+    --playlab-shape-accent-soft: #f3e8ff;
+    --playlab-color-accent: #0284c7;
+    --playlab-color-accent-soft: #e0f2fe;
+}
+
+.playlab-shell .shell-main {
+    display: flex;
+    flex: 1;
+}
+
+.playlab-shell .shell-topbar {
+    background: transparent;
+    backdrop-filter: none;
+}
+
+.playlab-shell .shell-topbar-inner {
+    background: rgba(255, 255, 255, 0.84);
+    border-color: rgba(255, 255, 255, 0.74);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(29, 74, 108, 0.12);
+    backdrop-filter: blur(14px);
+}
+
+.playlab-shell .playlab-main {
+    width: min(1180px, calc(100% - 2.8rem));
+    margin: 0 auto;
+    display: flex;
+    flex: 0 1 min(1180px, calc(100% - 2.8rem));
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 0.6rem 0 0;
+}
+
+.playlab-shell .playlab-screen {
+    display: none;
+}
+
+.playlab-shell .playlab-screen.is-active {
+    display: block;
+}
+
+.playlab-shell .shell-main:has(#stageSelectView.is-active #stageGrid),
+.playlab-shell .shell-main:has(#stageView.is-active #stageGrid) {
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding-top: clamp(1.1rem, 3vh, 2.25rem) !important;
+    padding-bottom: clamp(1rem, 2.5vh, 1.6rem) !important;
+    overflow-y: visible !important;
+}
+
+.playlab-shell :is(#stageSelectView.is-active, #stageView.is-active):has(#stageGrid) {
+    align-self: flex-start !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    scroll-margin-top: 0 !important;
+}
+
+.playlab-shell :is(#stageSelectView.is-active, #stageView.is-active):has(#stageGrid) #stageGrid,
+.playlab-shell :is(#stageSelectView.is-active, #stageView.is-active):has(#stageGrid) .playlab-stage-grid {
+    margin-block: 0 auto !important;
+    max-height: none;
+    overflow: visible;
+    padding: 0.2rem 0 0.35rem;
+}
+
+.playlab-shell .playlab-stage-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.playlab-shell .playlab-stage-head {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.2rem;
+    text-align: center;
+}
+
+.playlab-shell .playlab-stage-head h1 {
+    margin: 0;
+    font-size: clamp(1.85rem, 3.4vw, 3rem);
+    line-height: 1.1;
+    font-weight: 1000;
+    letter-spacing: 0;
+    color: var(--playlab-text);
+}
+
+.playlab-shell-dot .playlab-stage-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+.playlab-shell-dot #stageSelectView.is-active {
+    width: 100%;
+    align-self: stretch !important;
+}
+
+.playlab-shell-memory .playlab-stage-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(1040px, 100%);
+    margin: 0 auto;
+}
+
+.playlab-shell-icon-find .playlab-stage-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(840px, calc(100% - 10rem));
+    margin: 0 auto;
+    gap: 1.05rem;
+}
+
+.playlab-shell-icon-find .playlab-stage-card {
+    min-height: 148px;
+    padding: 0.9rem 0.9rem 0.95rem;
+    border-radius: 22px;
+    gap: 0.55rem;
+}
+
+.playlab-shell-icon-find .playlab-stage-title {
+    font-size: 1rem;
+}
+
+.playlab-shell-icon-find .playlab-stage-subtitle,
+.playlab-shell-icon-find .playlab-stage-meta {
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+.playlab-shell-icon-find #resultView.is-active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    align-self: center;
+}
+
+.playlab-shell-icon-find .shell-main:has(#resultView.is-active) {
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.playlab-shell-icon-find .playlab-main:has(#resultView.is-active) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.playlab-shell-icon-find #resultView .playlab-result-card {
+    width: min(560px, calc(100% - 2rem));
+    margin: 0 auto;
+}
+
+.playlab-shell-doorlock .playlab-stage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(720px, calc(100% - 4rem));
+    margin: 0 auto;
+}
+
+.playlab-shell-doorlock .playlab-stage-card {
+    min-height: 178px;
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(236, 253, 245, 0.96) 100%);
+    border: 1px solid rgba(45, 212, 191, 0.28);
+}
+
+.playlab-shell-shape #stageSelectView.is-active {
+    display: flex;
+    justify-content: center;
+}
+
+.playlab-shell-shape #stageSelectView .playlab-stage-grid {
+    width: min(1040px, calc(100% - 4rem));
+    margin: 0 auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.15rem;
+}
+
+.playlab-shell .playlab-stage-card,
+.playlab-shell .playlab-option-card,
+.playlab-shell .playlab-node-btn,
+.playlab-shell .playlab-action-btn,
+.playlab-shell .playlab-secondary-btn,
+.playlab-shell .playlab-chip-btn {
+    border: none;
+    cursor: pointer;
+    font: inherit;
+}
+
+.playlab-shell .playlab-stage-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    min-height: 210px;
+    padding: 1.3rem;
+    border-radius: 30px;
+    background: var(--playlab-panel);
+    box-shadow: var(--playlab-shadow);
+    text-align: left;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.playlab-shell .playlab-stage-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 28px 62px rgba(19, 61, 93, 0.22);
+}
+
+.playlab-shell .playlab-stage-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 52px;
+    min-height: 34px;
+    padding: 0.25rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: #fff;
+}
+
+.playlab-shell .playlab-stage-title {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.35;
+    font-weight: 900;
+    color: var(--playlab-text);
+}
+
+.playlab-shell .playlab-stage-subtitle,
+.playlab-shell .playlab-stage-meta,
+.playlab-shell .playlab-card-copy,
+.playlab-shell .playlab-help-copy,
+.playlab-shell .playlab-legend-copy {
+    margin: 0;
+    color: var(--playlab-subtext);
+    line-height: 1.65;
+}
+
+.playlab-shell .playlab-intro-card,
+.playlab-shell .playlab-result-card,
+.playlab-shell .playlab-play-head,
+.playlab-shell .playlab-panel-card,
+.playlab-shell .playlab-help-card,
+.playlab-shell .playlab-confirm-card {
+    background: var(--playlab-panel);
+    border: 1px solid var(--playlab-border);
+    border-radius: 34px;
+    box-shadow: var(--playlab-shadow);
+}
+
+.playlab-shell .playlab-intro-card,
+.playlab-shell .playlab-result-card {
+    padding: 2rem;
+}
+
+.playlab-shell #resultView.is-active {
+    display: flex;
+    justify-content: center;
+}
+
+.playlab-shell #resultView .playlab-result-card {
+    width: min(980px, calc(100% - 2rem));
+    margin: 0 auto;
+}
+
+.playlab-shell .playlab-intro-card {
+    background:
+        linear-gradient(180deg, rgba(10, 36, 72, 0.76) 0%, rgba(34, 76, 129, 0.78) 100%),
+        rgba(19, 61, 93, 0.88);
+    border-color: rgba(255, 255, 255, 0.28);
+}
+
+.playlab-shell .playlab-intro-eyebrow,
+.playlab-shell .playlab-result-eyebrow,
+.playlab-shell .playlab-panel-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+}
+
+.playlab-shell .playlab-intro-title {
+    margin: 1rem 0 0;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1.05;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: #ffffff;
+    text-shadow: 0 10px 18px rgba(15, 23, 42, 0.22);
+}
+
+.playlab-shell .playlab-result-title {
+    margin: 0.8rem 0 0;
+    font-size: clamp(1.02rem, 1.9vw, 1.7rem);
+    line-height: 1.18;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--playlab-text);
+    text-shadow: none;
+}
+
+.playlab-shell .playlab-intro-subtitle {
+    margin: 1rem 0 0;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: #eff8ff;
+}
+
+.playlab-shell .playlab-result-card .playlab-intro-subtitle {
+    color: #476784;
+    font-size: 0.98rem;
+    line-height: 1.82;
+}
+
+.playlab-shell .playlab-intro-stage {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    min-height: 44px;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff7ed;
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.playlab-shell .playlab-intro-actions,
+.playlab-shell .playlab-result-actions,
+.playlab-shell .playlab-modal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.4rem;
+}
+
+.playlab-shell .playlab-confirm-card .playlab-modal-actions {
+    justify-content: center;
+}
+
+.playlab-shell .playlab-action-btn,
+.playlab-shell .playlab-secondary-btn {
+    min-height: 48px;
+    padding: 0.75rem 1.2rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 900;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.playlab-shell .playlab-action-btn:active,
+.playlab-shell .playlab-secondary-btn:active,
+.playlab-shell .playlab-chip-btn:active,
+.playlab-shell .playlab-option-card:active,
+.playlab-shell .playlab-node-btn:active {
+    transform: scale(0.98);
+}
+
+.playlab-shell .playlab-action-btn {
+    background: linear-gradient(180deg, #ffca59 0%, #ff9a1a 100%);
+    color: #fff;
+    box-shadow: 0 14px 28px rgba(255, 154, 26, 0.24);
+}
+
+.playlab-shell .playlab-secondary-btn {
+    background: rgba(255, 255, 255, 0.84);
+    color: #87510a;
+    border: 1px solid rgba(255, 205, 138, 0.9);
+}
+
+.playlab-shell .playlab-lesson-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+.playlab-shell .playlab-lesson-grid.playlab-shape-grid {
+    grid-template-columns: minmax(320px, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+}
+
+.playlab-shell .playlab-lesson-grid.playlab-shape-grid > .playlab-panel-card {
+    align-self: start;
+}
+
+.playlab-shell-shape #lessonView.is-active {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 0 1rem;
+}
+
+.playlab-shell-shape #lessonLayout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlab-shell-shape #lessonLayout > .playlab-lesson-grid.playlab-shape-grid {
+    width: min(1060px, calc(100% - 4rem));
+    margin: auto;
+    grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
+    align-items: stretch;
+}
+
+.playlab-shell-shape #lessonLayout > .playlab-lesson-grid.playlab-shape-grid > .playlab-panel-card {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    min-height: 560px;
+}
+
+.playlab-shell-shape #lessonLayout > .playlab-lesson-grid.playlab-shape-grid > .playlab-panel-card:first-child {
+    background: linear-gradient(180deg, rgba(240, 229, 255, 0.98) 0%, rgba(251, 247, 255, 0.98) 100%);
+    border-color: rgba(167, 139, 250, 0.6);
+    box-shadow: 0 22px 56px rgba(124, 58, 237, 0.12);
+}
+
+.playlab-shell-shape #lessonLayout > .playlab-lesson-grid.playlab-shape-grid > .playlab-panel-card:last-child {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.96) 100%);
+}
+
+.playlab-shell .playlab-lesson-grid.playlab-trace-grid {
+    grid-template-columns: 1fr;
+    align-items: start;
+    width: min(1080px, 100%);
+    margin: 0 auto;
+}
+
+.playlab-shell .playlab-lesson-grid.playlab-icon-find-grid {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+.playlab-shell .playlab-lesson-grid.playlab-doorlock-grid {
+    width: min(640px, calc(100% - 2rem));
+    margin: 0 auto;
+}
+
+.playlab-shell .playlab-panel-card {
+    padding: 1.2rem;
+}
+
+.playlab-shell .playlab-icon-find-card {
+    padding: 0.85rem 0.9rem;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 249, 244, 0.98) 100%);
+}
+
+.playlab-shell .playlab-icon-hud {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.playlab-shell .playlab-icon-stars,
+.playlab-shell .playlab-icon-lives {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.playlab-shell .playlab-icon-lives {
+    justify-content: flex-end;
+}
+
+.playlab-shell .playlab-icon-star,
+.playlab-shell .playlab-icon-heart {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.playlab-shell .playlab-icon-star {
+    color: #cbd5e1;
+}
+
+.playlab-shell .playlab-icon-star.is-filled {
+    color: #111827;
+}
+
+.playlab-shell .playlab-icon-star.is-current {
+    color: #f59e0b;
+}
+
+.playlab-shell .playlab-icon-heart.is-on {
+    color: #ea580c;
+}
+
+.playlab-shell .playlab-icon-heart.is-off {
+    color: #fed7aa;
+}
+
+.playlab-shell .playlab-icon-timer {
+    min-width: 110px;
+    padding: 0.28rem 0.75rem;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid rgba(251, 146, 60, 0.26);
+    box-shadow: 0 14px 30px rgba(249, 115, 22, 0.08);
+    color: #111827;
+    font-size: clamp(1.15rem, 2.8vw, 1.8rem);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    text-align: center;
+}
+
+.playlab-shell .playlab-icon-target-panel {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(255, 237, 213, 0.92) 0%, rgba(255, 247, 237, 0.98) 100%);
+    border: 1px solid rgba(251, 146, 60, 0.2);
+}
+
+.playlab-shell .playlab-icon-target-panel.is-instruction {
+    justify-content: flex-start;
+}
+
+.playlab-shell .playlab-icon-target-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 20px 44px rgba(249, 115, 22, 0.12);
+    font-size: 2.25rem;
+}
+
+.playlab-shell .playlab-icon-instruction-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    flex: 0 0 58px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+    box-shadow: 0 20px 44px rgba(249, 115, 22, 0.12);
+    color: #ea580c;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-icon-target-copy {
+    min-width: 0;
+}
+
+.playlab-shell .playlab-icon-target-title,
+.playlab-shell .playlab-icon-target-meta,
+.playlab-shell .playlab-icon-progress-copy {
+    margin: 0;
+}
+
+.playlab-shell .playlab-icon-target-title {
+    color: #9a3412;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.2;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+}
+
+.playlab-shell .playlab-icon-target-meta,
+.playlab-shell .playlab-icon-progress-copy {
+    margin-top: 0.3rem;
+    color: #9a3412;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.playlab-shell .playlab-icon-progress-copy strong {
+    color: #c2410c;
+}
+
+.playlab-shell .playlab-icon-board {
+    --icon-find-cols: 4;
+    display: grid;
+    grid-template-columns: repeat(var(--icon-find-cols), minmax(0, 1fr));
+    gap: clamp(0.38rem, 1vw, 0.7rem);
+    width: min(100%, 700px);
+    margin: 0.8rem auto 0;
+}
+
+.playlab-shell .playlab-icon-cell {
+    position: relative;
+    min-height: clamp(48px, calc(46vh / var(--icon-find-cols)), 78px);
+    padding: clamp(0.34rem, 0.7vw, 0.58rem);
+    border-radius: clamp(10px, 1.2vw, 18px);
+    border: 2px solid rgba(15, 23, 42, 0.14);
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(249, 115, 22, 0.18);
+}
+
+.playlab-shell .playlab-icon-cell.is-found {
+    border-color: rgba(34, 197, 94, 0.52);
+    background: linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%);
+    box-shadow: 0 16px 30px rgba(34, 197, 94, 0.14);
+}
+
+.playlab-shell .playlab-icon-cell.is-wrong {
+    border-color: rgba(244, 63, 94, 0.48);
+    background: linear-gradient(180deg, #fff1f2 0%, #ffe4e6 100%);
+    animation: playlab-dot-shake 0.38s ease;
+}
+
+.playlab-shell .playlab-icon-cell-symbol {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: clamp(1rem, calc(14vw / var(--icon-find-cols)), 1.9rem);
+    line-height: 1;
+}
+
+.playlab-shell-food-health-find .playlab-icon-find-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 244, 0.98) 100%);
+}
+
+.playlab-shell-food-health-find .playlab-food-target-panel {
+    background: linear-gradient(135deg, rgba(236, 253, 245, 0.96) 0%, rgba(247, 254, 231, 0.98) 100%);
+    border-color: rgba(22, 163, 74, 0.22);
+}
+
+.playlab-shell-food-health-find .playlab-food-target-panel .playlab-icon-target-title,
+.playlab-shell-food-health-find .playlab-food-target-panel .playlab-icon-target-meta,
+.playlab-shell-food-health-find .playlab-icon-progress-copy {
+    color: #166534;
+}
+
+.playlab-shell-food-health-find .playlab-food-cell-image {
+    display: block;
+    width: min(100%, 92px);
+    aspect-ratio: 1;
+    margin: 0 auto;
+    object-fit: contain;
+    border-radius: 14px;
+}
+
+.playlab-shell-food-health-find .playlab-food-cell-label {
+    display: block;
+    min-height: 1.1em;
+    margin-top: 0.22rem;
+    color: #334155;
+    font-size: clamp(0.72rem, 1.5vw, 0.88rem);
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    visibility: hidden;
+}
+
+.playlab-shell-food-health-find .playlab-icon-cell.has-food-label .playlab-food-cell-label {
+    visibility: visible;
+}
+
+.playlab-shell .playlab-icon-cell-check {
+    position: absolute;
+    right: 0.22rem;
+    top: 0.22rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: #16a34a;
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 900;
+}
+
+.playlab-shell-doorlock #lessonView.is-active {
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 0 0.5rem;
+}
+
+.playlab-shell-doorlock #lessonLayout {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.playlab-shell-doorlock,
+.playlab-shell-doorlock ~ * {
+    background-position: right center;
+}
+
+body:has(.playlab-shell-doorlock) {
+    background:
+        linear-gradient(90deg, rgba(239, 253, 250, 0.2) 0%, rgba(239, 253, 250, 0.08) 38%, rgba(15, 23, 42, 0.02) 100%),
+        var(--shell-page-bg) right center / cover no-repeat scroll;
+}
+
+body:has(.playlab-shell-doorlock #lessonView.is-active) {
+    background:
+        radial-gradient(circle at 18% 12%, rgba(94, 234, 212, 0.42) 0%, rgba(94, 234, 212, 0) 30%),
+        radial-gradient(circle at 84% 8%, rgba(14, 116, 144, 0.2) 0%, rgba(14, 116, 144, 0) 34%),
+        linear-gradient(135deg, #e7fffb 0%, #f8fafc 43%, #dbeafe 100%);
+}
+
+.playlab-shell .playlab-doorlock-card {
+    width: min(640px, 100%);
+    padding: 0.55rem 0.68rem 0.68rem;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 18% 18%, rgba(45, 212, 191, 0.28) 0%, rgba(45, 212, 191, 0) 32%),
+        linear-gradient(135deg, rgba(239, 253, 250, 0.98) 0%, rgba(248, 250, 252, 0.98) 52%, rgba(226, 232, 240, 0.96) 100%);
+    border-color: rgba(20, 184, 166, 0.24);
+    box-shadow: 0 26px 68px rgba(15, 118, 110, 0.16);
+}
+
+.playlab-shell .playlab-doorlock-hud {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.42rem;
+}
+
+.playlab-shell .playlab-doorlock-hud .playlab-icon-timer {
+    border-color: rgba(20, 184, 166, 0.26);
+    color: #0f766e;
+}
+
+.playlab-shell .playlab-doorlock-stage-copy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.28rem 0 0.38rem;
+    color: #115e59;
+    font-size: 0.92rem;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-doorlock-mode {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: rgba(15, 118, 110, 0.1);
+    color: #0f766e;
+    letter-spacing: 0.12em;
+}
+
+.playlab-shell .playlab-doorlock-body {
+    display: grid;
+    grid-template-columns: minmax(380px, 424px) minmax(140px, 180px);
+    gap: 0.68rem;
+    align-items: stretch;
+    justify-items: center;
+    justify-content: center;
+}
+
+.playlab-shell .playlab-doorlock-device {
+    position: relative;
+    width: min(100%, 424px);
+    margin: 0;
+    min-height: 454px;
+    padding: 0.72rem;
+    border-radius: 24px;
+    background:
+        linear-gradient(160deg, #172033 0%, #0f172a 54%, #111827 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 -16px 28px rgba(0, 0, 0, 0.24),
+        0 30px 60px rgba(15, 23, 42, 0.22);
+}
+
+.playlab-shell .playlab-doorlock-visual {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: 454px;
+    align-self: stretch;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #dff7f1 0%, #ffffff 100%);
+    border: 1px solid rgba(20, 184, 166, 0.2);
+    box-shadow: 0 22px 46px rgba(15, 118, 110, 0.12);
+}
+
+.playlab-shell .playlab-doorlock-visual img {
+    display: block;
+    width: 135%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transform: translateX(-13%);
+}
+
+.playlab-shell .playlab-doorlock-device::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border-radius: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    pointer-events: none;
+}
+
+.playlab-shell .playlab-doorlock-device.is-open {
+    animation: playlab-door-unlock 0.72s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.playlab-shell .playlab-doorlock-top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.1rem 0.12rem 0.5rem;
+    color: rgba(226, 232, 240, 0.8);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+}
+
+.playlab-shell .playlab-doorlock-camera,
+.playlab-shell .playlab-doorlock-sensor {
+    width: 13px;
+    height: 13px;
+    border-radius: 999px;
+    background: radial-gradient(circle, #5eead4 0%, #0f766e 42%, #020617 70%);
+    box-shadow: 0 0 18px rgba(94, 234, 212, 0.3);
+}
+
+.playlab-shell .playlab-doorlock-sensor {
+    background: radial-gradient(circle, #94a3b8 0%, #334155 48%, #020617 76%);
+    box-shadow: none;
+}
+
+.playlab-shell .playlab-doorlock-screen {
+    position: relative;
+    min-height: 148px;
+    padding: 0.72rem;
+    border-radius: 18px;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(94, 234, 212, 0.22) 0%, rgba(94, 234, 212, 0) 48%),
+        linear-gradient(180deg, #06141c 0%, #0f172a 100%);
+    border: 1px solid rgba(94, 234, 212, 0.22);
+    box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.34);
+    text-align: center;
+}
+
+.playlab-shell .playlab-doorlock-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24px;
+    padding: 0.16rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(45, 212, 191, 0.1);
+    color: #99f6e4;
+    font-size: 0.74rem;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-doorlock-slots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.26rem;
+    margin-top: 0.6rem;
+}
+
+.playlab-shell .playlab-doorlock-slot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 36px;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.86);
+    border: 1px solid rgba(94, 234, 212, 0.18);
+    color: #5eead4;
+    font-size: 1.05rem;
+    font-weight: 900;
+    box-shadow: inset 0 0 16px rgba(20, 184, 166, 0.12);
+}
+
+.playlab-shell .playlab-doorlock-slot.is-filled {
+    background: rgba(20, 184, 166, 0.18);
+    border-color: rgba(94, 234, 212, 0.52);
+    text-shadow: 0 0 14px rgba(94, 234, 212, 0.8);
+}
+
+.playlab-shell .playlab-doorlock-message {
+    min-height: 2.4em;
+    margin: 0.48rem 0 0;
+    color: #cbd5e1;
+    font-size: 0.76rem;
+    font-weight: 800;
+    line-height: 1.38;
+}
+
+.playlab-shell .playlab-doorlock-sound-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.24rem;
+    margin-top: 0.34rem;
+}
+
+.playlab-shell .playlab-doorlock-sound-dots span {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.5);
+}
+
+.playlab-shell .playlab-doorlock-sound-dots span.is-active {
+    width: 24px;
+    background: #5eead4;
+    box-shadow: 0 0 18px rgba(94, 234, 212, 0.78);
+}
+
+.playlab-shell .playlab-doorlock-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.44rem;
+    margin-top: 0.6rem;
+}
+
+.playlab-shell .playlab-doorlock-key {
+    position: relative;
+    min-height: 56px;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: 14px;
+    background:
+        linear-gradient(180deg, rgba(51, 65, 85, 0.92) 0%, rgba(15, 23, 42, 0.96) 100%);
+    color: #f8fafc;
+    font-size: clamp(1.2rem, 2.3vw, 1.62rem);
+    font-weight: 900;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 12px 24px rgba(0, 0, 0, 0.18);
+    transition: transform 0.14s ease, border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+}
+
+.playlab-shell .playlab-doorlock-key span {
+    position: relative;
+    z-index: 1;
+}
+
+.playlab-shell .playlab-doorlock-key::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 16px;
+    background: radial-gradient(circle, rgba(94, 234, 212, 0.5) 0%, rgba(94, 234, 212, 0) 70%);
+    opacity: 0;
+    transform: scale(0.72);
+    transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.playlab-shell .playlab-doorlock-key.is-lit {
+    border-color: rgba(94, 234, 212, 0.84);
+    background:
+        linear-gradient(180deg, rgba(20, 184, 166, 0.92) 0%, rgba(15, 118, 110, 0.98) 100%);
+    box-shadow:
+        0 0 0 4px rgba(94, 234, 212, 0.18),
+        0 0 30px rgba(94, 234, 212, 0.5),
+        0 16px 32px rgba(15, 118, 110, 0.22);
+    transform: translateY(-2px) scale(1.02);
+}
+
+.playlab-shell .playlab-doorlock-key.is-lit::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.playlab-shell .playlab-doorlock-key.is-wrong {
+    border-color: rgba(251, 113, 133, 0.85);
+    background: linear-gradient(180deg, #fb7185 0%, #be123c 100%);
+    animation: playlab-dot-shake 0.38s ease;
+}
+
+.playlab-shell .playlab-doorlock-key.is-cancel {
+    color: #fed7aa;
+}
+
+.playlab-shell .playlab-doorlock-key.is-enter {
+    color: #99f6e4;
+}
+
+.playlab-shell .playlab-doorlock-guide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+    padding: 1.25rem;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(20, 184, 166, 0.18);
+}
+
+.playlab-shell .playlab-doorlock-guide .playlab-panel-eyebrow {
+    align-self: flex-start;
+    background: #ccfbf1;
+    color: #0f766e;
+}
+
+.playlab-shell .playlab-doorlock-guide h3 {
+    margin: 0.9rem 0 0;
+    color: #134e4a;
+    font-size: clamp(1.5rem, 3vw, 2.15rem);
+    line-height: 1.12;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+}
+
+.playlab-shell .playlab-doorlock-guide p {
+    margin: 0.8rem 0 0;
+    color: #46635f;
+    line-height: 1.75;
+    font-weight: 800;
+}
+
+.playlab-shell .playlab-doorlock-progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 22px;
+    background: #f0fdfa;
+    color: #115e59;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-doorlock-progress strong {
+    font-size: 1.35rem;
+}
+
+.playlab-shell .playlab-doorlock-replay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(100%, 390px);
+    min-height: 42px;
+    margin: 0.6rem auto 0;
+    color: #0f766e;
+    border-color: rgba(20, 184, 166, 0.35);
+    text-align: center;
+}
+
+.playlab-shell .playlab-doorlock-replay:disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+}
+
+.playlab-shell .playlab-doorlock-keyboard-hint {
+    font-size: 0.82rem;
+}
+
+.playlab-shell .playlab-shape-target {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+    margin-top: 1rem;
+    border-radius: 30px;
+    background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);
+}
+
+.playlab-shell-shape .playlab-shape-target {
+    flex: 1;
+    min-height: 0;
+    background: linear-gradient(180deg, #efe5ff 0%, #f8f4ff 48%, #ffffff 100%);
+    border: 1px solid rgba(196, 181, 253, 0.42);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+}
+
+.playlab-shell .playlab-shape-composite {
+    position: relative;
+    width: min(100%, 320px);
+    aspect-ratio: 1 / 1;
+}
+
+.playlab-shell .playlab-shape-piece {
+    position: absolute;
+    transform-origin: center center;
+}
+
+.playlab-shell .playlab-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.playlab-shell-shape .playlab-options-grid {
+    flex: 1;
+    align-content: center;
+}
+
+.playlab-shell .playlab-options-grid.is-four-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.playlab-shell .playlab-option-card {
+    padding: 1rem;
+    border-radius: 28px;
+    background: var(--playlab-panel-strong);
+    border: 1px solid rgba(203, 213, 225, 0.9);
+    text-align: left;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.playlab-shell .playlab-option-card.is-correct {
+    border-color: #86efac;
+    background: #f0fdf4;
+}
+
+.playlab-shell .playlab-option-card.is-wrong {
+    border-color: #fda4af;
+    background: #fff1f2;
+}
+
+.playlab-shell .playlab-option-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+    height: 34px;
+    padding: 0 0.85rem;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: var(--playlab-subtext);
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-piece-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin-top: 0.9rem;
+}
+
+.playlab-shell .playlab-piece-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 76px;
+    border-radius: 22px;
+    background: #f8fafc;
+}
+
+.playlab-shell .playlab-trace-legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+    gap: 0.55rem;
+    margin-top: 0.75rem;
+}
+
+.playlab-shell .playlab-trace-legend-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.55rem;
+    border-radius: 18px;
+    background: #f8fafc;
+}
+
+.playlab-shell .playlab-trace-legend-order {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-trace-sequence {
+    padding: 0.6rem 0.9rem;
+    border-radius: 18px;
+    background: #f8fafc;
+    font-size: 1rem;
+    font-weight: 900;
+    text-align: center;
+    color: var(--playlab-text);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.playlab-shell .playlab-trace-info-card {
+    padding: 0.75rem 0.9rem;
+}
+
+.playlab-shell .playlab-trace-info-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.playlab-shell .playlab-trace-info-card .playlab-card-copy {
+    font-size: 0.92rem;
+    line-height: 1.3;
+    font-weight: 800;
+}
+
+.playlab-shell .playlab-trace-sequence-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.7rem;
+    text-align: center;
+}
+
+.playlab-shell .playlab-trace-sequence-copy {
+    margin: 0;
+    color: var(--playlab-subtext);
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.playlab-shell .playlab-trace-board-card {
+    padding: 0.85rem 0.95rem 0.95rem;
+}
+
+.playlab-shell-memory #lessonView.is-active {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0 1rem;
+}
+
+.playlab-shell-memory #lessonLayout {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlab-shell-memory #lessonLayout > .playlab-lesson-grid.playlab-memory-grid {
+    width: min(1040px, calc(100% - 4rem));
+    margin: auto;
+}
+
+.playlab-shell .playlab-memory-info-card {
+    padding: 1rem 1.1rem;
+}
+
+.playlab-shell .playlab-memory-info-head {
+    align-items: center;
+}
+
+.playlab-shell .playlab-memory-sequence-wrap {
+    gap: 0.65rem;
+}
+
+.playlab-shell .playlab-memory-legend-grid {
+    margin-top: 0.8rem;
+}
+
+.playlab-shell .playlab-memory-number-card {
+    --memory-color: #3b82f6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: min(100%, 240px);
+    min-height: 148px;
+    border-radius: 32px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--memory-color) 18%, white) 0%, color-mix(in srgb, var(--memory-color) 8%, white) 100%);
+    box-shadow: 0 18px 38px color-mix(in srgb, var(--memory-color) 18%, transparent);
+    border: 1px solid color-mix(in srgb, var(--memory-color) 34%, white);
+}
+
+.playlab-shell .playlab-memory-number-card.is-empty {
+    background: rgba(255, 255, 255, 0.32);
+    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.playlab-shell .playlab-memory-number-value {
+    font-size: clamp(3.8rem, 8vw, 5.8rem);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.06em;
+    color: #0f172a;
+}
+
+.playlab-shell .playlab-memory-number-label {
+    margin-top: 0.45rem;
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: color-mix(in srgb, var(--memory-color) 72%, #0f172a);
+}
+
+.playlab-shell .playlab-memory-sequence {
+    min-height: 44px;
+    flex-wrap: wrap;
+}
+
+.playlab-shell .playlab-memory-replay-row {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(0.7rem, 1.4vw, 1.1rem);
+}
+
+.playlab-shell .playlab-memory-replay-row .playlab-memory-replay-btn {
+    position: static;
+}
+
+.playlab-shell .playlab-board-shell > .playlab-memory-replay-btn {
+    position: absolute;
+    top: clamp(14px, 1.5vw, 22px);
+    right: clamp(14px, 1.5vw, 22px);
+    z-index: 5;
+    min-height: 42px;
+    padding: 0.58rem 1rem;
+    font-size: 0.88rem;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-memory-board-card {
+    position: relative;
+}
+
+.playlab-shell .playlab-memory-cue {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    line-height: 1.45;
+    text-align: center;
+    white-space: normal;
+    box-shadow: 0 14px 28px rgba(249, 115, 22, 0.24);
+}
+
+.playlab-shell .playlab-memory-board-card .playlab-board-shell {
+    position: relative;
+}
+
+.playlab-shell .playlab-memory-board-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.08) 38%, rgba(255,255,255,0) 72%);
+    pointer-events: none;
+}
+
+.playlab-shell .playlab-memory-board-overlay.is-number-preview {
+    background: rgba(15, 23, 42, 0.18);
+    backdrop-filter: blur(6px);
+}
+
+.playlab-shell .playlab-memory-board-message {
+    max-width: min(78%, 520px);
+    padding: 1rem 1.4rem;
+    border-radius: 28px;
+    background: rgba(15, 23, 42, 0.74);
+    color: #ffffff;
+    font-size: clamp(1.5rem, 2.8vw, 2.35rem);
+    line-height: 1.35;
+    font-weight: 900;
+    text-align: center;
+    white-space: normal;
+    letter-spacing: -0.03em;
+    box-shadow: 0 22px 54px rgba(15, 23, 42, 0.26);
+    backdrop-filter: blur(8px);
+}
+
+.playlab-shell .playlab-memory-board-overlay.is-number-preview .playlab-memory-number-card {
+    width: min(100%, 260px);
+    min-height: 172px;
+    box-shadow: 0 26px 60px color-mix(in srgb, var(--memory-color) 26%, rgba(15, 23, 42, 0.22));
+}
+
+.playlab-shell .playlab-trace-sequence {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    width: 100%;
+    padding: 0;
+    background: transparent;
+}
+
+.playlab-shell .playlab-trace-sequence-item {
+    --trace-sequence-color: rgba(148, 163, 184, 0.8);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.22);
+    box-shadow: inset 0 0 0 2px rgba(148, 163, 184, 0.28);
+    color: var(--playlab-text);
+    font-size: 0.95rem;
+    font-weight: 900;
+    transition: background 0.22s ease, box-shadow 0.22s ease, color 0.22s ease, transform 0.22s ease;
+}
+
+.playlab-shell .playlab-trace-sequence-item.is-complete {
+    background: var(--trace-sequence-color);
+    box-shadow: 0 10px 20px color-mix(in srgb, var(--trace-sequence-color) 28%, transparent);
+    color: #fff;
+    transform: scale(1.04);
+}
+
+.playlab-shell .playlab-trace-sequence-item.is-ghost {
+    box-shadow: inset 0 0 0 2px rgba(148, 163, 184, 0.22);
+    background: rgba(255, 255, 255, 0.26);
+}
+
+.playlab-shell .playlab-trace-sequence-item.is-ghost.is-complete {
+    background: var(--trace-sequence-color);
+    box-shadow: 0 10px 20px color-mix(in srgb, var(--trace-sequence-color) 28%, transparent);
+}
+
+.playlab-shell .playlab-trace-sequence-separator {
+    color: var(--playlab-subtext);
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-board-shell {
+    position: relative;
+    min-height: 360px;
+    margin-top: 0.5rem;
+    border-radius: 28px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    overflow: hidden;
+}
+
+.playlab-shell .playlab-board {
+    position: relative;
+    width: min(100%, 360px);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+}
+
+.playlab-shell .playlab-board-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.playlab-shell .playlab-trace-line {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: playlab-trace-draw 0.34s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+.playlab-shell .playlab-node-btn {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 78px;
+    height: 78px;
+    padding: 0;
+    border-radius: 999px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 768px) and (max-width: 1280px) and (max-height: 760px) {
+    .playlab-shell-memory #lessonView.is-active {
+        padding-bottom: 0.35rem;
+    }
+
+    .playlab-shell-memory #lessonLayout > .playlab-lesson-grid.playlab-memory-grid {
+        width: min(980px, calc(100% - 3rem));
+    }
+
+    .playlab-shell .playlab-memory-info-card,
+    .playlab-shell .playlab-trace-board-card {
+        padding: 0.75rem 0.8rem;
+    }
+
+    .playlab-shell .playlab-memory-sequence-wrap {
+        gap: 0.45rem;
+    }
+
+    .playlab-shell .playlab-memory-legend-grid {
+        margin-top: 0.55rem;
+    }
+
+    .playlab-shell .playlab-board-shell {
+        min-height: 324px;
+        margin-top: 0.35rem;
+    }
+
+    .playlab-shell .playlab-board {
+        width: min(100%, 324px);
+    }
+
+    .playlab-shell .playlab-node-btn {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+.playlab-shell .playlab-node-core {
+    width: 42px;
+    height: 42px;
+    border: 3px solid rgba(255, 255, 255, 0.98);
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18);
+}
+
+.playlab-shell .playlab-node-btn.has-order .playlab-node-core {
+    width: 54px;
+    height: 54px;
+}
+
+.playlab-shell .playlab-node-order {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(15, 23, 42, 0.6);
+    pointer-events: none;
+}
+
+.playlab-shell .playlab-node-core.is-hit {
+    animation: playlab-dot-bounce 0.34s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.playlab-shell .playlab-node-btn.is-done .playlab-node-core {
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.88), 0 10px 16px rgba(15, 23, 42, 0.16);
+}
+
+.playlab-shell .playlab-node-btn.is-active .playlab-node-core {
+    box-shadow: 0 0 0 5px rgba(15, 23, 42, 0.88), 0 0 0 10px rgba(255, 255, 255, 0.82), 0 10px 16px rgba(15, 23, 42, 0.16);
+}
+
+.playlab-shell .playlab-node-btn.is-wrong .playlab-node-core {
+    animation: playlab-dot-shake 0.38s ease;
+    box-shadow: 0 0 0 5px rgba(244, 63, 94, 0.24), 0 10px 18px rgba(244, 63, 94, 0.22);
+}
+
+.playlab-shell .playlab-status-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-status-chip.is-idle {
+    background: #f8fafc;
+    color: #64748b;
+}
+
+.playlab-shell .playlab-status-chip.is-progress {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.playlab-shell .playlab-status-chip.is-correct {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.playlab-shell .playlab-status-chip.is-wrong {
+    background: #fff1f2;
+    color: #e11d48;
+}
+
+.playlab-shell .playlab-feedback-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    pointer-events: none;
+}
+
+.playlab-shell .playlab-result-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1rem 1.15rem;
+    border-radius: 24px;
+    color: #fff;
+    background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+    box-shadow: 0 18px 38px rgba(37, 99, 235, 0.18);
+}
+
+.playlab-shell .playlab-result-banner.is-perfect {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.playlab-shell .playlab-result-banner.is-keep {
+    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+}
+
+.playlab-shell .playlab-result-banner-label {
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+}
+
+.playlab-shell .playlab-result-banner strong {
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+.playlab-shell .playlab-result-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.82rem;
+    margin-top: 0.82rem;
+}
+
+.playlab-shell .playlab-result-stat {
+    padding: 1rem 1.1rem;
+    border-radius: 22px;
+    background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+    border: 1px solid rgba(191, 219, 254, 0.8);
+    box-shadow: 0 14px 28px rgba(14, 165, 233, 0.08);
+}
+
+.playlab-shell .playlab-result-stat-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #64748b;
+}
+
+.playlab-shell .playlab-result-stat strong {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 1.45rem;
+    line-height: 1.1;
+    color: var(--playlab-text);
+}
+
+.playlab-shell .playlab-result-stats + .playlab-report-shell-standalone {
+    margin-top: 0.48rem;
+}
+
+.playlab-shell .shell-save-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    padding: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    color: #8b5000;
+    box-shadow: inset 0 -2px 0 rgba(255, 189, 82, 0.18), 0 10px 24px rgba(255, 176, 39, 0.14);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.playlab-shell .shell-save-icon {
+    width: 18px;
+    height: 18px;
+}
+
+@media print {
+    html,
+    body {
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .shell-topbar,
+    .playlab-shell .playlab-result-actions,
+    .playlab-shell #feedbackOverlay,
+    .playlab-shell #helpModal,
+    .playlab-shell #confirmModal,
+    .playlab-shell #stageSelectView,
+    .playlab-shell #introView,
+    .playlab-shell #lessonView {
+        display: none !important;
+    }
+
+    .playlab-shell .shell-main,
+    .playlab-shell .playlab-main {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .playlab-shell #resultView,
+    .playlab-shell #resultView.is-active {
+        display: block !important;
+    }
+
+    .playlab-shell #resultView .playlab-result-card {
+        width: 100% !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: #ffffff !important;
+    }
+
+    .playlab-shell .playlab-result-banner,
+    .playlab-shell .playlab-result-stat,
+    .playlab-report-score-card,
+    .playlab-report-radar-card,
+    .playlab-report-summary-card,
+    .playlab-report-role-card,
+    .playlab-report-training,
+    .playlab-report-highlight-item {
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+}
+
+.playlab-shell .playlab-modal,
+.playlab-shell .playlab-help-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 220;
+    padding: 1rem;
+}
+
+.playlab-shell .playlab-modal.is-open,
+.playlab-shell .playlab-help-modal.is-open {
+    display: flex;
+}
+
+.playlab-shell .playlab-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.38);
+    backdrop-filter: blur(5px);
+}
+
+.playlab-shell .playlab-confirm-card,
+.playlab-shell .playlab-help-card {
+    position: relative;
+    width: min(640px, 100%);
+    padding: 1.7rem;
+}
+
+.playlab-shell .playlab-help-card {
+    width: min(760px, 100%);
+}
+
+.playlab-shell .playlab-help-summary {
+    margin: 1rem 0 0;
+    padding: 1rem 1.15rem;
+    border-radius: 22px;
+    background: linear-gradient(180deg, #fff9e8 0%, #ffffff 100%);
+    color: var(--playlab-text);
+    font-size: 0.98rem;
+    font-weight: 800;
+    line-height: 1.75;
+}
+
+.playlab-shell .playlab-modal-title {
+    margin: 0;
+    font-size: 1.45rem;
+    font-weight: 900;
+    color: var(--playlab-text);
+}
+
+.playlab-shell .playlab-modal-copy {
+    margin: 0.9rem 0 0;
+    color: var(--playlab-subtext);
+    line-height: 1.75;
+}
+
+.playlab-shell .playlab-help-grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.playlab-shell .playlab-help-section {
+    padding: 1.1rem;
+    border-radius: 24px;
+    background: #f8fafc;
+}
+
+.playlab-shell .playlab-help-section h4 {
+    margin: 0 0 0.6rem;
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--playlab-text);
+}
+
+.playlab-shell .playlab-help-copy {
+    white-space: pre-line;
+}
+
+@keyframes playlab-trace-draw {
+    from {
+        stroke-dashoffset: 100;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes playlab-dot-bounce {
+    0% {
+        transform: scale(1);
+    }
+    45% {
+        transform: scale(1.18);
+    }
+    75% {
+        transform: scale(0.92);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes playlab-dot-shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-4px);
+    }
+    40% {
+        transform: translateX(4px);
+    }
+    60% {
+        transform: translateX(-3px);
+    }
+    80% {
+        transform: translateX(3px);
+    }
+}
+
+@keyframes playlab-door-unlock {
+    0% {
+        transform: translateX(0) rotateY(0deg);
+    }
+    42% {
+        transform: translateX(10px) rotateY(-6deg);
+    }
+    100% {
+        transform: translateX(0) rotateY(0deg);
+    }
+}
+
+.playlab-shell .playlab-hidden {
+    display: none !important;
+}
+
+@media (min-width: 1600px) and (min-height: 900px) {
+    .playlab-shell .shell-main:has(#stageSelectView.is-active),
+    .playlab-shell .shell-main:has(#lessonView.is-active),
+    .playlab-shell .shell-main:has(#resultView.is-active) {
+        align-items: center;
+        justify-content: center;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        overflow-y: visible;
+    }
+
+    .playlab-shell .shell-main:has(#stageSelectView.is-active) {
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: clamp(1.1rem, 3vh, 2.25rem);
+    }
+
+    .playlab-shell .playlab-main:has(#stageSelectView.is-active),
+    .playlab-shell .playlab-main:has(#lessonView.is-active),
+    .playlab-shell .playlab-main:has(#resultView.is-active) {
+        width: min(1520px, calc(100vw - 5rem));
+        flex-basis: min(1520px, calc(100vw - 5rem));
+        min-height: calc(100vh - 74px - 2rem);
+        min-height: calc(100dvh - 74px - 2rem);
+        justify-content: center;
+    }
+
+    .playlab-shell .playlab-main:has(#stageSelectView.is-active) {
+        flex-basis: auto;
+        min-height: auto;
+        align-self: flex-start;
+        justify-content: flex-start;
+    }
+
+    .playlab-shell .playlab-stage-grid {
+        width: min(1520px, 100%);
+        margin-inline: auto;
+        gap: clamp(1rem, 1.15vw, 1.45rem);
+    }
+
+    .playlab-shell-dot .playlab-stage-grid,
+    .playlab-shell-memory .playlab-stage-grid,
+    .playlab-shell-icon-find .playlab-stage-grid,
+    .playlab-shell-doorlock .playlab-stage-grid {
+        width: min(1520px, 100%);
+    }
+
+    .playlab-shell .playlab-stage-card {
+        min-height: clamp(150px, 8.4vw, 188px);
+        padding: clamp(1rem, 1.2vw, 1.45rem);
+    }
+
+    .playlab-shell #lessonLayout,
+    .playlab-shell #resultView.is-active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .playlab-shell #lessonLayout > * {
+        width: min(1480px, 100%);
+        margin-inline: auto;
+    }
+
+    .playlab-shell-icon-find .playlab-icon-find-card {
+        padding: clamp(1.2rem, 1.35vw, 1.7rem);
+    }
+
+    .playlab-shell-icon-find .playlab-icon-board {
+        width: min(980px, 74%);
+        gap: clamp(0.7rem, 0.9vw, 1rem);
+    }
+
+    .playlab-shell-icon-find .playlab-icon-cell {
+        min-height: clamp(88px, calc(58vh / var(--icon-find-cols)), 128px);
+        border-radius: 20px;
+    }
+
+    .playlab-shell-icon-find .playlab-icon-cell-symbol {
+        font-size: clamp(1.5rem, calc(18vw / var(--icon-find-cols)), 2.6rem);
+    }
+
+    .playlab-shell #resultView .playlab-result-card {
+        width: min(1120px, 100%);
+        min-height: 340px;
+        transform: scale(1.1);
+        transform-origin: center;
+    }
+
+    .playlab-shell-doorlock #lessonView.is-active {
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 0;
+    }
+
+    .playlab-shell-doorlock #lessonLayout {
+        min-height: calc(100vh - 74px - 2rem);
+        min-height: calc(100dvh - 74px - 2rem);
+        align-items: center;
+    }
+
+    .playlab-shell .playlab-lesson-grid.playlab-doorlock-grid {
+        width: min(1480px, 100%);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1280px) and (max-height: 900px) {
+    .playlab-shell .playlab-main {
+        width: min(1060px, calc(100% - 2.8rem));
+        gap: 0.75rem;
+        padding: 0.25rem 0 0;
+    }
+
+    .playlab-shell .playlab-stage-grid {
+        gap: 0.7rem;
+    }
+
+    .playlab-shell .playlab-stage-card {
+        min-height: 158px;
+        gap: 0.65rem;
+        padding: 0.95rem;
+        border-radius: 24px;
+    }
+
+    .playlab-shell-icon-find .playlab-stage-card {
+        min-height: 118px;
+        padding: 0.72rem;
+    }
+
+    .playlab-shell-icon-find .playlab-stage-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        width: min(1060px, 100%);
+        gap: 0.55rem;
+    }
+
+    .playlab-shell-icon-find .playlab-stage-badge {
+        min-height: 30px;
+        padding: 0.42rem 0.65rem;
+        font-size: 0.72rem;
+    }
+
+    .playlab-shell-icon-find .playlab-stage-title {
+        font-size: 1rem;
+        line-height: 1.18;
+    }
+
+    .playlab-shell-icon-find .playlab-stage-subtitle,
+    .playlab-shell-icon-find .playlab-stage-meta {
+        font-size: 0.76rem;
+        line-height: 1.35;
+    }
+
+    .playlab-shell .playlab-intro-card,
+    .playlab-shell .playlab-result-card {
+        padding: 1.35rem;
+        border-radius: 28px;
+    }
+
+    .playlab-shell .playlab-panel-card,
+    .playlab-shell .playlab-play-head,
+    .playlab-shell .playlab-help-card,
+    .playlab-shell .playlab-confirm-card {
+        padding: 1rem;
+        border-radius: 26px;
+    }
+
+    .playlab-shell-shape #lessonLayout > .playlab-lesson-grid.playlab-shape-grid,
+    .playlab-shell-memory #lessonLayout > .playlab-lesson-grid.playlab-memory-grid {
+        width: min(100%, calc(100% - 1.5rem));
+    }
+
+    .playlab-shell-shape #lessonLayout > .playlab-lesson-grid.playlab-shape-grid > .playlab-panel-card {
+        min-height: 460px;
+    }
+
+    .playlab-shell .playlab-options-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .playlab-shell .playlab-option-card {
+        padding: 0.8rem;
+        border-radius: 22px;
+    }
+
+    .playlab-shell .playlab-memory-number-card {
+        min-height: 118px;
+        border-radius: 26px;
+    }
+
+    .playlab-shell .playlab-memory-number-value {
+        font-size: clamp(3rem, 6vw, 4.6rem);
+    }
+}
+
+@media (max-width: 1024px) {
+    .playlab-shell .playlab-stage-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .playlab-shell .playlab-lesson-grid.playlab-shape-grid,
+    .playlab-shell .playlab-lesson-grid.playlab-trace-grid,
+    .playlab-shell .playlab-lesson-grid.playlab-icon-find-grid,
+    .playlab-shell .playlab-lesson-grid.playlab-doorlock-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-shell .playlab-result-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-shell-shape #stageSelectView .playlab-stage-grid,
+    .playlab-shell-shape #lessonLayout > .playlab-lesson-grid.playlab-shape-grid {
+        width: min(100%, calc(100% - 1.6rem));
+    }
+
+    .playlab-shell-icon-find .playlab-stage-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        width: min(760px, calc(100% - 4rem));
+    }
+
+    .playlab-shell .playlab-lesson-grid.playlab-icon-find-grid {
+        width: min(1180px, 100%);
+    }
+
+    .playlab-shell .playlab-lesson-grid.playlab-doorlock-grid {
+        width: min(640px, calc(100% - 2rem));
+    }
+
+    .playlab-shell .playlab-doorlock-body {
+        grid-template-columns: minmax(360px, 424px) minmax(140px, 180px);
+    }
+}
+
+@media (max-width: 720px) {
+    .playlab-shell .playlab-main {
+        padding-top: 0.2rem;
+    }
+
+    .playlab-shell .playlab-intro-card,
+    .playlab-shell .playlab-result-card,
+    .playlab-shell .playlab-panel-card,
+    .playlab-shell .playlab-play-head,
+    .playlab-shell .playlab-help-card,
+    .playlab-shell .playlab-confirm-card {
+        padding: 1.2rem;
+        border-radius: 28px;
+    }
+
+    .playlab-shell .playlab-stage-grid,
+    .playlab-shell .playlab-options-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .playlab-shell-dot .playlab-stage-grid {
+        width: 100%;
+    }
+
+    .playlab-shell-memory .playlab-stage-grid,
+    .playlab-shell-memory #lessonLayout > .playlab-lesson-grid.playlab-memory-grid {
+        width: 100%;
+    }
+
+    .playlab-shell-icon-find .playlab-stage-grid {
+        width: 100%;
+    }
+
+    .playlab-shell-doorlock .playlab-stage-grid {
+        width: 100%;
+    }
+
+    .playlab-shell-icon-find .playlab-stage-card {
+        min-height: 136px;
+        padding: 0.82rem;
+    }
+
+    .playlab-shell .playlab-lesson-grid.playlab-icon-find-grid {
+        width: 100%;
+    }
+
+    .playlab-shell .playlab-lesson-grid.playlab-doorlock-grid {
+        width: 100%;
+    }
+
+    .playlab-shell .playlab-doorlock-stage-copy,
+    .playlab-shell .playlab-doorlock-body {
+        gap: 0.75rem;
+    }
+
+    .playlab-shell .playlab-doorlock-body {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-shell .playlab-doorlock-visual {
+        width: min(100%, 180px);
+        height: 190px;
+    }
+
+    .playlab-shell .playlab-doorlock-device {
+        padding: 0.58rem;
+        min-height: 0;
+        border-radius: 24px;
+    }
+
+    .playlab-shell .playlab-doorlock-key {
+        min-height: 44px;
+        border-radius: 14px;
+    }
+
+    .playlab-shell-shape #stageSelectView .playlab-stage-grid {
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .playlab-shell-shape #lessonView.is-active {
+        padding: 0.2rem 0 0.8rem;
+    }
+
+    .playlab-shell-shape #lessonLayout > .playlab-lesson-grid.playlab-shape-grid > .playlab-panel-card {
+        min-height: 0;
+    }
+
+    .playlab-shell .playlab-help-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-shell .playlab-icon-hud {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .playlab-shell .playlab-icon-stars,
+    .playlab-shell .playlab-icon-lives {
+        justify-content: center;
+    }
+
+    .playlab-shell .playlab-icon-target-panel {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .playlab-shell .playlab-trace-legend-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .playlab-shell .playlab-intro-actions,
+    .playlab-shell .playlab-result-actions,
+    .playlab-shell .playlab-modal-actions {
+        flex-direction: column;
+    }
+
+    .playlab-shell .playlab-action-btn,
+    .playlab-shell .playlab-secondary-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .playlab-shell .playlab-icon-board {
+        width: 100%;
+    }
+}
+
+@media (max-width: 520px) {
+    .playlab-shell .playlab-stage-grid,
+    .playlab-shell .playlab-options-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-shell-icon-find .playlab-stage-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .playlab-shell-doorlock .playlab-stage-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-shell .playlab-icon-cell {
+        min-height: clamp(48px, calc(64vw / var(--icon-find-cols)), 60px);
+    }
+
+    .playlab-shell .playlab-doorlock-slot {
+        width: 38px;
+        height: 44px;
+    }
+}

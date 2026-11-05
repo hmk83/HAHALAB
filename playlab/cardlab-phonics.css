@@ -1,0 +1,1031 @@
+html,
+body {
+  min-height: 100%;
+}
+
+:root {
+  --phonics-page-bg: url('images/bg/s-space-bg.webp');
+}
+
+body {
+  overflow-x: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(245, 255, 231, 0.08) 42%, rgba(238, 255, 220, 0.16) 100%),
+    var(--phonics-page-bg) center bottom / cover no-repeat scroll;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+.phonics-shell {
+  min-height: 100vh;
+}
+
+.shell-phonics {
+  width: min(1180px, 100%);
+  padding: 1.05rem 0 1.9rem;
+}
+
+.phonics-page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+}
+
+.phonics-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  padding: 0.05rem 0.1rem 0.1rem;
+}
+
+.phonics-badge-center {
+  margin: 0 auto;
+}
+
+.phonics-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.76);
+  color: #9b5600;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+  box-shadow: inset 0 -2px 0 rgba(255, 189, 82, 0.18);
+}
+
+.phonics-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0.62rem 0.88rem;
+  border-radius: 18px;
+  background: rgba(255, 243, 213, 0.9);
+  color: #9a5d0a;
+  font-size: 0.8rem;
+  font-weight: 900;
+  white-space: nowrap;
+  box-shadow: inset 0 -2px 0 rgba(255, 189, 82, 0.16);
+}
+
+.phonics-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.phonics-stage-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 148px;
+  padding: 1rem 1rem 0.95rem;
+  border-radius: 28px;
+  border: 2px solid var(--stage-accent, rgba(255, 175, 52, 0.28));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 249, 239, 0.96) 100%);
+  box-shadow:
+    0 15px 32px rgba(64, 136, 177, 0.1),
+    inset 0 -2px 0 rgba(255, 191, 91, 0.12);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease, border-color 0.16s ease;
+  overflow: hidden;
+}
+
+.phonics-stage-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, var(--stage-soft, rgba(255, 175, 52, 0.12)) 0%, rgba(255, 255, 255, 0) 56%);
+  pointer-events: none;
+}
+
+.phonics-stage-card:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.01);
+}
+
+.phonics-stage-card:active {
+  transform: translateY(4px) scale(0.99);
+}
+
+.phonics-stage-card[aria-pressed="true"] {
+  border-color: var(--stage-accent, #ff9f1a);
+  box-shadow:
+    0 16px 34px rgba(64, 136, 177, 0.12),
+    0 0 0 4px var(--stage-soft, rgba(255, 175, 52, 0.14)),
+    inset 0 -2px 0 rgba(255, 191, 91, 0.16);
+  transform: translateY(-2px);
+}
+
+.phonics-stage-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.7rem;
+}
+
+.phonics-stage-band {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0.3rem 0.68rem;
+  border-radius: 999px;
+  background: var(--stage-soft, rgba(255, 175, 52, 0.14));
+  color: var(--stage-accent, #ff9f1a);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.phonics-stage-code {
+  color: #8a4f00;
+  font-size: 1.25rem;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+}
+
+.phonics-stage-main {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  color: #7b4300;
+  font-size: 1.42rem;
+  line-height: 1.16;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  word-break: keep-all;
+}
+
+.phonics-stage-criteria-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.2rem;
+  min-height: 2.2rem;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  font-size: 1.12rem;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.32);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+.phonics-stage-criteria-chip:hover {
+  transform: translateY(-1px) scale(1.02);
+  filter: saturate(1.04);
+}
+
+.phonics-stage-criteria-chip:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.phonics-stage-criteria-chip.is-phonics-sound {
+  box-shadow:
+    inset 0 -2px 0 rgba(255, 255, 255, 0.36),
+    0 0 0 4px rgba(255, 255, 255, 0.26);
+}
+
+.phonics-stage-criteria-chip.is-medial {
+  background: linear-gradient(180deg, #fff1b8 0%, #ffe39f 100%);
+  color: #915800;
+}
+
+.phonics-stage-criteria-chip.is-initial {
+  background: linear-gradient(180deg, #dff4ff 0%, #c7eaff 100%);
+  color: #0f5f8a;
+}
+
+.phonics-stage-criteria-chip.is-final {
+  background: linear-gradient(180deg, #e8ffe8 0%, #caf7cf 100%);
+  color: #187146;
+}
+
+.phonics-stage-criteria-chip.is-mixed {
+  background: linear-gradient(180deg, #fff1f5 0%, #ffddea 100%);
+  color: #9b2f60;
+}
+
+.phonics-stage-main-action {
+  color: #7b4300;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-left: 0.05rem;
+}
+
+.phonics-lesson-view {
+  width: min(1180px, 100%);
+}
+
+.phonics-lesson-view.is-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 74px - 2.2rem);
+}
+
+.phonics-lesson {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  width: min(1180px, 100%);
+  padding: 0;
+  margin: 0 auto;
+}
+
+.phonics-lesson-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.phonics-question-chip {
+  min-width: 0;
+}
+
+.phonics-question-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1.1rem;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 248, 239, 0.98) 56%, rgba(236, 246, 255, 0.95) 100%);
+  box-shadow: 0 18px 42px rgba(64, 136, 177, 0.12);
+}
+
+.phonics-question-eyebrow {
+  color: #9aa7bc;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.phonics-question-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.5rem;
+  color: #1f2937;
+  font-size: 1.9rem;
+  line-height: 1.1;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  word-break: keep-all;
+}
+
+.phonics-target-glyph {
+  color: #d84315;
+  font-size: 2.6rem;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.phonics-question-desc {
+  color: #607286;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  font-weight: 800;
+  word-break: keep-all;
+}
+
+.phonics-run-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.95rem;
+}
+
+.phonics-slot-board,
+.phonics-choice-board {
+  padding: 1rem;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.phonics-slot-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.7rem;
+  width: max-content;
+  min-width: 100%;
+  margin: 0 auto;
+}
+
+.phonics-slot {
+  position: relative;
+  flex: 0 0 144px;
+  min-height: 144px;
+  border-radius: 26px;
+  border: 2px dashed rgba(182, 197, 216, 0.65);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 250, 255, 0.98) 100%);
+  overflow: hidden;
+}
+
+.phonics-slot.is-active {
+  border-color: rgba(122, 196, 255, 0.85);
+  box-shadow: inset 0 0 0 4px rgba(122, 196, 255, 0.12);
+}
+
+.phonics-slot-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem;
+}
+
+.phonics-slot-empty {
+  color: #8ea0b5;
+  font-size: 0.94rem;
+  line-height: 1.35;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.phonics-slot-empty span {
+  display: block;
+  max-width: 5.2em;
+}
+
+.phonics-slot-card,
+.phonics-choice-card {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 96px;
+  width: 100%;
+  border-radius: 24px;
+  border: 3px solid var(--card-border, #dbe3f0);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(250, 252, 255, 0.96) 100%);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+}
+
+.phonics-slot-card {
+  min-height: 116px;
+}
+
+.phonics-card-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  padding: 0.8rem;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 250, 255, 0.92) 100%);
+}
+
+.phonics-choice-board {
+  padding-top: 0.85rem;
+  overflow-x: auto;
+}
+
+.phonics-choice-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.7rem;
+  width: max-content;
+  min-width: 100%;
+  margin: 0 auto;
+}
+
+.phonics-choice-card {
+  flex: 0 0 92px;
+  min-height: 92px;
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+}
+
+.phonics-choice-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(15, 23, 42, 0.14);
+}
+
+.phonics-choice-card:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.phonics-choice-card.is-selected {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 20px 38px rgba(15, 23, 42, 0.18),
+    0 0 0 4px rgba(122, 196, 255, 0.18);
+}
+
+.phonics-choice-card.is-selected .phonics-card-shell {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.75);
+}
+
+.phonics-choice-card[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.phonics-choice-char,
+.phonics-slot-char {
+  font-size: 2.05rem;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.phonics-choice-char.is-placed {
+  color: #a0a7b8;
+}
+
+.phonics-complete-view {
+  width: min(1180px, 100%);
+}
+
+.phonics-complete-view.is-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 74px - 2.2rem);
+}
+
+.phonics-complete {
+  position: relative;
+  width: min(1180px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem;
+}
+
+.phonics-complete::before,
+.phonics-complete::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 36px;
+  pointer-events: none;
+}
+
+.phonics-complete::before {
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 224, 92, 0.28) 0%, rgba(255, 224, 92, 0) 12%),
+    radial-gradient(circle at 88% 22%, rgba(134, 237, 255, 0.22) 0%, rgba(134, 237, 255, 0) 10%),
+    radial-gradient(circle at 22% 78%, rgba(255, 143, 171, 0.18) 0%, rgba(255, 143, 171, 0) 12%);
+  filter: blur(0.5px);
+}
+
+.phonics-complete-hero,
+.phonics-complete-stats {
+  position: relative;
+  z-index: 1;
+  border-radius: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 249, 239, 0.95) 58%, rgba(239, 247, 255, 0.94) 100%);
+  box-shadow: 0 18px 42px rgba(64, 136, 177, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.phonics-complete-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.15rem 1.2rem 1rem;
+  text-align: center;
+  align-items: center;
+}
+
+.phonics-complete-clear {
+  display: inline-block;
+  padding: 0.12rem 0.25rem;
+  font-size: clamp(2.1rem, 4.8vw, 4.2rem);
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-align: center;
+  background: linear-gradient(90deg, #ff5f6d 0%, #ffb347 16%, #ffe66d 32%, #6ee7b7 52%, #60a5fa 72%, #a78bfa 88%, #f472b6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9),
+    0 3px 0 rgba(255, 255, 255, 0.75),
+    0 10px 24px rgba(62, 47, 134, 0.14);
+  filter: saturate(1.2);
+  position: relative;
+}
+
+.phonics-complete-clear::before,
+.phonics-complete-clear::after {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-48%);
+  font-size: 0.48em;
+  color: rgba(255, 194, 64, 0.9);
+  text-shadow: 0 0 14px rgba(255, 194, 64, 0.35);
+}
+
+.phonics-complete-clear::before {
+  left: -0.55em;
+}
+
+.phonics-complete-clear::after {
+  right: -0.55em;
+  color: rgba(96, 165, 250, 0.9);
+  text-shadow: 0 0 14px rgba(96, 165, 250, 0.35);
+}
+
+.phonics-complete-score {
+  color: #1f2937;
+  font-size: clamp(1.5rem, 3.4vw, 2.5rem);
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  text-align: center;
+}
+
+.phonics-complete-summary {
+  color: #607286;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  font-weight: 800;
+  text-align: center;
+}
+
+.phonics-complete-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  padding: 1rem;
+}
+
+.phonics-complete-stat {
+  min-height: 122px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 1rem;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 251, 255, 0.98) 100%);
+  border: 1px solid rgba(213, 231, 247, 0.9);
+  box-shadow: inset 0 -2px 0 rgba(255, 191, 91, 0.12);
+}
+
+.phonics-complete-stat-label {
+  color: #93a0b0;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.phonics-complete-stat-value {
+  color: #7b4300;
+  font-size: 1.35rem;
+  line-height: 1.15;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  word-break: keep-all;
+}
+
+.phonics-complete-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.phonics-complete-actions .shell-icon-btn {
+  min-width: 180px;
+}
+
+.phonics-effect-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.phonics-effect-particle {
+  position: absolute;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.42);
+  transform: translate(-50%, -50%);
+  animation: phonics-particle-burst 900ms cubic-bezier(0.12, 0.64, 0.18, 1) forwards;
+}
+
+.phonics-effect-particle.is-complete {
+  border-radius: 36%;
+}
+
+.phonics-effect-particle.is-wrong {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.36), 0 0 14px rgba(255, 97, 97, 0.25);
+}
+
+.phonics-effect-particle.is-correct {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.44), 0 0 14px rgba(255, 214, 94, 0.3);
+}
+
+.phonics-effect-particle.is-complete {
+  clip-path: polygon(50% 0%, 63% 34%, 100% 38%, 73% 60%, 82% 100%, 50% 78%, 18% 100%, 27% 60%, 0% 38%, 37% 34%);
+  box-shadow: none;
+}
+
+.phonics-slot.is-correct-slot {
+  animation: phonics-slot-pop 0.52s ease;
+}
+
+.phonics-choice-card.is-wrong-card {
+  animation: phonics-card-shake 0.42s ease;
+}
+
+.phonics-slot-board.is-correct-feedback,
+.phonics-choice-board.is-wrong-feedback {
+  animation: phonics-board-pop 0.5s ease;
+}
+
+.phonics-complete-hero.is-complete-bounce {
+  animation: phonics-complete-bounce 0.9s ease;
+}
+
+@keyframes phonics-particle-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.35) rotate(0deg);
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--tx, 0px)), calc(-50% + var(--ty, 0px))) scale(1) rotate(var(--rot, 0deg));
+  }
+}
+
+@keyframes phonics-slot-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes phonics-card-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+
+@keyframes phonics-board-pop {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes phonics-complete-bounce {
+  0% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-6px) scale(1.01); }
+  45% { transform: translateY(0) scale(0.995); }
+  70% { transform: translateY(-3px) scale(1.005); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 1080px) {
+  .phonics-stage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .phonics-hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .phonics-stage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .phonics-question-main {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 820px) {
+  .shell-phonics {
+    padding-top: 0.95rem;
+  }
+
+  .phonics-stage-card {
+    border-radius: 26px;
+  }
+
+  .phonics-stage-card {
+    min-height: 126px;
+  }
+
+  .phonics-stage-main {
+    font-size: 1.3rem;
+    gap: 0.36rem;
+  }
+
+  .phonics-stage-criteria-chip {
+    font-size: 1.04rem;
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+
+  .phonics-stage-main-action {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .phonics-lesson-head {
+    grid-template-columns: 1fr;
+  }
+
+  .phonics-lesson-view.is-active {
+    min-height: calc(100vh - 74px - 1.4rem);
+  }
+
+  .phonics-complete-view.is-active {
+    min-height: calc(100vh - 74px - 1.4rem);
+  }
+
+  .phonics-question-panel,
+  .phonics-slot-board,
+  .phonics-choice-board,
+  .phonics-complete-hero,
+  .phonics-complete-stats {
+    border-radius: 26px;
+  }
+
+  .phonics-question-main {
+    font-size: 1.34rem;
+  }
+
+  .phonics-target-glyph {
+    font-size: 2.1rem;
+  }
+
+  .phonics-slot {
+    flex-basis: 128px;
+    min-height: 128px;
+  }
+
+  .phonics-choice-card {
+    flex-basis: 84px;
+    min-height: 84px;
+  }
+
+  .phonics-complete-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .phonics-complete-stat {
+    min-height: 0;
+  }
+
+  .phonics-complete-clear {
+    letter-spacing: 0.06em;
+  }
+}
+
+/* Reference-inspired phonics slots and bottom choice tiles. */
+.phonics-slot {
+  border: 2px solid #a9c4e6;
+  border-radius: clamp(18px, 2vw, 24px);
+  background: linear-gradient(180deg, #cfe0f6 0%, #bfd3ef 100%);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -3px 0 rgba(111, 143, 185, 0.16),
+    0 8px 14px rgba(77, 105, 144, 0.12);
+}
+
+.phonics-slot.is-active {
+  border-color: #25c5f2;
+  background: linear-gradient(180deg, #dff5ff 0%, #bbddfb 100%);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.46),
+    0 0 0 4px rgba(37, 197, 242, 0.22),
+    0 10px 18px rgba(37, 126, 177, 0.18);
+}
+
+.phonics-slot-empty {
+  color: transparent;
+  text-shadow: none;
+}
+
+.phonics-slot-card,
+.phonics-choice-card {
+  border: 2px solid #f6d481;
+  border-bottom: 0;
+  border-radius: clamp(18px, 2vw, 24px);
+  background:
+    radial-gradient(circle at 20% 16%, rgba(255, 255, 255, 0.82) 0 10px, transparent 11px),
+    linear-gradient(180deg, #fff8cf 0%, #ffdc9c 58%, #efb66c 100%);
+  box-shadow:
+    inset 0 4px 0 rgba(255, 255, 255, 0.56),
+    inset 0 -5px 0 rgba(189, 106, 42, 0.22),
+    0 9px 0 rgba(184, 101, 55, 0.42),
+    0 16px 24px rgba(121, 62, 23, 0.18);
+}
+
+.phonics-card-shell {
+  background: transparent !important;
+}
+
+.phonics-choice-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 4px 0 rgba(255, 255, 255, 0.62),
+    inset 0 -5px 0 rgba(189, 106, 42, 0.2),
+    0 12px 0 rgba(184, 101, 55, 0.42),
+    0 20px 28px rgba(121, 62, 23, 0.2);
+}
+
+.phonics-choice-card:active {
+  transform: translateY(5px);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.52),
+    inset 0 -3px 0 rgba(189, 106, 42, 0.2),
+    0 4px 0 rgba(184, 101, 55, 0.38),
+    0 10px 18px rgba(121, 62, 23, 0.16);
+}
+
+.phonics-choice-card.is-selected {
+  transform: translateY(-4px) scale(1.03);
+  border-color: #19bfeb;
+  background:
+    radial-gradient(circle at 20% 16%, rgba(255, 255, 255, 0.78) 0 10px, transparent 11px),
+    linear-gradient(180deg, #e7faff 0%, #9eeaff 58%, #25c5f2 100%);
+  box-shadow:
+    inset 0 4px 0 rgba(255, 255, 255, 0.56),
+    inset 0 -5px 0 rgba(4, 124, 165, 0.24),
+    0 9px 0 rgba(9, 137, 181, 0.45),
+    0 0 0 4px rgba(37, 197, 242, 0.18),
+    0 18px 26px rgba(25, 126, 158, 0.2);
+}
+
+.phonics-choice-char,
+.phonics-slot-char {
+  color: #8a2505 !important;
+  letter-spacing: 0;
+  text-shadow: 0 1px 0 rgba(255, 245, 200, 0.75);
+}
+
+/* Kakao-style recessed blanks and low-gradient raised choices. */
+.phonics-slot {
+  border: 2px solid #b99b4a;
+  background: #f2d875;
+  box-shadow:
+    inset 0 7px 12px rgba(86, 63, 13, 0.28),
+    inset 0 -2px 0 rgba(255, 246, 173, 0.38),
+    0 1px 0 rgba(255, 255, 255, 0.42);
+}
+
+.phonics-slot.is-active {
+  border-color: #3c1e1e;
+  background: #ffe767;
+  box-shadow:
+    inset 0 8px 13px rgba(65, 43, 0, 0.26),
+    0 0 0 4px rgba(254, 229, 0, 0.3);
+}
+
+.phonics-slot-card,
+.phonics-choice-card {
+  border: 2px solid #e2c600;
+  border-bottom: 0;
+  background: #fee500;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -3px 0 rgba(181, 148, 0, 0.2),
+    0 8px 0 #c4a500,
+    0 15px 20px rgba(60, 30, 30, 0.18);
+}
+
+.phonics-choice-card:hover {
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -3px 0 rgba(181, 148, 0, 0.18),
+    0 11px 0 #c4a500,
+    0 18px 24px rgba(60, 30, 30, 0.2);
+}
+
+.phonics-choice-card:active {
+  box-shadow:
+    inset 0 3px 6px rgba(77, 56, 0, 0.22),
+    0 3px 0 #c4a500,
+    0 8px 14px rgba(60, 30, 30, 0.16);
+}
+
+.phonics-choice-card.is-selected {
+  border-color: #3c1e1e;
+  background: #ffd43b;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.28),
+    0 8px 0 #b89500,
+    0 0 0 4px rgba(60, 30, 30, 0.14),
+    0 16px 22px rgba(60, 30, 30, 0.18);
+}
+
+.phonics-choice-char,
+.phonics-slot-char {
+  color: #3c1e1e !important;
+  text-shadow: none;
+}
+
+/* Reference image tuning: recessed blue blanks + soft cream blocks. */
+.phonics-slot {
+  border-color: #9eb8d8;
+  background: #bdd0eb;
+  box-shadow:
+    inset 0 5px 8px rgba(78, 104, 145, 0.22),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.45),
+    0 1px 0 rgba(255, 255, 255, 0.42);
+}
+
+.phonics-slot.is-active {
+  border-color: #7da6d6;
+  background: #c8dcf4;
+  box-shadow:
+    inset 0 5px 9px rgba(78, 104, 145, 0.2),
+    0 0 0 4px rgba(126, 166, 214, 0.2);
+}
+
+.phonics-slot-card,
+.phonics-choice-card {
+  border-color: var(--card-border, #f0cf86);
+  background:
+    radial-gradient(circle at 20% 16%, rgba(255, 255, 255, 0.48) 0 10px, transparent 11px),
+    linear-gradient(180deg, var(--card-bg-start, #fff0bd) 0%, var(--card-bg-end, #ffe0a2) 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.48),
+    inset 0 -2px 0 rgba(190, 124, 62, 0.14),
+    0 7px 0 var(--card-lift, #cf965f),
+    0 13px 18px rgba(83, 48, 20, 0.16);
+}
+
+.phonics-choice-card:hover {
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.52),
+    inset 0 -2px 0 rgba(190, 124, 62, 0.12),
+    0 10px 0 var(--card-lift, #cf965f),
+    0 17px 23px rgba(83, 48, 20, 0.18);
+}
+
+.phonics-choice-card:active {
+  box-shadow:
+    inset 0 3px 6px rgba(118, 75, 30, 0.18),
+    0 3px 0 var(--card-lift, #cf965f),
+    0 8px 14px rgba(83, 48, 20, 0.14);
+}
+
+.phonics-choice-card.is-selected {
+  border-color: var(--card-border, #e5bb65);
+  background:
+    radial-gradient(circle at 20% 16%, rgba(255, 255, 255, 0.52) 0 10px, transparent 11px),
+    linear-gradient(180deg, var(--card-bg-start, #ffe9ad) 0%, var(--card-bg-end, #ffd88d) 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.44),
+    0 7px 0 var(--card-lift, #c88a50),
+    0 0 0 4px rgba(246, 196, 103, 0.22),
+    0 15px 20px rgba(83, 48, 20, 0.16);
+}
+
+.phonics-choice-char,
+.phonics-slot-char {
+  color: var(--card-text, #8a2707) !important;
+  text-shadow: var(--card-text-shadow, 0 1px 0 rgba(255, 245, 200, 0.75));
+}

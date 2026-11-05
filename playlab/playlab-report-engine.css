@@ -1,0 +1,3145 @@
+.playlab-report-dynamic {
+    margin-top: 1rem;
+}
+
+.playlab-report-shell {
+    --playlab-report-accent: #0f67d6;
+    --playlab-report-ink: #17324a;
+    --playlab-report-subtext: #5d7389;
+    --playlab-report-soft: rgba(226, 240, 255, 0.82);
+    --playlab-report-line: rgba(15, 103, 214, 0.14);
+    --playlab-report-panel: rgba(255, 255, 255, 0.92);
+    width: min(100%, 1180px);
+    margin: 0 auto;
+    color: var(--playlab-report-ink);
+}
+
+.playlab-report-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(150px, 0.28fr);
+    gap: clamp(0.75rem, 2vw, 1.4rem);
+    align-items: center;
+    min-height: 128px;
+    margin-bottom: 0;
+    padding: clamp(1rem, 2vw, 1.35rem) clamp(1rem, 2.4vw, 1.55rem);
+    border-radius: 22px 22px 16px 16px;
+    background:
+        radial-gradient(circle at 84% 22%, rgba(59, 130, 246, 0.16), transparent 32%),
+        linear-gradient(135deg, #f8fbff 0%, #eef7ff 58%, #ffffff 100%);
+    border: 1px solid rgba(191, 219, 254, 0.68);
+    box-shadow: 0 24px 70px rgba(15, 103, 214, 0.12);
+    overflow: hidden;
+}
+
+.playlab-report-hero-copy {
+    position: relative;
+    z-index: 2;
+    min-width: 0;
+}
+
+.playlab-report-hero-kicker {
+    margin: 0;
+    color: var(--playlab-report-accent);
+    font-size: 0.64rem;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+}
+
+.playlab-report-hero-title {
+    margin: 0.34rem 0 0;
+    color: #0f2746;
+    font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+    line-height: 1.16;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+.playlab-report-hero-subtitle {
+    margin: 0.42rem 0 0;
+    color: #36577b;
+    font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.playlab-report-hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.1rem;
+    margin-top: 0.72rem;
+}
+
+.playlab-report-hero-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #254b73;
+    font-size: 0.86rem;
+    font-weight: 800;
+}
+
+.playlab-report-hero-meta-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    color: var(--playlab-report-accent);
+    opacity: 0.9;
+    flex: 0 0 auto;
+}
+
+.playlab-report-hero-meta-icon svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.playlab-report-hero-visual {
+    position: relative;
+    z-index: 1;
+    min-height: 108px;
+}
+
+.playlab-report-hero-card {
+    position: absolute;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(191, 219, 254, 0.72);
+    box-shadow: 0 20px 42px rgba(59, 130, 246, 0.18);
+    backdrop-filter: blur(8px);
+}
+
+.playlab-report-hero-card-main {
+    right: 48px;
+    top: 4px;
+    width: 92px;
+    height: 98px;
+    transform: rotate(-6deg);
+}
+
+.playlab-report-hero-card-main span {
+    position: absolute;
+    left: 24px;
+    right: 28px;
+    height: 9px;
+    border-radius: 999px;
+    background: #dbeafe;
+}
+
+.playlab-report-hero-card-main span:nth-child(1) { top: 28px; }
+.playlab-report-hero-card-main span:nth-child(2) { top: 48px; right: 48px; }
+.playlab-report-hero-card-main span:nth-child(3) { top: 68px; right: 62px; }
+
+.playlab-report-hero-card-main i {
+    position: absolute;
+    bottom: 28px;
+    width: 18px;
+    border-radius: 6px 6px 3px 3px;
+    background: linear-gradient(180deg, #60a5fa, #2563eb);
+}
+
+.playlab-report-hero-card-main i:nth-of-type(1) { left: 34px; height: 38px; }
+.playlab-report-hero-card-main i:nth-of-type(2) { left: 62px; height: 60px; }
+.playlab-report-hero-card-main i:nth-of-type(3) { left: 90px; height: 82px; }
+
+.playlab-report-hero-card-side {
+    right: 2px;
+    bottom: 8px;
+    width: 76px;
+    height: 84px;
+    transform: rotate(5deg);
+}
+
+.playlab-report-hero-card-side b {
+    position: absolute;
+    left: 26px;
+    top: 34px;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: rgba(147, 197, 253, 0.7);
+}
+
+.playlab-report-hero-card-side b:nth-child(2) {
+    left: 56px;
+    top: 68px;
+    background: rgba(37, 99, 235, 0.52);
+}
+
+.playlab-report-hero-pie {
+    position: absolute;
+    right: 88px;
+    bottom: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: conic-gradient(#2dd4bf 0 58%, #7dd3fc 58% 76%, #2563eb 76% 100%);
+    box-shadow: 0 18px 34px rgba(37, 99, 235, 0.18);
+}
+
+.playlab-report-hero-leaf {
+    position: absolute;
+    width: 52px;
+    height: 24px;
+    border-radius: 100% 0 100% 0;
+    background: rgba(45, 212, 191, 0.28);
+}
+
+.playlab-report-hero-leaf-left {
+    right: 224px;
+    bottom: 44px;
+    transform: rotate(34deg);
+}
+
+.playlab-report-hero-leaf-right {
+    right: 38px;
+    top: 18px;
+    transform: rotate(-46deg);
+}
+
+.playlab-report-shell-standalone {
+    margin-top: 0.58rem;
+}
+
+.playlab-report-mode-panel {
+    position: fixed;
+    left: 50%;
+    right: auto;
+    bottom: max(0.85rem, env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    z-index: 80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(calc(100vw - 2rem), 680px);
+    margin: 0;
+    padding: 0.42rem;
+    border: 1px solid rgba(148, 163, 184, 0.48);
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.9);
+    box-shadow: 0 20px 54px rgba(15, 23, 42, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-sizing: border-box;
+}
+
+body.playlab-report-document-flow .playlab-report-mode-panel,
+body.playlab-report-document-flow :is(
+    #professionalReport,
+    #spotlightProfessionalReport,
+    .odd-professional-report,
+    .shape-professional-report,
+    .traffic-professional-report,
+    .stroop-professional-report,
+    .half-professional-report,
+    .spotlight-professional-report,
+    .colorseq-report-opinion,
+    .orbit-report-opinion
+) .playlab-report-mode-panel {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    z-index: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: min(calc(100vw - 2rem), 680px) !important;
+    height: 70px !important;
+    margin: 1rem auto 1.05rem !important;
+    padding: 0.42rem !important;
+    border: 1px solid rgba(148, 163, 184, 0.48) !important;
+    border-radius: 999px !important;
+    background: rgba(15, 23, 42, 0.9) !important;
+    box-shadow: 0 20px 54px rgba(15, 23, 42, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.16) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+    box-sizing: border-box !important;
+}
+
+body.playlab-report-document-flow .playlab-report-mode-actions,
+body.playlab-report-document-flow :is(
+    #professionalReport,
+    #spotlightProfessionalReport,
+    .odd-professional-report,
+    .shape-professional-report,
+    .traffic-professional-report,
+    .stroop-professional-report,
+    .half-professional-report,
+    .spotlight-professional-report,
+    .colorseq-report-opinion,
+    .orbit-report-opinion
+) .playlab-report-mode-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: stretch !important;
+    gap: 0.36rem !important;
+    width: 100% !important;
+    height: 100% !important;
+    font-size: 0.92rem !important;
+}
+
+body.playlab-report-document-flow .playlab-report-mode-btn,
+body.playlab-report-document-flow :is(
+    #professionalReport,
+    #spotlightProfessionalReport,
+    .odd-professional-report,
+    .shape-professional-report,
+    .traffic-professional-report,
+    .stroop-professional-report,
+    .half-professional-report,
+    .spotlight-professional-report,
+    .colorseq-report-opinion,
+    .orbit-report-opinion
+) .playlab-report-mode-btn {
+    flex: 1 1 0 !important;
+    display: grid !important;
+    grid-template-columns: 22px minmax(0, 1fr) !important;
+    grid-template-areas:
+        "check label"
+        "check desc" !important;
+    min-height: 3.24rem !important;
+    border: none !important;
+    border-radius: 999px !important;
+    padding: 0.54rem 0.94rem 0.58rem !important;
+    background: transparent !important;
+    color: rgba(226, 232, 240, 1) !important;
+    box-shadow: none !important;
+}
+
+body.playlab-report-document-flow .playlab-report-mode-btn[aria-pressed="true"],
+body.playlab-report-document-flow :is(
+    #professionalReport,
+    #spotlightProfessionalReport,
+    .odd-professional-report,
+    .shape-professional-report,
+    .traffic-professional-report,
+    .stroop-professional-report,
+    .half-professional-report,
+    .spotlight-professional-report,
+    .colorseq-report-opinion,
+    .orbit-report-opinion
+) .playlab-report-mode-btn[aria-pressed="true"] {
+    background: linear-gradient(135deg, #ffffff 0%, #eaf3ff 100%) !important;
+    color: rgba(15, 23, 42, 1) !important;
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.24) !important;
+}
+
+.playlab-report-mode-panel-top {
+    margin: 0;
+}
+
+.playlab-report-mode-panel-top + .playlab-report-shell,
+.playlab-report-mode-panel-top + .traffic-kicker,
+.playlab-report-mode-panel-top + .spotlight-result-title,
+.playlab-report-mode-panel-top + .playlab-result-title {
+    margin-top: 0;
+}
+
+.playlab-report-mode-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.14rem;
+    min-width: 0;
+    padding: 0.65rem 0.8rem;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.playlab-report-mode-kicker {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+}
+
+.playlab-report-mode-copy strong,
+.playlab-report-mode-notice strong {
+    color: #0f172a;
+    font-size: 0.95rem;
+    font-weight: 900;
+}
+
+.playlab-report-mode-copy span,
+.playlab-report-mode-notice span {
+    color: #64748b;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.52;
+}
+
+.playlab-report-mode-actions {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 0.36rem;
+    width: 100%;
+    min-width: 0;
+    font-size: 0.92rem;
+}
+
+.playlab-report-mode-btn {
+    position: relative;
+    flex: 1 1 0;
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    grid-template-areas:
+        "check label"
+        "check desc";
+    align-items: center;
+    justify-content: center;
+    column-gap: 0.74rem;
+    min-height: 3.24rem;
+    min-width: 0;
+    border: none;
+    border-radius: 999px;
+    padding: 0.54rem 0.94rem 0.58rem;
+    background: transparent;
+    color: rgba(226, 232, 240, 1);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    box-shadow: none;
+    transform: none;
+    transition: all 0.15s ease-in-out;
+}
+
+.playlab-report-mode-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.playlab-report-mode-check {
+    grid-area: check;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+    border-radius: 999px;
+    border: 2px solid rgba(203, 213, 225, 0.82);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.playlab-report-mode-check::before {
+    content: "";
+}
+
+.playlab-report-mode-label {
+    grid-area: label;
+    color: #f8fafc;
+    font-size: 0.98rem;
+    font-weight: 900;
+    line-height: 1.18;
+}
+
+.playlab-report-mode-btn small {
+    grid-area: desc;
+    margin-top: 0.16rem;
+    color: #cbd5e1;
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.24;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] {
+    background: linear-gradient(135deg, #ffffff 0%, #eaf3ff 100%);
+    color: rgba(15, 23, 42, 1);
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.24);
+    animation: playlab-report-mode-select 0.3s ease;
+    z-index: 2;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"]::before {
+    content: none;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"]::after {
+    content: none;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check {
+    border-color: var(--playlab-report-accent);
+    background: var(--playlab-report-accent);
+    color: var(--playlab-report-accent);
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check::before {
+    content: "✓";
+    color: #ffffff;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-label,
+.playlab-report-mode-btn[aria-pressed="true"] small {
+    color: #0f172a;
+}
+
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-btn[aria-pressed="true"] {
+    background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+    box-shadow: 0 14px 30px rgba(13, 148, 136, 0.28);
+}
+
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-btn[aria-pressed="true"]::after,
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check {
+    color: #0f766e;
+}
+
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-btn[aria-pressed="true"]::after {
+    background: #e6fffb;
+}
+
+body:not(.playlab-report-document-flow) > .playlab-report-mode-panel[data-playlab-promoted="true"] {
+    display: none !important;
+}
+
+body.playlab-report-document-flow > .playlab-report-mode-panel[data-playlab-promoted="true"] {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    z-index: 1 !important;
+    margin: 1rem auto 1.05rem !important;
+}
+
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check {
+    border-color: #0f766e;
+    background: #0f766e;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check::after,
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-label::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--playlab-report-accent);
+    opacity: 0;
+    pointer-events: none;
+    animation: playlab-report-mode-particles 0.5s ease forwards;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check::after {
+    top: -8px;
+    --direction: -10px;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-label::after {
+    bottom: -8px;
+    --direction: 10px;
+}
+
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check::after,
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-label::after {
+    background: #0f766e;
+}
+
+@keyframes playlab-report-mode-select {
+    0% {
+        transform: scale(0.95);
+    }
+    50% {
+        transform: scale(1.04);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes playlab-report-mode-particles {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(var(--direction));
+    }
+}
+
+.playlab-report-mode-notice {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.9fr);
+    gap: 0.7rem;
+    align-items: start;
+    margin-bottom: 0.8rem;
+    padding: 0.75rem 0.85rem;
+    border: 1px solid rgba(15, 103, 214, 0.14);
+    border-radius: 16px;
+    background: rgba(248, 250, 252, 0.96);
+}
+
+.playlab-report-mode-content-guardian .playlab-report-mode-notice {
+    border-color: rgba(13, 148, 136, 0.24);
+    background: #f0fdfa;
+}
+
+.playlab-report-mode-notice strong,
+.playlab-report-mode-notice span {
+    display: block;
+}
+
+.playlab-report-mode-notice ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: #475569;
+    font-size: 0.76rem;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.playlab-report-mode-content {
+    display: none;
+}
+
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-content-guardian,
+.playlab-report-shell[data-report-mode="teacher"] .playlab-report-mode-content-teacher {
+    display: block;
+}
+
+.playlab-report-hero ~ .playlab-report-mode-content {
+    margin-top: 1rem;
+}
+
+.playlab-report-guardian-card,
+.playlab-report-guardian-actions {
+    margin-top: 0.8rem;
+    padding: 1rem;
+    border: 1px solid rgba(13, 148, 136, 0.18);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 253, 250, 0.96) 100%);
+    box-shadow: 0 12px 24px rgba(17, 41, 73, 0.06);
+}
+
+.playlab-report-guardian-card {
+    margin-top: 0;
+}
+
+.playlab-report-guardian-title {
+    margin: 0.55rem 0 0;
+    color: #0f766e;
+    font-size: clamp(1.12rem, 1.8vw, 1.35rem);
+    font-weight: 800;
+}
+
+.playlab-report-guardian-highlight-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.playlab-report-guardian-counseling {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(13, 148, 136, 0.18);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(240, 253, 250, 0.92) 0%, rgba(255, 255, 255, 0.96) 100%);
+    box-shadow: 0 12px 24px rgba(15, 118, 110, 0.08);
+}
+
+.playlab-report-counseling-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.68rem;
+    margin-top: 0.8rem;
+}
+
+.playlab-report-counseling-card {
+    display: grid;
+    grid-template-columns: minmax(150px, 0.22fr) minmax(0, 0.39fr) minmax(0, 0.39fr);
+    grid-template-areas:
+        "label expert plain"
+        "title expert plain";
+    align-items: stretch;
+    gap: 0.72rem;
+    min-width: 0;
+    padding: 0.95rem;
+    border: 1px solid rgba(13, 148, 136, 0.16);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.playlab-report-counseling-label {
+    grid-area: label;
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    min-height: 1.45rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(13, 148, 136, 0.1);
+    color: #0f766e;
+    font-size: 0.72rem;
+    font-weight: 900;
+}
+
+.playlab-report-counseling-card > strong {
+    grid-area: title;
+    color: #0f2f35;
+    font-size: 0.98rem;
+    font-weight: 900;
+    line-height: 1.35;
+}
+
+.playlab-report-counseling-block {
+    grid-area: expert;
+    display: grid;
+    align-content: start;
+    gap: 0.28rem;
+}
+
+.playlab-report-counseling-block.is-plain {
+    grid-area: plain;
+}
+
+.playlab-report-counseling-block b {
+    color: #0f766e;
+    font-size: 0.74rem;
+    font-weight: 900;
+}
+
+.playlab-report-counseling-block p {
+    margin: 0;
+    color: #24465f;
+    font-size: 0.82rem;
+    font-weight: 650;
+    line-height: 1.62;
+}
+
+.playlab-report-counseling-block.is-plain {
+    padding: 0.72rem;
+    border-radius: 13px;
+    background: rgba(236, 253, 245, 0.88);
+}
+
+.playlab-report-dynamic,
+.playlab-report-shell,
+#professionalReport,
+#spotlightProfessionalReport,
+.half-professional-report,
+.spotlight-professional-report,
+.traffic-professional-report,
+.shape-professional-report,
+.stroop-professional-report {
+    scroll-margin-top: max(1.25rem, env(safe-area-inset-top));
+}
+
+.playlab-report-top {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.46fr) minmax(0, 1fr);
+    gap: 0.8rem;
+    align-items: start;
+}
+
+.playlab-report-dashboard {
+    display: grid;
+    grid-template-columns: minmax(250px, 0.34fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+    padding: 1.25rem;
+    border: 1px solid rgba(191, 219, 254, 0.62);
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 24px 62px rgba(15, 103, 214, 0.09);
+}
+
+.playlab-report-score-card,
+.playlab-report-radar-card,
+.playlab-report-summary-card,
+.playlab-report-role-card,
+.playlab-report-training,
+.playlab-report-evidence,
+.playlab-report-reference,
+.playlab-report-highlight-item {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 250, 255, 0.96) 100%);
+    border: 1px solid var(--playlab-report-line);
+    border-radius: 18px;
+    box-shadow: 0 12px 24px rgba(17, 41, 73, 0.07);
+}
+
+.playlab-report-score-card {
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    padding: 1rem;
+    background:
+        radial-gradient(circle at top right, rgba(15, 103, 214, 0.16), transparent 44%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(240, 247, 255, 0.96) 100%);
+}
+
+.playlab-report-score-card-ring {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 330px;
+}
+
+.playlab-report-score-ring {
+    display: grid;
+    place-items: center;
+    width: 156px;
+    aspect-ratio: 1;
+    margin: 1rem auto 0.85rem;
+    border-radius: 999px;
+    background:
+        conic-gradient(var(--playlab-report-accent) calc(var(--score, 0) * 1%), rgba(203, 213, 225, 0.55) 0),
+        #f8fbff;
+    box-shadow: inset 0 0 0 1px rgba(15, 103, 214, 0.08), 0 18px 32px rgba(15, 103, 214, 0.14);
+}
+
+.playlab-report-score-ring-inner {
+    display: grid;
+    place-items: center;
+    width: 116px;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.9);
+}
+
+.playlab-report-score-ring-inner strong {
+    color: #16a3a9;
+    font-size: 2.45rem;
+    line-height: 1;
+    font-weight: 900;
+}
+
+.playlab-report-score-ring-inner span {
+    margin-top: -0.8rem;
+    color: #16a3a9;
+    font-size: 0.9rem;
+    font-weight: 900;
+}
+
+.playlab-report-score-kicker,
+.playlab-report-section-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24px;
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(15, 103, 214, 0.1);
+    color: var(--playlab-report-accent);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+.playlab-report-score-value {
+    margin-top: 0.6rem;
+    font-size: clamp(1.35rem, 2.2vw, 1.5rem);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+.playlab-report-score-band {
+    margin-top: 0.3rem;
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--playlab-report-accent);
+}
+
+.playlab-report-score-copy,
+.playlab-report-summary-brief,
+.playlab-report-summary-long,
+.playlab-report-role-copy,
+.playlab-report-training-copy,
+.playlab-report-disclaimer {
+    margin: 0;
+    color: var(--playlab-report-subtext);
+    line-height: 1.72;
+    letter-spacing: 0;
+}
+
+.playlab-report-score-copy {
+    margin-top: 0.65rem;
+    color: #36577b;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.playlab-report-radar-card {
+    padding: 1rem;
+}
+
+.playlab-report-radar-card-large {
+    min-height: 330px;
+}
+
+.playlab-report-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+}
+
+.playlab-report-section-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--playlab-report-ink);
+}
+
+.playlab-report-radar-layout {
+    display: grid;
+    grid-template-columns: minmax(180px, 250px) minmax(0, 1fr);
+    gap: 0.9rem;
+    align-items: center;
+    margin-top: 0.55rem;
+}
+
+.playlab-report-radar-figure {
+    min-width: 0;
+    min-height: 220px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.playlab-report-radar {
+    display: block;
+    width: min(100%, 240px);
+    margin: 0 auto;
+}
+
+.playlab-report-radar-grid {
+    fill: rgba(15, 103, 214, 0.04);
+    stroke: rgba(15, 103, 214, 0.12);
+    stroke-width: 1;
+}
+
+.playlab-report-radar-spoke {
+    stroke: rgba(15, 103, 214, 0.16);
+    stroke-width: 1;
+}
+
+.playlab-report-radar-area {
+    fill: rgba(15, 103, 214, 0.16);
+    stroke: none;
+}
+
+.playlab-report-radar-line {
+    fill: none;
+    stroke: var(--playlab-report-accent);
+    stroke-width: 2.4;
+    stroke-linejoin: round;
+}
+
+.playlab-report-radar-dot {
+    fill: var(--playlab-report-accent);
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
+.playlab-report-radar-label {
+    fill: var(--playlab-report-ink);
+    font-size: 11px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: middle;
+}
+
+.playlab-report-axis-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 0;
+}
+
+.playlab-report-axis-item,
+.playlab-report-training-item {
+    padding: 0.68rem 0.75rem;
+    border-radius: 14px;
+    background: rgba(244, 249, 255, 0.92);
+    border: 1px solid rgba(15, 103, 214, 0.09);
+}
+
+.playlab-report-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.72rem;
+    margin-top: 1rem;
+}
+
+.playlab-report-metric-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    column-gap: 0.68rem;
+    align-items: center;
+    min-height: 62px;
+    padding: 0.72rem 0.85rem;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 103, 214, 0.13);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 12px 24px rgba(17, 41, 73, 0.055);
+}
+
+.playlab-report-metric-icon {
+    grid-row: span 2;
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    background:
+        radial-gradient(circle at center, rgba(37, 99, 235, 0.18) 0 34%, transparent 35%),
+        rgba(37, 99, 235, 0.08);
+    border: 1px solid rgba(37, 99, 235, 0.16);
+}
+
+.playlab-report-metric-label {
+    color: #52708f;
+    font-size: 0.78rem;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.playlab-report-metric-value {
+    color: var(--playlab-report-ink);
+    font-size: 1rem;
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+.playlab-report-axis-label,
+.playlab-report-highlight-label {
+    display: block;
+    color: var(--playlab-report-subtext);
+    font-size: 0.76rem;
+    line-height: 1.45;
+}
+
+.playlab-report-axis-value,
+.playlab-report-highlight-value {
+    display: block;
+    margin-top: 0.18rem;
+    color: var(--playlab-report-ink);
+    font-size: 0.98rem;
+    font-weight: 900;
+}
+
+.playlab-report-highlight-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+}
+
+.playlab-report-highlight-item {
+    padding: 0.78rem 0.85rem;
+}
+
+.playlab-report-summary-card {
+    margin-top: 0.8rem;
+    padding: 1rem;
+}
+
+.playlab-report-summary-card {
+    margin-top: 1rem;
+    padding: 1.1rem 1.2rem;
+}
+
+.playlab-report-summary-badges {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 0.85rem;
+}
+
+.playlab-report-summary-badges div {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+}
+
+.playlab-report-summary-badges span {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    min-height: 23px;
+    padding: 0 0.55rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 900;
+}
+
+.playlab-report-summary-badges span.is-strong {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.playlab-report-summary-badges span.is-watch {
+    background: #ffedd5;
+    color: #c2410c;
+}
+
+.playlab-report-summary-badges b {
+    min-width: 0;
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+.playlab-report-summary-brief {
+    margin-top: 0.55rem;
+    font-size: 0.86rem;
+    color: var(--playlab-report-ink);
+    font-weight: 500;
+    line-height: 1.78;
+}
+
+.playlab-report-summary-long {
+    margin-top: 0.55rem;
+    font-size: 0.83rem;
+    line-height: 1.72;
+    color: #476584;
+    font-weight: 500;
+}
+
+.playlab-report-roles {
+    margin-top: 0;
+}
+
+.playlab-report-role-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    margin-top: 0.65rem;
+}
+
+.playlab-report-role-card {
+    padding: 0.95rem 1rem;
+}
+
+.playlab-report-role-title,
+.playlab-report-training-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--playlab-report-ink);
+}
+
+.playlab-report-role-copy,
+.playlab-report-training-copy {
+    margin-top: 0.45rem;
+    color: #284464;
+    font-size: 0.86rem;
+    line-height: 1.72;
+    font-weight: 750;
+}
+
+.playlab-report-sentence {
+    color: #52708f;
+}
+
+.playlab-report-sentence.is-lead {
+    color: #22496f;
+    font-weight: 600;
+}
+
+.playlab-report-sentence.is-strong {
+    color: #10655d;
+    font-weight: 600;
+}
+
+.playlab-report-sentence.is-watch {
+    color: #b45309;
+    font-weight: 600;
+}
+
+.playlab-report-training {
+    margin-top: 0.8rem;
+    padding: 1rem;
+}
+
+.playlab-report-support-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    align-items: start;
+}
+
+.playlab-report-side-stack {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    align-content: start;
+}
+
+.playlab-report-training-plan {
+    margin-top: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.playlab-report-training.playlab-report-training-plan {
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.playlab-report-evidence {
+    margin-top: 0.8rem;
+    padding: 1rem;
+}
+
+.playlab-report-reference {
+    margin-top: 0.8rem;
+    padding: 1rem;
+}
+
+.playlab-report-training-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+    grid-auto-rows: auto;
+    margin-top: 0.65rem;
+}
+
+.playlab-report-role-grid {
+    grid-auto-rows: auto;
+}
+
+.playlab-report-role-card,
+.playlab-report-training-item {
+    min-height: 0;
+    width: 100%;
+}
+
+.playlab-report-evidence-list {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0.75rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--playlab-report-subtext);
+    font-size: 0.81rem;
+    font-weight: 500;
+    line-height: 1.62;
+}
+
+.playlab-report-reference-list {
+    display: grid;
+    gap: 0.42rem;
+    margin: 0.75rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--playlab-report-subtext);
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.52;
+}
+
+.playlab-report-reference-list a {
+    color: var(--playlab-report-accent);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.playlab-report-disclaimer {
+    margin-top: 0.95rem;
+    color: #64748b;
+    font-size: 0.82rem;
+    font-weight: 650;
+}
+
+.playlab-report-shell.is-excellent .playlab-report-score-value,
+.playlab-report-shell.is-strong .playlab-report-score-value {
+    color: #0a7f46;
+}
+
+.playlab-report-shell.is-watch .playlab-report-score-value {
+    color: #c2410c;
+}
+
+.playlab-report-save-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    width: auto;
+    min-width: 104px;
+    min-height: 40px;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.94);
+    color: #8b5000;
+    box-shadow: inset 0 -2px 0 rgba(255, 189, 82, 0.18), 0 10px 24px rgba(255, 176, 39, 0.14);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.playlab-report-save-icon {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+}
+
+.playlab-report-save-label {
+    font-size: 0.82rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+body.playlab-report-document-flow {
+    min-height: calc(100vh + 1px);
+    min-height: calc(100dvh + 1px);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+body.playlab-report-document-flow:has(.playlab-report-shell[data-report-scope="rehab"]) {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+body.playlab-report-document-flow:has(.playlab-report-shell[data-report-scope="rehab"]) :is(
+    .legacy-main,
+    .shell-main,
+    .shape-main,
+    .traffic-main,
+    .stroop-main,
+    #resultView,
+    #completeView,
+    .legacy-result-card,
+    .playlab-result-card,
+    .shape-result-card,
+    .traffic-result-card,
+    .stroop-result-card,
+    .half-report-card,
+    .spotlight-result-card,
+    .colorseq-result-card,
+    .orbit-result-card,
+    .odd-result-card,
+    #resultStats,
+    #completeStats,
+    #timeList,
+    .playlab-report-dynamic,
+    .playlab-report-shell
+) {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+body.playlab-report-document-flow .playlab-snack-shell,
+body.playlab-report-document-flow .playlab-iceword-shell,
+body.playlab-report-document-flow .cardlab-shell {
+    height: auto !important;
+    min-height: calc(100vh + 1px) !important;
+    min-height: calc(100dvh + 1px) !important;
+    overflow: visible !important;
+}
+
+body.playlab-report-document-flow .shell-main {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+body.playlab-report-document-flow .playlab-snack-modal.is-open,
+body.playlab-report-document-flow .playlab-iceword-modal.is-open {
+    position: static;
+    inset: auto;
+    z-index: 80;
+    display: block;
+    height: auto;
+    min-height: auto;
+    padding: 1rem;
+    overflow: visible;
+}
+
+body.playlab-report-document-flow .playlab-snack-modal.is-open .playlab-snack-modal-backdrop,
+body.playlab-report-document-flow .playlab-iceword-modal.is-open .playlab-iceword-modal-backdrop {
+    display: none;
+}
+
+body.playlab-report-document-flow .playlab-snack-report-card,
+body.playlab-report-document-flow .playlab-iceword-report-card {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+    max-height: none;
+    overflow: visible;
+    transform: none !important;
+}
+
+body.playlab-report-document-flow .playlab-report-dynamic {
+    margin-top: 0;
+}
+
+body.playlab-report-document-flow .legacy-main:has(#resultView.is-active),
+body.playlab-report-document-flow .shell-main:has(#completeView.is-active),
+body.playlab-report-document-flow .shape-main:has(#resultView.is-active),
+body.playlab-report-document-flow .traffic-main:has(#resultView.is-active),
+body.playlab-report-document-flow .stroop-main:has(#resultView.is-active),
+body.playlab-report-document-flow .shell-main:has(#resultView.is-active) {
+    width: min(1180px, calc(100vw - 48px));
+    min-height: auto !important;
+    margin-inline: auto;
+    display: block !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+    padding: clamp(16px, 2.2vh, 30px) 0 !important;
+    overflow: visible !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active {
+    width: 100%;
+    min-height: auto;
+    display: block !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active :is(
+    .legacy-result-card,
+    .playlab-result-card,
+    .shape-result-card,
+    .traffic-result-card,
+    .stroop-result-card,
+    .half-report-card,
+    .spotlight-result-card,
+    .colorseq-result-card,
+    .orbit-result-card
+) {
+    width: min(1048px, calc(100vw - 48px)) !important;
+    max-width: min(1048px, calc(100vw - 48px)) !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding-inline: 24px !important;
+    transform: none !important;
+    transform-origin: center center !important;
+    overflow: visible !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active :is(
+    #professionalReport,
+    #spotlightProfessionalReport,
+    .odd-professional-report,
+    .shape-professional-report,
+    .traffic-professional-report,
+    .stroop-professional-report,
+    .half-professional-report,
+    .spotlight-professional-report,
+    .colorseq-report-opinion,
+    .orbit-report-opinion
+) {
+    width: min(1000px, 100%) !important;
+    max-width: min(1000px, 100%) !important;
+    margin-inline: auto !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active .playlab-report-shell {
+    width: min(1000px, 100%) !important;
+    max-width: min(1000px, 100%) !important;
+    margin-inline: auto !important;
+    padding-bottom: 6.2rem;
+}
+
+body.playlab-report-document-flow :is(
+    .playlab-result-card,
+    .traffic-result-card,
+    .shape-result-card,
+    .stroop-result-card,
+    .legacy-result-card,
+    .colorseq-result-card,
+    .orbit-result-card,
+    .half-report-card,
+    .spotlight-result-card,
+    .odd-result-card
+):has(.playlab-report-shell) > :is(
+    .playlab-result-eyebrow,
+    .playlab-result-title,
+    .playlab-intro-subtitle,
+    .traffic-kicker,
+    .shape-kicker,
+    .stroop-kicker,
+    .legacy-kicker,
+    .colorseq-kicker,
+    .orbit-kicker,
+    .half-kicker,
+    .spotlight-result-kicker,
+    #resultTitle,
+    #resultSummary,
+    #resultStats,
+    #timeList,
+    #completeTitle,
+    #completeSummary,
+    #completeStats
+) {
+    display: none !important;
+}
+
+:is(
+    .playlab-result-card,
+    .traffic-result-card,
+    .shape-result-card,
+    .stroop-result-card,
+    .legacy-result-card,
+    .colorseq-result-card,
+    .orbit-result-card,
+    .half-report-card,
+    .spotlight-result-card,
+    .odd-result-card
+):has(.playlab-report-shell) > :is(
+    .playlab-result-eyebrow,
+    .playlab-result-title,
+    .playlab-intro-subtitle,
+    .traffic-kicker,
+    .shape-kicker,
+    .stroop-kicker,
+    .legacy-kicker,
+    .colorseq-kicker,
+    .orbit-kicker,
+    .half-kicker,
+    .spotlight-result-kicker,
+    #resultTitle,
+    #resultSummary,
+    #resultStats,
+    #timeList,
+    #completeTitle,
+    #completeSummary,
+    #completeStats
+) {
+    display: none !important;
+}
+
+body.playlab-report-document-flow :is(#resultStats, #completeStats, #timeList):not(:has(.playlab-report-shell)),
+body.playlab-report-document-flow :is(
+    .spotlight-result-stats,
+    .spotlight-time-list,
+    .half-stats,
+    .playlab-result-stats,
+    .legacy-result-stats,
+    .odd-result-stats,
+    .shape-result-stats,
+    .traffic-result-stats,
+    .stroop-result-stats,
+    .orbit-result-stats,
+    .number-agency-result-stats,
+    .language-result-stats,
+    .spotlight-result-stat,
+    .spotlight-time-item,
+    .half-stat,
+    .playlab-result-stat,
+    .odd-result-stat,
+    .shape-result-stat,
+    .traffic-result-stat,
+    .stroop-result-stat,
+    .orbit-result-stat,
+    .number-agency-result-stat,
+    .language-result-stat
+) {
+    display: none !important;
+}
+
+body.playlab-report-document-flow :is(
+    .playlab-result-card,
+    .traffic-result-card,
+    .shape-result-card,
+    .stroop-result-card,
+    .legacy-result-card,
+    .colorseq-result-card,
+    .orbit-result-card,
+    .half-report-card,
+    .spotlight-result-card,
+    .odd-result-card
+):has(.playlab-report-shell) > :is(
+    .playlab-result-actions,
+    .traffic-result-actions,
+    .shape-result-actions,
+    .stroop-result-actions,
+    .legacy-result-actions,
+    .colorseq-actions,
+    .orbit-result-actions,
+    .half-result-actions,
+    .spotlight-result-actions,
+    .odd-result-actions
+) {
+    display: none !important;
+}
+
+/* Preserve the real retry/menu controls on the three rehab response tasks. */
+body.playlab-report-document-flow .traffic-shell #resultView.traffic-screen.is-active:has(.playlab-report-shell[data-report-scope="rehab"]) {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+body.playlab-report-document-flow :is(.traffic-result-card, .shape-result-card, .stroop-result-card):has(.playlab-report-shell[data-report-scope="rehab"])
+    > :is(.traffic-result-actions, .shape-result-actions, .stroop-result-actions):has(> #retryButton):has(> #menuButton) {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 600px) {
+    body.playlab-report-document-flow :is(.traffic-result-card, .shape-result-card, .stroop-result-card):has(.playlab-report-shell[data-report-scope="rehab"])
+        > :is(.traffic-result-actions, .shape-result-actions, .stroop-result-actions):has(> #retryButton):has(> #menuButton) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+body.playlab-report-document-flow .playlab-report-shell :is(
+    .playlab-report-score-copy,
+    .playlab-report-summary-brief,
+    .playlab-report-summary-long,
+    .playlab-report-role-copy,
+    .playlab-report-training-copy
+) {
+    color: #284464 !important;
+    font-size: 0.86rem !important;
+    font-weight: 750 !important;
+    line-height: 1.72 !important;
+    letter-spacing: 0 !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-disclaimer {
+    color: #64748b !important;
+    font-size: 0.82rem !important;
+    font-weight: 650 !important;
+    line-height: 1.7 !important;
+    letter-spacing: 0 !important;
+}
+
+@media print {
+    html,
+    body {
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .playlab-report-mode-panel {
+        position: static !important;
+        left: auto !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        width: 100% !important;
+        margin: 1rem auto 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    .shell-topbar,
+    .playlab-report-save-btn,
+    .half-report-actions,
+    .spotlight-result-actions,
+    .colorseq-actions,
+    .time-intro-actions,
+    .half-modal,
+    .spotlight-modal,
+    .colorseq-modal,
+    .confirm-modal {
+        display: none !important;
+    }
+
+    .cardlab-shell,
+    .shell-main {
+        min-height: auto !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+    }
+
+    .half-screen:not(.is-active),
+    .spotlight-screen:not(.is-active),
+    .colorseq-screen:not(.is-active),
+    .time-screen:not(.is-active) {
+        display: none !important;
+    }
+
+    .half-report-card,
+    .spotlight-result-card,
+    .colorseq-result-card,
+    .time-result-card {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+}
+
+@media (max-height: 820px) and (min-width: 721px) {
+    body.playlab-report-document-flow .legacy-main:has(#resultView.is-active),
+    body.playlab-report-document-flow .shell-main:has(#completeView.is-active),
+    body.playlab-report-document-flow .shape-main:has(#resultView.is-active),
+    body.playlab-report-document-flow .traffic-main:has(#resultView.is-active),
+    body.playlab-report-document-flow .stroop-main:has(#resultView.is-active),
+    body.playlab-report-document-flow .shell-main:has(#resultView.is-active) {
+        min-height: auto !important;
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+
+    body.playlab-report-document-flow :is(#resultView, #completeView).is-active :is(
+        .legacy-result-card,
+        .playlab-result-card,
+        .shape-result-card,
+        .traffic-result-card,
+        .stroop-result-card,
+        .half-report-card,
+        .spotlight-result-card,
+        .colorseq-result-card,
+        .orbit-result-card
+    ) {
+        max-height: none !important;
+    }
+}
+
+@media (max-width: 920px) {
+    .playlab-report-hero {
+        grid-template-columns: 1fr;
+        padding: 1.25rem;
+    }
+
+    .playlab-report-hero-visual {
+        display: none;
+    }
+
+    .playlab-report-mode-notice {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+
+    .playlab-report-top,
+    .playlab-report-dashboard,
+    .playlab-report-support-grid,
+    .playlab-report-role-grid,
+    .playlab-report-highlight-grid,
+    .playlab-report-metric-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-report-radar-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-report-axis-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .playlab-report-counseling-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-report-counseling-card {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "label"
+            "title"
+            "expert"
+            "plain";
+    }
+}
+
+@media (max-width: 640px) {
+    .playlab-report-mode-panel {
+        width: calc(100% - 0.5rem);
+        bottom: max(0.55rem, env(safe-area-inset-bottom));
+        padding: 0.32rem;
+        border-radius: 1.35rem;
+    }
+
+    .playlab-report-mode-actions {
+        width: 100%;
+        overflow-x: visible;
+        padding-bottom: 0;
+        gap: 0.28rem;
+    }
+
+    .playlab-report-mode-btn {
+        min-height: 3.55rem;
+        padding-inline: 0.62rem;
+        border-radius: 1.1rem;
+    }
+
+    .playlab-report-axis-list {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .playlab-report-guardian-counseling {
+        padding: 0.82rem;
+    }
+
+    .playlab-report-counseling-card {
+        padding: 0.82rem;
+    }
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active :is(
+    .legacy-result-card,
+    .playlab-result-card,
+    .shape-result-card,
+    .traffic-result-card,
+    .stroop-result-card,
+    .half-report-card,
+    .spotlight-result-card,
+    .colorseq-result-card,
+    .orbit-result-card,
+    .odd-result-card
+) {
+    width: min(1048px, calc(100vw - 48px)) !important;
+    max-width: min(1048px, calc(100vw - 48px)) !important;
+    margin: 0 auto !important;
+    padding-inline: 24px !important;
+    overflow: visible !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active :is(
+    #professionalReport,
+    #spotlightProfessionalReport,
+    #spotlightProfessionalReport,
+    .odd-professional-report,
+    .shape-professional-report,
+    .traffic-professional-report,
+    .stroop-professional-report,
+    .half-professional-report,
+    .spotlight-professional-report,
+    .colorseq-report-opinion,
+    .orbit-report-opinion
+) {
+    width: min(1000px, 100%) !important;
+    max-width: min(1000px, 100%) !important;
+    margin-inline: auto !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active .playlab-report-shell {
+    width: min(1000px, 100%) !important;
+    max-width: min(1000px, 100%) !important;
+    margin-inline: auto !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active #resultStats:has(.playlab-report-shell) {
+    display: block !important;
+    width: min(1000px, 100%) !important;
+    max-width: min(1000px, 100%) !important;
+    margin-inline: auto !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active :is(
+    .legacy-result-card,
+    .playlab-result-card,
+    .shape-result-card,
+    .traffic-result-card,
+    .stroop-result-card,
+    .half-report-card,
+    .spotlight-result-card,
+    .colorseq-result-card,
+    .orbit-result-card,
+    .odd-result-card
+):has(.playlab-report-shell) {
+    box-sizing: border-box !important;
+    padding: 24px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active :is(
+    #professionalReport,
+    .legacy-professional-report,
+    .odd-professional-report,
+    .shape-professional-report,
+    .traffic-professional-report,
+    .stroop-professional-report,
+    .half-professional-report,
+    .spotlight-professional-report,
+    .colorseq-report-opinion,
+    .orbit-report-opinion
+) {
+    display: block !important;
+    width: min(1000px, 100%) !important;
+    max-width: min(1000px, 100%) !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--playlab-report-ink, #17324a) !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: normal !important;
+    letter-spacing: 0 !important;
+    overflow: visible !important;
+}
+
+body.playlab-report-document-flow :is(#resultView, #completeView).is-active :is(
+    #professionalReport,
+    .legacy-professional-report,
+    .odd-professional-report,
+    .shape-professional-report,
+    .traffic-professional-report,
+    .stroop-professional-report,
+    .half-professional-report,
+    .spotlight-professional-report,
+    .colorseq-report-opinion,
+    .orbit-report-opinion
+):has(.playlab-report-shell[data-report-scope="rehab"]),
+body.playlab-report-document-flow .playlab-report-shell[data-report-scope="rehab"] {
+    background: #ffffff !important;
+    background-image: none !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell,
+body.playlab-report-document-flow .playlab-report-shell * {
+    box-sizing: border-box !important;
+    font-family: inherit !important;
+    text-shadow: none !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell :is(p, h3, h4, div, span, strong, small, b, li, button) {
+    letter-spacing: 0 !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell p {
+    margin: 0 !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero {
+    min-height: 128px !important;
+    margin: 0 !important;
+    padding: clamp(1rem, 2vw, 1.35rem) clamp(1rem, 2.4vw, 1.55rem) !important;
+    border: 1px solid rgba(191, 219, 254, 0.68) !important;
+    border-radius: 22px 22px 16px 16px !important;
+    background:
+        radial-gradient(circle at 84% 22%, rgba(59, 130, 246, 0.16), transparent 32%),
+        linear-gradient(135deg, #f8fbff 0%, #eef7ff 58%, #ffffff 100%) !important;
+    box-shadow: 0 24px 70px rgba(15, 103, 214, 0.12) !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero-kicker {
+    margin: 0 !important;
+    color: var(--playlab-report-accent) !important;
+    font-size: 0.64rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.16em !important;
+    line-height: 1.2 !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero-title {
+    margin: 0.34rem 0 0 !important;
+    color: #0f2746 !important;
+    font-size: clamp(1.1rem, 1.8vw, 1.45rem) !important;
+    font-weight: 900 !important;
+    line-height: 1.16 !important;
+    letter-spacing: 0 !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero-subtitle {
+    margin: 0.42rem 0 0 !important;
+    color: #36577b !important;
+    font-size: clamp(0.92rem, 1.6vw, 1.05rem) !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero-meta {
+    gap: 0.75rem 1.1rem !important;
+    margin-top: 0.72rem !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero-meta-item {
+    color: #254b73 !important;
+    font-size: 0.86rem !important;
+    font-weight: 800 !important;
+    line-height: normal !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-dashboard {
+    gap: 1rem !important;
+    padding: 1.25rem !important;
+    border: 1px solid rgba(191, 219, 254, 0.62) !important;
+    border-radius: 28px !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    box-shadow: 0 24px 62px rgba(15, 103, 214, 0.09) !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell :is(
+    .playlab-report-score-card,
+    .playlab-report-radar-card,
+    .playlab-report-summary-card,
+    .playlab-report-role-card,
+    .playlab-report-training,
+    .playlab-report-evidence,
+    .playlab-report-reference,
+    .playlab-report-highlight-item,
+    .playlab-report-guardian-card,
+    .playlab-report-guardian-actions,
+    .playlab-report-guardian-counseling,
+    .playlab-report-counseling-card
+) {
+    border-width: 1px !important;
+    border-style: solid !important;
+    box-shadow: 0 12px 24px rgba(17, 41, 73, 0.07) !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-score-card {
+    padding: 1rem !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-score-card-ring {
+    min-height: 330px !important;
+    text-align: center !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-radar-card {
+    padding: 1rem !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-radar-card-large {
+    min-height: 330px !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-section-title {
+    margin: 0 !important;
+    color: var(--playlab-report-ink) !important;
+    font-size: 0.9rem !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell :is(.playlab-report-score-kicker, .playlab-report-section-chip) {
+    min-height: 24px !important;
+    padding: 0.28rem 0.65rem !important;
+    border-radius: 999px !important;
+    color: var(--playlab-report-accent) !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-score-copy {
+    margin-top: 0.65rem !important;
+    color: #36577b !important;
+    font-size: 0.86rem !important;
+    font-weight: 700 !important;
+    line-height: 1.72 !important;
+}
+
+/* Restrained clinical-document presentation. Existing class names remain stable for host pages and harnesses. */
+.playlab-report-shell,
+.playlab-report-shell * {
+    letter-spacing: 0 !important;
+}
+
+.playlab-report-shell {
+    --playlab-report-ink: #1f2933;
+    --playlab-report-subtext: #4b5563;
+    --playlab-report-line: #cfd6dd;
+    --playlab-report-panel: #ffffff;
+    width: min(100%, 960px);
+    background: #ffffff;
+    color: var(--playlab-report-ink);
+    line-height: 1.6;
+}
+
+.playlab-report-shell :is(p, li, dd, dt, span, strong, b, small) {
+    line-height: 1.6 !important;
+}
+
+.playlab-report-hero,
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero {
+    display: block;
+    min-height: 0 !important;
+    padding: 1.15rem 0 0.9rem !important;
+    border: 0 !important;
+    border-top: 3px solid #334155 !important;
+    border-bottom: 1px solid #9ca3af !important;
+    border-radius: 0 !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.playlab-report-hero-visual {
+    display: none !important;
+}
+
+.playlab-report-hero-kicker,
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero-kicker {
+    color: #475569 !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    line-height: 1.6 !important;
+}
+
+.playlab-report-hero-title,
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero-title {
+    margin-top: 0.2rem !important;
+    color: #111827 !important;
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+}
+
+.playlab-report-hero-subtitle,
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero-subtitle {
+    margin-top: 0.18rem !important;
+    color: #4b5563 !important;
+    font-size: 0.92rem !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+}
+
+.playlab-report-hero-meta-item,
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-hero-meta-item {
+    color: #4b5563 !important;
+    font-size: 0.82rem !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+}
+
+.playlab-report-mode-content {
+    padding: 0.15rem 0;
+}
+
+.playlab-report-dashboard,
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-dashboard {
+    grid-template-columns: minmax(280px, 0.42fr) minmax(0, 0.58fr);
+    gap: 0 !important;
+    margin-top: 1rem;
+    padding: 0 !important;
+    border: 1px solid #cfd6dd !important;
+    border-radius: 3px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.playlab-report-shell :is(
+    .playlab-report-score-card,
+    .playlab-report-radar-card,
+    .playlab-report-summary-card,
+    .playlab-report-role-card,
+    .playlab-report-training,
+    .playlab-report-evidence,
+    .playlab-report-reference,
+    .playlab-report-highlight-item,
+    .playlab-report-guardian-card,
+    .playlab-report-guardian-actions,
+    .playlab-report-guardian-counseling,
+    .playlab-report-counseling-card,
+    .playlab-report-metric-card,
+    .playlab-report-training-item,
+    .playlab-report-axis-item
+),
+body.playlab-report-document-flow .playlab-report-shell :is(
+    .playlab-report-score-card,
+    .playlab-report-radar-card,
+    .playlab-report-summary-card,
+    .playlab-report-role-card,
+    .playlab-report-training,
+    .playlab-report-evidence,
+    .playlab-report-reference,
+    .playlab-report-highlight-item,
+    .playlab-report-guardian-card,
+    .playlab-report-guardian-actions,
+    .playlab-report-guardian-counseling,
+    .playlab-report-counseling-card
+) {
+    border-color: #cfd6dd !important;
+    border-radius: 3px !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+.playlab-report-score-card-ring,
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-score-card-ring,
+.playlab-report-radar-card-large,
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-radar-card-large {
+    min-height: 0 !important;
+    align-items: stretch;
+    justify-content: flex-start;
+    text-align: left !important;
+}
+
+.playlab-report-score-card {
+    border: 0 !important;
+    border-right: 1px solid #cfd6dd !important;
+    padding: 1rem !important;
+}
+
+.playlab-report-radar-card {
+    border: 0 !important;
+    padding: 1rem !important;
+}
+
+.playlab-report-score-kicker,
+.playlab-report-section-chip,
+body.playlab-report-document-flow .playlab-report-shell :is(.playlab-report-score-kicker, .playlab-report-section-chip) {
+    justify-content: flex-start;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #475569 !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    line-height: 1.6 !important;
+}
+
+.playlab-report-clinical-heading {
+    margin: 0.18rem 0 0;
+    color: #111827;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.playlab-report-score-card .playlab-report-metric-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 0.75rem;
+    border-top: 1px solid #d7dde3;
+}
+
+.playlab-report-metric-card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 0;
+    padding: 0.45rem 0;
+    border: 0 !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+
+.playlab-report-metric-icon {
+    display: none;
+}
+
+.playlab-report-metric-label,
+.playlab-report-metric-value {
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.playlab-report-radar-layout {
+    grid-template-columns: minmax(170px, 220px) minmax(0, 1fr);
+}
+
+.playlab-report-radar-figure {
+    min-height: 190px;
+    border-radius: 0;
+}
+
+.playlab-report-axis-list {
+    gap: 0;
+    border-top: 1px solid #d7dde3;
+}
+
+.playlab-report-axis-item {
+    padding: 0.4rem 0.45rem;
+    border: 0 !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+
+.playlab-report-indicator-note {
+    margin: 0.65rem 0 0;
+    padding-top: 0.55rem;
+    border-top: 1px solid #d7dde3;
+    color: #5f6b76;
+    font-size: 0.76rem;
+}
+
+.playlab-report-summary-card,
+.playlab-report-training,
+.playlab-report-evidence,
+.playlab-report-reference,
+.playlab-report-guardian-card,
+.playlab-report-guardian-counseling {
+    margin-top: 1rem;
+    padding: 1rem;
+}
+
+.playlab-report-section-title,
+body.playlab-report-document-flow .playlab-report-shell .playlab-report-section-title {
+    color: #111827 !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    line-height: 1.6 !important;
+}
+
+.playlab-report-legacy-label {
+    margin-left: 0.4rem;
+    color: #6b7280;
+    font-size: 0.72rem;
+    font-weight: 500;
+}
+
+.playlab-report-summary-badges {
+    border-radius: 0;
+}
+
+.playlab-report-summary-badges span {
+    border-radius: 2px;
+}
+
+.playlab-report-training-list {
+    gap: 0;
+    margin-top: 0.65rem;
+    border-top: 1px solid #d7dde3;
+}
+
+.playlab-report-training-item {
+    padding: 0.62rem 0;
+    border: 0 !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+
+.playlab-report-clinical-list {
+    margin: 0.7rem 0 0;
+}
+
+.playlab-report-guardian-document {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid #9ca3af;
+}
+
+.playlab-report-guardian-document .playlab-report-counseling-card {
+    display: grid;
+    grid-template-columns: minmax(125px, 0.22fr) minmax(0, 1fr);
+    grid-template-areas: "label plain";
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border: 0 !important;
+    border-bottom: 1px solid #d7dde3 !important;
+}
+
+.playlab-report-guardian-document .playlab-report-counseling-label {
+    display: block;
+    min-height: 0;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.playlab-report-guardian-document .playlab-report-counseling-block.is-plain {
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.playlab-report-guardian-document .playlab-report-counseling-block p {
+    color: #374151;
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.65 !important;
+}
+
+.playlab-report-disclaimer {
+    margin: 1rem 0 0;
+    padding: 0.75rem 0;
+    border-top: 1px solid #9ca3af;
+    color: #5f6b76 !important;
+    font-size: 0.76rem !important;
+    font-weight: 500 !important;
+}
+
+.playlab-report-mode-panel,
+body.playlab-report-document-flow .playlab-report-mode-panel,
+body.playlab-report-document-flow :is(
+    #professionalReport,
+    #spotlightProfessionalReport,
+    .odd-professional-report,
+    .shape-professional-report,
+    .traffic-professional-report,
+    .stroop-professional-report,
+    .half-professional-report,
+    .spotlight-professional-report,
+    .colorseq-report-opinion,
+    .orbit-report-opinion
+) .playlab-report-mode-panel {
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 1rem 0 0 !important;
+    padding: 0.45rem !important;
+    border: 1px solid #9ca3af !important;
+    border-radius: 3px !important;
+    background: #f7f8fa !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+}
+
+.playlab-report-mode-btn,
+body.playlab-report-document-flow .playlab-report-mode-btn {
+    border: 1px solid transparent !important;
+    border-radius: 2px !important;
+    background: transparent !important;
+    color: #374151 !important;
+    box-shadow: none !important;
+    animation: none !important;
+}
+
+.playlab-report-mode-panel,
+.playlab-report-mode-panel * {
+    letter-spacing: 0 !important;
+}
+
+.playlab-report-mode-btn .playlab-report-mode-label,
+.playlab-report-mode-btn small,
+body.playlab-report-document-flow .playlab-report-mode-btn .playlab-report-mode-label,
+body.playlab-report-document-flow .playlab-report-mode-btn small {
+    color: #4b5563 !important;
+}
+
+.playlab-report-mode-btn .playlab-report-mode-check,
+body.playlab-report-document-flow .playlab-report-mode-btn .playlab-report-mode-check {
+    border-color: #9ca3af !important;
+    background: #ffffff !important;
+    color: #334155 !important;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"],
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-btn[aria-pressed="true"],
+body.playlab-report-document-flow .playlab-report-mode-btn[aria-pressed="true"] {
+    border-color: #64748b !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    animation: none !important;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-label,
+.playlab-report-mode-btn[aria-pressed="true"] small,
+body.playlab-report-document-flow .playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-label,
+body.playlab-report-document-flow .playlab-report-mode-btn[aria-pressed="true"] small {
+    color: #111827 !important;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check,
+.playlab-report-shell[data-report-mode="guardian"] .playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check,
+body.playlab-report-document-flow .playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check {
+    border-color: #334155 !important;
+    background: #334155 !important;
+    color: #ffffff !important;
+}
+
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-check::after,
+.playlab-report-mode-btn[aria-pressed="true"] .playlab-report-mode-label::after {
+    display: none !important;
+}
+
+@media (max-width: 720px) {
+    .playlab-report-dashboard,
+    body.playlab-report-document-flow .playlab-report-shell .playlab-report-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-report-score-card {
+        border-right: 0 !important;
+        border-bottom: 1px solid #cfd6dd !important;
+    }
+
+    .playlab-report-radar-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .playlab-report-guardian-document .playlab-report-counseling-card {
+        grid-template-columns: 1fr;
+        grid-template-areas: "label" "plain";
+        gap: 0.2rem;
+    }
+}
+
+body.playlab-report-document-flow .playlab-report-shell :is(
+    .playlab-report-summary-brief,
+    .playlab-report-summary-long,
+    .playlab-report-role-copy,
+    .playlab-report-training-copy,
+    .playlab-report-disclaimer
+) {
+    color: var(--playlab-report-subtext) !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    line-height: 1.65 !important;
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+}
+
+/* 완료 직후 리포트: 보기 선택을 문서 최상단에서 계속 확인합니다. */
+body.playlab-report-document-flow .playlab-report-shell > .playlab-report-mode-panel {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 95 !important;
+    width: 100% !important;
+    margin: 0 0 1rem !important;
+    border-color: #cbd5e1 !important;
+    background: rgba(248, 250, 252, 0.96) !important;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+}
+
+.playlab-report-role-source {
+    display: inline-flex;
+    margin-bottom: 0.45rem;
+    padding: 0.18rem 0.42rem;
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 0.68rem;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+@media (min-width: 921px) {
+    .playlab-report-role-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    body.playlab-report-document-flow .playlab-report-shell > .playlab-report-mode-panel {
+        margin-bottom: 0.7rem !important;
+        padding: 0.3rem !important;
+    }
+
+    .playlab-report-mode-btn small {
+        display: none !important;
+    }
+}
+
+@media (max-width: 920px) {
+    body.playlab-report-document-flow .playlab-report-shell .playlab-report-dashboard,
+    body.playlab-report-document-flow .playlab-report-shell .playlab-report-radar-layout {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+
+    body.playlab-report-document-flow .playlab-report-shell .playlab-report-score-card {
+        border-right: 0 !important;
+        border-bottom: 1px solid #cfd6dd !important;
+    }
+
+    body.playlab-report-document-flow .playlab-report-shell .playlab-report-role-grid {
+        grid-template-columns: minmax(0, 1fr) !important;
+    }
+}
+
+@media print {
+    .playlab-report-mode-panel {
+        display: none !important;
+    }
+}
+
+/* Standalone Rehab session report: visual, compact, and evidence-first. */
+.playlab-report-shell-standalone[data-report-scope="rehab"] {
+    width: 100% !important;
+    max-width: none !important;
+    --session-border: #dbe7f3;
+    --session-muted: #64748b;
+    --session-ink: #0f172a;
+    --session-surface: #f8fbff;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-mode-content {
+    padding: 1.25rem 0 0;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+    .playlab-report-session-card,
+    .playlab-report-profile-card,
+    .playlab-report-visual-summary,
+    .playlab-report-detail-evidence,
+    .playlab-report-visual-plan,
+    .playlab-report-guardian-visual,
+    .playlab-report-evidence-drawer
+) {
+    margin: 0 0 1.25rem;
+    padding: 1.5rem;
+    border: 1px solid var(--session-border);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.055);
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-profile-card {
+    border-top: 4px solid #60a5fa;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-visual-summary {
+    border-top: 4px solid #14b8a6;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-detail-evidence {
+    margin-top: 1.75rem;
+    border-top: 4px solid #8b5cf6;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-visual-plan {
+    border-top: 4px solid #f59e0b;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-section-eyebrow {
+    margin: 0 0 0.3rem;
+    color: #2563eb;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-section-intro {
+    margin: 0.65rem 0 1.1rem;
+    color: var(--session-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.65;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-section-title {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    line-height: 1.5 !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-section-chip {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-session-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-session-metric {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: var(--session-surface);
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-session-metric span {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--session-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-session-metric strong {
+    color: var(--session-ink);
+    font-size: 1.08rem;
+    line-height: 1.35;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-functional-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-profile-visual-layout {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-standalone-radar {
+    min-width: 0;
+    margin: 0;
+    padding: 1rem;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #f8fbff 0%, #eff6ff 100%);
+    text-align: center;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-standalone-radar figcaption {
+    margin: 0.35rem 0 0.15rem;
+    color: #1e3a8a;
+    font-size: 0.88rem;
+    font-weight: 900;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-radar-kicker {
+    color: #2563eb;
+    font-size: 0.66rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-standalone-radar .playlab-report-radar-figure {
+    min-height: 245px;
+    margin: 0;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-standalone-radar .playlab-report-radar {
+    width: min(100%, 290px);
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-standalone-radar > small {
+    display: block;
+    color: #7c8796;
+    font-size: 0.66rem;
+    font-weight: 600;
+    line-height: 1.55;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-functional-card {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid #dce9f7;
+    border-radius: 14px;
+    background: #f7fbff;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-functional-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.65rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-functional-head span {
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-functional-head strong {
+    color: #1d4ed8;
+    font-size: 1.2rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-functional-card meter {
+    display: block;
+    width: 100%;
+    height: 0.7rem;
+    accent-color: #3b82f6;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-functional-card small {
+    display: block;
+    margin-top: 0.55rem;
+    color: #94a3b8;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-functional-missing {
+    display: flex;
+    align-items: center;
+    min-height: 1.05rem;
+    color: #94a3b8;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-observation-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-observation-grid article {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid #cdebe6;
+    border-radius: 14px;
+    background: #f2fbf9;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-observation-grid span {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: #0f766e;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.65;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-observation-grid strong {
+    display: block;
+    color: #134e4a;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.65;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-summary-narrative {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-summary-narrative p {
+    margin: 0;
+    padding: 1rem;
+    border-left: 3px solid #5eead4;
+    border-radius: 0 12px 12px 0;
+    background: #f8fafc;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.65;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-summary-detail {
+    align-self: stretch;
+    border: 1px solid #cdebe6;
+    border-radius: 12px;
+    background: #f8fafc;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-summary-detail h5 {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid #cdebe6;
+    color: #0f766e;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-summary-detail p {
+    border-top: 1px solid #cdebe6;
+    border-left: 0;
+    border-radius: 0;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-role-grid.is-static {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-role-detail {
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ddd6fe !important;
+    border-radius: 14px !important;
+    background: #fbfaff !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-role-detail header {
+    padding: 1rem 1.1rem;
+    border-bottom: 1px solid #ede9fe;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-role-detail header small {
+    display: block;
+    color: #7c3aed;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-role-detail header h5 {
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+    color: #312e81;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-role-detail .playlab-report-role-copy {
+    margin: 0 !important;
+    padding: 1rem 1.1rem 1.2rem;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    line-height: 1.65 !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-visual-plan .playlab-report-training-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+}
+
+body.playlab-report-document-flow .playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-visual-plan {
+    padding: 1.5rem !important;
+    border-radius: 18px !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-visual-plan .playlab-report-section-head {
+    padding: 0 0 1rem !important;
+    border-bottom: 1px solid #fde3aa;
+}
+
+body.playlab-report-document-flow .playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-visual-plan .playlab-report-training-list {
+    margin-top: 1rem !important;
+    border-top: 0 !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-visual-plan .playlab-report-training-item {
+    position: relative;
+    min-width: 0;
+    padding: 1.15rem 1.15rem 1.2rem 3.5rem !important;
+    border: 1px solid #fde3aa !important;
+    border-radius: 14px !important;
+    background: #fffbeb !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-plan-index {
+    position: absolute;
+    top: 1.05rem;
+    left: 1rem;
+    color: #d97706;
+    font-size: 0.72rem;
+    font-weight: 900;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-evidence-drawer {
+    padding: 1.5rem !important;
+    overflow: hidden;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-evidence-heading {
+    margin-bottom: 1rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-evidence-stack {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    padding: 0;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+    .playlab-report-training-copy,
+    .playlab-report-evidence-list,
+    .playlab-report-reference-list
+) {
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    line-height: 1.65 !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-training-title {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    line-height: 1.5 !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+    .playlab-report-section-intro,
+    .playlab-report-observation-grid strong,
+    .playlab-report-summary-narrative > p,
+    .playlab-report-summary-detail > p,
+    .playlab-report-role-copy,
+    .playlab-report-training-copy,
+    .playlab-report-evidence-list
+) {
+    font-family: Pretendard, "Apple SD Gothic Neo", sans-serif !important;
+    font-size: 14px !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    line-height: 1.65 !important;
+    letter-spacing: 0 !important;
+}
+
+body.playlab-report-document-flow .playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+    .playlab-report-summary-narrative,
+    .playlab-report-role-copy,
+    .playlab-report-training-copy,
+    .playlab-report-evidence-list
+) .playlab-report-sentence {
+    color: inherit !important;
+    font-size: inherit !important;
+    font-style: normal !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+    .playlab-report-indicator-note,
+    .playlab-report-disclaimer,
+    .playlab-report-reference-list
+) {
+    color: #7c8796 !important;
+    font-size: 0.68rem !important;
+    font-weight: 500 !important;
+    line-height: 1.55 !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-guardian-visual-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-guardian-visual-card {
+    position: relative;
+    min-width: 0;
+    min-height: 140px;
+    padding: 1.15rem 1.2rem 1.2rem 3.75rem;
+    border: 1px solid #dbeafe;
+    border-radius: 16px;
+    background: #f8fbff;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-guardian-visual-card:last-child {
+    grid-column: 1 / -1;
+    min-height: 0;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-card-index {
+    position: absolute;
+    top: 1.12rem;
+    left: 1.2rem;
+    color: #60a5fa;
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-guardian-visual-card h5 {
+    margin: 0 0 0.55rem;
+    color: #1e3a8a;
+    font-size: 0.94rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-guardian-visual-card p {
+    margin: 0;
+    color: #475569;
+    font-size: 0.84rem;
+    line-height: 1.68;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-guardian-profile {
+    margin-top: 1.25rem;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-shared-footer {
+    margin: 2rem 0 0;
+    padding: 1.35rem 1.5rem;
+    border-top: 1px solid #dbe7f3;
+    background: #f8fafc;
+    color: #475569;
+    text-align: center;
+    break-inside: avoid;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-shared-footer > p {
+    margin: 0;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+}
+
+.playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-shared-footer small {
+    display: block;
+    margin-top: 0.65rem;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+    .playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-profile-visual-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+        .playlab-report-session-metric-grid,
+        .playlab-report-functional-grid,
+        .playlab-report-observation-grid,
+        .playlab-report-visual-plan .playlab-report-training-list
+    ) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+        .playlab-report-summary-narrative,
+        .playlab-report-evidence-stack
+    ) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 620px) {
+    body.playlab-report-document-flow .playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-visual-plan {
+        padding: 1rem !important;
+    }
+    .playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+        .playlab-report-session-card,
+        .playlab-report-profile-card,
+        .playlab-report-visual-summary,
+        .playlab-report-detail-evidence,
+        .playlab-report-visual-plan,
+        .playlab-report-guardian-visual
+    ) {
+        padding: 1rem;
+        border-radius: 14px;
+    }
+    .playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+        .playlab-report-session-metric-grid,
+        .playlab-report-functional-grid,
+        .playlab-report-observation-grid,
+        .playlab-report-role-grid.is-static,
+        .playlab-report-visual-plan .playlab-report-training-list,
+        .playlab-report-guardian-visual-grid
+    ) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .playlab-report-shell-standalone[data-report-scope="rehab"] .playlab-report-guardian-visual-card:last-child {
+        grid-column: auto;
+    }
+}
+
+@media print {
+    body.playlab-report-document-flow .playlab-report-shell-standalone[data-report-scope="rehab"] > .playlab-report-mode-panel {
+        display: none !important;
+    }
+    .playlab-report-shell-standalone[data-report-scope="rehab"] :is(
+        .playlab-report-session-card,
+        .playlab-report-profile-card,
+        .playlab-report-visual-summary,
+        .playlab-report-detail-evidence,
+        .playlab-report-visual-plan,
+        .playlab-report-guardian-visual,
+        .playlab-report-role-detail,
+        .playlab-report-evidence-drawer
+    ) {
+        break-inside: avoid;
+        box-shadow: none !important;
+    }
+}

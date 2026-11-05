@@ -1,0 +1,1541 @@
+.musicartlab-shell {
+  --musicartlab-topbar-height: 76px;
+  --musicartlab-accent: #10b981;
+  --musicartlab-ink: #172033;
+  --musicartlab-muted: #607089;
+  --musicartlab-panel: rgba(255, 255, 255, 0.94);
+  --musicartlab-line: rgba(15, 23, 42, 0.12);
+  min-height: 100svh;
+  color: var(--musicartlab-ink);
+  background: none;
+}
+
+.musicartlab-shell .shell-main {
+  display: block;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: calc(100svh - var(--musicartlab-topbar-height));
+  height: calc(100svh - var(--musicartlab-topbar-height));
+  overflow: auto;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(16, 185, 129, 0.16), transparent 25%),
+    radial-gradient(circle at 92% 20%, rgba(249, 115, 22, 0.16), transparent 24%),
+    linear-gradient(180deg, #f8fafc 0%, #eef2ff 47%, #ecfeff 100%);
+}
+
+.musicartlab-main {
+  width: 100%;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.musicartlab-screen {
+  display: none;
+}
+
+.musicartlab-screen.is-active {
+  display: block;
+}
+
+.musicartlab-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.musicartlab-stage-card,
+.musicartlab-panel,
+.musicartlab-result-card,
+.musicartlab-help-card {
+  background: var(--musicartlab-panel);
+  border: 1px solid var(--musicartlab-line);
+  border-radius: 22px;
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.14);
+}
+
+.musicartlab-stage-card {
+  min-height: 176px;
+  padding: 22px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.musicartlab-stage-card:hover,
+.musicartlab-stage-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--musicartlab-accent), white 24%);
+  box-shadow: 0 28px 80px rgba(15, 23, 42, 0.18);
+  outline: none;
+}
+
+.musicartlab-stage-number,
+.musicartlab-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--musicartlab-accent), white 84%);
+  color: color-mix(in srgb, var(--musicartlab-accent), #020617 32%);
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.musicartlab-stage-card h2,
+.musicartlab-panel h1,
+.musicartlab-result-card h2 {
+  margin: 14px 0 8px;
+  font-size: clamp(1.3rem, 2.6vw, 2rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.musicartlab-stage-card p,
+.musicartlab-panel p,
+.musicartlab-result-card p {
+  margin: 0;
+  color: var(--musicartlab-muted);
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+.musicartlab-stage-meta,
+.musicartlab-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.musicartlab-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.06);
+  color: #334155;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.musicartlab-panel,
+.musicartlab-result-card {
+  min-height: calc(100svh - var(--musicartlab-topbar-height));
+  padding: clamp(14px, 2vw, 24px);
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.musicartlab-lesson-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.musicartlab-progress {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.06);
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.musicartlab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.musicartlab-action-btn,
+.musicartlab-secondary-btn {
+  min-height: 52px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 22px;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.musicartlab-action-btn {
+  background: var(--musicartlab-accent);
+  color: #fff;
+  box-shadow: 0 14px 32px color-mix(in srgb, var(--musicartlab-accent), transparent 68%);
+}
+
+.musicartlab-secondary-btn {
+  background: #fff;
+  color: #172033;
+  border: 1px solid var(--musicartlab-line);
+}
+
+.musicartlab-status {
+  min-height: 44px;
+  margin: 18px 0;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--musicartlab-line);
+  color: #334155;
+  font-weight: 800;
+  text-align: center;
+}
+
+.musicartlab-piano-wrap {
+  position: relative;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: clamp(22px, 3.2vw, 36px) clamp(14px, 2.2vw, 26px) clamp(26px, 3.6vw, 42px);
+  border-radius: 34px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.14), transparent 28%),
+    linear-gradient(135deg, #0f172a 0%, #1e293b 45%, #111827 100%);
+  border: 6px solid #334155;
+  box-shadow:
+    inset 0 8px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -18px 30px rgba(0, 0, 0, 0.42),
+    0 26px 58px rgba(15, 23, 42, 0.28);
+  perspective: 1200px;
+}
+
+.musicartlab-piano {
+  display: grid;
+  grid-template-columns: repeat(var(--musicartlab-key-count, 5), minmax(54px, 1fr));
+  gap: 7px;
+  position: relative;
+  min-height: clamp(250px, 36vh, 410px);
+  padding-top: 34px;
+  z-index: 1;
+}
+
+.musicartlab-key {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: clamp(224px, 33vh, 370px);
+  padding: 0 8px 24px;
+  border: 0;
+  border-radius: 0 0 22px 22px;
+  background:
+    linear-gradient(90deg, rgba(15, 23, 42, 0.08), transparent 14%, transparent 86%, rgba(15, 23, 42, 0.1)),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 55%, #dbeafe 82%, #bfdbfe 100%);
+  color: #111827;
+  font-weight: 950;
+  font-size: clamp(1rem, 1.8vw, 1.28rem);
+  cursor: pointer;
+  transform: rotateX(0deg) translateY(0);
+  transform-origin: top center;
+  transition: transform 100ms ease, box-shadow 100ms ease, filter 100ms ease;
+  box-shadow:
+    inset 0 -20px 26px rgba(59, 130, 246, 0.22),
+    inset 0 8px 0 rgba(255, 255, 255, 0.98),
+    inset 8px 0 10px rgba(255, 255, 255, 0.74),
+    inset -8px 0 10px rgba(15, 23, 42, 0.08),
+    0 16px 0 #94a3b8,
+    0 26px 24px rgba(15, 23, 42, 0.3);
+}
+
+.musicartlab-key::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: 42%;
+  height: 34%;
+  transform: translateX(-50%);
+  border-radius: 0 0 18px 18px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--key-color), white 14%), var(--key-color));
+  opacity: var(--key-hint-opacity, 0.86);
+  box-shadow: inset 0 -10px 14px rgba(0, 0, 0, 0.14);
+}
+
+.musicartlab-key.is-active,
+.musicartlab-key:active {
+  transform: rotateX(-7deg) translateY(10px);
+  filter: brightness(1.04);
+  box-shadow:
+    inset 0 -12px 18px rgba(59, 130, 246, 0.2),
+    inset 0 5px 0 rgba(255, 255, 255, 0.92),
+    0 6px 0 #94a3b8,
+    0 14px 16px rgba(15, 23, 42, 0.24);
+}
+
+.musicartlab-key.is-disabled {
+  pointer-events: none;
+  opacity: 0.78;
+}
+
+.musicartlab-white-key {
+  overflow: hidden;
+}
+
+.musicartlab-white-key::after {
+  content: "";
+  position: absolute;
+  inset: auto 15% 62px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--key-color, #38bdf8);
+  opacity: var(--key-hint-opacity, 0.86);
+}
+
+.musicartlab-speaker-row {
+  position: absolute;
+  inset: 12px 24px auto;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.musicartlab-speaker-row span {
+  width: clamp(72px, 9vw, 120px);
+  height: 28px;
+  border-radius: 999px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.28) 0 6px, transparent 6px 13px);
+  opacity: 0.8;
+}
+
+.musicartlab-black-key-layer {
+  position: absolute;
+  inset: clamp(54px, 7vh, 84px) clamp(14px, 2.2vw, 26px) auto;
+  height: clamp(96px, 16vh, 168px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.musicartlab-black-key {
+  position: absolute;
+  top: 0;
+  left: calc((100% / var(--musicartlab-key-count, 5)) * var(--black-key-slot) - (100% / var(--musicartlab-key-count, 5) * 0.16));
+  width: calc(100% / var(--musicartlab-key-count, 5) * 0.32);
+  height: 100%;
+  border-radius: 0 0 18px 18px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.14), transparent 28%, transparent 72%, rgba(0, 0, 0, 0.4)),
+    linear-gradient(180deg, #111827 0%, #020617 72%, #1f2937 100%);
+  box-shadow:
+    inset 0 -14px 16px rgba(255, 255, 255, 0.08),
+    inset 6px 0 8px rgba(255, 255, 255, 0.08),
+    0 14px 18px rgba(0, 0, 0, 0.42);
+}
+
+.musicartlab-sequence-preview,
+.musicartlab-palette-row,
+.musicartlab-choice-grid,
+.musicartlab-canvas-board {
+  display: grid;
+  gap: 12px;
+}
+
+.musicartlab-sequence-preview {
+  grid-template-columns: repeat(auto-fit, minmax(46px, 1fr));
+  max-width: 620px;
+  margin: 0 auto 18px;
+}
+
+.musicartlab-note-dot {
+  min-height: 44px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px dashed rgba(15, 23, 42, 0.16);
+}
+
+.musicartlab-note-dot.is-filled {
+  background: var(--note-color, #34d399);
+  border-style: solid;
+}
+
+.musicartlab-art-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  gap: clamp(16px, 2.4vw, 30px);
+  align-items: stretch;
+}
+
+.musicartlab-art-studio {
+  min-height: clamp(460px, 62vh, 720px);
+}
+
+.musicartlab-canvas-board {
+  position: relative;
+  grid-template-columns: repeat(var(--musicartlab-grid-size, 3), minmax(66px, 1fr));
+  align-content: center;
+  min-height: 100%;
+  padding: clamp(18px, 3vw, 34px);
+  border-radius: 30px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.52) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.52) 1px, transparent 1px),
+    linear-gradient(135deg, #fff7ed, #fef9c3 42%, #dcfce7);
+  background-size: 42px 42px, 42px 42px, auto;
+  border: 5px solid #ffffff;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16), inset 0 0 0 2px rgba(251, 146, 60, 0.24);
+}
+
+.musicartlab-canvas-cell,
+.musicartlab-choice {
+  min-height: clamp(112px, 14vh, 176px);
+  aspect-ratio: 1 / 1;
+  border-radius: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.74);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 14px 26px rgba(15, 23, 42, 0.12);
+}
+
+.musicartlab-canvas-cell.is-empty {
+  border: 3px dashed color-mix(in srgb, var(--musicartlab-accent), white 16%);
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.musicartlab-art-shape {
+  width: min(62%, 118px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  background: var(--shape-color, #38bdf8);
+  box-shadow:
+    inset 0 -12px 16px rgba(15, 23, 42, 0.16),
+    inset 0 8px 10px rgba(255, 255, 255, 0.24),
+    0 10px 16px rgba(15, 23, 42, 0.12);
+}
+
+.musicartlab-art-shape.circle {
+  border-radius: 50%;
+}
+
+.musicartlab-art-shape.square {
+  border-radius: 20%;
+}
+
+.musicartlab-art-shape.diamond {
+  border-radius: 20%;
+  transform: rotate(45deg);
+}
+
+.musicartlab-art-shape.triangle {
+  width: 0;
+  height: 0;
+  aspect-ratio: auto;
+  background: transparent;
+  border-left: clamp(34px, 4.2vw, 58px) solid transparent;
+  border-right: clamp(34px, 4.2vw, 58px) solid transparent;
+  border-bottom: clamp(58px, 7vw, 100px) solid var(--shape-color, #38bdf8);
+  box-shadow: none;
+}
+
+.musicartlab-choice-grid {
+  grid-template-columns: repeat(2, minmax(110px, 1fr));
+  gap: 16px;
+}
+
+.musicartlab-choice {
+  cursor: pointer;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.musicartlab-choice:hover,
+.musicartlab-choice:focus-visible {
+  transform: translateY(-4px) rotate(-1deg);
+  border-color: var(--musicartlab-accent);
+  box-shadow: 0 18px 32px color-mix(in srgb, var(--musicartlab-accent), transparent 78%);
+  outline: none;
+}
+
+.musicartlab-sticker-spark {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.16);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.musicartlab-sticker-spark::before,
+.musicartlab-sticker-spark::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 999px;
+  background: var(--musicartlab-accent);
+}
+
+.musicartlab-sticker-spark::after {
+  inset: 17px 7px;
+  transform: rotate(90deg);
+}
+
+.musicartlab-sticker-spark.is-one {
+  top: 14px;
+  right: 16px;
+  transform: rotate(9deg);
+}
+
+.musicartlab-sticker-spark.is-two {
+  bottom: 14px;
+  left: 16px;
+  transform: rotate(-12deg);
+  background: #fef3c7;
+}
+
+.musicartlab-result-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.musicartlab-stat {
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.05);
+}
+
+.musicartlab-stat strong {
+  display: block;
+  margin-top: 6px;
+  font-size: clamp(1.3rem, 2.8vw, 2.2rem);
+}
+
+.musicartlab-help-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.musicartlab-help-modal.is-open {
+  display: flex;
+}
+
+.musicartlab-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.musicartlab-help-card {
+  position: relative;
+  width: min(760px, 100%);
+  max-height: calc(100svh - 48px);
+  overflow: auto;
+  padding: 26px;
+}
+
+.musicartlab-help-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.musicartlab-help-section {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.05);
+}
+
+@media (max-width: 920px) {
+  .musicartlab-shell .shell-main {
+    height: auto;
+    min-height: calc(100svh - var(--musicartlab-topbar-height));
+  }
+
+  .musicartlab-panel,
+  .musicartlab-result-card {
+    min-height: auto;
+  }
+
+  .musicartlab-stage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .musicartlab-art-layout,
+  .musicartlab-lesson-head,
+  .musicartlab-help-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .musicartlab-result-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .musicartlab-main {
+    width: min(100vw - 18px, 1180px);
+  }
+
+  .musicartlab-stage-grid,
+  .musicartlab-choice-grid,
+  .musicartlab-result-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .musicartlab-piano {
+    gap: 5px;
+    min-height: 166px;
+  }
+
+  .musicartlab-key {
+    min-height: 152px;
+    padding-inline: 3px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Final clean single-color override: keep this block last. */
+.musicartlab-shell .shell-main {
+  background: #f4f7fb !important;
+}
+
+.musicartlab-game-panel {
+  background: #f4f7fb !important;
+  color: #172033 !important;
+}
+
+.musicartlab-game-panel .musicartlab-eyebrow {
+  background: #e8eef5 !important;
+  color: #344055 !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-game-panel h1,
+.musicartlab-game-panel p,
+.musicartlab-game-panel .musicartlab-progress {
+  text-shadow: none !important;
+}
+
+.musicartlab-game-panel h1 {
+  color: #172033 !important;
+}
+
+.musicartlab-game-panel p {
+  color: #5b687b !important;
+}
+
+.musicartlab-game-panel .musicartlab-progress {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border: 1px solid #d8dee8 !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-game-console,
+.musicartlab-piano-console,
+.musicartlab-art-console {
+  background: #f4f7fb !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  min-height: calc(100svh - var(--musicartlab-topbar-height)) !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: clamp(14px, 2vw, 24px) !important;
+}
+
+.musicartlab-game-title {
+  color: #ffffff !important;
+  text-shadow: none !important;
+  filter: none !important;
+  font-size: clamp(1.12rem, 2vw, 1.65rem) !important;
+}
+
+.musicartlab-game-title span {
+  display: none !important;
+}
+
+.musicartlab-note-track {
+  background: #d83d34 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-note-dot {
+  background: #f2f4f6 !important;
+  border: 1px solid #cfd6de !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-game-console .musicartlab-status {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border: 1px solid #d8dee8 !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-piano-wrap {
+  background: #ef493d !important;
+  border: 0 !important;
+  border-radius: 0 0 22px 22px !important;
+  box-shadow: none !important;
+  padding: 76px 18px 20px !important;
+}
+
+.musicartlab-game-panel {
+  padding: 0 !important;
+}
+
+.musicartlab-game-panel .musicartlab-lesson-head {
+  display: none !important;
+}
+
+.musicartlab-game-title {
+  margin-top: 0 !important;
+}
+
+.musicartlab-speaker-row {
+  inset: 18px 20px auto !important;
+}
+
+.musicartlab-speaker-row span {
+  width: clamp(140px, 20vw, 240px) !important;
+  height: 52px !important;
+  border-radius: 10px !important;
+  background: #3f454c !important;
+  opacity: 1 !important;
+}
+
+.musicartlab-piano {
+  grid-template-columns: repeat(var(--musicartlab-key-count, 8), minmax(0, 1fr)) !important;
+  min-height: clamp(190px, 26vh, 250px) !important;
+  padding-top: 0 !important;
+  gap: 2px !important;
+}
+
+.musicartlab-key {
+  min-width: 0 !important;
+  min-height: clamp(178px, 25vh, 235px) !important;
+  border-radius: 0 0 7px 7px !important;
+  background: #eef3f5 !important;
+  color: #3c4652 !important;
+  font-size: clamp(0.85rem, 1.15vw, 1.05rem) !important;
+  text-shadow: none !important;
+  transform: translateY(0) !important;
+  filter: none !important;
+  box-shadow:
+    inset -2px 0 0 #cfd6dc,
+    inset 0 -7px 0 #d7dee3,
+    0 3px 0 #c7ced5 !important;
+}
+
+.musicartlab-key::before,
+.musicartlab-white-key::after {
+  display: none !important;
+}
+
+.musicartlab-key.is-active,
+.musicartlab-key:active {
+  transform: translateY(6px) !important;
+  background: #dde5ea !important;
+  box-shadow:
+    inset -2px 0 0 #c4ccd3,
+    inset 0 -3px 0 #c7d0d8,
+    0 1px 0 #b9c1c9 !important;
+}
+
+.musicartlab-key.is-locked {
+  opacity: 0.42 !important;
+}
+
+.musicartlab-black-key-layer {
+  inset: 76px 18px auto !important;
+  height: clamp(88px, 13vh, 122px) !important;
+}
+
+.musicartlab-black-key {
+  width: calc(100% / var(--musicartlab-key-count, 8) * 0.42) !important;
+  left: calc((100% / var(--musicartlab-key-count, 8)) * var(--black-key-slot) - (100% / var(--musicartlab-key-count, 8) * 0.21)) !important;
+  border-radius: 0 0 5px 5px !important;
+  background: #3f454c !important;
+  box-shadow: 0 4px 0 #2d3238 !important;
+  opacity: 1 !important;
+}
+
+.musicartlab-canvas-board {
+  background: #f7f1eb !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-art-console {
+  background: #f4f7fb !important;
+}
+
+.musicartlab-canvas-cell,
+.musicartlab-choice {
+  background: #ffffff !important;
+  border: 1px solid #e1d8d0 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-canvas-cell.is-empty {
+  background: #fffaf5 !important;
+  border: 3px dashed #3f454c !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-art-shape {
+  width: min(62%, 118px) !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-art-shape.circle {
+  border-radius: 50% !important;
+}
+
+.musicartlab-sticker-spark {
+  display: none !important;
+}
+
+@media (max-width: 560px) {
+  .musicartlab-piano-wrap {
+    padding: 58px 8px 12px !important;
+  }
+
+  .musicartlab-speaker-row {
+    inset: 14px 12px auto !important;
+  }
+
+  .musicartlab-speaker-row span {
+    width: 76px !important;
+    height: 36px !important;
+  }
+
+  .musicartlab-piano {
+    min-height: 148px !important;
+    gap: 1px !important;
+  }
+
+  .musicartlab-key {
+    min-height: 144px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .musicartlab-black-key-layer {
+    inset: 58px 8px auto !important;
+    height: 72px !important;
+  }
+}
+
+/* Clean single-color direction requested after visual review */
+.musicartlab-game-panel {
+  background: #f4f7fb;
+  color: #172033;
+}
+
+.musicartlab-game-panel .musicartlab-eyebrow {
+  background: #e8eef5;
+  color: #344055;
+  box-shadow: none;
+}
+
+.musicartlab-game-panel h1 {
+  color: #172033;
+  text-shadow: none;
+}
+
+.musicartlab-game-panel p {
+  color: #5b687b;
+}
+
+.musicartlab-game-panel .musicartlab-progress {
+  background: #ffffff;
+  color: #172033;
+  box-shadow: none;
+  border: 1px solid #d8dee8;
+}
+
+.musicartlab-game-console,
+.musicartlab-art-console {
+  border: 0;
+  background: #ef493d;
+  box-shadow: 0 8px 0 #bf362d;
+}
+
+.musicartlab-game-title {
+  color: #ffffff;
+  font-size: clamp(1.2rem, 2.1vw, 1.75rem);
+  text-shadow: none;
+}
+
+.musicartlab-game-title span {
+  display: none;
+}
+
+.musicartlab-note-track {
+  background: #d83d34;
+  border: 0;
+  box-shadow: none;
+}
+
+.musicartlab-note-dot {
+  background: #f2f4f6;
+  border: 1px solid #cfd6de;
+  box-shadow: none;
+}
+
+.musicartlab-note-dot.is-filled {
+  box-shadow: none;
+}
+
+.musicartlab-game-console .musicartlab-status {
+  background: #ffffff;
+  color: #172033;
+  border: 1px solid #d8dee8;
+  box-shadow: none;
+}
+
+.musicartlab-piano-wrap {
+  border: 0;
+  border-radius: 0 0 22px 22px;
+  background: #ef493d;
+  box-shadow: none;
+  padding: 76px 18px 20px;
+}
+
+.musicartlab-speaker-row {
+  inset: 18px 20px auto;
+}
+
+.musicartlab-speaker-row span {
+  width: clamp(140px, 20vw, 240px);
+  height: 52px;
+  border-radius: 10px;
+  background: #3f454c;
+  opacity: 1;
+}
+
+.musicartlab-piano {
+  min-height: clamp(190px, 26vh, 250px);
+  padding-top: 0;
+  gap: 2px;
+}
+
+.musicartlab-key {
+  min-height: clamp(178px, 25vh, 235px);
+  border-radius: 0 0 7px 7px;
+  background: #eef3f5;
+  color: #3c4652;
+  font-size: clamp(0.9rem, 1.25vw, 1.1rem);
+  text-shadow: none;
+  transform: translateY(0);
+  box-shadow:
+    inset -2px 0 0 #cfd6dc,
+    inset 0 -7px 0 #d7dee3,
+    0 3px 0 #c7ced5;
+}
+
+.musicartlab-key::before,
+.musicartlab-white-key::after {
+  display: none;
+}
+
+.musicartlab-key.is-active,
+.musicartlab-key:active {
+  transform: translateY(6px);
+  filter: none;
+  background: #dde5ea;
+  box-shadow:
+    inset -2px 0 0 #c4ccd3,
+    inset 0 -3px 0 #c7d0d8,
+    0 1px 0 #b9c1c9;
+}
+
+.musicartlab-key.is-locked {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.musicartlab-black-key-layer {
+  inset: 76px 18px auto;
+  height: clamp(88px, 13vh, 122px);
+}
+
+.musicartlab-black-key {
+  width: calc(100% / var(--musicartlab-key-count, 8) * 0.42);
+  left: calc((100% / var(--musicartlab-key-count, 8)) * var(--black-key-slot) - (100% / var(--musicartlab-key-count, 8) * 0.21));
+  border-radius: 0 0 5px 5px;
+  background: #3f454c;
+  box-shadow: 0 4px 0 #2d3238;
+  opacity: 1;
+}
+
+.musicartlab-art-console {
+  background: #ef493d;
+}
+
+.musicartlab-canvas-board {
+  border-radius: 14px;
+  background: #f7f1eb;
+  background-size: auto;
+  box-shadow: none;
+}
+
+.musicartlab-canvas-cell,
+.musicartlab-choice {
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: none;
+  border: 1px solid #e1d8d0;
+}
+
+.musicartlab-canvas-cell.is-empty {
+  border: 3px dashed #3f454c;
+  background: #fffaf5;
+  box-shadow: none;
+}
+
+.musicartlab-choice {
+  background: #ffffff;
+}
+
+.musicartlab-choice:hover,
+.musicartlab-choice:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: none;
+  border-color: #3f454c;
+}
+
+.musicartlab-art-shape {
+  box-shadow: none;
+}
+
+.musicartlab-sticker-spark {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .musicartlab-game-console {
+    border-radius: 14px;
+  }
+
+  .musicartlab-piano-wrap {
+    padding: 58px 8px 12px;
+  }
+
+  .musicartlab-speaker-row {
+    inset: 14px 12px auto;
+  }
+
+  .musicartlab-speaker-row span {
+    width: 76px;
+    height: 36px;
+  }
+
+  .musicartlab-piano {
+    min-height: 148px;
+    gap: 1px;
+  }
+
+  .musicartlab-key {
+    min-height: 144px;
+    font-size: 0.78rem;
+  }
+
+  .musicartlab-black-key-layer {
+    inset: 58px 8px auto;
+    height: 72px;
+  }
+}
+
+/* MusicArtLab game-console redesign */
+.musicartlab-game-panel {
+  background:
+    radial-gradient(circle at 14% 12%, rgba(34, 211, 238, 0.2), transparent 28%),
+    radial-gradient(circle at 90% 18%, rgba(236, 72, 153, 0.16), transparent 25%),
+    linear-gradient(135deg, #1e1b4b 0%, #312e81 46%, #5b21b6 100%);
+  color: #fff;
+  overflow: hidden;
+}
+
+.musicartlab-game-panel .musicartlab-lesson-head {
+  position: relative;
+  z-index: 2;
+  width: min(1120px, 100%);
+  margin: 0 auto clamp(10px, 1.4vw, 16px);
+  padding: 0;
+}
+
+.musicartlab-game-panel .musicartlab-eyebrow {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.26);
+}
+
+.musicartlab-game-panel h1 {
+  color: #ffffff;
+  text-shadow: 0 4px 0 rgba(15, 23, 42, 0.25), 0 12px 24px rgba(15, 23, 42, 0.3);
+}
+
+.musicartlab-game-panel p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.musicartlab-game-panel .musicartlab-progress {
+  background: rgba(255, 255, 255, 0.92);
+  color: #312e81;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
+}
+
+.musicartlab-game-console {
+  position: relative;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  border-radius: clamp(28px, 3vw, 42px);
+  padding: clamp(16px, 2.2vw, 28px);
+  border: 5px solid rgba(255, 255, 255, 0.22);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 18%),
+    linear-gradient(135deg, #6d28d9 0%, #4c1d95 50%, #2e1065 100%);
+  box-shadow:
+    inset 0 12px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -18px 26px rgba(0, 0, 0, 0.25),
+    0 28px 60px rgba(15, 23, 42, 0.34);
+}
+
+.musicartlab-game-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 48px;
+  margin-bottom: 14px;
+  color: #fff;
+  font-size: clamp(1.4rem, 3vw, 2.35rem);
+  font-weight: 950;
+  letter-spacing: 0;
+  text-shadow:
+    0 3px 0 #ec4899,
+    0 0 18px rgba(34, 211, 238, 0.9),
+    0 12px 24px rgba(15, 23, 42, 0.36);
+}
+
+.musicartlab-game-title span {
+  color: #facc15;
+  filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.8));
+}
+
+.musicartlab-note-track {
+  width: min(760px, 100%);
+  margin: 0 auto 12px;
+  padding: 10px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.18);
+}
+
+.musicartlab-note-dot {
+  min-height: 38px;
+  border: 0;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.12), 0 4px 10px rgba(15, 23, 42, 0.18);
+}
+
+.musicartlab-note-dot.is-filled {
+  box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.18), 0 0 18px var(--note-color, #34d399);
+}
+
+.musicartlab-game-console .musicartlab-status {
+  width: min(760px, 100%);
+  margin: 0 auto 16px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #312e81;
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.16);
+}
+
+.musicartlab-piano-wrap {
+  border: 0;
+  border-radius: 28px;
+  padding: clamp(14px, 2vw, 22px) clamp(12px, 1.6vw, 18px) clamp(18px, 2vw, 24px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 26%),
+    linear-gradient(135deg, #7c3aed 0%, #4f46e5 48%, #0f172a 100%);
+  box-shadow:
+    inset 0 8px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -18px 24px rgba(0, 0, 0, 0.24),
+    0 22px 40px rgba(15, 23, 42, 0.32);
+}
+
+.musicartlab-speaker-row {
+  inset: 14px 24px auto;
+}
+
+.musicartlab-piano {
+  min-height: clamp(210px, 31vh, 330px);
+  padding-top: 26px;
+  gap: clamp(8px, 1vw, 13px);
+}
+
+.musicartlab-key {
+  min-height: clamp(188px, 28vh, 310px);
+  border-radius: 18px;
+  color: rgba(15, 23, 42, 0.52);
+  font-size: clamp(1.5rem, 3vw, 2.7rem);
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.3);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--key-color), white 28%) 0%, var(--key-color) 62%, color-mix(in srgb, var(--key-color), #111827 22%) 100%);
+  box-shadow:
+    inset 0 10px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -18px 20px rgba(15, 23, 42, 0.2),
+    inset 8px 0 12px rgba(255, 255, 255, 0.13),
+    inset -8px 0 12px rgba(15, 23, 42, 0.14),
+    0 14px 0 color-mix(in srgb, var(--key-color), #111827 42%),
+    0 25px 28px rgba(15, 23, 42, 0.38);
+}
+
+.musicartlab-key::before {
+  top: 14px;
+  width: 36%;
+  height: 14%;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  opacity: var(--key-hint-opacity, 0.74);
+  box-shadow: none;
+}
+
+.musicartlab-white-key::after {
+  inset: auto 18% 54px;
+  height: 9px;
+  background: rgba(255, 255, 255, 0.54);
+}
+
+.musicartlab-key.is-active,
+.musicartlab-key:active {
+  transform: rotateX(-8deg) translateY(10px) scale(0.985);
+  box-shadow:
+    inset 0 6px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -10px 14px rgba(15, 23, 42, 0.16),
+    0 5px 0 color-mix(in srgb, var(--key-color), #111827 46%),
+    0 14px 18px rgba(15, 23, 42, 0.3);
+}
+
+.musicartlab-black-key-layer {
+  inset: clamp(40px, 5vh, 58px) clamp(12px, 1.6vw, 18px) auto;
+  height: clamp(68px, 10vh, 108px);
+}
+
+.musicartlab-black-key {
+  width: calc(100% / var(--musicartlab-key-count, 5) * 0.22);
+  left: calc((100% / var(--musicartlab-key-count, 5)) * var(--black-key-slot) - (100% / var(--musicartlab-key-count, 5) * 0.11));
+  border-radius: 0 0 13px 13px;
+  opacity: 0.9;
+}
+
+.musicartlab-art-console {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.17), transparent 22%),
+    linear-gradient(135deg, #fb7185 0%, #f97316 42%, #facc15 100%);
+}
+
+.musicartlab-art-studio {
+  min-height: clamp(440px, 58vh, 660px);
+  align-items: stretch;
+}
+
+.musicartlab-canvas-board {
+  border: 0;
+  border-radius: 28px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.32) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.32) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 247, 237, 0.82));
+  background-size: 38px 38px, 38px 38px, auto;
+  box-shadow:
+    inset 0 0 0 5px rgba(255, 255, 255, 0.58),
+    inset 0 -16px 24px rgba(251, 146, 60, 0.1),
+    0 22px 40px rgba(124, 45, 18, 0.2);
+}
+
+.musicartlab-canvas-cell,
+.musicartlab-choice {
+  border: 0;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow:
+    inset 0 8px 0 rgba(255, 255, 255, 0.52),
+    inset 0 -9px 14px rgba(15, 23, 42, 0.08),
+    0 12px 0 rgba(251, 146, 60, 0.18),
+    0 22px 30px rgba(15, 23, 42, 0.16);
+}
+
+.musicartlab-canvas-cell.is-empty {
+  border: 4px dashed #14b8a6;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow:
+    inset 0 0 0 8px rgba(20, 184, 166, 0.08),
+    0 12px 0 rgba(20, 184, 166, 0.18),
+    0 22px 30px rgba(15, 23, 42, 0.14);
+}
+
+.musicartlab-side-pad {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.musicartlab-choice {
+  min-height: clamp(118px, 15vh, 174px);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.86));
+  transform: translateY(0);
+}
+
+.musicartlab-choice:hover,
+.musicartlab-choice:focus-visible {
+  transform: translateY(-7px) scale(1.02);
+}
+
+.musicartlab-art-shape {
+  width: min(62%, 118px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  display: block;
+}
+
+.musicartlab-art-shape.circle {
+  border-radius: 50%;
+}
+
+.musicartlab-art-shape.square {
+  border-radius: 20%;
+}
+
+.musicartlab-art-shape.diamond {
+  width: min(54%, 98px);
+  transform: rotate(45deg);
+}
+
+@media (max-width: 920px) {
+  .musicartlab-game-console {
+    padding: 14px;
+    border-radius: 26px;
+  }
+
+  .musicartlab-game-title {
+    min-height: 36px;
+    margin-bottom: 10px;
+    font-size: 1.32rem;
+  }
+
+  .musicartlab-piano {
+    min-height: 210px;
+  }
+
+  .musicartlab-key {
+    min-height: 190px;
+  }
+}
+
+@media (max-width: 560px) {
+  .musicartlab-game-panel {
+    padding: 10px;
+  }
+
+  .musicartlab-game-panel .musicartlab-lesson-head {
+    margin-bottom: 8px;
+  }
+
+  .musicartlab-piano-wrap {
+    padding: 12px 9px 16px;
+    border-radius: 22px;
+  }
+
+  .musicartlab-piano {
+    min-height: 160px;
+    padding-top: 20px;
+    gap: 6px;
+  }
+
+  .musicartlab-key {
+    min-height: 148px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    box-shadow:
+      inset 0 7px 0 rgba(255, 255, 255, 0.24),
+      inset 0 -12px 15px rgba(15, 23, 42, 0.16),
+      0 9px 0 color-mix(in srgb, var(--key-color), #111827 42%),
+      0 16px 18px rgba(15, 23, 42, 0.32);
+  }
+
+  .musicartlab-black-key-layer {
+    height: 52px;
+    inset: 36px 9px auto;
+  }
+
+  .musicartlab-art-studio {
+    min-height: auto;
+  }
+
+  .musicartlab-canvas-cell,
+  .musicartlab-choice {
+    min-height: 118px;
+  }
+}
+
+/* Final MusicArtLab fullscreen cleanup. Keep this at the end. */
+html,
+body,
+.musicartlab-shell,
+.musicartlab-main,
+.musicartlab-screen {
+  background: #f4f7fb !important;
+}
+
+.musicartlab-shell .shell-main,
+.musicartlab-game-panel,
+.musicartlab-game-console,
+.musicartlab-piano-console,
+.musicartlab-art-console {
+  background: #f4f7fb !important;
+}
+
+.musicartlab-game-panel {
+  padding: 0 !important;
+  color: #172033 !important;
+}
+
+.musicartlab-game-panel .musicartlab-lesson-head,
+.musicartlab-game-title {
+  display: none !important;
+}
+
+.musicartlab-game-console,
+.musicartlab-piano-console,
+.musicartlab-art-console {
+  width: 100% !important;
+  max-width: none !important;
+  min-height: calc(100svh - var(--musicartlab-topbar-height)) !important;
+  margin: 0 !important;
+  padding: clamp(10px, 1.6vw, 18px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-piano-console {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: clamp(12px, 1.9svh, 20px) !important;
+}
+
+.musicartlab-note-track {
+  margin-top: 0 !important;
+  background: #d83d34 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-note-dot {
+  background: #f2f4f6 !important;
+  border: 1px solid #cfd6de !important;
+  box-shadow: none !important;
+}
+
+.musicartlab-piano-wrap {
+  background: #ef493d !important;
+  border: 0 !important;
+  border-radius: 0 0 22px 22px !important;
+  box-shadow: none !important;
+  width: min(1180px, 100%) !important;
+  padding: clamp(70px, 8svh, 96px) clamp(16px, 2.2vw, 26px) clamp(22px, 3svh, 34px) !important;
+}
+
+.musicartlab-piano {
+  min-height: clamp(270px, 44svh, 430px) !important;
+}
+
+.musicartlab-key {
+  min-height: clamp(248px, 41svh, 400px) !important;
+  touch-action: manipulation !important;
+}
+
+.musicartlab-actions.musicartlab-game-actions {
+  gap: clamp(14px, 2vw, 20px) !important;
+  margin-top: 0 !important;
+}
+
+.musicartlab-action-btn,
+.musicartlab-secondary-btn {
+  min-height: 68px !important;
+  min-width: 184px !important;
+  padding: 0 30px !important;
+  border-radius: 18px !important;
+  font-size: 1.08rem !important;
+  line-height: 1.1 !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.musicartlab-action-btn {
+  background: #059669 !important;
+  color: #ffffff !important;
+  border: 3px solid #047857 !important;
+  box-shadow: 0 8px 0 #047857 !important;
+}
+
+.musicartlab-secondary-btn {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border: 3px solid #cbd5e1 !important;
+  box-shadow: 0 8px 0 #cbd5e1 !important;
+}
+
+.musicartlab-action-btn:active,
+.musicartlab-secondary-btn:active {
+  transform: translateY(6px) !important;
+  box-shadow: 0 2px 0 rgba(15, 23, 42, 0.18) !important;
+}
+
+@media (max-width: 920px) {
+  .musicartlab-piano-console {
+    justify-content: flex-start !important;
+  }
+
+  .musicartlab-piano {
+    min-height: clamp(220px, 38svh, 330px) !important;
+  }
+
+  .musicartlab-key {
+    min-height: clamp(202px, 35svh, 304px) !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .musicartlab-actions.musicartlab-game-actions {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .musicartlab-action-btn,
+  .musicartlab-secondary-btn {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}

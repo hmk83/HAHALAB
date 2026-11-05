@@ -1,0 +1,67 @@
+# HAHA LAB free security gates
+
+These checks run on demand and in GitHub-hosted CI. No paid scanner API, model server, daemon or always-on personal computer is required. Public-repository standard runners are free; private-repository quotas and artifact storage have separate GitHub billing limits.
+
+## Gates and source scope
+
+- `security-policy`: validates the curated source index, exact vendor version/hash, pinned action/container references and workflow safety. The self-test verifies redaction, no protected/customer export and stale-index failure.
+- `security-secrets`: upstream Gitleaks 8.30.1 CLI plus two Supabase rules; current curated source and all checked-out Git history. `--redact=100`, inline allow comments disabled and an explicit empty ignore file; raw scanner files are private temporary files and deleted. No whole-path or whole-history baseline is suppressed. Only the generic API-key rule permits the intentionally public `sb_publishable_` prefix. PATs, server keys, Google keys and arbitrary JWTs are not exempted.
+- `security-static`: Semgrep Community Edition 1.156.0 with project-owned local rules. No login, remote rules or telemetry. These focused rules detect direct URL-to-HTML injection, disabled TLS checks, editable user-metadata authorization and embedded server-secret prefixes; they do not establish that all source is vulnerability-free. Rule/parse errors fail the gate.
+- `security-dependencies`: OSV-Scanner 2.7.0 checks an explicit CycloneDX inventory derived from exact npm CDN URLs, pinned vendor metadata, and the root npm lock. Package names/versions are queried, not source or student records. The registry's two `xlsx` advisories classify all npm releases as affected because npm `xlsx` is no longer maintained. The official SheetJS 0.20.3 artifact is newer than the upstream fixed versions 0.19.3 and 0.20.2. Only those two advisory IDs on that exact version and SHA256 are classified as upstream-fixed and retained separately in the safe report; different hashes/versions/advisories remain blocking.
+- `security-zap-baseline`: optional workflow dispatch (`zap=true`) only. Fixed unauthenticated `https://thehahalab.com/` scope, one-minute GET crawler, five-minute passive wait; authentication/API/private/report/query routes excluded. No active attack scan. It cannot verify authenticated tenant isolation. Docker execution must actually complete before claiming it ran.
+
+Workflow checkout tokens are not persisted; permissions default to `contents: read`; no `pull_request_target`, application secrets or write permissions are used. Actions are SHA-pinned and containers digest-pinned. Only sanitized summaries are uploaded, with three-day retention. Source snippets, token strings, raw scanner results, response bodies and customer records are never artifacts.
+
+## Local commands
+
+Use the workspace Node runtime (Node 20+). Official binaries download to a private temp cache and are checksum-verified. Initial download needs internet. The provided Semgrep Docker path requires Docker; a local trusted CE executable of the locked version can be supplied with `HAHALAB_SEMGREP_BIN`. No scanner failure is treated as success.
+
+```sh
+node scripts/security-ci-selftest.mjs
+node scripts/security-ci.mjs policy
+node scripts/security-ci.mjs secrets
+node scripts/security-ci.mjs static
+node scripts/security-ci.mjs dependencies
+```
+
+Do not commit `output/security-ci/` or tool caches. Retained summaries contain only rule/package IDs, allowed source paths, line numbers and counts; they contain no secret values. A failed historical secret finding must be triaged and revoked rather than broadly excluded.
+
+## Current-source publication
+
+`security/source-policy.json` is an explicit allowlist for the current web application, authentication, Worker, Edge Functions, security SQL and tooling. It excludes `.env`, Git history, raw customer records, outputs, backups, original media and `private/playlab/**/*.html`. Protected learning HTML must not be copied to the public repository; check it locally through existing harnesses.
+
+```sh
+node scripts/security-source-snapshot.mjs /absolute/path/to/a-new-empty-snapshot
+```
+
+The destination must be new. Export produces `security/source-index.json` listing hashes of copied files. Review that exact snapshot, run the gates, then publish only those files through a regular reviewable commit. `node scripts/security-source-snapshot.mjs verify` checks it in the published checkout. CI requires the index; a missing or stale index fails. Regenerate it when legitimate code or lockfiles change.
+
+This snapshot does not publish learning HTML/media assets or constitute a full build package. A current GitHub scan does not prove the deployed Worker, database policies, session revocation or two-account isolation: use deployment hash checks and the existing live/transactional security harnesses separately.
+
+## Implementation verification and limitations
+
+On 2026-11-04 the local source policy and self-test passed, Semgrep CE ran against actual curated code with no findings/parse errors, and OSV ran against declared browser/vendor packages plus the exact root npm lock with no blocking findings (the two exact SheetJS vendor registry mismatches remained explicitly listed). Gitleaks scans current source and history independently; an actual history failure is a blocking result and is not converted to a pass by source export. The full CI/Docker and optional passive ZAP results must be checked on GitHub after publication. GitHub administrator protections and real database isolation are configured and verified by the release owner, not by these scripts.
+
+## Reviewed historical browser-only verifier
+
+The actual public repository history contains six detections of one historical reversible Base64 browser access-password verifier (four HTML references and two within the old backup ZIP). These are not Supabase, Cloudflare or other provider API keys. The release owner verified on 2026-11-04 that `/etc/Google%20Gemini.html`, `/etc/1.html` and `/etc/2.html` return 404 and the current admin uses Google login with server authorization, with the old `ACCESS_TOKEN` gate absent. This does not assert that any provider credential was revoked or that this old password was never reused elsewhere.
+
+`security/reviewed-legacy-verifiers.json` records only the exact six immutable commit/path/rule/line fingerprints, not the verifier value or its decoded password. Gitleaks continues to detect them; the runner retains them as `reviewedLegacyVerifierFindings` rather than hiding them. They are nonblocking only for those exact historical fingerprints and only before 2027-02-01T00:00:00Z. Current files, a new commit with the same value, a different provider/key rule or any other fingerprint remains blocking. At expiry all six block again until reviewed. No whole history, path or secret rule is ignored. The larger local repository history is a distinct scope and still has additional blocking detections.
+
+The dependency gate covers the declared exact browser/vendor inventory and the root npm lock. It does not yet inventory every transitive package inside vendored bundles or the separate `scripts/codex-free-tools/pnpm-lock.yaml` toolchain. Do not describe it as complete coverage of every dependency.
+
+## PostgreSQL integrity-check false positives
+
+The tenant transaction probe compares reviewed `pg_get_functiondef` bodies to exact public MD5 integrity digests before creating temporary test fixtures. Gitleaks' generic API-key heuristic mistakes three of these digest literals for credentials. The config allows only those exact three values, only for `generic-api-key`, and only in `scripts/security-tenant-transaction-probe.sql`, with an explicit AND condition. It does not allow arbitrary 32-character hex values, an entire SQL path, JWT/PAT/provider keys, or the same values elsewhere. The scanner self-test confirms that newly generated API secrets in the same path still block and the same digest values in another path remain detected.
+
+## Encrypted offline learning queues
+
+The shared learning queue store encrypts pending source JSON with XChaCha20-Poly1305, a server-issued 32-byte owner key, and a fresh 24-byte nonce. Encoding, namespace, opaque storage handle, key ID and owner scope are authenticated. Browser storage contains ciphertext envelopes; keys stay in memory and are cleared on logout or owner/session changes. Same-session token refresh preserves the key so an offline lesson can finish. Existing canonical payloads and session IDs are preserved for receipt checks.
+
+The no-argument public key RPC is a security-invoker facade. Its private definer verifies the live session and the server's single active teacher mapping. The isolated key table enables RLS and grants no direct table access to anonymous, authenticated or service roles. Keys are stable across owner re-login and are never automatically rotated or deleted. Back up and restore this key table together with learning data: deleting a key can make pending ciphertext unrecoverable.
+
+Verified owners migrate their legacy plaintext only after ciphertext write, readback, decryption and exact source comparison succeed. Other owners' legacy data, corrupt entries and conflicting originals are preserved and hidden until they can be handled safely. New records do not fall back to plaintext. Storage/key failures retain an explicit pending/error state; forced termination while both durable storage and the server are unavailable can still lose RAM-only work.
+
+The pinned browser bundle uses MIT-licensed `@noble/ciphers` 2.4.0 with no runtime dependencies. Its package provenance, license and artifact digest are included in this snapshot. The published Cure53 audit covers version 1.0.0, not the complete current release. See the [official project](https://github.com/paulmillr/noble-ciphers).
+
+This protects browser data at rest. It does not protect data or keys already available to an active same-origin XSS, change Supabase SDK token persistence, or add server exactly-once receipts to the legacy Cardlab `RETURNS void` RPC. A passing scanner is not proof that those separate risks are absent.

@@ -1,0 +1,99 @@
+.haha-feedback-burst {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+
+.haha-feedback-burst.is-show {
+  opacity: 1;
+}
+
+.haha-feedback-burst.is-manual {
+  pointer-events: auto;
+}
+
+.haha-feedback-burst-effect {
+  width: 405px;
+  height: 405px;
+  max-width: min(405px, 84vw);
+  max-height: min(405px, 72vh);
+  transform: translateY(0) scale(1);
+  opacity: 0;
+  filter: drop-shadow(0 18px 26px rgba(15, 23, 42, 0.2));
+  user-select: none;
+}
+
+.haha-feedback-burst-effect svg {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.haha-feedback-burst-close {
+  position: fixed;
+  right: clamp(24px, 4vw, 56px);
+  bottom: clamp(24px, 4vw, 52px);
+  display: none;
+  min-width: 112px;
+  min-height: 54px;
+  padding: 0 1.25rem;
+  border: 0;
+  border-radius: 999px;
+  background: #ffe500;
+  color: #111827;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 1000;
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.22), inset 0 -5px 0 rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+}
+
+.haha-feedback-burst.is-manual .haha-feedback-burst-close {
+  display: inline-grid;
+  place-items: center;
+}
+
+.haha-feedback-burst.is-show .haha-feedback-burst-effect {
+  animation: hahaFeedbackPop 0.58s cubic-bezier(0.2, 0.82, 0.28, 1.2) both;
+}
+
+[data-gamelab-feedback-overlay] .haha-feedback-burst-effect {
+  animation: hahaFeedbackPop 0.58s cubic-bezier(0.2, 0.82, 0.28, 1.2) both;
+}
+
+@keyframes hahaFeedbackPop {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(1);
+  }
+
+  55% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1);
+  }
+
+  78% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 680px) {
+  .haha-feedback-burst-effect {
+    width: min(405px, 82vw);
+    height: min(405px, 82vw);
+    max-width: 88vw;
+    max-height: 68vh;
+  }
+}

@@ -1,0 +1,95 @@
+name: HAHALAB Security
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '23 21 * * 1'
+  workflow_dispatch:
+    inputs:
+      zap:
+        description: Run bounded passive baseline against the fixed public HAHALAB homepage
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: security-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  security-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: node scripts/security-ci-selftest.mjs
+      - run: node scripts/security-ci.mjs policy
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: security-policy-summary
+          path: output/security-ci/policy.json
+          retention-days: 3
+  security-secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - run: node scripts/security-ci-selftest.mjs --gitleaks
+      - run: node scripts/security-ci.mjs secrets
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: security-secrets-summary
+          path: output/security-ci/secrets.json
+          retention-days: 3
+  security-static:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Pull the pinned free Semgrep CE image
+        run: node -e "const {spawnSync}=require('node:child_process');const lock=require('./security/tools.lock.json');const r=spawnSync('docker',['pull',lock.semgrep.image],{stdio:'inherit'});process.exit(r.status??1)"
+      - run: node scripts/security-ci.mjs static
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: security-static-summary
+          path: output/security-ci/static.json
+          retention-days: 3
+  security-dependencies:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: node scripts/security-ci.mjs dependencies
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: security-dependencies-summary
+          path: output/security-ci/dependencies.json
+          retention-days: 3
+  security-zap-baseline:
+    if: github.event_name == 'workflow_dispatch' && inputs.zap == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - run: node scripts/security-zap-baseline.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: security-zap-summary
+          path: output/security-ci/zap.json
+          retention-days: 3

@@ -1,0 +1,376 @@
+.haha-offline-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+        radial-gradient(circle at 20% 18%, rgba(251, 178, 22, 0.2), transparent 26%),
+        radial-gradient(circle at 78% 24%, rgba(98, 171, 255, 0.22), transparent 28%),
+        linear-gradient(180deg, #fffdf7 0%, #f7fbff 55%, #ffffff 100%);
+    color: #111827;
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.haha-offline-overlay.is-visible {
+    display: flex;
+}
+
+.haha-offline-card {
+    width: min(100%, 460px);
+    text-align: center;
+    padding: 42px 34px 34px;
+    border: 1px solid rgba(203, 213, 225, 0.9);
+    border-radius: 32px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 28px 80px rgba(15, 23, 42, 0.14);
+    backdrop-filter: blur(14px);
+}
+
+.haha-offline-loader-wrap {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    margin: 0 auto 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(145deg, rgba(255, 246, 214, 0.95), rgba(235, 247, 255, 0.95));
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.9), 0 18px 42px rgba(98, 171, 255, 0.18);
+}
+
+.haha-offline-loader-badge {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    background: #111827;
+    color: #fee500;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    box-shadow: 0 10px 22px rgba(17, 24, 39, 0.2);
+}
+
+#wifi-loader {
+    --background: #62abff;
+    --front-color: #ef4d86;
+    --front-color-in: #fbb216;
+    --back-color: #c3c8de;
+    --text-color: #414856;
+    width: 74px;
+    height: 74px;
+    border-radius: 50px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#wifi-loader svg {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#wifi-loader svg circle {
+    position: absolute;
+    fill: none;
+    stroke-width: 6px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transform: rotate(-100deg);
+    transform-origin: center;
+}
+
+#wifi-loader svg circle.back {
+    stroke: var(--back-color);
+}
+
+#wifi-loader svg circle.front {
+    stroke: var(--front-color);
+}
+
+#wifi-loader svg.circle-outer {
+    width: 86px;
+    height: 86px;
+}
+
+#wifi-loader svg.circle-outer circle {
+    stroke-dasharray: 62.75 188.25;
+}
+
+#wifi-loader svg.circle-outer circle.back {
+    animation: wifi-outer 1.8s ease infinite 0.3s;
+}
+
+#wifi-loader svg.circle-outer circle.front {
+    animation: wifi-outer 1.8s ease infinite 0.15s;
+}
+
+#wifi-loader svg.circle-outer circle.new {
+    stroke: var(--front-color-in);
+    stroke-dasharray: 0 188.25;
+    animation: wifi-outer-new 1.8s ease infinite;
+}
+
+#wifi-loader svg.circle-middle {
+    width: 60px;
+    height: 60px;
+}
+
+#wifi-loader svg.circle-middle circle {
+    stroke-dasharray: 42.4 127.2;
+}
+
+#wifi-loader svg.circle-middle circle.back {
+    animation: wifi-middle 1.8s ease infinite 0.25s;
+}
+
+#wifi-loader svg.circle-middle circle.front {
+    animation: wifi-middle 1.8s ease infinite 0.1s;
+}
+
+#wifi-loader svg.circle-inner {
+    width: 34px;
+    height: 34px;
+}
+
+#wifi-loader svg.circle-inner circle {
+    stroke-dasharray: 22 66;
+}
+
+#wifi-loader svg.circle-inner circle.back {
+    animation: wifi-inner 1.8s ease infinite 0.2s;
+}
+
+#wifi-loader svg.circle-inner circle.front {
+    animation: wifi-inner 1.8s ease infinite 0.05s;
+}
+
+#wifi-loader .text {
+    position: absolute;
+    bottom: -32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+}
+
+#wifi-loader .text::before,
+#wifi-loader .text::after {
+    content: attr(data-text);
+}
+
+#wifi-loader .text::before {
+    color: var(--text-color);
+}
+
+#wifi-loader .text::after {
+    position: absolute;
+    left: 0;
+    color: var(--front-color-in);
+    width: 0;
+    overflow: hidden;
+    animation: wifi-text 1.8s ease infinite;
+}
+
+.haha-offline-title {
+    margin: 0 0 12px;
+    font-size: 24px;
+    line-height: 1.35;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+}
+
+.haha-offline-copy {
+    margin: 0;
+    color: #666;
+    font-size: 15px;
+    line-height: 1.7;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    word-break: keep-all;
+}
+
+.haha-offline-status {
+    width: fit-content;
+    margin: 18px auto 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(239, 77, 134, 0.09);
+    color: #9f1239;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.haha-offline-status span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ef4d86;
+    box-shadow: 0 0 0 0 rgba(239, 77, 134, 0.5);
+    animation: offline-pulse 1.4s ease infinite;
+}
+
+.haha-offline-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.haha-offline-button {
+    min-height: 48px;
+    border: 0;
+    border-radius: 12px;
+    padding: 0 16px;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.haha-offline-button:active {
+    transform: translateY(1px);
+}
+
+.haha-offline-button:disabled {
+    cursor: wait;
+    opacity: 0.72;
+}
+
+.haha-offline-button--back {
+    background: #eef2f7;
+    color: #111827;
+}
+
+.haha-offline-button--back:hover {
+    background: #d9dde3;
+}
+
+.haha-offline-button--retry {
+    background: #fee500;
+    color: #111827;
+    box-shadow: 0 10px 24px rgba(251, 178, 22, 0.24);
+}
+
+.haha-offline-button--retry:hover {
+    background: #fada00;
+}
+
+@keyframes wifi-outer {
+    0% { stroke-dashoffset: 25; }
+    25% { stroke-dashoffset: 0; }
+    65% { stroke-dashoffset: 301; }
+    80%, 100% { stroke-dashoffset: 276; }
+}
+
+@keyframes wifi-outer-new {
+    0%, 40% { stroke-dasharray: 0 188.25; }
+    55% { stroke-dasharray: 62.75 125.5; }
+    100% { stroke-dasharray: 0 188.25; }
+}
+
+@keyframes wifi-middle {
+    0% { stroke-dashoffset: 17; }
+    25% { stroke-dashoffset: 0; }
+    65% { stroke-dashoffset: 203; }
+    80%, 100% { stroke-dashoffset: 186; }
+}
+
+@keyframes wifi-inner {
+    0% { stroke-dashoffset: 9; }
+    25% { stroke-dashoffset: 0; }
+    65% { stroke-dashoffset: 105; }
+    80%, 100% { stroke-dashoffset: 96; }
+}
+
+@keyframes wifi-text {
+    0%, 25% { width: 0; }
+    60%, 100% { width: 100%; }
+}
+
+@keyframes offline-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(239, 77, 134, 0.45); }
+    70% { box-shadow: 0 0 0 8px rgba(239, 77, 134, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 77, 134, 0); }
+}
+
+.haha-offline-toast {
+    position: fixed;
+    left: 50%;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    z-index: 100001;
+    width: min(calc(100% - 32px), 560px);
+    transform: translate(-50%, 18px);
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 999px;
+    background: rgba(17, 24, 39, 0.94);
+    color: #fff;
+    padding: 14px 20px;
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.22);
+    font-size: 15px;
+    line-height: 1.45;
+    font-weight: 800;
+    text-align: center;
+    word-break: keep-all;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.haha-offline-toast.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+@media (max-width: 480px) {
+    .haha-offline-overlay {
+        padding: 20px;
+    }
+
+    .haha-offline-card {
+        padding: 34px 22px 26px;
+        border-radius: 26px;
+    }
+
+    .haha-offline-loader-wrap {
+        width: 116px;
+        height: 116px;
+        margin-bottom: 28px;
+    }
+
+    .haha-offline-title {
+        font-size: 20px;
+    }
+
+    .haha-offline-copy {
+        font-size: 14px;
+    }
+
+    .haha-offline-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .haha-offline-toast {
+        bottom: max(18px, env(safe-area-inset-bottom));
+        border-radius: 18px;
+        padding: 13px 16px;
+        font-size: 14px;
+    }
+}

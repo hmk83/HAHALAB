@@ -1,0 +1,941 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Jua&display=swap');
+
+.numberlab-shell {
+    box-sizing: border-box;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-bottom: max(1.6rem, env(safe-area-inset-bottom, 0px));
+}
+
+.numberlab-shell,
+.numberlab-shell button,
+.numberlab-shell input,
+.numberlab-shell textarea,
+.numberlab-shell select {
+    font-family: 'Jua', 'SeoulNotice', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+
+.numberlab-shell [data-numberlab-digit-text="true"] {
+    display: inline-block;
+    font-family: 'Baloo 2', 'Jua', 'SeoulNotice', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    font-variant-numeric: lining-nums;
+}
+
+.numberlab-shell [data-numberlab-panel] :is(
+    [data-numberlab-hidden-option],
+    [data-numberlab-cable-fuel],
+    [data-numberlab-cable-socket],
+    .whitespace-pre-line.text-xl.font-black.break-keep,
+    .text-\[24px\].font-black,
+    .text-\[28px\].font-black,
+    .text-\[30px\].font-black,
+    .text-\[34px\].font-black,
+    .text-\[38px\].font-black,
+    .text-\[40px\].font-black,
+    .text-\[44px\].font-black,
+    .text-\[48px\].font-black,
+    .text-\[52px\].font-black,
+    .text-\[56px\].font-black,
+    .text-\[68px\].font-black,
+    .text-\[120px\].font-black
+) {
+    font-family: 'Baloo 2', 'Jua', 'SeoulNotice', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    font-variant-numeric: lining-nums;
+}
+
+.numberlab-shell .shell-topbar-inner {
+    width: min(1280px, 100%);
+    gap: 0.9rem;
+    padding: 0.62rem 1rem;
+    background: rgba(255, 255, 255, 0.84);
+    border-color: rgba(255, 255, 255, 0.74);
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(29, 74, 108, 0.12);
+    backdrop-filter: blur(14px);
+}
+
+.numberlab-shell .shell-topbar {
+    background: transparent;
+    backdrop-filter: none;
+}
+
+.numberlab-shell .shell-topbar-center {
+    display: none;
+}
+
+.numberlab-shell .shell-brand-title {
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+}
+
+.numberlab-shell .shell-topbar-side {
+    gap: 0.55rem;
+}
+
+.numberlab-shell .shell-main {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 0.9rem;
+}
+
+@keyframes numberlabLegendAnimalBounce {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    32% {
+        transform: scale(1.24) rotate(-8deg);
+    }
+
+    62% {
+        transform: scale(0.92) rotate(4deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes numberlabLegendAnimalRing {
+    0% {
+        opacity: 0.55;
+        transform: scale(0.72);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.5);
+    }
+}
+
+@keyframes numberlabAnimalCardBounce {
+    0% {
+        transform: scale(1);
+    }
+
+    38% {
+        transform: scale(1.16);
+    }
+
+    68% {
+        transform: scale(0.94);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes numberlabAnimalCodingShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-10px);
+    }
+
+    40% {
+        transform: translateX(9px);
+    }
+
+    60% {
+        transform: translateX(-7px);
+    }
+
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+.numberlab-shell .numberlab-legend-chip {
+    position: relative;
+}
+
+.numberlab-shell .numberlab-legend-chip-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.numberlab-shell .numberlab-legend-chip-icon.is-animating {
+    box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+}
+
+.numberlab-shell .numberlab-legend-chip-icon.is-animating img {
+    animation: numberlabLegendAnimalBounce 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+    transform-origin: center;
+}
+
+.numberlab-shell .numberlab-legend-chip-icon.is-animating::after {
+    content: "";
+    position: absolute;
+    inset: -0.18rem;
+    border-radius: 999px;
+    border: 2px solid rgba(16, 185, 129, 0.35);
+    animation: numberlabLegendAnimalRing 0.52s ease-out;
+}
+
+.numberlab-shell .numberlab-legend-chip-badge {
+    min-width: 2.1rem;
+    text-align: center;
+}
+
+.numberlab-shell .numberlab-animal-card-button {
+    cursor: pointer;
+}
+
+.numberlab-shell .numberlab-animal-card-button:disabled {
+    cursor: default;
+}
+
+.numberlab-shell .numberlab-animal-card-button.is-animating {
+    animation: numberlabAnimalCardBounce 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 16px 28px rgba(16, 185, 129, 0.16);
+}
+
+.numberlab-shell .numberlab-animal-card-button.is-animating img {
+    animation: numberlabAnimalCardBounce 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.numberlab-shell .numberlab-animal-card-button.is-counted {
+    border: 2px solid rgba(16, 185, 129, 0.22);
+    background: linear-gradient(180deg, #ffffff 0%, #ecfdf5 100%);
+    box-shadow: 0 10px 24px rgba(16, 185, 129, 0.1);
+}
+
+.numberlab-shell .numberlab-animal-coding-panel.is-shaking {
+    animation: numberlabAnimalCodingShake 0.42s ease-in-out;
+}
+
+.numberlab-shell .numberlab-animal-choice-button.is-wrong {
+    border-color: rgba(244, 63, 94, 0.42);
+    background: linear-gradient(180deg, #fff1f2 0%, #ffe4e6 100%);
+    box-shadow: 0 14px 28px rgba(244, 63, 94, 0.18);
+}
+
+.numberlab-shell .shell-screen {
+    width: min(1280px, 100%);
+}
+
+.numberlab-shell .shell-screen.is-active {
+    justify-content: flex-start;
+}
+
+.numberlab-shell-selection,
+.numberlab-shell-learning {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: calc(100vh - 74px - 1.4rem);
+    min-height: calc(100dvh - 74px - 1.4rem);
+}
+
+.numberlab-shell-content,
+.numberlab-shell-selection-content,
+.numberlab-shell-stage-wrap {
+    width: 100%;
+}
+
+.numberlab-shell-learning {
+    justify-content: center;
+}
+
+.numberlab-shell .shell-screen.numberlab-shell-learning.is-active {
+    justify-content: center;
+}
+
+.numberlab-shell-learning .numberlab-shell-content,
+.numberlab-shell-learning .numberlab-shell-stage-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 0;
+}
+
+.numberlab-shell [data-numberlab-panel="addition-drag"],
+.numberlab-shell [data-numberlab-panel="subtraction-drag"] {
+    margin-block: auto;
+}
+
+.numberlab-shell [data-numberlab-arithmetic-visual] {
+    overflow: visible;
+}
+
+.numberlab-shell [data-numberlab-arithmetic-dot-panel] {
+    align-content: center;
+    min-height: 132px;
+}
+
+.numberlab-shell [data-numberlab-arithmetic-dot-group="true"] {
+    overflow: visible;
+}
+
+.numberlab-shell [data-numberlab-panel="operation-board"] {
+    margin-block: auto;
+}
+
+.numberlab-shell .numberlab-standalone-result-view {
+    width: min(960px, 100%);
+    max-height: none;
+    margin: auto;
+    align-self: center;
+    overflow: visible;
+    padding: 0.25rem 0.35rem 0.65rem;
+}
+
+.numberlab-shell .numberlab-standalone-result-view > .grid {
+    align-items: stretch;
+}
+
+.numberlab-shell [data-numberlab-operation-board] {
+    min-height: clamp(320px, 46vh, 450px);
+}
+
+.numberlab-shell [data-numberlab-operation-path] {
+    align-content: center;
+}
+
+.numberlab-shell [data-numberlab-operation-choices-panel] {
+    align-self: center;
+}
+
+.numberlab-shell [data-numberlab-operation-choice="true"] {
+    min-height: 102px !important;
+}
+
+.numberlab-shell [data-numberlab-cable-fuel] {
+    font-size: 72px !important;
+    line-height: 1 !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option] {
+    font-size: clamp(4.5rem, 7vw, 6.5rem) !important;
+    line-height: 1 !important;
+    border: 0 !important;
+    color: #ffffff !important;
+    text-shadow: 0 2px 0 rgba(15, 23, 42, 0.14);
+    box-shadow:
+        inset 0 -10px 0 rgba(15, 23, 42, 0.12),
+        inset 0 5px 0 rgba(255, 255, 255, 0.2),
+        0 14px 24px rgba(15, 23, 42, 0.16) !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option="1"] {
+    background: #ff6b6b !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option="2"] {
+    background: #ff9f1c !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option="3"] {
+    background: #ffd166 !important;
+    color: #3a2a00 !important;
+    text-shadow: 0 2px 0 rgba(255, 255, 255, 0.34);
+}
+
+.numberlab-shell [data-numberlab-hidden-option="4"] {
+    background: #22c55e !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option="5"] {
+    background: #14b8a6 !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option="6"] {
+    background: #38bdf8 !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option="7"] {
+    background: #3b82f6 !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option="8"] {
+    background: #8b5cf6 !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option="9"] {
+    background: #ec4899 !important;
+}
+
+.numberlab-shell [data-numberlab-hidden-option="10"] {
+    background: #f97316 !important;
+}
+
+.numberlab-shell [data-numberlab-animal-card],
+.numberlab-shell [data-numberlab-cable-fuel] {
+    touch-action: none;
+    user-select: none;
+}
+
+.numberlab-shell-selection-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.numberlab-shell .shell-header-change-btn,
+.numberlab-shell .shell-help-btn,
+.numberlab-shell .shell-home-btn {
+    min-height: 42px;
+    border-radius: 999px;
+    box-shadow: 0 14px 24px rgba(73, 109, 162, 0.14);
+}
+
+.numberlab-shell .shell-header-change-btn,
+.numberlab-shell .shell-help-btn {
+    background: linear-gradient(180deg, rgba(255, 250, 240, 0.98) 0%, rgba(255, 237, 203, 0.94) 100%);
+    border: 1px solid rgba(255, 201, 124, 0.62);
+    color: #9b5b14;
+}
+
+.numberlab-shell .shell-header-change-btn {
+    padding-inline: 1rem;
+}
+
+.numberlab-shell .shell-help-btn {
+    min-width: 42px;
+    padding: 0 0.9rem;
+    font-size: 1rem;
+}
+
+.numberlab-shell .shell-home-btn {
+    background: linear-gradient(180deg, #ffcf6e 0%, #ffa546 100%);
+    box-shadow: 0 16px 28px rgba(255, 152, 63, 0.24);
+}
+
+.numberlab-shell-hero {
+    padding: clamp(1rem, 2vw, 1.4rem);
+    border-radius: 36px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 243, 224, 0.28) 100%),
+        rgba(255, 255, 255, 0.24);
+    border: 1px solid rgba(255, 255, 255, 0.52);
+    box-shadow: 0 22px 48px rgba(66, 91, 160, 0.16);
+    backdrop-filter: blur(16px) saturate(120%);
+    text-align: center;
+}
+
+.numberlab-shell-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0.8rem 1.25rem;
+    border-radius: 999px;
+    background: rgba(255, 247, 221, 0.98);
+    color: #a65f00;
+    font-size: 0.86rem;
+    font-weight: 900;
+    letter-spacing: 0.01em;
+    box-shadow: inset 0 -4px 0 rgba(255, 191, 73, 0.22);
+}
+
+.numberlab-shell-step-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.7rem;
+    margin-top: 0.95rem;
+}
+
+.numberlab-shell-step-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0.65rem 1rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(255, 212, 142, 0.7);
+    color: #815020;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 20px rgba(79, 111, 159, 0.1);
+}
+
+.numberlab-shell-guide-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.numberlab-shell-guide-card {
+    padding: 1.25rem 1.35rem;
+    border-radius: 30px;
+    background:
+        radial-gradient(circle at top right, rgba(255, 242, 214, 0.9) 0%, rgba(255, 255, 255, 0) 36%),
+        rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 18px 36px rgba(49, 92, 138, 0.12);
+}
+
+.numberlab-shell-guide-label {
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    color: #9aa8c0;
+}
+
+.numberlab-shell-guide-title {
+    margin: 0.6rem 0 0;
+    font-size: clamp(1.35rem, 2vw, 1.7rem);
+    line-height: 1.1;
+    font-weight: 900;
+    color: #3b4b68;
+}
+
+.numberlab-shell-guide-copy {
+    margin: 0.6rem 0 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 700;
+    color: #66758d;
+    word-break: keep-all;
+}
+
+.numberlab-shell-stage-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+.numberlab-shell .numberlab-shell-main:has(.numberlab-shell-selection.is-active) {
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: clamp(1.1rem, 3vh, 2.25rem);
+    padding-bottom: clamp(1rem, 2.5vh, 1.6rem);
+    overflow-y: visible;
+}
+
+.numberlab-shell .shell-screen.numberlab-shell-selection.is-active {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: min(1180px, 100%);
+    min-height: auto;
+    max-height: none;
+    overflow: visible;
+}
+
+.numberlab-shell-selection .numberlab-shell-selection-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: min-content;
+}
+
+.numberlab-shell-selection .numberlab-shell-stage-grid {
+    max-height: none;
+    margin-block: 0 auto;
+    overflow: visible;
+    padding: 0.2rem 0 0.35rem;
+}
+
+.numberlab-shell [data-cardlab-stage-card] {
+    border-radius: 30px;
+    border-color: rgba(255, 221, 165, 0.88) !important;
+    background:
+        radial-gradient(circle at top right, rgba(255, 239, 204, 0.92) 0%, rgba(255, 255, 255, 0) 38%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 248, 236, 0.96) 100%) !important;
+    box-shadow: 0 20px 34px rgba(42, 76, 128, 0.12) !important;
+}
+
+.numberlab-shell [data-cardlab-stage-card] [data-cardlab-stage-title] {
+    color: #3e4d69 !important;
+    font-size: 18px !important;
+    line-height: 1.28 !important;
+    letter-spacing: -0.01em;
+}
+
+.numberlab-shell [data-cardlab-stage-card] [data-cardlab-stage-copy] p {
+    font-size: 15px !important;
+    line-height: 1.42 !important;
+}
+
+.numberlab-shell [data-cardlab-stage-card] [data-cardlab-stage-status] {
+    border-color: rgba(255, 199, 107, 0.72) !important;
+    border-radius: 999px;
+}
+
+.numberlab-shell [data-cardlab-stage-card] [data-cardlab-stage-cta] {
+    border-radius: 999px;
+    border-color: rgba(255, 196, 107, 0.68) !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #92510d !important;
+}
+
+.numberlab-shell .help-modal-card,
+.numberlab-shell .confirm-modal-card {
+    border-radius: 30px;
+}
+
+.numberlab-shell-stage-wrap [data-numberlab-panel],
+.numberlab-shell-stage-wrap [data-numberlab-stage-shell],
+.numberlab-shell-stage-wrap [data-numberlab-result-summary],
+.numberlab-shell-stage-wrap [data-numberlab-success-overlay] {
+    width: 100%;
+}
+
+@media (min-width: 768px) and (max-width: 1280px) and (max-height: 900px) {
+    .numberlab-shell {
+        padding-bottom: max(0.9rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    .numberlab-shell .shell-main {
+        padding-top: 0.45rem;
+    }
+
+    .numberlab-shell .shell-topbar-inner {
+        width: min(1180px, 100%);
+        gap: 0.65rem;
+        padding: 0.45rem 0.75rem;
+    }
+
+    .numberlab-shell .shell-screen {
+        width: min(1180px, 100%);
+    }
+
+    .numberlab-shell-selection,
+    .numberlab-shell-learning {
+        min-height: calc(100vh - 58px - 0.8rem);
+        min-height: calc(100dvh - 58px - 0.8rem);
+    }
+
+    .numberlab-shell .shell-screen.is-active {
+        min-height: auto;
+    }
+
+    .numberlab-shell-hero {
+        padding: 0.85rem;
+        border-radius: 28px;
+    }
+
+    .numberlab-shell-badge {
+        min-height: 34px;
+        padding: 0.5rem 0.9rem;
+        font-size: 0.76rem;
+    }
+
+    .numberlab-shell-step-row {
+        gap: 0.5rem;
+        margin-top: 0.65rem;
+    }
+
+    .numberlab-shell-step-pill {
+        min-height: 34px;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.86rem;
+    }
+
+    .numberlab-shell-guide-grid {
+        gap: 0.75rem;
+    }
+
+    .numberlab-shell-guide-card {
+        padding: 0.9rem 1rem;
+        border-radius: 24px;
+    }
+
+    .numberlab-shell-guide-title {
+        font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+    }
+
+    .numberlab-shell-guide-copy {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .numberlab-shell-stage-grid {
+        width: min(1180px, 100%);
+        gap: 0.75rem;
+    }
+
+    .numberlab-shell [data-cardlab-stage-card] {
+        border-radius: 24px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1280px) and (max-height: 760px) {
+    .numberlab-shell {
+        padding-bottom: max(0.35rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    .numberlab-shell .shell-main {
+        padding-top: 0.25rem;
+    }
+
+    .numberlab-shell-learning {
+        justify-content: center;
+    }
+
+    .numberlab-shell-stage-wrap > [class*="max-w-["] {
+        padding: 0.75rem !important;
+        border-radius: 22px !important;
+    }
+
+    .numberlab-shell-content [class*="mt-5"][class*="grid"][class*="md:grid-cols-2"] {
+        margin-top: 0.75rem !important;
+        gap: 0.75rem !important;
+    }
+
+    .numberlab-shell-content [class*="min-h-[300px]"] {
+        min-height: 270px !important;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .numberlab-shell [data-numberlab-arithmetic-dot-panel] {
+        min-height: 116px;
+    }
+
+    .numberlab-shell [data-numberlab-arithmetic-dot-group="true"] {
+        min-height: 90px !important;
+    }
+
+    .numberlab-shell [data-numberlab-operation-board] {
+        min-height: 300px;
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .numberlab-shell [data-numberlab-operation-choice="true"] {
+        min-height: 86px !important;
+    }
+}
+
+@media (max-width: 1080px) and (min-width: 768px) {
+    .numberlab-shell [data-numberlab-panel="addition-drag"] > .grid,
+    .numberlab-shell [data-numberlab-panel="subtraction-drag"] > .grid {
+        grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    }
+
+    .numberlab-shell [data-numberlab-arithmetic-dot-panel] {
+        gap: 0.65rem;
+        min-height: 144px;
+    }
+
+    .numberlab-shell [data-numberlab-arithmetic-dot-group="true"] {
+        min-width: 176px !important;
+        min-height: 98px !important;
+    }
+}
+
+@media (max-width: 1080px) {
+    .numberlab-shell-stage-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1280px) and (min-width: 1081px) {
+    .numberlab-shell-stage-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .numberlab-shell .shell-main {
+        padding-top: 0.65rem;
+    }
+
+    .numberlab-shell .shell-topbar-inner {
+        padding: 0.58rem 0.8rem;
+    }
+
+    .numberlab-shell-selection,
+    .numberlab-shell-learning {
+        min-height: calc(100vh - 74px - 0.8rem);
+        min-height: calc(100dvh - 74px - 0.8rem);
+    }
+
+    .numberlab-shell-guide-grid,
+    .numberlab-shell-stage-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .numberlab-shell-hero {
+        border-radius: 28px;
+        padding: 1rem 0.9rem;
+    }
+
+    .numberlab-shell-guide-card,
+    .numberlab-shell [data-cardlab-stage-card] {
+        border-radius: 24px;
+    }
+
+    .numberlab-shell-step-row {
+        gap: 0.5rem;
+    }
+
+    .numberlab-shell-step-pill {
+        min-height: 36px;
+        font-size: 0.86rem;
+        padding: 0.55rem 0.85rem;
+    }
+}
+
+.numberlab-shell .shell-screen.numberlab-shell-learning.is-active {
+    min-height: calc(100vh - 74px - 1.4rem);
+    min-height: calc(100dvh - 74px - 1.4rem);
+}
+
+@media (min-width: 1600px) and (min-height: 900px) {
+    .numberlab-shell .numberlab-shell-main:has(.numberlab-shell-selection.is-active) {
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: clamp(1.1rem, 3vh, 2.25rem);
+        padding-bottom: 1rem;
+        overflow-y: visible;
+    }
+
+    .numberlab-shell .numberlab-shell-main:has(.numberlab-shell-learning.is-active) {
+        align-items: center;
+        justify-content: center;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        overflow-y: visible;
+    }
+
+    .numberlab-shell .shell-screen.numberlab-shell-selection.is-active {
+        width: min(1520px, calc(100vw - 5rem));
+        min-height: auto;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .numberlab-shell-selection .numberlab-shell-selection-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .numberlab-shell-selection .numberlab-shell-stage-grid {
+        width: min(1520px, 100%);
+        max-height: none;
+        gap: clamp(1.25rem, 1.45vw, 1.8rem);
+    }
+
+    .numberlab-shell-selection [data-cardlab-stage-card] {
+        min-height: clamp(176px, 11vw, 220px);
+        padding: clamp(1.2rem, 1.35vw, 1.65rem) !important;
+    }
+
+    .numberlab-shell-selection .numberlab-shell-stage-grid:has([data-cardlab-stage-card]:nth-child(17)) {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: clamp(0.8rem, 1vw, 1.2rem);
+    }
+
+    .numberlab-shell-selection .numberlab-shell-stage-grid:has([data-cardlab-stage-card]:nth-child(17)) [data-cardlab-stage-card] {
+        min-height: clamp(132px, 7.5vw, 158px);
+        padding: clamp(0.85rem, 1vw, 1.15rem) !important;
+        border-radius: 24px;
+    }
+
+    .numberlab-shell-selection .numberlab-shell-stage-grid:has([data-cardlab-stage-card]:nth-child(17)) [data-cardlab-stage-title] {
+        font-size: clamp(1rem, 1vw, 1.16rem) !important;
+        line-height: 1.18 !important;
+    }
+
+    .numberlab-shell-selection .numberlab-shell-stage-grid:has([data-cardlab-stage-card]:nth-child(17)) [data-cardlab-stage-copy] p {
+        font-size: clamp(0.82rem, 0.78vw, 0.95rem) !important;
+        line-height: 1.3 !important;
+    }
+
+    .numberlab-shell .shell-screen.numberlab-shell-learning.is-active {
+        width: min(1520px, calc(100vw - 5rem));
+        min-height: calc(100vh - 74px - 2rem);
+        min-height: calc(100dvh - 74px - 2rem);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .numberlab-shell-learning .numberlab-shell-stage-wrap {
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .numberlab-shell-stage-wrap [data-cardlab-stage-runner-root] {
+        width: min(1520px, 100%);
+        margin-inline: auto;
+        align-self: center;
+    }
+
+    .numberlab-shell-stage-wrap > [data-numberlab-panel] {
+        width: min(1520px, 100%);
+        margin-inline: auto;
+        align-self: center;
+        transform: scale(1.11);
+        transform-origin: center;
+    }
+
+    .numberlab-shell-stage-wrap [data-cardlab-stage-runner-body] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: calc(100vh - 150px);
+        min-height: calc(100dvh - 150px);
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        overflow-y: visible !important;
+    }
+
+    .numberlab-shell-stage-wrap [data-cardlab-stage-runner-grid] {
+        width: 100%;
+        transform: scale(1.06);
+        transform-origin: center;
+    }
+
+    .numberlab-shell-stage-wrap [data-numberlab-panel] {
+        max-width: 1520px !important;
+    }
+
+    .numberlab-shell [data-numberlab-panel="addition-drag"],
+    .numberlab-shell [data-numberlab-panel="subtraction-drag"] {
+        min-height: 480px;
+    }
+
+    .numberlab-shell-stage-wrap [data-numberlab-result-summary] {
+        max-width: 1120px !important;
+        transform: scale(1.2);
+        transform-origin: center;
+    }
+
+    .numberlab-shell [data-numberlab-panel="addition-drag"],
+    .numberlab-shell [data-numberlab-panel="addition-family"],
+    .numberlab-shell [data-numberlab-panel="animal-coding"] {
+        margin-block: 0;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1280px) and (max-height: 900px) {
+    .numberlab-shell .shell-screen.numberlab-shell-learning.is-active {
+        min-height: calc(100vh - 58px - 0.8rem);
+        min-height: calc(100dvh - 58px - 0.8rem);
+    }
+}
+
+@media (max-width: 767px) {
+    .numberlab-shell .shell-screen.numberlab-shell-learning.is-active {
+        min-height: calc(100vh - 74px - 0.8rem);
+        min-height: calc(100dvh - 74px - 0.8rem);
+    }
+}

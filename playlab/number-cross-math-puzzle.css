@@ -1,0 +1,628 @@
+.crossmath-shell {
+  --crossmath-accent: #2563eb;
+  --crossmath-accent-2: #f97316;
+  --crossmath-ink: #17233f;
+  --crossmath-muted: #60708a;
+  --crossmath-line: rgba(147, 197, 253, 0.72);
+  --crossmath-card: rgba(255, 255, 255, 0.94);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+html[data-numberlab-category="number-cross-math-puzzle"] body {
+  --shell-page-bg: none;
+  --shell-intro-bg: none;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(249, 115, 22, 0.16), transparent 26%),
+    radial-gradient(circle at 88% 22%, rgba(37, 99, 235, 0.16), transparent 26%),
+    linear-gradient(180deg, #f8fbff 0%, #eef7ff 54%, #fff7ed 100%);
+}
+
+.crossmath-shell .shell-main {
+  min-height: calc(100vh - 82px) !important;
+  min-height: calc(100dvh - 82px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: clamp(0.7rem, 1.3vw, 1.1rem) !important;
+}
+
+.crossmath-screen {
+  display: none;
+  width: min(1280px, 100%);
+  margin: 0 auto;
+}
+
+.crossmath-screen.is-active {
+  display: block;
+}
+
+.crossmath-shell .shell-main:has(#gameView.is-active) {
+  align-items: center !important;
+  justify-content: center !important;
+  padding-top: clamp(0.7rem, 1.3vw, 1.1rem) !important;
+  padding-bottom: clamp(0.7rem, 1.3vw, 1.1rem) !important;
+}
+
+.crossmath-stage-wrap {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.crossmath-stage-title {
+  margin: 0 auto clamp(0.75rem, 1.5vw, 1.15rem);
+  text-align: center;
+}
+
+.crossmath-stage-title h1 {
+  margin: 0;
+  color: var(--crossmath-ink);
+  font-size: clamp(1.55rem, 2.8vw, 2.35rem);
+  line-height: 1.08;
+  font-weight: 1000;
+  letter-spacing: 0;
+  text-shadow: 0 3px 8px rgba(23, 35, 63, 0.16);
+  word-break: keep-all;
+}
+
+.crossmath-stage-title p {
+  margin: 0.24rem 0 0;
+  color: #516681;
+  font-size: clamp(0.78rem, 1vw, 0.95rem);
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.crossmath-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  min-height: 360px;
+  padding: 0.2rem 0 0.4rem;
+}
+
+.crossmath-stage-card {
+  min-height: 158px;
+  padding: 17px;
+  border: 1px solid var(--crossmath-line);
+  border-radius: 22px;
+  background: var(--crossmath-card);
+  color: var(--crossmath-ink);
+  text-align: left;
+  box-shadow: 0 22px 54px rgba(31, 58, 104, 0.15);
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+}
+
+.crossmath-stage-card:hover,
+.crossmath-stage-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--stage-color, var(--crossmath-accent));
+  box-shadow: 0 28px 64px rgba(31, 58, 104, 0.22);
+  outline: none;
+}
+
+.crossmath-stage-card span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: var(--stage-color, var(--crossmath-accent));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+.crossmath-stage-card strong {
+  display: block;
+  margin-top: 12px;
+  color: var(--crossmath-ink);
+  font-size: 18px;
+  font-weight: 1000;
+  line-height: 1.18;
+}
+
+.crossmath-stage-card p {
+  margin: 8px 0 0;
+  color: var(--crossmath-muted);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.42;
+}
+
+.crossmath-game {
+  min-height: min(720px, calc(100dvh - 112px));
+  padding: clamp(0.75rem, 1.4vw, 1.1rem);
+  border: 1px solid rgba(193, 213, 237, 0.78);
+  border-radius: 26px;
+  background: rgba(247, 252, 255, 0.95);
+  box-shadow: 0 26px 72px rgba(20, 45, 76, 0.16);
+}
+
+.crossmath-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.crossmath-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  margin: 0 0 7px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #e8f1ff;
+  color: #3b5d99;
+  font-size: 12px;
+  font-weight: 1000;
+  letter-spacing: 0.04em;
+}
+
+.crossmath-head h1 {
+  margin: 0;
+  color: var(--crossmath-ink);
+  font-size: clamp(1.45rem, 2.4vw, 2.25rem);
+  line-height: 1.08;
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.crossmath-head p {
+  margin: 7px 0 0;
+  color: var(--crossmath-muted);
+  font-size: 0.98rem;
+  font-weight: 800;
+}
+
+.crossmath-status {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.crossmath-status span {
+  min-height: 34px;
+  padding: 8px 11px;
+  border: 1px solid rgba(175, 206, 238, 0.86);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  color: #41617d;
+  font-size: 13px;
+  font-weight: 1000;
+}
+
+.crossmath-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(300px, 0.88fr);
+  gap: 12px;
+  margin-top: 10px;
+  min-height: min(560px, calc(100dvh - 248px));
+}
+
+.crossmath-panel {
+  border: 1px solid rgba(175, 206, 238, 0.8);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.crossmath-problem-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: clamp(0.75rem, 1.5vw, 1.15rem);
+  overflow: hidden;
+  background: #fbf4df;
+}
+
+.crossmath-board {
+  --cross-grid-cols: 5;
+  --cross-grid-rows: 5;
+  --cross-cell: min(6.1vh, 4.2vw, 60px);
+  display: grid;
+  grid-template-columns: repeat(var(--cross-grid-cols), var(--cross-cell));
+  grid-template-rows: repeat(var(--cross-grid-rows), var(--cross-cell));
+  gap: 0;
+  justify-content: center;
+  align-content: center;
+  max-width: 100%;
+  padding: clamp(0.45rem, 1vw, 0.9rem);
+  background: #fbf4df;
+}
+
+.crossmath-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  border: 2px solid #111827;
+  border-radius: 0;
+  background: #fff8d6;
+  color: #111827;
+  font-size: clamp(1.2rem, 2vw, 1.9rem);
+  font-weight: 1000;
+  box-shadow: none;
+  line-height: 1;
+}
+
+.crossmath-cell.is-operator {
+  background: #fff8d6;
+  color: #111827;
+}
+
+.crossmath-cell.is-blank {
+  border: 2px solid #111827;
+  background: #fffef5;
+  color: #1d4ed8;
+  cursor: pointer;
+}
+
+.crossmath-cell.is-active {
+  border: 4px solid var(--crossmath-accent-2);
+  background: #fff5ea;
+  box-shadow: 0 0 0 8px rgba(249, 115, 22, 0.12), 0 16px 32px rgba(249, 115, 22, 0.18);
+}
+
+.crossmath-cell.is-filled {
+  border-style: solid;
+  border-color: rgba(37, 99, 235, 0.72);
+  background: #eff6ff;
+}
+
+.crossmath-cell.is-correct {
+  border-color: rgba(34, 197, 94, 0.92);
+  background: #ecfdf5;
+  color: #15803d;
+}
+
+.crossmath-cell.is-wrong {
+  animation: crossmathShake 0.28s ease;
+  border-color: rgba(239, 68, 68, 0.95);
+  background: #fff1f2;
+  color: #be123c;
+}
+
+.crossmath-empty-cell {
+  background: #eef1f5;
+  border: 1px solid #cfd8e5;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.crossmath-keypad-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 1.4vw, 1.1rem);
+  padding: clamp(0.85rem, 1.3vw, 1.2rem);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 251, 255, 0.94)),
+    radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.08), transparent 42%);
+}
+
+.crossmath-input-card {
+  width: min(100%, 460px);
+  padding: clamp(0.75rem, 1.4vw, 1.05rem);
+  border-radius: 22px;
+  background: #f8fbff;
+  border: 1px solid rgba(175, 206, 238, 0.8);
+}
+
+.crossmath-input-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.crossmath-input-card strong {
+  display: block;
+  margin-top: 4px;
+  color: var(--crossmath-ink);
+  font-size: 18px;
+  font-weight: 1000;
+}
+
+.crossmath-entry-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: clamp(42px, 6vh, 58px);
+  margin-top: 8px;
+  border-radius: 16px;
+  background: #fff;
+  border: 2px solid rgba(37, 99, 235, 0.28);
+  color: #1d4ed8;
+  font-size: 30px;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.crossmath-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.45rem, 1vw, 0.7rem);
+  width: min(100%, 300px);
+  margin: 0 auto;
+}
+
+.crossmath-key {
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  border: 1px solid rgba(147, 197, 253, 0.96);
+  color: #1e3a8a;
+  font-size: clamp(1.25rem, 2.35vw, 2rem);
+  font-weight: 1000;
+  box-shadow: 0 10px 22px rgba(31, 58, 104, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+}
+
+.crossmath-key:hover,
+.crossmath-key:focus-visible {
+  border-color: rgba(37, 99, 235, 0.65);
+  box-shadow: 0 14px 28px rgba(31, 58, 104, 0.16), 0 0 0 4px rgba(147, 197, 253, 0.18);
+  outline: none;
+}
+
+.crossmath-key:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+.crossmath-key.is-wide {
+  grid-column: span 2;
+}
+
+.crossmath-key.is-confirm {
+  background: linear-gradient(180deg, #2563eb, #1d4ed8);
+  border-color: #1d4ed8;
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(37, 99, 235, 0.26);
+}
+
+.crossmath-key.is-delete {
+  color: #be123c;
+  border-color: rgba(244, 63, 94, 0.34);
+  background: linear-gradient(180deg, #fff8fa, #fff1f2);
+}
+
+.crossmath-feedback {
+  min-height: 30px;
+  margin: 0;
+  color: #475569;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.crossmath-feedback.is-correct {
+  color: #15803d;
+}
+
+.crossmath-feedback.is-wrong {
+  color: #be123c;
+}
+
+.crossmath-result-card {
+  width: min(900px, 100%);
+  margin: clamp(1.5rem, 7vh, 4.5rem) auto 0;
+}
+
+.crossmath-result-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.crossmath-result-stat {
+  padding: 14px;
+  border: 1px solid rgba(175, 206, 238, 0.8);
+  border-radius: 18px;
+  background: rgba(248, 251, 255, 0.94);
+  text-align: center;
+}
+
+.crossmath-result-stat span {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.crossmath-result-stat strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--crossmath-ink);
+  font-size: 24px;
+  font-weight: 1000;
+}
+
+.crossmath-report-opinion {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: #f8fbff;
+  border: 1px solid rgba(175, 206, 238, 0.8);
+  color: #475569;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.crossmath-main-btn,
+.crossmath-sub-btn {
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 16px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.crossmath-main-btn {
+  background: #2563eb;
+  color: #fff;
+}
+
+.crossmath-sub-btn {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+@keyframes crossmathShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-7px); }
+  75% { transform: translateX(7px); }
+}
+
+@media (max-width: 1100px) {
+  .crossmath-stage-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .crossmath-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .crossmath-problem-panel {
+    min-height: auto;
+  }
+
+  .crossmath-board {
+    --cross-cell: clamp(34px, 6.8vw, 52px);
+  }
+
+  .crossmath-keypad {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: min(100%, 300px);
+  }
+
+  .crossmath-key.is-wide {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1100px) {
+  .crossmath-workspace {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
+  }
+}
+
+@media (min-width: 1500px) and (min-height: 900px) {
+  .crossmath-keypad {
+    width: min(100%, 340px);
+  }
+
+  .crossmath-input-card {
+    width: min(100%, 520px);
+  }
+}
+
+@media (max-height: 840px) and (min-width: 1000px) {
+  .crossmath-game {
+    min-height: calc(100dvh - 102px);
+    padding: 0.65rem;
+    border-radius: 22px;
+  }
+
+  .crossmath-head h1 {
+    font-size: 1.65rem;
+  }
+
+  .crossmath-head p {
+    margin-top: 3px;
+    font-size: 0.9rem;
+  }
+
+  .crossmath-kicker {
+    min-height: 22px;
+    margin-bottom: 4px;
+    font-size: 11px;
+  }
+
+  .crossmath-status span {
+    min-height: 30px;
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+
+  .crossmath-board {
+    --cross-cell: min(5.5vh, 4vw, 52px);
+    gap: 0;
+  }
+
+  .crossmath-problem-panel {
+    min-height: 100%;
+    padding: 0.65rem;
+  }
+
+  .crossmath-key {
+    border-radius: 14px;
+    font-size: 19px;
+  }
+
+  .crossmath-keypad {
+    width: min(100%, 260px);
+    gap: 0.45rem;
+  }
+
+  .crossmath-input-card {
+    width: min(100%, 420px);
+    padding: 0.65rem 0.8rem;
+  }
+
+  .crossmath-input-card strong {
+    font-size: 16px;
+  }
+
+  .crossmath-entry-display {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 720px) {
+  .crossmath-stage-title h1 {
+    font-size: clamp(1.35rem, 7vw, 1.85rem);
+  }
+
+  .crossmath-stage-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .crossmath-game {
+    border-radius: 20px;
+  }
+
+  .crossmath-head {
+    flex-direction: column;
+  }
+
+  .crossmath-status {
+    justify-content: flex-start;
+  }
+
+  .crossmath-board {
+    --cross-cell: clamp(28px, 8.2vw, 38px);
+    gap: 3px;
+  }
+
+  .crossmath-cell {
+    border-radius: 7px;
+    font-size: clamp(0.98rem, 4.8vw, 1.35rem);
+  }
+
+  .crossmath-keypad {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .crossmath-result-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

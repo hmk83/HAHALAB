@@ -1,0 +1,38 @@
+{
+  "scripts": {
+    "build:class": "npx --yes esbuild class-app.jsx --loader:.jsx=jsx --jsx-factory=React.createElement --jsx-fragment=React.Fragment --format=iife --target=es2020 --outfile=class-app.js",
+    "cardlab:tts-manifest": "node scripts/cardlab-tts-manifest.mjs",
+    "backup": "node scripts/git-checkpoint.mjs",
+    "checkpoint": "node scripts/git-checkpoint.mjs",
+    "playlab:tts-manifest": "node scripts/playlab-tts-manifest.mjs",
+    "playlab:admin-catalog": "node scripts/generate-playlab-admin-catalog.mjs",
+    "public-content-stats": "node scripts/generate-public-content-stats.mjs",
+    "tax-savings:products": "node txt/generate-tax-savings-products.mjs",
+    "preview": "node scripts/serve-preview.mjs",
+    "preview:secure-playlab": "node scripts/serve-secure-playlab-preview.mjs",
+    "seo": "node scripts/generate-seo-files.mjs",
+    "pw:safe": "node scripts/run-playwright-safe.mjs",
+    "harness:billing-trial": "node scripts/validate-billing-trial.mjs",
+    "harness:auth-status-modal": "node scripts/validate-auth-status-modal.mjs",
+    "harness:class-new-withdrawal": "node scripts/validate-class-new-withdrawal.mjs",
+    "harness:calendar-scrollbar": "node scripts/validate-class-new-calendar-scrollbar.mjs",
+    "harness:calendar-birthday": "node scripts/validate-class-new-calendar-birthday.mjs",
+    "harness:calendar-birthday-runtime": "node scripts/validate-class-new-calendar-birthday-runtime.mjs",
+    "harness:anonymous-lab-entry": "node scripts/validate-class-new-anonymous-lab-entry.mjs",
+    "harness:anonymous-lab-entry-runtime": "node scripts/validate-class-new-anonymous-lab-entry-runtime.mjs",
+    "harness:class-onboarding": "node scripts/validate-class-new-onboarding.mjs",
+    "harness:class-onboarding-runtime": "node scripts/validate-class-new-onboarding-runtime.mjs",
+    "harness:lab-recent-order-runtime": "node scripts/validate-class-new-lab-recent-order-runtime.mjs",
+    "harness:lab-discovery-runtime": "node scripts/validate-class-new-lab-discovery-runtime.mjs",
+    "harness:cardlab-idiom-meaning-audio": "node scripts/validate-cardlab-idiom-meaning-audio.mjs",
+    "harness:cardlab-idiom-answer-modal": "node scripts/validate-cardlab-idiom-answer-modal.mjs",
+    "harness:cardlab-study-type-toggle": "node scripts/validate-cardlab-study-type-toggle.mjs",
+    "harness:cardlab-hangul-compose": "node scripts/validate-cardlab-hangul-compose.mjs",
+    "harness:number-learn-trace": "node scripts/validate-number-learn-trace.mjs",
+    "harness:playlab-private": "node scripts/validate-playlab-private.mjs",
+    "harness:run": "node scripts/run-harness.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.62.1"
+  }
+}

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>HAHALAB Mobile</title>
+    <script>
+        (() => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('mobile') === '1') return;
+            const ua = navigator.userAgent || '';
+            const isPhone = /iPhone|iPod|Android.*Mobile|Windows Phone/i.test(ua);
+            const isNarrowTouch = window.matchMedia('(max-width: 767px) and (pointer: coarse)').matches;
+            if (isPhone && isNarrowTouch) return;
+            const next = new URL('class-new.html', window.location.href);
+            window.location.replace(`${next.pathname}${window.location.search}${window.location.hash}`);
+        })();
+    </script>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://gxungzlecmibgvykoiib.supabase.co" crossorigin>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link rel="icon" type="image/svg+xml" href="./images/hahalab-logo.svg">
+    <link rel="stylesheet" href="./css/global.css?v=20261104-security-report-2">
+    <link rel="stylesheet" href="./css/components.css?v=20261104-security-report-2">
+    <link rel="stylesheet" href="./css/modal.css?v=20261104-security-report-2">
+    <link rel="stylesheet" href="./css/class-new-mobile.css?v=20261104-security-report-2">
+    <link rel="stylesheet" href="./css/offline.css?v=20261104-security-report-2">
+    <style>
+        .mobile-card-download-promo {
+            position: fixed;
+            inset: 0;
+            z-index: 2400;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            background: rgba(15, 23, 42, 0.46);
+        }
+
+        .mobile-card-download-promo.active {
+            display: flex;
+        }
+
+        .mobile-card-download-card {
+            width: min(360px, calc(100vw - 28px));
+            overflow: hidden;
+            border: 2px solid rgba(255, 216, 64, 0.95);
+            border-radius: 24px;
+            background:
+                radial-gradient(circle at 12% 0%, rgba(255, 225, 90, 0.36), transparent 40%),
+                linear-gradient(180deg, #FFFFFF 0%, #FFFDF5 100%);
+            padding: 20px;
+            box-shadow:
+                0 24px 62px rgba(15, 23, 42, 0.28),
+                0 0 0 7px rgba(255, 225, 90, 0.18);
+        }
+
+        .mobile-card-download-badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 26px;
+            margin-bottom: 10px;
+            border-radius: 999px;
+            background: #FFE15A;
+            color: #111827;
+            padding: 0 12px;
+            font-size: 11px;
+            font-weight: 1000;
+            box-shadow: 0 8px 18px rgba(255, 187, 0, 0.24);
+        }
+
+        .mobile-card-download-card h2 {
+            margin: 0;
+            color: #101827;
+            font-size: 22px;
+            line-height: 1.18;
+            font-weight: 1000;
+            letter-spacing: -0.01em;
+        }
+
+        .mobile-card-download-card p {
+            margin: 9px 0 0;
+            color: #4B5563;
+            font-size: 13px;
+            line-height: 1.5;
+            font-weight: 760;
+        }
+
+        .mobile-card-download-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 7px;
+            margin: 15px 0;
+        }
+
+        .mobile-card-download-stat {
+            border-radius: 14px;
+            background: #F8FAFC;
+            padding: 10px 6px;
+            text-align: center;
+        }
+
+        .mobile-card-download-stat strong {
+            display: block;
+            color: #17409E;
+            font-size: 18px;
+            line-height: 1;
+            font-weight: 1000;
+        }
+
+        .mobile-card-download-stat span {
+            display: block;
+            margin-top: 5px;
+            color: #6B7280;
+            font-size: 10px;
+            font-weight: 900;
+        }
+
+        .mobile-card-download-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .mobile-card-download-btn {
+            appearance: none;
+            border: 0;
+            border-radius: 999px;
+            min-height: 42px;
+            padding: 0 12px;
+            font-size: 12px;
+            font-weight: 950;
+        }
+
+        .mobile-card-download-btn-primary {
+            grid-column: 1 / -1;
+            background: #245DE8;
+            color: #FFFFFF;
+            box-shadow:
+                0 12px 24px rgba(36, 93, 232, 0.32),
+                0 0 0 4px rgba(36, 93, 232, 0.12);
+        }
+
+        .mobile-card-download-btn-secondary {
+            background: #F3F4F6;
+            color: #4B5563;
+        }
+    </style>
+    <script defer crossorigin="anonymous" integrity="sha384-UagCvVPT5XXA0Hx+nJYUAGBFseHT9zBgpJMSebsAxl9lciTwbT+39j5VfRjdP5Tp" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
+    <script defer src="./policy-docs.js?v=20261104-security-report-2"></script>
+    <script defer src="./js/offline.js?v=20261104-security-report-2"></script>
+    <script defer src="./js/auth.js?v=20261104-security-report-2"></script>
+    <script defer src="./js/clinical-workflow.js?v=20261104-security-report-2"></script>
+    <script defer src="./js/mobile-app.js?v=20261104-security-report-2"></script>
+</head>
+<body class="auth-pending mobile-class-body">
+    <div class="login-overlay active mobile-login-overlay" id="loginOverlay">
+        <div class="login-container">
+            <div class="login-logo">
+                <img src="./images/hahalab-logo.svg" alt="HAHALAB">
+                <span>HAHALAB</span>
+            </div>
+            <p class="login-desc">가벼운 준비, 차원이 다른 수업.</p>
+            <div class="login-methods">
+                <button id="kakaoOAuthBtn" class="oauth-start-btn oauth-start-btn-kakao" onclick="handleKakaoLogin()">
+                    <img src="./images/kakao_login.png" alt="" class="oauth-start-btn__provider-icon oauth-start-btn__provider-icon-kakao" aria-hidden="true">
+                    카카오로 시작하기
+                </button>
+                <button id="googleOAuthBtn" class="oauth-start-btn oauth-start-btn-google" onclick="handleGoogleLogin()">
+                    <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+                    구글로 시작하기
+                </button>
+                <p id="loginErrorMsg" class="mobile-login-error" hidden></p>
+            </div>
+        </div>
+        <a class="login-home-btn" href="https://thehahalab.com/">하하랩 홈페이지 보러가기</a>
+        <footer class="login-footer" aria-label="회사 정보">
+            <p>© 2026 HAHALAB. All rights reserved.</p>
+            <p>사업자등록번호 625-31-01817</p>
+        </footer>
+    </div>
+
+    <div class="modal-overlay signup-page" id="signupModal" style="z-index: 3000;">
+        <div class="signup-page-shell">
+            <section class="signup-page-card">
+                <div class="signup-page-header">
+                    <p class="signup-page-eyebrow" id="signupPageEyebrow">회원가입 완료</p>
+                    <h2 class="signup-page-heading" id="signupPageHeading">추가 정보 입력</h2>
+                    <p class="signup-page-subcopy" id="signupPageSubcopy">서비스 이용을 위해 센터 및 본인 정보를 입력해주세요.</p>
+                </div>
+                <div class="signup-page-body">
+                    <div class="form-group signup-page-section">
+                        <label class="form-label" for="signupEmail">이메일 계정</label>
+                        <div class="signup-field-with-action">
+                            <input type="text" id="signupEmail" class="form-input signup-readonly-input" readonly>
+                            <button type="button" class="btn-outline signup-check-btn signup-manual-check-control" id="signupEmailCheckBtn" onclick="checkSignupEmailDuplicate()" hidden>중복 확인</button>
+                        </div>
+                        <p class="signup-check-status" id="signupEmailCheckStatus" hidden></p>
+                    </div>
+                    <div class="form-group signup-page-section signup-manual-field" id="signupPasswordSection" hidden>
+                        <label class="form-label" for="signupPassword">비밀번호</label>
+                        <input type="password" id="signupPassword" class="form-input" placeholder="8자 이상 입력" autocomplete="new-password">
+                        <label class="form-label signup-confirm-label" for="signupPasswordConfirm">비밀번호 확인</label>
+                        <input type="password" id="signupPasswordConfirm" class="form-input" placeholder="비밀번호를 한 번 더 입력" autocomplete="new-password">
+                    </div>
+                    <div class="form-group signup-page-section">
+                        <label class="form-label" for="signupCenter">소속 센터명</label>
+                        <input type="text" id="signupCenter" class="form-input" placeholder="예: 하하랩 아동발달센터">
+                    </div>
+                    <div class="form-grid-2 signup-page-grid">
+                        <div class="form-group signup-page-section">
+                            <label class="form-label" for="signupName">이름</label>
+                            <input type="text" id="signupName" class="form-input" placeholder="실명을 입력하세요">
+                        </div>
+                        <div class="form-group signup-page-section">
+                            <label class="form-label" for="signupPhone">연락처</label>
+                            <div class="signup-field-with-action">
+                                <input type="text" id="signupPhone" class="form-input" placeholder="010-0000-0000" maxlength="13">
+                                <button type="button" class="btn-outline signup-check-btn signup-manual-check-control" id="signupPhoneCheckBtn" onclick="checkSignupPhoneDuplicate()" hidden>중복 확인</button>
+                            </div>
+                            <p class="signup-check-status" id="signupPhoneCheckStatus" hidden></p>
+                        </div>
+                    </div>
+                    <div class="signup-duplicate-notice" id="signupDuplicateNotice" hidden aria-live="polite"></div>
+                    <div class="signup-agreement-card" id="signupAgreementCard">
+                        <label class="signup-agreement-all">
+                            <input type="checkbox" id="agreeAll" onchange="toggleAllAgreements(this)">
+                            <span>이용약관 및 개인정보 수집에 모두 동의합니다</span>
+                        </label>
+                        <div class="signup-agreement-list">
+                            <label class="signup-agreement-item">
+                                <div class="signup-agreement-item-main">
+                                    <input type="checkbox" class="agree-item" id="agreeTerms">
+                                    <span>[필수] 서비스 이용약관 동의</span>
+                                </div>
+                                <a href="./terms.html" target="_blank" rel="noopener noreferrer">보기</a>
+                            </label>
+                            <label class="signup-agreement-item">
+                                <div class="signup-agreement-item-main">
+                                    <input type="checkbox" class="agree-item" id="agreePrivacy">
+                                    <span>[필수] 개인정보 수집 및 이용 동의</span>
+                                </div>
+                                <a href="./privacy.html" target="_blank" rel="noopener noreferrer">보기</a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="signup-page-footer">
+                    <button class="btn-outline signup-cancel-btn" type="button" onclick="cancelSignupFlow()">취소</button>
+                    <button class="primary-btn signup-submit-btn" onclick="submitSignup()" id="signupBtn">가입 완료</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <main class="mobile-shell" id="mobileShell" aria-live="polite">
+        <header class="mobile-topbar">
+            <div>
+                <p class="mobile-kicker" id="mobileCenterName">HAHALAB</p>
+                <h1 id="mobileTeacherName">오늘 수업</h1>
+            </div>
+            <button class="mobile-icon-btn" type="button" data-action="refresh" aria-label="새로고침">
+                <span class="material-symbols-outlined">refresh</span>
+            </button>
+        </header>
+
+        <section class="mobile-summary-grid">
+            <article>
+                <span>내담자</span>
+                <strong id="summaryClientCount">0</strong>
+            </article>
+            <article>
+                <span>예약자</span>
+                <strong id="summaryReserveCount">0</strong>
+            </article>
+            <article>
+                <span>오늘 일정</span>
+                <strong id="summaryTodayCount">0</strong>
+            </article>
+        </section>
+
+        <section class="mobile-view active" id="viewHome" data-view="home">
+            <div class="mobile-section-head">
+                <h2>빠른 등록</h2>
+            </div>
+            <div class="mobile-action-grid">
+                <button type="button" data-action="open-client-sheet" data-type="client">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <strong>내담자 등록</strong>
+                </button>
+                <button type="button" data-action="open-client-sheet" data-type="reserve">
+                    <span class="material-symbols-outlined">edit_calendar</span>
+                    <strong>예약자 등록</strong>
+                </button>
+            </div>
+            <div class="mobile-section-head">
+                <h2>오늘 일정</h2>
+                <button type="button" data-action="open-schedule-sheet">일정 추가</button>
+            </div>
+            <div class="mobile-list" id="todayScheduleList"></div>
+        </section>
+
+        <section class="mobile-view" id="viewPeople" data-view="people">
+            <div class="mobile-search-row">
+                <input type="search" id="mobilePeopleSearch" placeholder="이름, 연락처 검색">
+            </div>
+            <div class="mobile-segmented" role="tablist" aria-label="대상 구분">
+                <button type="button" class="active" data-people-tab="client">내담자</button>
+                <button type="button" data-people-tab="reserve">예약자</button>
+            </div>
+            <div class="mobile-list" id="mobilePeopleList"></div>
+        </section>
+
+        <section class="mobile-view" id="viewReports" data-view="reports">
+            <div class="mobile-search-row">
+                <select id="reportClientSelect"></select>
+            </div>
+            <div class="mobile-report-panel" id="mobileReportPanel"></div>
+        </section>
+
+        <section class="mobile-view" id="viewSchedule" data-view="schedule">
+            <div class="mobile-calendar-toolbar">
+                <button type="button" data-action="prev-date" aria-label="이전 날짜"><span class="material-symbols-outlined">chevron_left</span></button>
+                <input type="date" id="mobileScheduleDate">
+                <button type="button" data-action="next-date" aria-label="다음 날짜"><span class="material-symbols-outlined">chevron_right</span></button>
+            </div>
+            <div class="mobile-segmented mobile-schedule-mode" role="tablist" aria-label="스케줄 보기 방식">
+                <button type="button" class="active" data-schedule-mode="day">일간</button>
+                <button type="button" data-schedule-mode="month">월간</button>
+            </div>
+            <section class="mobile-month-panel" id="mobileMonthPanel" hidden>
+                <div class="mobile-month-weekdays" aria-hidden="true">
+                    <span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span>
+                </div>
+                <div class="mobile-month-grid" id="mobileMonthGrid"></div>
+            </section>
+            <div class="mobile-section-head">
+                <h2 id="scheduleDateLabel">일정</h2>
+                <button type="button" data-action="open-schedule-sheet">일정 추가</button>
+            </div>
+            <div class="mobile-list" id="mobileScheduleList"></div>
+        </section>
+
+        <section class="mobile-view" id="viewMy" data-view="my">
+            <article class="mobile-profile-card">
+                <div class="mobile-profile-avatar" id="mobileProfileInitial">?</div>
+                <div>
+                    <h2 id="myProfileName">선생님</h2>
+                    <p id="myProfileCenter">센터 정보 없음</p>
+                </div>
+            </article>
+            <div class="mobile-info-list">
+                <div><span>이메일</span><strong id="myProfileEmail">-</strong></div>
+                <div><span>연락처</span><strong id="myProfileContact">-</strong></div>
+                <div><span>이용 상태</span><strong id="myProfilePlan">-</strong></div>
+            </div>
+            <a class="mobile-kakao-contact-btn" href="https://pf.kakao.com/_idxkxhX/chat" target="_blank" rel="noopener noreferrer">
+                <span class="material-symbols-outlined" aria-hidden="true">chat_bubble</span>
+                카카오 상담 문의
+            </a>
+            <button type="button" class="mobile-logout-btn" data-action="logout">
+                <span class="material-symbols-outlined">logout</span>
+                로그아웃
+            </button>
+        </section>
+    </main>
+
+    <nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
+        <button type="button" class="active" data-nav="home"><span class="material-symbols-outlined">home</span><span>홈</span></button>
+        <button type="button" data-nav="people"><span class="material-symbols-outlined">group</span><span>내담자</span></button>
+        <button type="button" data-nav="reports"><span class="material-symbols-outlined">monitoring</span><span>리포트</span></button>
+        <button type="button" data-nav="schedule"><span class="material-symbols-outlined">calendar_month</span><span>스케줄</span></button>
+        <button type="button" data-nav="my"><span class="material-symbols-outlined">person</span><span>마이</span></button>
+    </nav>
+
+    <div class="mobile-sheet-backdrop" id="mobileSheetBackdrop" hidden></div>
+    <section class="mobile-sheet" id="clientSheet" hidden aria-labelledby="clientSheetTitle">
+        <form id="mobileClientForm">
+            <header>
+                <div>
+                    <p>등록</p>
+                    <h2 id="clientSheetTitle">내담자 등록</h2>
+                </div>
+                <button type="button" data-action="close-sheets" aria-label="닫기"><span class="material-symbols-outlined">close</span></button>
+            </header>
+            <div class="mobile-form-grid">
+                <label>이름<input id="mobileClientName" required></label>
+                <label>구분<select id="mobileClientType"><option value="client">내담자</option><option value="reserve">예약자</option></select></label>
+                <label>생년월일<input id="mobileClientDob" type="date"></label>
+                <label>성별<select id="mobileClientGender"><option value="male">남</option><option value="female">여</option></select></label>
+                <label>연락처<input id="mobileClientContact" inputmode="tel" placeholder="010-0000-0000"></label>
+                <label>기본 세션<input id="mobileClientSessionTime" type="number" min="1" value="50"></label>
+                <label>보호자명<input id="mobileGuardianName"></label>
+                <label>보호자 연락처<input id="mobileGuardianContact" inputmode="tel"></label>
+                <label class="wide">메모<textarea id="mobileClientMemo" rows="3"></textarea></label>
+            </div>
+            <button class="mobile-primary-action" type="submit">저장하기</button>
+        </form>
+    </section>
+
+    <section class="mobile-sheet" id="scheduleSheet" hidden aria-labelledby="scheduleSheetTitle">
+        <form id="mobileScheduleForm">
+            <header>
+                <div>
+                    <p>스케줄</p>
+                    <h2 id="scheduleSheetTitle">일정 추가</h2>
+                </div>
+                <button type="button" data-action="close-sheets" aria-label="닫기"><span class="material-symbols-outlined">close</span></button>
+            </header>
+            <div class="mobile-form-grid">
+                <label class="wide">대상<select id="mobileScheduleClient" required></select></label>
+                <label>날짜<input id="mobileScheduleFormDate" type="date" required></label>
+                <label>시작 시간<input id="mobileScheduleTime" type="time" value="14:00" required></label>
+                <label>수업 시간<input id="mobileScheduleDuration" type="number" min="1" value="50"></label>
+                <label class="wide">메모<textarea id="mobileScheduleMemo" rows="3"></textarea></label>
+            </div>
+            <button class="mobile-primary-action" type="submit">등록하기</button>
+        </form>
+    </section>
+
+    <div class="modal-overlay auth-status-modal" id="authStatusModal">
+        <section class="auth-status-card" role="dialog" aria-modal="true" aria-labelledby="authStatusTitle" aria-describedby="authStatusMessage">
+            <div class="auth-status-head">
+                <div class="auth-status-icon">
+                    <span class="material-symbols-outlined" id="authStatusIcon">lock</span>
+                </div>
+                <h2 class="auth-status-title" id="authStatusTitle">로그아웃되었습니다</h2>
+                <p class="auth-status-message" id="authStatusMessage">다시 로그인해 주세요.</p>
+            </div>
+            <div class="auth-status-actions">
+                <button type="button" class="primary-btn" id="authStatusOkButton">확인</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="mobile-card-download-promo" id="mobileCardDownloadPromo" aria-hidden="true">
+        <section class="mobile-card-download-card" role="dialog" aria-modal="true" aria-labelledby="mobileCardDownloadTitle">
+            <span class="mobile-card-download-badge">FREE DOWNLOAD</span>
+            <h2 id="mobileCardDownloadTitle">하하랩 그림카드 무료 다운로드!</h2>
+            <p>A4 그림카드 세트를 바로 저장해서 수업 준비 시간을 줄여보세요.</p>
+            <div class="mobile-card-download-stats" aria-label="그림카드 구성">
+                <div class="mobile-card-download-stat"><strong>27</strong><span>카테고리</span></div>
+                <div class="mobile-card-download-stat"><strong>549</strong><span>실사</span></div>
+                <div class="mobile-card-download-stat"><strong>551</strong><span>일러스트</span></div>
+            </div>
+            <div class="mobile-card-download-actions">
+                <button type="button" class="mobile-card-download-btn mobile-card-download-btn-primary" id="mobileCardDownloadOpenBtn">다운로드</button>
+                <button type="button" class="mobile-card-download-btn mobile-card-download-btn-secondary" id="mobileCardDownloadNeverBtn">다시 보지 않기</button>
+                <button type="button" class="mobile-card-download-btn mobile-card-download-btn-secondary" id="mobileCardDownloadCloseBtn">닫기</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="bottom-toast mobile-toast" id="bottomToast" aria-live="polite"></div>
+</body>
+</html>

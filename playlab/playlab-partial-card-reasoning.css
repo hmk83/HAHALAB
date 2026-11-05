@@ -1,0 +1,668 @@
+.half-shell {
+  --half-ink: #15314f;
+  --half-muted: #60748e;
+  --half-blue: #2f80ed;
+  --half-green: #10b981;
+  --half-red: #ef4444;
+  color: var(--half-ink);
+}
+
+.half-shell .shell-topbar-inner {
+  width: min(1360px, calc(100vw - 32px));
+  margin: 0 auto;
+}
+
+.half-shell .shell-main {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.half-screen {
+  display: none;
+  width: min(1180px, calc(100vw - 69px));
+  margin: 0 auto;
+}
+
+.half-screen.is-active {
+  display: block;
+}
+
+.half-intro {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 18px;
+}
+
+.half-intro span,
+.half-kicker,
+.half-counter {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #eaf4ff;
+  color: #0f66b5;
+  font-size: 13px;
+  font-weight: 1000;
+}
+
+.half-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.half-shell .shell-main:has(#stageView.is-active #stageGrid) {
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding-top: clamp(1.1rem, 3vh, 2.25rem) !important;
+  padding-bottom: clamp(1rem, 2.5vh, 1.6rem) !important;
+  overflow-y: visible !important;
+}
+
+.half-shell #stageView.is-active:has(#stageGrid) {
+  align-self: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.half-shell #stageView.is-active:has(#stageGrid) #stageGrid {
+  max-height: none;
+  margin-block: 0 auto;
+  overflow: visible;
+  padding: 0.2rem 0 0.35rem;
+}
+
+.half-stage-head {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.2rem;
+  text-align: center;
+}
+
+.half-stage-head h1 {
+  margin: 0;
+  color: var(--half-ink);
+  font-size: clamp(1.85rem, 3.4vw, 3rem);
+  line-height: 1.1;
+  font-weight: 1000;
+  letter-spacing: 0;
+}
+
+.half-stage-card,
+.half-game-card,
+.half-report-card,
+.half-help-card {
+  border: 1px solid rgba(174, 207, 255, 0.82);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 62px rgba(35, 86, 140, 0.16);
+  backdrop-filter: blur(18px);
+}
+
+.half-stage-card {
+  min-height: 170px;
+  padding: 20px;
+  border-radius: 26px;
+  color: var(--half-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.half-stage-card:hover,
+.half-stage-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--accent, var(--half-blue));
+  box-shadow: 0 28px 56px rgba(35, 86, 140, 0.22);
+  outline: none;
+}
+
+.half-stage-badge {
+  display: inline-grid;
+  place-items: center;
+  min-width: 52px;
+  height: 46px;
+  margin-bottom: 14px;
+  padding: 0 12px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--accent, var(--half-blue)) 18%, white);
+  color: var(--accent, var(--half-blue));
+  font-size: 16px;
+  font-weight: 1000;
+}
+
+.half-stage-card h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.half-stage-card p {
+  margin: 10px 0 0;
+  color: var(--half-muted);
+  font-size: 15px;
+  font-weight: 850;
+  line-height: 1.4;
+}
+
+.half-game-card,
+.half-report-card {
+  min-height: auto;
+  padding: clamp(12px, 1.6vw, 18px);
+  border-radius: 26px;
+}
+
+.half-report-card {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding: clamp(20px, 2.3vw, 28px);
+}
+
+.half-game-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.half-game-head h1,
+.half-report-card h2 {
+  margin: 6px 0 0;
+  font-size: clamp(23px, 2.4vw, 31px);
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.half-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 0.98fr) minmax(320px, 0.62fr);
+  gap: clamp(12px, 1.6vw, 18px);
+  align-items: stretch;
+}
+
+.half-card-panel,
+.half-answer-panel {
+  min-height: clamp(300px, calc(100dvh - 226px), 430px);
+  border: 1px solid rgba(188, 218, 255, 0.88);
+  border-radius: 24px;
+  background: rgba(240, 249, 255, 0.86);
+}
+
+.half-card-panel {
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 1.7vw, 18px);
+  transition: box-shadow 260ms ease, border-color 260ms ease;
+}
+
+.half-card-frame {
+  position: relative;
+  width: min(100%, 320px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 28px;
+  background: linear-gradient(180deg, #ffffff, #edf7ff);
+  border: 3px solid #b9d7ff;
+  box-shadow: 0 24px 48px rgba(36, 88, 145, 0.16);
+}
+
+.half-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 14px;
+  transition: transform 360ms ease, filter 360ms ease;
+}
+
+.half-card-mask {
+  position: absolute;
+  inset: 0 0 0 50%;
+  display: grid;
+  place-items: center;
+  background: #f7fbff;
+  border-left: 3px solid rgba(47, 128, 237, 0.38);
+  transition: opacity 340ms ease, transform 340ms ease;
+}
+
+.half-card-mask span {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 24px;
+  background: #fff;
+  color: #2f80ed;
+  font-size: 46px;
+  font-weight: 1000;
+  box-shadow: 0 16px 34px rgba(36, 88, 145, 0.16);
+}
+
+.half-game-card.is-revealed .half-card-mask {
+  opacity: 0;
+  transform: translateX(40px);
+  pointer-events: none;
+}
+
+.half-game-card.is-revealed .half-card-image {
+  transform: scale(1.03);
+}
+
+.half-answer-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  padding: clamp(14px, 1.8vw, 22px);
+  row-gap: 18px;
+}
+
+.half-answer-empty,
+.half-answer-result {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 12px;
+  min-height: 0;
+}
+
+.half-answer-empty[hidden],
+.half-answer-result[hidden] {
+  display: none;
+}
+
+.half-answer-empty p {
+  max-width: none;
+  margin: 0;
+  color: var(--half-muted);
+  font-size: clamp(17px, 1.7vw, 22px);
+  font-weight: 850;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.half-answer-name-stack {
+  display: inline-grid;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  gap: 18px;
+  max-width: 100%;
+}
+
+.half-answer-result strong {
+  color: var(--half-ink);
+  max-width: 100%;
+  font-size: clamp(42px, 4.2vw, 66px);
+  font-weight: 1000;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.half-sound-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 50%;
+  background: #eaf4ff;
+  color: #0f66b5;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(35, 86, 140, 0.12);
+}
+
+.half-sound-btn[hidden] {
+  display: none;
+}
+
+.half-sound-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.half-sound-btn svg path:nth-child(n + 2) {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.half-sound-btn:focus-visible,
+.half-sound-btn:hover {
+  outline: 4px solid rgba(47, 128, 237, 0.18);
+  background: #dbeeff;
+}
+
+.half-mark-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.half-mark-actions[hidden] {
+  display: none;
+}
+
+.half-mark-btn,
+.half-main-btn {
+  min-height: 52px;
+  border: 0;
+  border-radius: 18px;
+  font-size: 17px;
+  font-weight: 1000;
+  cursor: pointer;
+  box-shadow: 0 12px 22px rgba(35, 86, 140, 0.12);
+}
+
+.half-mark-btn {
+  width: 100%;
+  min-width: 0;
+  padding: 0 20px;
+}
+
+.half-mark-btn.is-correct {
+  background: #dcfce7;
+  color: #087f49;
+}
+
+.half-mark-btn.is-assisted {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.half-mark-btn.is-wrong {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.half-mark-btn.is-selected {
+  outline: 4px solid rgba(47, 128, 237, 0.22);
+  transform: translateY(-2px);
+}
+
+.half-answer-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.half-main-btn {
+  width: 100%;
+  padding: 0 24px;
+  color: #fff;
+  background: linear-gradient(180deg, #43a5ff, #2f80ed);
+}
+
+.half-main-btn.is-next {
+  background: linear-gradient(180deg, #ffbd4a, #f59e0b);
+}
+
+.half-game-card.is-correct-flash .half-card-panel {
+  border-color: rgba(16, 185, 129, 0.9);
+  box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.16), 0 24px 62px rgba(16, 185, 129, 0.16);
+}
+
+.half-game-card.is-wrong-flash .half-card-panel {
+  border-color: rgba(239, 68, 68, 0.88);
+  box-shadow: 0 0 0 8px rgba(239, 68, 68, 0.14), 0 24px 62px rgba(239, 68, 68, 0.14);
+  animation: halfShake 260ms ease;
+}
+
+@keyframes halfShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.half-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  max-width: none;
+  margin: 20px 0 22px;
+}
+
+.half-stat {
+  border: 1px solid #cfe3ff;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 16px 18px;
+}
+
+.half-stat span {
+  display: block;
+  color: var(--half-muted);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.half-stat strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 30px;
+  font-weight: 1000;
+}
+
+.half-report-card p {
+  color: var(--half-muted);
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.half-report-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.half-professional-report {
+  margin: 18px 0 0;
+}
+
+.half-professional-report:empty {
+  display: none;
+}
+
+.half-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  place-items: center;
+  padding: 28px;
+}
+
+.half-modal.is-open {
+  display: grid;
+}
+
+.half-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.36);
+  backdrop-filter: blur(8px);
+}
+
+.half-help-card {
+  position: relative;
+  width: min(880px, 100%);
+  padding: 26px;
+  border-radius: 28px;
+}
+
+.half-help-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+
+.half-help-head h3 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.half-help-close {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  background: #ffd76b;
+  color: #5f3400;
+  font-size: 16px;
+  font-weight: 1000;
+  cursor: pointer;
+}
+
+.half-help-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.half-help-grid section {
+  border: 1px solid #cfe3ff;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 18px;
+}
+
+.half-help-grid h4 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.half-help-grid p {
+  margin: 0;
+  color: var(--half-muted);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.65;
+}
+
+@media (min-width: 1600px) and (min-height: 900px) {
+  .half-shell .shell-main:has(#stageView.is-active),
+  .half-shell .shell-main:has(#gameView.is-active),
+  .half-shell .shell-main:has(#completeView.is-active),
+  .half-shell .shell-main:has(#stageView.is-active #stageGrid) {
+    align-items: center !important;
+    justify-content: center !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    overflow-y: hidden !important;
+  }
+
+  .half-screen.is-active {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: min(1520px, calc(100vw - 5rem));
+    min-height: calc(100vh - 74px - 2rem) !important;
+    min-height: calc(100dvh - 74px - 2rem) !important;
+  }
+
+  .half-shell #stageView.is-active:has(#stageGrid),
+  .half-shell #completeView.is-active {
+    align-self: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: calc(100vh - 74px - 2rem) !important;
+    min-height: calc(100dvh - 74px - 2rem) !important;
+    scroll-margin-top: 0 !important;
+  }
+
+  .half-stage-grid {
+    width: min(1320px, 100%);
+    margin-inline: auto;
+    gap: clamp(1rem, 1.1vw, 1.45rem);
+  }
+
+  .half-stage-card {
+    min-height: clamp(182px, 8.3vw, 224px);
+  }
+
+  .half-game-card {
+    width: min(1320px, 100%);
+    min-height: 620px;
+  }
+
+  .half-report-card {
+    width: min(1120px, 100%);
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .half-stage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .half-workspace,
+  .half-help-grid,
+  .half-stats,
+  .half-report-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .half-card-panel,
+  .half-answer-panel {
+    min-height: auto;
+  }
+}
+
+@media (max-height: 900px) and (min-width: 901px) {
+  body .half-shell #stageView.is-active:has(#levelGrid),
+  body .half-shell #stageView.is-active:has(#stageGrid) {
+    gap: 0 !important;
+  }
+
+  body .half-shell #stageView.is-active:has(#levelGrid) .traffic-menu-hero,
+  body .half-shell #stageView.is-active:has(#stageGrid) .traffic-menu-hero {
+    margin: 0 auto 10px !important;
+  }
+
+  body .half-shell #stageView.is-active:has(#levelGrid) .traffic-age-panel,
+  body .half-shell #stageView.is-active:has(#stageGrid) .traffic-age-panel {
+    min-height: 66px !important;
+    margin-bottom: 10px !important;
+    padding: 8px !important;
+    gap: 10px !important;
+  }
+
+  body .half-shell #stageView.is-active:has(#levelGrid) .traffic-age-panel button,
+  body .half-shell #stageView.is-active:has(#stageGrid) .traffic-age-panel button {
+    min-height: 46px !important;
+    font-size: 15px !important;
+  }
+
+  body .half-shell #stageView.is-active:has(#levelGrid) #levelGrid.traffic-level-grid,
+  body .half-shell #stageView.is-active:has(#stageGrid) #stageGrid.traffic-level-grid {
+    gap: 10px !important;
+    padding: 0 !important;
+  }
+
+  body .half-shell #stageView.is-active:has(#levelGrid) #levelGrid.traffic-level-grid > .traffic-level-card,
+  body .half-shell #stageView.is-active:has(#stageGrid) #stageGrid.traffic-level-grid > .traffic-level-card {
+    height: 104px !important;
+    min-height: 104px !important;
+    padding: 12px !important;
+    overflow: hidden !important;
+  }
+
+  body .half-shell #stageView.is-active:has(#levelGrid) .traffic-start-btn,
+  body .half-shell #stageView.is-active:has(#stageGrid) .traffic-start-btn {
+    min-height: 48px !important;
+    height: 48px !important;
+    margin-top: 10px !important;
+    font-size: 17px !important;
+  }
+}

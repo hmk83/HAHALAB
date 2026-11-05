@@ -1,0 +1,455 @@
+:root {
+  --traffic-blue: #0f6fbd;
+  --traffic-ink: #14304d;
+  --traffic-line: #b9dcff;
+  --traffic-menu-max-width: 920px;
+}
+
+.cardlab-shell:has(#stageView.is-active #levelGrid) {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.colorseq-shell .shell-main:has(#stageView.is-active #levelGrid),
+.half-shell .shell-main:has(#stageView.is-active #levelGrid),
+.language-rehab-shell .shell-main:has(#stageView.is-active #levelGrid) {
+  align-items: center !important;
+  justify-content: flex-start !important;
+  padding-top: clamp(12px, 2vh, 22px) !important;
+  padding-bottom: clamp(10px, 1.8vh, 18px) !important;
+  overflow-y: visible !important;
+}
+
+.colorseq-shell #stageView.is-active:has(#levelGrid),
+.half-shell #stageView.is-active:has(#levelGrid),
+.language-rehab-shell #stageView.is-active:has(#levelGrid) {
+  align-self: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.colorseq-shell #stageView.is-active:has(#levelGrid) .colorseq-stage-wrap,
+.half-shell #stageView.is-active:has(#levelGrid),
+.language-rehab-shell #stageView.is-active:has(#levelGrid) .language-stage-panel {
+  gap: 10px !important;
+}
+
+.language-rehab-shell #stageView.is-active:has(#levelGrid) .language-stage-panel {
+  width: min(1020px, calc(100vw - 48px)) !important;
+  padding: clamp(16px, 2vw, 24px) !important;
+  display: block !important;
+  margin-inline: auto !important;
+}
+
+.language-rehab-shell.is-cardlab-mode #stageView.is-active:has(#levelGrid) .language-stage-panel {
+  grid-template-columns: none !important;
+}
+
+.language-rehab-shell .shell-main:has(#stageView.is-active #levelGrid) {
+  min-height: calc(100vh - 76px) !important;
+  padding-inline: 16px !important;
+  justify-content: center !important;
+}
+
+.traffic-menu-hero {
+  text-align: center;
+  margin: 4px auto 14px;
+}
+
+.traffic-menu-hero span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #e7f3ff;
+  color: var(--traffic-blue);
+  font-weight: 900;
+  font-size: 14px;
+}
+
+.traffic-age-panel {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  width: min(var(--traffic-menu-max-width), 100%);
+  margin: 0 auto 14px;
+  padding: 12px;
+  border: 2px solid var(--traffic-line);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.traffic-age-panel button,
+.traffic-level-card,
+.traffic-start-btn {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.traffic-age-panel button {
+  min-height: 54px;
+  border-radius: 18px;
+  background: var(--age-soft, #f3f8ff);
+  color: var(--age-color-2, #49617a);
+  font-size: 17px;
+  font-weight: 900;
+  white-space: nowrap;
+  word-break: keep-all;
+  box-shadow: inset 0 0 0 2px var(--age-line, #d5e8ff);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.traffic-age-panel button.is-selected {
+  background: linear-gradient(135deg, var(--age-color, #1d8fff), var(--age-color-2, #0b63ce));
+  color: #ffffff;
+  box-shadow: 0 14px 24px rgba(15, 23, 42, 0.16), inset 0 0 0 2px rgba(255, 255, 255, 0.42);
+  transform: translateY(-2px);
+}
+
+.traffic-level-grid,
+.cardlab-shell .traffic-level-grid,
+#levelGrid.traffic-level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px;
+  width: min(var(--traffic-menu-max-width), 100%) !important;
+  max-width: min(var(--traffic-menu-max-width), 100%) !important;
+  margin: 0 auto !important;
+  justify-self: center !important;
+  align-self: start;
+}
+
+.traffic-level-card {
+  position: relative;
+  min-height: 134px;
+  padding: 18px;
+  border: 2px solid var(--traffic-line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--traffic-ink);
+  text-align: left;
+  box-shadow: 0 16px 32px rgba(40, 74, 120, 0.08);
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+
+.traffic-level-card.is-selected {
+  border-color: #0f6fbd !important;
+  background: linear-gradient(180deg, #e8f5ff 0%, #ffffff 100%) !important;
+  box-shadow: 0 20px 42px rgba(15, 111, 189, 0.24), inset 0 0 0 3px rgba(15, 111, 189, 0.22) !important;
+  transform: translateY(-2px) !important;
+}
+
+.traffic-level-card.is-selected::after {
+  content: "✓ 선택됨";
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  background: #0f6fbd;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 1000;
+  line-height: 1;
+}
+
+.traffic-level-card span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  height: 34px;
+  border-radius: 14px;
+  background: #fff0cc;
+  color: #f59e0b;
+  font-weight: 900;
+  font-size: 15px;
+}
+
+.traffic-level-card h2 {
+  margin: 14px 0 7px;
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.traffic-level-card p {
+  margin: 0;
+  color: #62758c;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.traffic-start-btn {
+  display: block;
+  width: min(var(--traffic-menu-max-width), 100%);
+  min-height: 62px;
+  margin: 16px auto 0;
+  border-radius: 22px;
+  background: linear-gradient(90deg, #4f46e5 0%, #0ea5e9 100%);
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 1000;
+  box-shadow: 0 18px 34px rgba(37, 99, 235, 0.22);
+}
+
+.traffic-start-btn:disabled {
+  cursor: default;
+  opacity: 0.5;
+  box-shadow: none;
+  background: #cbd5e1;
+}
+
+#menuView.is-active #joystickStatus,
+#stageView.is-active #joystickStatus {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .traffic-age-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .traffic-level-grid,
+  .cardlab-shell .traffic-level-grid,
+  #levelGrid.traffic-level-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .traffic-level-card {
+    min-height: 104px;
+    padding: 12px;
+  }
+
+  .traffic-level-card span {
+    min-height: 26px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+
+  .traffic-level-card h2 {
+    margin: 8px 0 3px;
+    font-size: 16px;
+    line-height: 1.16;
+  }
+
+  .traffic-level-card p {
+    font-size: 11px;
+    line-height: 1.18;
+  }
+
+  .traffic-start-btn {
+    font-size: 15px;
+    min-height: 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  body .cardlab-shell #levelGrid.traffic-level-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  body .cardlab-shell #levelGrid.traffic-level-grid > .traffic-level-card {
+    min-height: 104px !important;
+    padding: 12px !important;
+  }
+
+  body .cardlab-shell #levelGrid.traffic-level-grid > .traffic-level-card h2 {
+    margin: 8px 0 3px !important;
+    font-size: 16px !important;
+    line-height: 1.16 !important;
+  }
+
+  body .cardlab-shell #levelGrid.traffic-level-grid > .traffic-level-card p {
+    margin-top: 3px !important;
+    font-size: 11px !important;
+    line-height: 1.18 !important;
+  }
+
+  body .cardlab-shell .traffic-age-panel button {
+    font-size: 13px !important;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+  }
+}
+
+@media (max-height: 820px) and (min-width: 901px) {
+  .traffic-menu-hero {
+    margin: 0 auto 6px;
+  }
+
+  .traffic-menu-hero span {
+    min-height: 34px;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+
+  .traffic-age-panel {
+    gap: 8px;
+    margin-bottom: 8px;
+    padding: 8px;
+  }
+
+  .traffic-age-panel button {
+    min-height: 42px;
+    font-size: 14px;
+  }
+
+  .traffic-level-grid,
+  .cardlab-shell .traffic-level-grid,
+  #levelGrid.traffic-level-grid {
+    gap: 10px;
+  }
+
+  .traffic-level-card {
+    min-height: 92px;
+    padding: 12px;
+  }
+
+  .traffic-level-card span {
+    min-width: 46px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .traffic-level-card h2 {
+    margin: 8px 0 3px;
+    font-size: 18px;
+  }
+
+  .traffic-level-card p {
+    font-size: 12px;
+    line-height: 1.22;
+  }
+
+  .traffic-level-card.is-selected::after {
+    top: 10px;
+    right: 10px;
+    min-height: 25px;
+    font-size: 11px;
+  }
+
+  .traffic-start-btn {
+    min-height: 48px;
+    margin-top: 10px;
+    font-size: 17px;
+  }
+}
+
+@media (max-height: 900px) {
+  .traffic-menu-hero {
+    margin: 0 auto 8px;
+  }
+
+  .traffic-age-panel {
+    margin-bottom: 8px;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .traffic-age-panel button {
+    min-height: 42px;
+    font-size: 14px;
+  }
+
+  .traffic-level-card {
+    min-height: 92px;
+    padding: 12px;
+  }
+
+  .traffic-level-card h2 {
+    margin: 8px 0 3px;
+    font-size: 18px;
+  }
+
+  .traffic-level-card p {
+    font-size: 12px;
+    line-height: 1.22;
+  }
+
+  .traffic-start-btn {
+    min-height: 48px;
+    margin-top: 10px;
+    font-size: 17px;
+  }
+
+  .language-rehab-shell #stageView.is-active:has(#levelGrid) .language-stage-panel {
+    padding: 14px !important;
+  }
+}
+
+@media (max-height: 900px) and (min-width: 901px) {
+  body .cardlab-shell .traffic-menu-hero {
+    margin: 0 auto 10px !important;
+  }
+
+  body .cardlab-shell .traffic-age-panel {
+    min-height: 66px !important;
+    margin-bottom: 10px !important;
+    padding: 8px !important;
+    gap: 10px !important;
+  }
+
+  body .cardlab-shell .traffic-age-panel button {
+    min-height: 46px !important;
+    font-size: 15px !important;
+  }
+
+  body .cardlab-shell #levelGrid.traffic-level-grid {
+    gap: 10px !important;
+    padding: 0 !important;
+  }
+
+  body .cardlab-shell #levelGrid.traffic-level-grid > .traffic-level-card,
+  body .cardlab-shell #stageGrid.traffic-level-grid > .traffic-level-card {
+    height: 104px !important;
+    min-height: 104px !important;
+    padding: 12px !important;
+    overflow: hidden !important;
+  }
+
+  body .cardlab-shell #levelGrid.traffic-level-grid > .traffic-level-card span,
+  body .cardlab-shell #stageGrid.traffic-level-grid > .traffic-level-card span {
+    min-height: 28px !important;
+    padding: 0 9px !important;
+    font-size: 12px !important;
+  }
+
+  body .cardlab-shell #levelGrid.traffic-level-grid > .traffic-level-card h2,
+  body .cardlab-shell #stageGrid.traffic-level-grid > .traffic-level-card h2 {
+    margin: 8px 0 3px !important;
+    font-size: 18px !important;
+    line-height: 1.16 !important;
+  }
+
+  body .cardlab-shell #levelGrid.traffic-level-grid > .traffic-level-card p,
+  body .cardlab-shell #stageGrid.traffic-level-grid > .traffic-level-card p {
+    margin-top: 3px !important;
+    font-size: 12px !important;
+    line-height: 1.22 !important;
+  }
+
+  body .cardlab-shell .traffic-start-btn {
+    min-height: 48px !important;
+    height: 48px !important;
+    margin-top: 10px !important;
+    font-size: 17px !important;
+  }
+
+  body #stageSelectView.playlab-screen.traffic-screen.is-active {
+    transform: translateY(-4.8px) !important;
+  }
+}

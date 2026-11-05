@@ -1,0 +1,504 @@
+:root {
+  --plane-sky: #bfeaff;
+  --plane-blue: #0ea5e9;
+  --plane-green: #0f766e;
+  --plane-ink: #123047;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(239, 249, 255, 0.94), rgba(219, 244, 255, 0.9)),
+    url("images/kenney_tappy-plane/PNG/background.png") center / cover fixed;
+}
+
+.plane-shell {
+  min-height: 100vh;
+  color: var(--plane-ink);
+}
+
+.plane-shell #helpModal[aria-hidden="true"] {
+  display: none;
+}
+
+.plane-screen {
+  display: none;
+  width: 100%;
+  min-height: calc(100vh - 86px);
+  padding: clamp(18px, 3vw, 40px);
+}
+
+.plane-screen.is-active {
+  display: grid;
+  place-items: center;
+}
+
+.plane-stage-wrap,
+.plane-game,
+.plane-result-card {
+  width: min(1180px, calc(100vw - 36px));
+}
+
+.plane-stage-wrap {
+  display: grid;
+  gap: 22px;
+  align-content: center;
+}
+
+.plane-stage-title {
+  text-align: center;
+}
+
+.plane-stage-title span,
+.plane-kicker {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: rgba(14, 165, 233, 0.14);
+  color: #0369a1;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.plane-shell-rehab .plane-stage-title span,
+.plane-shell-rehab .plane-kicker {
+  background: rgba(15, 118, 110, 0.14);
+  color: #0f766e;
+}
+
+.plane-stage-title h1 {
+  margin: 14px 0 8px;
+  font-size: clamp(32px, 5vw, 58px);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.plane-stage-title p {
+  margin: 0;
+  color: #416277;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.plane-stage-grid,
+.plane-age-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.plane-stage-card,
+.plane-age-card {
+  min-height: 148px;
+  border: 2px solid rgba(14, 165, 233, 0.22);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--plane-ink);
+  text-align: left;
+  box-shadow: 0 16px 36px rgba(14, 65, 96, 0.12);
+  cursor: pointer;
+}
+
+.plane-stage-card.is-selected,
+.plane-age-card.is-selected {
+  border-color: var(--stage-color, var(--plane-blue));
+  box-shadow: 0 18px 44px rgba(14, 165, 233, 0.24);
+  transform: translateY(-2px);
+}
+
+.plane-stage-card span,
+.plane-age-card span {
+  display: inline-flex;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: color-mix(in srgb, var(--stage-color, var(--plane-blue)) 16%, white);
+  color: color-mix(in srgb, var(--stage-color, var(--plane-blue)) 72%, #0f172a);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.plane-stage-card strong,
+.plane-age-card strong {
+  display: block;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.plane-stage-card p,
+.plane-age-card p {
+  margin: 9px 0 0;
+  color: #557086;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.plane-menu-columns {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.8fr) minmax(320px, 1.2fr);
+  gap: 18px;
+}
+
+.plane-menu-panel {
+  min-width: 0;
+}
+
+.plane-menu-panel h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.plane-main-button {
+  justify-self: center;
+  min-width: 240px;
+  min-height: 58px;
+  border: 0;
+  border-radius: 8px;
+  background: #0f766e;
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 18px 36px rgba(15, 118, 110, 0.22);
+}
+
+.plane-main-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.plane-game {
+  display: grid;
+  gap: 14px;
+}
+
+.plane-game-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+  border-radius: 8px;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 34px rgba(14, 65, 96, 0.12);
+}
+
+.plane-game-head h2 {
+  margin: 10px 0 4px;
+  font-size: clamp(24px, 3vw, 38px);
+  line-height: 1.08;
+}
+
+.plane-game-head p {
+  margin: 0;
+  color: #496b82;
+  font-weight: 800;
+}
+
+.plane-status-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.plane-status-pills span {
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(15, 23, 42, 0.08);
+  color: #0f172a;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.plane-playfield {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 430px;
+  max-height: min(68vh, 720px);
+  border: 6px solid rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  background:
+    url("images/kenney_tappy-plane/PNG/background.png") center / cover no-repeat,
+    var(--plane-sky);
+  box-shadow: 0 22px 46px rgba(14, 65, 96, 0.22);
+  outline: none;
+}
+
+.plane-ground-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  height: clamp(62px, 10vw, 92px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.plane-ground-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+}
+
+.plane-object-layer,
+.plane-shot-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.plane-object-layer {
+  z-index: 2;
+}
+
+.plane-shot-layer {
+  z-index: 4;
+}
+
+.plane-player {
+  position: absolute;
+  left: 9%;
+  top: 48%;
+  width: clamp(72px, 8vw, 118px);
+  height: auto;
+  transform: translate(-50%, -50%);
+  transition: filter 140ms ease;
+  z-index: 5;
+}
+
+.plane-player.is-hit {
+  filter: drop-shadow(0 0 18px #ef4444);
+}
+
+.plane-target {
+  position: absolute;
+  width: clamp(48px, 5.4vw, 78px);
+  height: clamp(48px, 5.4vw, 78px);
+  transform: translate(-50%, -50%);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 26px rgba(15, 23, 42, 0.16);
+  display: grid;
+  place-items: center;
+  z-index: 3;
+}
+
+.plane-target.is-target {
+  outline: 4px solid rgba(34, 197, 94, 0.72);
+}
+
+.plane-target.is-distractor {
+  outline: 4px solid rgba(239, 68, 68, 0.5);
+}
+
+.plane-target img {
+  max-width: 76%;
+  max-height: 76%;
+  object-fit: contain;
+}
+
+.plane-rock {
+  position: absolute;
+  width: clamp(52px, 5vw, 82px);
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.plane-rock[data-lane="top"] {
+  transform: translate(-50%, -18%);
+}
+
+.plane-rock[data-lane="bottom"] {
+  transform: translate(-50%, -50%);
+}
+
+.plane-shot {
+  position: absolute;
+  width: 32px;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #fef08a, #f97316);
+  box-shadow: 0 0 18px rgba(249, 115, 22, 0.68);
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+
+.plane-puff {
+  position: absolute;
+  width: 44px;
+  height: 36px;
+  transform: translate(-50%, -50%);
+  background: url("images/kenney_tappy-plane/PNG/puffLarge.png") center / contain no-repeat;
+  animation: planePuff 420ms ease-out forwards;
+  z-index: 6;
+}
+
+@keyframes planePuff {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(0.7); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(1.65); }
+}
+
+.plane-message {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  max-width: min(760px, calc(100% - 36px));
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #17435c;
+  font-weight: 900;
+  text-align: center;
+  z-index: 8;
+}
+
+.plane-controls {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(54px, 1fr));
+  gap: 10px;
+}
+
+.plane-controls button {
+  min-height: 54px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #123047;
+  font-size: 20px;
+  font-weight: 900;
+  box-shadow: 0 12px 26px rgba(14, 65, 96, 0.14);
+  cursor: pointer;
+}
+
+.plane-controls .plane-fire-button {
+  background: #f97316;
+  color: white;
+}
+
+.plane-result-card {
+  background: rgba(255, 255, 255, 0.97) !important;
+  box-shadow: 0 28px 70px rgba(14, 65, 96, 0.18);
+}
+
+.plane-result-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 22px 0 20px;
+}
+
+.plane-result-stats div {
+  border-radius: 8px;
+  padding: 16px;
+  background: linear-gradient(180deg, #f8fbff, #edf6fd);
+  border: 1px solid rgba(14, 65, 96, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.plane-result-stats span {
+  display: block;
+  color: #557086;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.plane-result-stats strong {
+  display: block;
+  margin-top: 4px;
+  color: #102f47;
+  font-size: 24px;
+  line-height: 1.05;
+}
+
+.plane-shell .playlab-result-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.plane-shell .playlab-action-btn,
+.plane-shell .playlab-secondary-btn {
+  min-width: 176px;
+  min-height: 48px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(14, 65, 96, 0.14);
+}
+
+.plane-shell .playlab-action-btn {
+  background: #0ea5e9;
+  color: #fff;
+}
+
+.plane-shell-rehab .playlab-action-btn {
+  background: #0f766e;
+}
+
+.plane-shell .playlab-secondary-btn {
+  background: #fff;
+  color: #123047;
+  border: 1px solid rgba(18, 48, 71, 0.14);
+}
+
+.plane-shell .playlab-action-btn:active,
+.plane-shell .playlab-secondary-btn:active {
+  transform: translateY(1px);
+}
+
+.plane-professional-report {
+  margin-top: 16px;
+}
+
+.plane-professional-report:empty {
+  display: none;
+}
+
+body:has(.plane-shell-rehab #resultView.is-active) {
+  overflow: auto;
+}
+
+.plane-shell-rehab #resultView.is-active {
+  place-items: start center;
+}
+
+@media (max-width: 820px) {
+  .plane-screen {
+    padding: 14px;
+  }
+
+  .plane-menu-columns,
+  .plane-game-head {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .plane-status-pills {
+    justify-content: flex-start;
+  }
+
+  .plane-playfield {
+    min-height: 360px;
+  }
+
+  .plane-controls {
+    grid-template-columns: repeat(5, minmax(44px, 1fr));
+  }
+}

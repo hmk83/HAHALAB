@@ -1,0 +1,29 @@
+title = "HAHALAB secret detection; upstream rules retained"
+[extend]
+useDefault = true
+[[rules]]
+id = "hahalab-supabase-personal-token"
+description = "Supabase personal access token"
+regex = '''\bsbp_[A-Za-z0-9]{20,}\b'''
+keywords = ["sbp_"]
+[[rules]]
+id = "hahalab-supabase-secret-key"
+description = "Supabase server secret key"
+regex = '''\bsb_secret_[A-Za-z0-9_-]{12,}\b'''
+keywords = ["sb_secret_"]
+
+# Supabase publishable keys identify the project and are intentionally browser-safe.
+# This exception applies only to the generic rule and only to this public prefix.
+[[allowlists]]
+targetRules = ["generic-api-key"]
+description = "Public Supabase publishable keys; never server secrets or PATs"
+regexes = ['''^sb_publishable_[A-Za-z0-9_-]+$''']
+
+# Exact MD5 digests of reviewed PostgreSQL function bodies are public integrity metadata.
+# Keep AND: neither other values in this file nor these values in other files are exempt.
+[[allowlists]]
+targetRules = ["generic-api-key"]
+description = "Public reviewed PostgreSQL function-body MD5 digests, not credentials"
+condition = "AND"
+paths = ['''(?:^|/)scripts/security-tenant-transaction-probe\.sql$''']
+regexes = ['''^(?:5176d67dec3d544be0f5135011bf8916|61a6d0cde74c6464b71e462532ed2059|aca6f1590a09e1be7c7fa361fead7608)$''']

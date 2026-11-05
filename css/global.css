@@ -1,0 +1,171 @@
+:root {
+    --primary: #FEE500;
+    --primary-hover: #FADA00;
+    --text-dark: #191919;
+    --text-gray: #666666;
+    --text-light: #999999;
+    --bg-color: #F5F6F8;
+    --bg-white: #FFFFFF;
+    --bg-hover: #F2F2F2;
+    --border-color: #E5E5E5;
+    
+    --gnb-height: 64px;
+    --border-radius: 16px;
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.03);
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+body.auth-pending #loginOverlay,
+body.auth-pending .gnb,
+body.auth-pending .app-container,
+body.auth-pending .app-footer {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.auth-logged-out .gnb,
+body.auth-logged-out .app-container,
+body.auth-logged-out .app-footer,
+body.auth-signup .gnb,
+body.auth-signup .app-container,
+body.auth-signup .app-footer {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.auth-logged-in #loginOverlay,
+body.auth-signup #loginOverlay {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- 상단 글로벌 네비게이션바 (GNB) --- */
+.gnb {
+    height: var(--gnb-height);
+    background-color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.gnb-left { display: flex; align-items: center; gap: 12px; }
+.gnb-logo {
+    font-size: 22px; font-weight: 800; color: var(--text-dark);
+    letter-spacing: -0.5px; display: flex; align-items: center; gap: 8px; cursor: pointer;
+}
+.gnb-logo .material-symbols-outlined { font-size: 28px; font-variation-settings: 'FILL' 1; }
+
+.gnb-section-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.5);
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.gnb-section-btn .material-symbols-outlined {
+    font-size: 18px;
+}
+
+.gnb-section-btn:hover {
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: var(--shadow-sm);
+}
+
+.gnb-section-btn.active {
+    background: var(--bg-white);
+    box-shadow: var(--shadow-sm);
+}
+
+.gnb-right { display: flex; align-items: center; gap: 10px; }
+.gnb-icon-btn {
+    background: none; border: none; color: var(--text-dark); cursor: pointer;
+    width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    transition: var(--transition); position: relative;
+}
+.gnb-icon-btn:hover { background-color: rgba(0, 0, 0, 0.05); }
+.gnb-icon-btn.active,
+.gnb-icon-btn.has-new {
+    background: rgba(254, 229, 0, 0.34);
+    box-shadow: var(--shadow-sm);
+}
+.gnb-icon-badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 18px;
+    text-align: center;
+    box-shadow: 0 6px 14px rgba(239, 68, 68, 0.28);
+}
+
+.profile-btn {
+    display: flex; align-items: center; gap: 8px; background: var(--bg-white); border: none;
+    height: 36px; padding: 0 12px 0 6px; border-radius: 999px; cursor: pointer;
+    box-shadow: var(--shadow-sm); transition: var(--transition);
+}
+.profile-btn:hover { background-color: var(--bg-hover); }
+.profile-avatar {
+    width: 28px; height: 28px; background-color: var(--text-dark); color: var(--primary);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700;
+}
+.profile-name {
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+/* 반응형 모바일 폴백 */
+@media screen and (max-width: 960px) {
+    .app-container { padding: 16px; flex-direction: column; gap: 16px; overflow-y: auto; }
+    .gnb-section-btn {
+        height: 30px;
+        padding: 0 10px;
+        font-size: 12px;
+    }
+    .gnb-section-btn .material-symbols-outlined {
+        font-size: 16px;
+    }
+}

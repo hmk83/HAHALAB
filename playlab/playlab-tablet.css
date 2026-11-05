@@ -1,0 +1,299 @@
+:root {
+  --playlab-tablet-page-x: clamp(14px, 2.4vw, 28px);
+  --playlab-tablet-touch: 56px;
+  --playlab-tablet-touch-compact: 48px;
+  --playlab-tablet-radius: 20px;
+}
+
+@supports (height: 100dvh) {
+  :where(.cardlab-shell, .playlab-snack-shell) {
+    min-height: 100dvh;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1366px) {
+  :where(.cardlab-shell, .playlab-snack-shell) {
+    min-height: 100dvh;
+  }
+
+  :where(.shell-topbar-inner) {
+    min-height: 64px;
+    padding-inline: var(--playlab-tablet-page-x);
+  }
+
+  :where(.shell-brand-title, .shell-stage-chip) {
+    letter-spacing: 0;
+  }
+
+  :where(.shell-brand-title) {
+    max-width: min(38vw, 360px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  :where(.shell-icon-btn, .shell-help-btn) {
+    min-width: var(--playlab-tablet-touch-compact);
+    min-height: var(--playlab-tablet-touch-compact);
+  }
+
+  :where(.shell-main) {
+    padding-inline: var(--playlab-tablet-page-x);
+  }
+
+  :where(
+    .shell-stage-card,
+    .cardlab-stage-tile,
+    .number-agency-stage-card,
+    .colorseq-stage-card,
+    .stage-card,
+    .df-stage-card,
+    .cloze-stage-card,
+    .batchim-stage-card,
+    .synonym-stage-card,
+    [data-stage],
+    [data-level]
+  ) {
+    min-height: 88px;
+    touch-action: manipulation;
+  }
+
+  :where(
+    .df-choice,
+    .association-choice-card,
+    .context-choice-grid .association-choice-card,
+    .cloze-token,
+    .batchim-choice,
+    .synonym-choice-card,
+    .motion-card,
+    .cardlab-card-shell,
+    .playlab-snack-option,
+    .playlab-iceword-key
+  ) {
+    min-height: var(--playlab-tablet-touch);
+    touch-action: manipulation;
+  }
+
+  :where(
+    .playlab-result-actions,
+    .number-agency-actions,
+    .time-result-actions,
+    .spotlight-result-actions,
+    .colorseq-result-actions,
+    .quiz-complete-actions,
+    .wordbuild-complete-actions,
+    .phonics-complete-actions,
+    .cloze-complete-actions,
+    .df-complete-actions
+  ) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    gap: 12px;
+    width: min(100%, 520px);
+    margin-inline: auto;
+  }
+
+  :where(
+    .playlab-result-actions button,
+    .number-agency-actions button,
+    .time-result-actions button,
+    .spotlight-result-actions button,
+    .colorseq-result-actions button,
+    .quiz-complete-actions button,
+    .wordbuild-complete-actions button,
+    .phonics-complete-actions button,
+    .cloze-complete-actions button,
+    .df-complete-actions button,
+    .playlab-snack-btn,
+    .playlab-snack-replay
+  ) {
+    min-height: var(--playlab-tablet-touch);
+    touch-action: manipulation;
+  }
+
+  :where(
+    .playlab-result-card,
+    .number-agency-result-card,
+    .time-result-card,
+    .spotlight-result-card,
+    .colorseq-result-card,
+    .quiz-complete,
+    .cloze-complete-card,
+    .phonics-complete,
+    .synonym-complete,
+    .association-complete,
+    .context-complete,
+    .df-complete
+  ) {
+    width: min(860px, calc(100vw - (var(--playlab-tablet-page-x) * 2)));
+  }
+
+  :where(
+    .playlab-result-stats,
+    .number-agency-result-stats,
+    .time-result-stats,
+    .spotlight-result-stats,
+    .colorseq-result-body,
+    .zoo-complete-score,
+    .cloze-complete-stats,
+    .phonics-complete-stats,
+    .synonym-complete-stats,
+    .context-complete-stats,
+    .df-complete-stats
+  ) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  :where(.playlab-snack-main) {
+    width: min(1120px, calc(100vw - (var(--playlab-tablet-page-x) * 2))) !important;
+  }
+
+  :where(.playlab-snack-board) {
+    padding: clamp(10px, 1.4vw, 16px);
+    border-radius: 28px;
+  }
+
+  :where(.playlab-snack-options) {
+    gap: clamp(8px, 1.2vw, 14px);
+  }
+
+  :where(.playlab-snack-option) {
+    border-radius: var(--playlab-tablet-radius);
+  }
+
+  body.playlab-content-viewer-page .page {
+    width: min(1180px, calc(100vw - (var(--playlab-tablet-page-x) * 2)));
+    padding-block: 24px 44px;
+  }
+
+  body.playlab-content-viewer-page .toolbar {
+    grid-template-columns: minmax(220px, 1fr) auto auto;
+    gap: 10px;
+  }
+
+  body.playlab-content-viewer-page :where(.segmented button, .utility, .search, .hide-btn) {
+    min-height: var(--playlab-tablet-touch-compact);
+    touch-action: manipulation;
+  }
+
+  body.synonym-meaning-generator-page main,
+  body.synonym-meaning-generator-page .grid,
+  body.synonym-meaning-generator-page .card,
+  body.synonym-meaning-generator-page .table-wrap {
+    min-width: 0;
+  }
+
+  body.synonym-meaning-generator-page .grid {
+    width: 100%;
+  }
+
+  body.synonym-meaning-generator-page .card {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  body.synonym-meaning-generator-page .table-wrap {
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 900px) and (orientation: portrait) {
+  :where(.shell-topbar-inner) {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  :where(.shell-brand-title) {
+    max-width: 34vw;
+  }
+
+  :where(
+    .df-stage-grid,
+    .cloze-stage-grid,
+    .association-stage-grid,
+    .batchim-stage-grid,
+    .playlab-snack-options
+  ) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  :where(
+    .playlab-result-actions,
+    .number-agency-actions,
+    .time-result-actions,
+    .spotlight-result-actions,
+    .colorseq-result-actions,
+    .quiz-complete-actions,
+    .wordbuild-complete-actions,
+    .phonics-complete-actions,
+    .cloze-complete-actions,
+    .df-complete-actions
+  ) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.playlab-content-viewer-page .topbar,
+  body.playlab-content-viewer-page .toolbar {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  body.playlab-content-viewer-page .summary {
+    justify-content: flex-start;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1280px) and (orientation: landscape) and (max-height: 830px) {
+  :where(.playlab-snack-board) {
+    padding: 10px;
+  }
+
+  :where(.playlab-snack-toolbar) {
+    margin-bottom: 8px;
+  }
+
+  :where(.playlab-snack-option) {
+    aspect-ratio: 1.42 / 1;
+  }
+}
+
+@media (max-width: 767px) {
+  :where(
+    .playlab-result-actions,
+    .number-agency-actions,
+    .time-result-actions,
+    .spotlight-result-actions,
+    .colorseq-result-actions,
+    .quiz-complete-actions,
+    .wordbuild-complete-actions,
+    .phonics-complete-actions,
+    .cloze-complete-actions,
+    .df-complete-actions
+  ) {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 100%;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  :where(
+    .shell-stage-card,
+    .cardlab-stage-tile,
+    .number-agency-stage-card,
+    .colorseq-stage-card,
+    .stage-card,
+    .df-stage-card,
+    .cloze-stage-card,
+    .batchim-stage-card,
+    .synonym-stage-card,
+    .df-choice,
+    .association-choice-card,
+    .synonym-choice-card,
+    .motion-card,
+    .playlab-snack-option
+  ):hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,321 @@
+.shell-help-btn[data-unified-help-bound="1"],
+#helpButton[data-unified-help-bound="1"] {
+  display: inline-flex !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.playlab-unified-help-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: max(14px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-sizing: border-box;
+  isolation: isolate;
+}
+
+.playlab-unified-help-modal *,
+.playlab-unified-help-modal *::before,
+.playlab-unified-help-modal *::after {
+  box-sizing: border-box;
+}
+
+.playlab-unified-help-modal.is-open {
+  display: flex;
+}
+
+.playlab-unified-help-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.58);
+  backdrop-filter: blur(14px);
+}
+
+.playlab-unified-help-card {
+  position: relative;
+  width: min(1120px, 100%);
+  max-width: 100%;
+  max-height: min(92dvh, 880px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.98);
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 32px 90px rgba(15, 23, 42, 0.34);
+  color: #172033;
+}
+
+.playlab-unified-help-inner {
+  width: 100%;
+  max-height: min(92dvh, 880px);
+  overflow-y: auto;
+  padding: clamp(24px, 3.6vw, 46px);
+  padding-bottom: 104px;
+  scrollbar-gutter: stable;
+}
+
+.playlab-unified-help-head {
+  display: block;
+}
+
+.playlab-unified-help-heading {
+  min-width: 0;
+}
+
+.playlab-unified-help-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #eef4ff;
+  color: #24539f;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.playlab-unified-help-title {
+  margin: 14px 0 10px;
+  color: #111827;
+  font-size: clamp(25px, 3vw, 36px);
+  font-weight: 850;
+  line-height: 1.24;
+  letter-spacing: 0;
+}
+
+.playlab-unified-help-summary {
+  max-width: 78ch;
+  margin: 0;
+  color: #475569;
+  font-size: clamp(15px, 1.45vw, 18px);
+  font-weight: 500;
+  line-height: 1.72;
+  word-break: keep-all;
+}
+
+.playlab-unified-help-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.playlab-unified-help-section {
+  min-width: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: none;
+  padding: clamp(18px, 2.4vw, 24px);
+}
+
+.playlab-unified-help-section.is-method {
+  border-color: #dbeafe;
+  background: #fbfdff;
+}
+
+.playlab-unified-help-section.is-benefit {
+  border-color: #dcfce7;
+  background: #fcfffd;
+}
+
+.playlab-unified-help-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 10px;
+  color: #111827;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 800;
+  line-height: 1.34;
+  letter-spacing: 0;
+}
+
+.playlab-unified-help-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.playlab-unified-help-section.is-benefit .playlab-unified-help-badge {
+  background: #059669;
+  color: #fff;
+}
+
+.playlab-unified-help-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 1.35rem;
+  list-style: decimal;
+}
+
+.playlab-unified-help-list li {
+  margin: 0;
+  padding: 0 0 0 0.2rem;
+  border-radius: 0;
+  background: transparent;
+  color: #334155;
+  font-size: clamp(15px, 1.35vw, 17px);
+  font-weight: 500;
+  line-height: 1.72;
+  word-break: keep-all;
+}
+
+.playlab-unified-help-list li::marker {
+  color: #2563eb;
+  font-weight: 800;
+}
+
+.playlab-unified-help-section.is-benefit .playlab-unified-help-list {
+  list-style: disc;
+}
+
+.playlab-unified-help-section.is-benefit .playlab-unified-help-list li::marker {
+  color: #059669;
+}
+
+.playlab-unified-help-prose {
+  margin-top: 18px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 20px;
+  color: #334155;
+}
+
+.playlab-unified-help-prose h3 {
+  margin: 0 0 10px;
+  color: #111827;
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.playlab-unified-help-prose p {
+  max-width: 92ch;
+  margin: 0;
+  color: #334155;
+  font-size: clamp(15px, 1.35vw, 17px);
+  font-weight: 500;
+  line-height: 1.82;
+  word-break: keep-all;
+}
+
+.playlab-unified-help-prose p + p {
+  margin-top: 0.85rem;
+}
+
+.playlab-unified-help-actions {
+  position: absolute;
+  right: clamp(24px, 4vw, 42px);
+  bottom: 0;
+  left: clamp(24px, 4vw, 42px);
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 18px 0 22px;
+  border-radius: 0 0 18px 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), #ffffff 28%, #ffffff 100%);
+}
+
+.playlab-unified-help-dismiss,
+.playlab-unified-help-bottom-close {
+  width: min(420px, 100%);
+  min-height: 52px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 24px;
+  background: #0f766e;
+  box-shadow: 0 14px 28px rgba(15, 118, 110, 0.18);
+  color: #ffffff;
+  cursor: pointer;
+  font: inherit;
+  font-size: clamp(15px, 1.5vw, 17px);
+  font-weight: 800;
+}
+
+.playlab-unified-help-bottom-close {
+  background: #0f766e;
+  box-shadow: 0 14px 28px rgba(15, 118, 110, 0.18);
+  color: #ffffff;
+}
+
+.playlab-unified-help-dismiss:focus-visible,
+.playlab-unified-help-bottom-close:focus-visible {
+  outline: 4px solid rgba(124, 58, 237, 0.35);
+  outline-offset: 4px;
+}
+
+html.playlab-unified-help-open,
+html.playlab-unified-help-open body {
+  overflow: hidden;
+}
+
+html.playlab-unified-help-open #helpModal {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+.playlab-unified-help-modal.is-open {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  z-index: 12000 !important;
+}
+
+.playlab-unified-help-modal.is-open .playlab-unified-help-backdrop,
+.playlab-unified-help-modal.is-open .playlab-unified-help-card,
+.playlab-unified-help-modal.is-open .playlab-unified-help-inner,
+.playlab-unified-help-modal.is-open .playlab-unified-help-actions {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.playlab-unified-help-modal.is-open .playlab-unified-help-card {
+  background: #ffffff !important;
+  transform: translateZ(0);
+}
+
+.playlab-unified-help-modal.is-open :is(h1, h2, h3, p, li, span, strong, button, div) {
+  opacity: 1 !important;
+  visibility: visible !important;
+  -webkit-text-fill-color: currentColor;
+}
+
+@media (max-width: 720px) {
+  .playlab-unified-help-card {
+    max-height: 92dvh;
+    border-radius: 18px;
+  }
+
+  .playlab-unified-help-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .playlab-unified-help-inner {
+    padding: 22px 18px 104px;
+  }
+
+  .playlab-unified-help-actions {
+    right: 18px;
+    left: 18px;
+    padding-bottom: 18px;
+  }
+}
