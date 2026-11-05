@@ -18,3 +18,12 @@ keywords = ["sb_secret_"]
 targetRules = ["generic-api-key"]
 description = "Public Supabase publishable keys; never server secrets or PATs"
 regexes = ['''^sb_publishable_[A-Za-z0-9_-]+$''']
+
+# Exact MD5 digests of reviewed PostgreSQL function bodies are public integrity metadata.
+# Keep AND: neither other values in this file nor these values in other files are exempt.
+[[allowlists]]
+targetRules = ["generic-api-key"]
+description = "Public reviewed PostgreSQL function-body MD5 digests, not credentials"
+condition = "AND"
+paths = ['''(?:^|/)scripts/security-tenant-transaction-probe\.sql$''']
+regexes = ['''^(?:5176d67dec3d544be0f5135011bf8916|61a6d0cde74c6464b71e462532ed2059|aca6f1590a09e1be7c7fa361fead7608)$''']

@@ -60,12 +60,20 @@ if(process.argv.includes('--gitleaks')){
   const tool=await ensureSecurityTool('gitleaks');
   const pat='sbp_'+randomBytes(24).toString('hex'),api=randomBytes(32).toString('base64url');
   await fs.writeFile(path.join(temp,'fixture.js'),'const serviceCredential = '+JSON.stringify(pat)+'; // gitleaks:allow\nconst API_KEY = '+JSON.stringify(api)+';\n');
+  const probeSource=await fs.readFile('scripts/security-tenant-transaction-probe.sql','utf8');const gitleaksConfig=await fs.readFile('security/gitleaks.toml','utf8');const reviewedHashes=new Set([...gitleaksConfig.matchAll(/\b[a-f0-9]{32}\b/g)].map(m=>m[0]));const digestRows=probeSource.split('\n').filter(line=>{const match=line.match(/^\s*\('[^']+','([a-f0-9]{32})'\)/);return match&&reviewedHashes.has(match[1]);});
+  check('reviewed integrity-check fixture has the expected three public MD5 rows',digestRows.length===3);
+  await fs.mkdir(path.join(temp,'scripts'));await fs.writeFile(path.join(temp,'scripts/security-tenant-transaction-probe.sql'),digestRows.join('\n')+'\nAPI_KEY = '+JSON.stringify(api)+';\n');
+  await fs.writeFile(path.join(temp,'not-approved.sql'),digestRows.join('\n')+'\n');
   const report=path.join(temp,'redacted.json');const run=spawnSync(tool,['dir',temp,'--config',path.resolve('security/gitleaks.toml'),'--redact=100','--ignore-gitleaks-allow','--no-banner','--log-level=error','--report-format=json','--report-path',report],{encoding:'utf8',timeout:30000});
   check('real scanner blocks newly introduced credentials',run.status===1);
   const findings=JSON.parse(await fs.readFile(report,'utf8'));
   check('real PAT rule cannot be bypassed by inline allow comment',findings.some(f=>f.RuleID==='hahalab-supabase-personal-token'));
   check('real generic secret rule remains active',findings.some(f=>f.RuleID==='generic-api-key'));
   check('real scanner report redacts generated secret values',!JSON.stringify(findings).includes(pat)&&!JSON.stringify(findings).includes(api));
+  check('only exact integrity hashes in the exact probe path are exempt',!findings.some(f=>String(f.File).endsWith('scripts/security-tenant-transaction-probe.sql')&&f.StartLine<=digestRows.length));
+  check('new API secrets in the probe path still block',findings.some(f=>String(f.File).endsWith('scripts/security-tenant-transaction-probe.sql')&&f.RuleID==='generic-api-key'&&f.StartLine===digestRows.length+1));
+  check('same integrity hashes in another path are not blanket-exempt',findings.filter(f=>String(f.File).endsWith('not-approved.sql')&&f.RuleID==='generic-api-key').length===3);
+
  }finally{await fs.rm(temp,{recursive:true,force:true});}
 }
 console.log(JSON.stringify({passed:true,checks:checks.length,names:checks}));

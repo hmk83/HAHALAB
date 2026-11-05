@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-04T07:51:33.488Z",
+  "generatedAt": "2026-11-05T00:38:05.055Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -995,8 +995,8 @@
     },
     {
       "path": "scripts/security-ci-selftest.mjs",
-      "sha256": "f2e5c0abd2e620a401bf2718bd06acd4bedfc019bf47251d0b5ef8e6e8a27cf6",
-      "bytes": 9998
+      "sha256": "28a3160f98f670359dd8a42b2fe05deab3696adea7fb678739276e238f29d9c9",
+      "bytes": 11393
     },
     {
       "path": "scripts/security-ci.mjs",
@@ -1135,8 +1135,8 @@
     },
     {
       "path": "security/README.md",
-      "sha256": "4e5eb4d3af0bc317de96b631a85d6a8ae776866513b12d7ec4d47d87d1032fdb",
-      "bytes": 7290
+      "sha256": "b88f78389c45b11446f88cea51aceba25d4dd7c0eb0efa9eebacda474a85c527",
+      "bytes": 8034
     },
     {
       "path": "security/dependency-inventory.json",
@@ -1145,8 +1145,8 @@
     },
     {
       "path": "security/gitleaks.toml",
-      "sha256": "3d16d2df5ab424c1339e8ccdffb90a9918e4c5be958d09b647110eb5a59a5480",
-      "bytes": 749
+      "sha256": "e44a99b214407d212c977eef694c16348cb222a8d10045e9da9bd0399411deef",
+      "bytes": 1277
     },
     {
       "path": "security/reviewed-legacy-verifiers.json",
