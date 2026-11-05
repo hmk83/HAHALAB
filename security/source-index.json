@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T04:08:59.105Z",
+  "generatedAt": "2026-11-05T04:34:45.906Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -1065,8 +1065,8 @@
     },
     {
       "path": "playlab/cardlab-shell.js",
-      "sha256": "4007504a43825ab0131b69a84f6ae3600c912391723e6426a50daef066923c48",
-      "bytes": 150408
+      "sha256": "3db58ea25f47f335739b01cc40d446340e44daf321024c5ec2af9ba35f1741fa",
+      "bytes": 151482
     },
     {
       "path": "playlab/cardlab-situation-ox-data.js",
@@ -1510,8 +1510,8 @@
     },
     {
       "path": "playlab/playlab-supermarket-errand.js",
-      "sha256": "7d502bfe30862e54540856780a87335e71ae25a8fdb838a9a685e0d5379e4f78",
-      "bytes": 75727
+      "sha256": "f00e9a686ff91aa9ccf0e3a8efcff44542e3237a6288d249099b27ff734f7a28",
+      "bytes": 75567
     },
     {
       "path": "playlab/playlab-tablet.css",
@@ -1847,6 +1847,11 @@
       "path": "scripts/validate-production-security-syntax.py",
       "sha256": "ea0dddb06307eab0be85d6d09c365a05d6a409e5023380068049c8a8dea1e457",
       "bytes": 2065
+    },
+    {
+      "path": "scripts/validate-security-active-two-sinks.mjs",
+      "sha256": "b8f2f00ae1b095468eea2349bb091b657ea1eb2b70b2805731b0915ad4bb77b3",
+      "bytes": 12535
     },
     {
       "path": "scripts/validate-security-admin-runtime.mjs",
