@@ -1034,9 +1034,7 @@
 
       return {
         id: `${stage.id}-${Date.now()}`,
-        sessionId: typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-          ? crypto.randomUUID()
-          : `context-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        sessionId: crypto.randomUUID(),
         startedAtMs: Date.now(),
         completedAtMs: null,
         saveStarted: false,
@@ -1685,7 +1683,14 @@
     console.error(error);
     const stageGrid = document.getElementById('stageGrid');
     if (stageGrid) {
-      stageGrid.innerHTML = '<div class="wordbuild-error-box"><strong>상황맞춤 어휘 초기화 실패</strong><div>' + String(error && error.message ? error.message : error) + '</div></div>';
+      const box = document.createElement('div');
+      box.className = 'wordbuild-error-box';
+      const heading = document.createElement('strong');
+      heading.textContent = '상황맞춤 어휘 초기화 실패';
+      const message = document.createElement('div');
+      message.textContent = String(error && error.message ? error.message : error);
+      box.append(heading, message);
+      stageGrid.replaceChildren(box);
     }
     window.CARDLAB_CONTEXT_DEBUG = {
       stages: [],

@@ -712,9 +712,7 @@
 
   function startStage(stageIndex) {
     state.runGeneration += 1;
-    state.sessionId = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
-      ? crypto.randomUUID()
-      : `block-count-${Date.now()}-${Math.random().toString(36).slice(2)}-${state.runGeneration}`;
+    state.sessionId = crypto.randomUUID();
     const baseStage = STAGES.find((item) => item.index === stageIndex) || STAGES[0];
     const stage = getAgeAdjustedStage(baseStage);
     state.stage = stage;

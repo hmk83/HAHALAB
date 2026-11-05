@@ -1,0 +1,133 @@
+{
+  "commit": "6d4509eafd71685d74464a1e34d31f3106ba7756",
+  "purpose": "Exact reviewed changes only; reverse patches must restore analyzed main bytes, proving unrelated score/raw/gameplay source remains unchanged.",
+  "files": [
+    {
+      "file": "playlab/cardlab-context.js",
+      "originalSha256": "460149e2497abd8c13dcd13e41ba2f63dd6dc4d7112a40185e169d47512a193e",
+      "edits": [
+        {
+          "before": "        sessionId: typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'\n          ? crypto.randomUUID()\n          : `context-${Date.now()}-${Math.random().toString(36).slice(2)}`,\n",
+          "after": "        sessionId: crypto.randomUUID(),\n"
+        },
+        {
+          "before": "      stageGrid.innerHTML = '<div class=\"wordbuild-error-box\"><strong>상황맞춤 어휘 초기화 실패</strong><div>' + String(error && error.message ? error.message : error) + '</div></div>';\n",
+          "after": "      const box = document.createElement('div');\n      box.className = 'wordbuild-error-box';\n      const heading = document.createElement('strong');\n      heading.textContent = '상황맞춤 어휘 초기화 실패';\n      const message = document.createElement('div');\n      message.textContent = String(error && error.message ? error.message : error);\n      box.append(heading, message);\n      stageGrid.replaceChildren(box);\n"
+        }
+      ]
+    },
+    {
+      "file": "playlab/cardlab-situation-ox.js",
+      "originalSha256": "3d709d11156ff3180b3417ebcba7a5e905987bac1b1dad238f90bfbcbccc741d",
+      "edits": [
+        {
+          "before": "    state.index=0;state.results=[];state.started=Date.now();state.sessionId='situation-ox-'+(crypto.randomUUID?.() || Date.now()+'-'+Math.random().toString(36).slice(2));state.saved=false;view('game');render();\n",
+          "after": "    state.index=0;state.results=[];state.started=Date.now();state.sessionId='situation-ox-'+crypto.randomUUID();state.saved=false;view('game');render();\n"
+        }
+      ]
+    },
+    {
+      "file": "playlab/numberlab-agency.js",
+      "originalSha256": "5424b320d9ddb6c5e6f47abe023cce69ebec611e2505b87d9d2ad5d2f89c411b",
+      "edits": [
+        {
+          "before": "    state.sessionId = `number-agency:${state.activity.id}:${window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`;\n",
+          "after": "    state.sessionId = `number-agency:${state.activity.id}:${window.crypto.randomUUID()}`;\n"
+        }
+      ]
+    },
+    {
+      "file": "playlab/playlab-spatial-block-count.js",
+      "originalSha256": "48fa6c4655b9f91ad5e81dd646656fb9fe1775ef8f3f07e101d98d2fc93abddd",
+      "edits": [
+        {
+          "before": "    state.sessionId = window.crypto && typeof window.crypto.randomUUID === 'function'\n      ? window.crypto.randomUUID() : `spatial-${state.startedAtMs}-${Math.random().toString(36).slice(2)}`;\n",
+          "after": "    state.sessionId = window.crypto.randomUUID();\n"
+        }
+      ]
+    },
+    {
+      "file": "playlab/playlab-standalone.js",
+      "originalSha256": "a394432d0037e1d295e20bb9f91cd80816a4fa01f1df9f6b4c815b196be66163",
+      "edits": [
+        {
+          "before": "      sessionId: typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'\n        ? crypto.randomUUID()\n        : `standalone-${Date.now()}-${Math.random().toString(36).slice(2)}`,\n",
+          "after": "      sessionId: crypto.randomUUID(),\n"
+        }
+      ]
+    },
+    {
+      "file": "playlab/rehablab-color-block-count.js",
+      "originalSha256": "1edc38a64f51cf22e74aba0e2b6fdfab18aa5d22ded0b4eeacdf722a331b2695",
+      "edits": [
+        {
+          "before": "    state.sessionId = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'\n      ? crypto.randomUUID()\n      : `block-count-${Date.now()}-${Math.random().toString(36).slice(2)}-${state.runGeneration}`;\n",
+          "after": "    state.sessionId = crypto.randomUUID();\n"
+        }
+      ]
+    },
+    {
+      "file": "playlab/rehablab-language-card-labs.js",
+      "originalSha256": "9a04a9f8baef336d74f5173b87f9473791582db4379f22a744bba5de217d9b6f",
+      "edits": [
+        {
+          "before": "    state.sessionId = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'\n      ? crypto.randomUUID()\n      : `language-card-${Date.now()}-${Math.random().toString(36).slice(2)}`;\n",
+          "after": "    state.sessionId = crypto.randomUUID();\n"
+        }
+      ]
+    },
+    {
+      "file": "supabase/functions/worksheet-r2-storage/index.ts",
+      "originalSha256": "b81b2af4d4bada8959e1a93cddf0fe42c0bf9660153bb1f87287777888470d50",
+      "edits": [
+        {
+          "before": "const sanitizeFileName = (value)=>String(value || \"file\").trim().replace(/\\s+/g, \"-\").replace(/[^a-zA-Z0-9._-가-힣]/g, \"\").slice(0, 120) || `file-${Date.now()}`;\nconst sanitizeKey = (value)=>String(value || \"\").split(\"/\").map((segment)=>segment.trim()).filter(Boolean).map((segment)=>segment.replace(/[^a-zA-Z0-9._-가-힣]/g, \"-\")).join(\"/\");\n",
+          "after": "const sanitizeFileName = (value)=>String(value || \"file\").trim().replace(/\\s+/g, \"-\").replace(/[^a-zA-Z0-9._가-힣-]/g, \"\").slice(0, 120) || `file-${Date.now()}`;\nconst sanitizeKey = (value)=>String(value || \"\").split(\"/\").map((segment)=>segment.trim()).filter(Boolean).map((segment)=>segment.replace(/[^a-zA-Z0-9._가-힣-]/g, \"-\")).join(\"/\");\n"
+        },
+        {
+          "before": "import { createClient } from \"npm:@supabase/supabase-js@2\";",
+          "after": "import { createClient } from \"npm:@supabase/supabase-js@2.119.0\";",
+          "reason": "Approved exact version pin of already resolved/deployed 2.119.0; floating @2 previously drifted from 2.118.0 during deployment. This changes reproducibility, not an npm installation or extra Edge function."
+        }
+      ]
+    },
+    {
+      "file": "playlab/numberlab-standalone.js",
+      "originalSha256": "a1e8a46ff0bc3bb408663cf1b1e46e5a159844a1e48eecb6213685bbb1737f6e",
+      "edits": [
+        {
+          "before": "var HAHAClassAppFile = (() => {\n",
+          "after": "var HAHAClassAppFile = (() => {\n  // A number-only entry must never fall through to the legacy dashboard.\n  if (!window.NUMBERLAB_STANDALONE_CONFIG || typeof window.NUMBERLAB_STANDALONE_CONFIG !== 'object') {\n    const invalidRoot = document.getElementById('root');\n    if (invalidRoot) invalidRoot.textContent = '학습 설정을 확인할 수 없습니다. 숫자랩에서 다시 시작해 주세요.';\n    return;\n  }\n"
+        },
+        {
+          "before": "  if (window.NUMBERLAB_STANDALONE_CONFIG) {\n    root.render(/* @__PURE__ */ React.createElement(NumberLabStandaloneRoot, null));\n  } else {\n    root.render(/* @__PURE__ */ React.createElement(App, null));\n  }",
+          "after": "  root.render(/* @__PURE__ */ React.createElement(NumberLabStandaloneRoot, null));"
+        }
+      ]
+    },
+    {
+      "file": "playlab/numberlab-standalone-sequence-fix.js",
+      "originalSha256": "a7bf3f40e0722dd9cfb4b3e88ca423c4e3c79f51d512d6f822e078d250afebde",
+      "edits": [
+        {
+          "before": "var HAHAClassAppFile = (() => {\n",
+          "after": "var HAHAClassAppFile = (() => {\n  // A number-only entry must never fall through to the legacy dashboard.\n  if (!window.NUMBERLAB_STANDALONE_CONFIG || typeof window.NUMBERLAB_STANDALONE_CONFIG !== 'object') {\n    const invalidRoot = document.getElementById('root');\n    if (invalidRoot) invalidRoot.textContent = '학습 설정을 확인할 수 없습니다. 숫자랩에서 다시 시작해 주세요.';\n    return;\n  }\n"
+        },
+        {
+          "before": "  if (window.NUMBERLAB_STANDALONE_CONFIG) {\n    root.render(/* @__PURE__ */ React.createElement(NumberLabStandaloneRoot, null));\n  } else {\n    root.render(/* @__PURE__ */ React.createElement(App, null));\n  }",
+          "after": "  root.render(/* @__PURE__ */ React.createElement(NumberLabStandaloneRoot, null));"
+        }
+      ]
+    },
+    {
+      "file": "playlab/number-app.file.js",
+      "originalSha256": "802d00e9480be678daaa2ec8daa6a0fb341bf8b133356858d0f336c3bec70a98",
+      "edits": [
+        {
+          "before": "var HAHAClassAppFile = (() => {\n",
+          "after": "var HAHAClassAppFile = (() => {\n  // Retired dashboard bundle: retained for source history, never an app entry.\n  const retiredRoot = document.getElementById('root');\n  if (retiredRoot) retiredRoot.textContent = '이전 학습 화면은 더 이상 지원되지 않습니다. 숫자랩에서 다시 시작해 주세요.';\n  return;\n"
+        }
+      ]
+    }
+  ]
+}

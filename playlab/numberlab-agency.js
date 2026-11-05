@@ -5300,7 +5300,7 @@
     stopTeachingAudio();
     const stage = state.activity.stages.find((item) => item.id === stageId) || state.activity.stages[0];
     state.stage = stage;
-    state.sessionId = `number-agency:${state.activity.id}:${window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`}`;
+    state.sessionId = `number-agency:${state.activity.id}:${window.crypto.randomUUID()}`;
     state.questionIndex = 0;
     state.correct = 0;
     state.wrong = 0;

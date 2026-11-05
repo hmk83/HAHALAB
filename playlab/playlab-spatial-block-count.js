@@ -623,8 +623,7 @@
     state.questionIndex = 0;
     state.startedAtMs = Date.now();
     state.savedRunId = '';
-    state.sessionId = window.crypto && typeof window.crypto.randomUUID === 'function'
-      ? window.crypto.randomUUID() : `spatial-${state.startedAtMs}-${Math.random().toString(36).slice(2)}`;
+    state.sessionId = window.crypto.randomUUID();
     state.metrics = { correct: 0, wrong: 0, attempts: 0, responseTimes: [], questionLogs: [], answerDistances: [], rotations: 0 };
     setScreen('game');
     renderQuestion();

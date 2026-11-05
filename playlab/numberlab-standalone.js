@@ -1,4 +1,10 @@
 var HAHAClassAppFile = (() => {
+  // A number-only entry must never fall through to the legacy dashboard.
+  if (!window.NUMBERLAB_STANDALONE_CONFIG || typeof window.NUMBERLAB_STANDALONE_CONFIG !== 'object') {
+    const invalidRoot = document.getElementById('root');
+    if (invalidRoot) invalidRoot.textContent = '학습 설정을 확인할 수 없습니다. 숫자랩에서 다시 시작해 주세요.';
+    return;
+  }
   const { useState, useEffect, useRef, useMemo, useCallback, useDeferredValue } = React;
   const MODAL_OVERLAY_Z_INDEX = 2147483e3;
   const getViewportSafeAreaPaddingStyle = (basePadding = 16) => ({
@@ -39309,9 +39315,5 @@ const buildAssociationPoolCards = (question) => {
   }
   const root = ReactDOM.createRoot(document.getElementById("root"));
   ensureNumberLabShellAssets();
-  if (window.NUMBERLAB_STANDALONE_CONFIG) {
-    root.render(/* @__PURE__ */ React.createElement(NumberLabStandaloneRoot, null));
-  } else {
-    root.render(/* @__PURE__ */ React.createElement(App, null));
-  }
+  root.render(/* @__PURE__ */ React.createElement(NumberLabStandaloneRoot, null));
 })();

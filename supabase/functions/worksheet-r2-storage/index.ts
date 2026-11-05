@@ -1,4 +1,4 @@
-import { createClient } from "npm:@supabase/supabase-js@2";
+import { createClient } from "npm:@supabase/supabase-js@2.119.0";
 import { GetObjectCommand, PutObjectCommand, S3Client } from "npm:@aws-sdk/client-s3@3.1161.0";
 import { getSignedUrl } from "npm:@aws-sdk/s3-request-presigner@3.1161.0";
 const corsHeaders = {
@@ -15,8 +15,8 @@ const json = (body, init = {})=>new Response(JSON.stringify(body), {
       ...init.headers || {}
     }
   });
-const sanitizeFileName = (value)=>String(value || "file").trim().replace(/\s+/g, "-").replace(/[^a-zA-Z0-9._-가-힣]/g, "").slice(0, 120) || `file-${Date.now()}`;
-const sanitizeKey = (value)=>String(value || "").split("/").map((segment)=>segment.trim()).filter(Boolean).map((segment)=>segment.replace(/[^a-zA-Z0-9._-가-힣]/g, "-")).join("/");
+const sanitizeFileName = (value)=>String(value || "file").trim().replace(/\s+/g, "-").replace(/[^a-zA-Z0-9._가-힣-]/g, "").slice(0, 120) || `file-${Date.now()}`;
+const sanitizeKey = (value)=>String(value || "").split("/").map((segment)=>segment.trim()).filter(Boolean).map((segment)=>segment.replace(/[^a-zA-Z0-9._가-힣-]/g, "-")).join("/");
 const worksheetKey = (value)=>{
   if (typeof value !== "string" || value !== value.trim() || value.length > 1024 ||
       !value.startsWith("worksheets/originals/") || /[\u0000-\u001f\u007f\\?#%]/.test(value) ||
