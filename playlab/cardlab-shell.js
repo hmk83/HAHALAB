@@ -959,6 +959,20 @@
         return String(type && type.description || '').trim();
     }
 
+    function safeImageFallbackUrl(value) {
+        const candidate = String(value || '').trim();
+        if (!candidate || /[\u0000-\u001f\u007f]/.test(candidate)) return '';
+        try {
+            const url = new URL(candidate, window.location.href);
+            if ((url.protocol === 'http:' || url.protocol === 'https:') && !url.username && !url.password) return url.href;
+            if (url.protocol === 'blob:' && url.origin !== 'null' && url.origin === window.location.origin) return url.href;
+            // Inline images are limited to raster MIME types; HTML/SVG documents
+            // and executable/local-file schemes never enter this DOM sink.
+            if (url.protocol === 'data:' && /^data:image\/(?:png|jpeg|gif|webp|avif|bmp|x-icon|vnd\.microsoft\.icon)(?:;[a-z0-9=.+-]+)*,/i.test(candidate)) return url.href;
+        } catch (_error) {}
+        return '';
+    }
+
     function attachImageFallbacks(container) {
         if (!container) return;
         Array.prototype.slice.call(container.querySelectorAll('img[data-image-candidates]')).forEach(function (img) {
@@ -977,17 +991,21 @@
                     })
                     .filter(Boolean);
                 let index = Number(img.dataset.imageFallbackIndex || '0');
-                if (Number.isNaN(index)) index = 0;
-                if (index >= candidates.length - 1) {
+                if (!Number.isInteger(index) || index < 0) index = 0;
+                let nextImage = '';
+                while (++index < candidates.length) {
+                    nextImage = safeImageFallbackUrl(candidates[index]);
+                    if (nextImage) break;
+                }
+                if (!nextImage) {
                     img.classList.add('is-image-missing');
                     const holder = img.closest('.intro-category-media, .intro-option-media, .quiz-card-media');
                     if (holder) holder.classList.add('is-image-missing');
                     img.removeAttribute('src');
                     return;
                 }
-                index += 1;
                 img.dataset.imageFallbackIndex = String(index);
-                img.src = candidates[index];
+                img.src = nextImage;
             });
         });
     }

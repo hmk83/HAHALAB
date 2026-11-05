@@ -782,17 +782,11 @@
     window.setTimeout(updateCartDockControls, 240);
   }
 
-  function cartChipSelector(productId) {
-    const escaped = window.CSS && typeof window.CSS.escape === 'function'
-      ? window.CSS.escape(productId)
-      : String(productId).replace(/"/g, '\\"');
-    return `[data-cart-remove="${escaped}"]`;
-  }
-
   function showCartDelta(productId, deltaText) {
     const dock = activeCartDock();
     if (!dock) return;
-    const chip = dock.querySelector(cartChipSelector(productId));
+    const chip = Array.from(dock.querySelectorAll('[data-cart-remove]'))
+      .find((node) => node.getAttribute('data-cart-remove') === String(productId));
     const row = dock.closest('.mart-cart-row');
     const target = row || dock;
     const badge = document.createElement('span');
