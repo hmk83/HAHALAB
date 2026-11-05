@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T03:02:58.577Z",
+  "generatedAt": "2026-11-05T03:11:28.586Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -12,6 +12,11 @@
       "path": ".github/workflows/security.yml",
       "sha256": "5bf198914e10015acab64640d45dee93d93f1edf694b1b6dffdb679ee14b8b6f",
       "bytes": 3398
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "302719e38f1c0804a1560149e71853dccfc00a1bf9dcab16d14dd072c16d56cb",
+      "bytes": 292
     },
     {
       "path": "_headers",
@@ -1280,8 +1285,8 @@
     },
     {
       "path": "security/source-policy.json",
-      "sha256": "f69fb4b8b0a7e547288ce757e3783b200c68e11b4085b4161b893b23d4701015",
-      "bytes": 2553
+      "sha256": "16daa8debdc30f9404948d54e27eb9ccc39e04b8fac436d616ddc9235e772225",
+      "bytes": 2571
     },
     {
       "path": "security/tools.lock.json",

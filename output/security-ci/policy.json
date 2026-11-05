@@ -1,9 +1,0 @@
-{
-  "mode": "policy",
-  "checkedAt": "2026-11-05T01:47:49.482Z",
-  "passed": true,
-  "sourceFiles": 252,
-  "verifiedSourceIndex": true,
-  "inventoryPackages": 11,
-  "sourceScope": "Explicit current application source; no customer records or private learning HTML"
-}

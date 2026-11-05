@@ -14,6 +14,7 @@
     "scripts/security-ci.mjs"
   ],
   "rootFiles": [
+    ".gitignore",
     "index.html",
     "index-app.js",
     "admin.html",
