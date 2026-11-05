@@ -624,33 +624,61 @@
             });
         };
 
-        const fetchMyTeacherProfile = async () => {
-            await supabase.rpc('bind_current_user_to_teacher');
+        let adminAuthGeneration = 0;
+        let adminLogoutInProgress = false;
+        let pendingAdminSignOut = null;
+        const isAdminAuthCurrent = (generation) => !adminLogoutInProgress && generation === adminAuthGeneration;
+        const invalidateAdminAuth = () => {
+            adminLogoutInProgress = true;
+            adminAuthGeneration += 1;
+        };
+        const adminAuthSuperseded = () => ({ ok: false, cancelled: true, error: new Error('ADMIN_AUTH_SUPERSEDED') });
+        const beginAdminLoginAttempt = async () => {
+            // A newly mounted login form must not reuse the session being signed out.
+            if (pendingAdminSignOut) await pendingAdminSignOut;
+            adminAuthGeneration += 1;
+            adminLogoutInProgress = false;
+            return adminAuthGeneration;
+        };
+
+        const fetchMyTeacherProfile = async (generation = adminAuthGeneration) => {
+            if (!isAdminAuthCurrent(generation)) return { data: null, ...adminAuthSuperseded() };
+            const { error: bindError } = await supabase.rpc('bind_current_user_to_teacher');
+            if (!isAdminAuthCurrent(generation)) return { data: null, ...adminAuthSuperseded() };
+            if (bindError) return { data: null, error: bindError };
             const { data, error } = await supabase.rpc('get_my_teacher_profile');
+            if (!isAdminAuthCurrent(generation)) return { data: null, ...adminAuthSuperseded() };
             return { data: getFirstRow(data), error };
         };
 
-        const requireAdminSession = async () => {
+        const requireAdminSession = async (generation = adminAuthGeneration) => {
+            if (!isAdminAuthCurrent(generation)) return adminAuthSuperseded();
             const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+            if (!isAdminAuthCurrent(generation)) return adminAuthSuperseded();
             if (sessionError) return { ok: false, error: sessionError };
             if (!sessionData?.session) return { ok: false, error: new Error('AUTH_REQUIRED') };
             const { data: verifiedUser, error: userError } = await supabase.auth.getUser();
+            if (!isAdminAuthCurrent(generation)) return adminAuthSuperseded();
             if (userError || !verifiedUser?.user) return { ok: false, error: userError || new Error('AUTH_REQUIRED') };
             const { data: activeSession, error: activeSessionError } = await supabase.rpc('security_session_active');
+            if (!isAdminAuthCurrent(generation)) return adminAuthSuperseded();
             if (activeSessionError || activeSession !== true) return { ok: false, error: activeSessionError || new Error('AUTH_SESSION_REVOKED') };
 
             const { data: isAdmin, error: roleError } = await supabase.rpc('is_admin_user');
+            if (!isAdminAuthCurrent(generation)) return adminAuthSuperseded();
             if (roleError) return { ok: false, error: roleError };
             if (!isAdmin) return { ok: false, error: new Error('ADMIN_ONLY') };
 
-            const { data: profile, error: profileError } = await fetchMyTeacherProfile();
+            const { data: profile, error: profileError } = await fetchMyTeacherProfile(generation);
+            if (!isAdminAuthCurrent(generation)) return adminAuthSuperseded();
             if (profileError || !profile) return { ok: false, error: profileError || new Error('PROFILE_NOT_FOUND') };
             if (!['normal', 'active'].includes(String(profile.status || '').trim().toLowerCase())) return { ok: false, error: new Error('ACCOUNT_BLOCKED') };
             const { data: assurance, error: assuranceError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+            if (!isAdminAuthCurrent(generation)) return adminAuthSuperseded();
             if (assuranceError) return { ok: false, error: assuranceError };
-            if (assurance?.currentLevel !== 'aal2') return { ok: false, error: new Error('MFA_REQUIRED'), mfaRequired: true };
+            if (assurance?.currentLevel !== 'aal2') return { ok: false, error: new Error('MFA_REQUIRED'), mfaRequired: true, generation };
 
-            return { ok: true, profile: keysToCamel(profile), session: sessionData.session };
+            return { ok: true, profile: keysToCamel(profile), session: sessionData.session, generation };
         };
 
         // [NEW] 2:1 Ratio Image Cropper
@@ -1625,7 +1653,8 @@
 
             // [REFACTOR v1.0.5] plans 상태 제거
 
-            const handleLogin = (adminData) => {
+            const handleLogin = (adminData, generation) => {
+                if (!isAdminAuthCurrent(generation)) return;
                 const sessionData = { ...adminData, lastActiveAt: new Date().toISOString() };
                 localStorage.setItem('haha_lab_admin_session', JSON.stringify(sessionData));
                 setAdmin(sessionData);
@@ -1633,22 +1662,35 @@
             };
 
             const handleLogout = async (message = '로그아웃 되었습니다.') => {
+                invalidateAdminAuth();
                 localStorage.removeItem('haha_lab_admin_session');
+                const signingOut = (async () => {
+                    const { error } = await supabase.auth.signOut();
+                    if (error) throw error;
+                })();
+                pendingAdminSignOut = signingOut;
                 setAdmin(null);
                 setView('login');
-                try { await supabase.auth.signOut(); } catch (e) {}
-                showToast && showToast(message);
+                try {
+                    await signingOut;
+                    showToast && showToast(message);
+                } catch (_error) {
+                    showToast && showToast('로그아웃 요청을 완료하지 못했습니다. 연결 상태를 확인한 뒤 다시 로그인해 주세요.');
+                } finally {
+                    if (pendingAdminSignOut === signingOut) pendingAdminSignOut = null;
+                }
             };
 
             useEffect(() => {
                 let mounted = true;
 
                 const restoreSession = async () => {
+                    const generation = adminAuthGeneration;
                     const result = await requireAdminSession();
-                    if (!mounted) return;
+                    if (!mounted || !isAdminAuthCurrent(generation)) return;
 
                     if (result.ok) {
-                        handleLogin(result.profile);
+                        handleLogin(result.profile, generation);
                     } else {
                         localStorage.removeItem('haha_lab_admin_session');
                         setAdmin(null);
@@ -1659,10 +1701,12 @@
                 restoreSession();
 
                 const { data: authState } = supabase.auth.onAuthStateChange((event) => {
+                    if (event === 'SIGNED_OUT') invalidateAdminAuth();
+                    const generation = adminAuthGeneration;
                     // IMPORTANT: do not await Supabase calls directly inside this callback.
                     // It can deadlock auth state transitions and freeze login UI.
                     setTimeout(async () => {
-                        if (!mounted) return;
+                        if (!mounted || generation !== adminAuthGeneration) return;
 
                         if (event === 'SIGNED_OUT') {
                             localStorage.removeItem('haha_lab_admin_session');
@@ -1672,10 +1716,11 @@
                         }
 
                         if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION') {
+                            if (!isAdminAuthCurrent(generation)) return;
                             const result = await requireAdminSession();
-                            if (!mounted) return;
+                            if (!mounted || !isAdminAuthCurrent(generation)) return;
                             if (result.ok) {
-                                handleLogin(result.profile);
+                                handleLogin(result.profile, generation);
                             } else {
                                 localStorage.removeItem('haha_lab_admin_session');
                                 setAdmin(null);
@@ -1912,8 +1957,10 @@
             const [mfaFactor, setMfaFactor] = useState('');
             const [mfaCode, setMfaCode] = useState('');
             const [mfaQr, setMfaQr] = useState('');
-            const prepareAdminMfa = async () => {
+            const prepareAdminMfa = async (generation = adminAuthGeneration) => {
+                if (!isAdminAuthCurrent(generation)) throw adminAuthSuperseded().error;
                 const { data, error: factorError } = await supabase.auth.mfa.listFactors();
+                if (!isAdminAuthCurrent(generation)) throw adminAuthSuperseded().error;
                 if (factorError) throw factorError;
                 const verified = (data?.totp || []).find((factor) => factor.status === 'verified');
                 if (verified) {
@@ -1921,6 +1968,7 @@
                     setMfaQr('');
                 } else {
                     const { data: enrolled, error: enrollError } = await supabase.auth.mfa.enroll({ factorType: 'totp', friendlyName: `HAHA LAB 관리자 ${Date.now()}` });
+                    if (!isAdminAuthCurrent(generation)) throw adminAuthSuperseded().error;
                     if (enrollError) throw enrollError;
                     setMfaFactor(enrolled.id);
                     setMfaQr(enrolled.totp.qr_code);
@@ -1930,24 +1978,28 @@
             };
             const verifyAdminMfa = async (event) => {
                 event.preventDefault();
+                const generation = adminAuthGeneration;
+                if (!isAdminAuthCurrent(generation)) return;
                 if (!/^\d{6}$/.test(mfaCode)) { setError('인증 앱의 6자리 코드를 입력해 주세요.'); return; }
                 setLoading(true);
                 setError('');
                 try {
                     const { error: verifyError } = await supabase.auth.mfa.challengeAndVerify({ factorId: mfaFactor, code: mfaCode });
+                    if (!isAdminAuthCurrent(generation)) return;
                     if (verifyError) throw verifyError;
-                    const result = await requireAdminSession();
+                    const result = await requireAdminSession(generation);
+                    if (!isAdminAuthCurrent(generation)) return;
                     if (!result.ok) throw result.error;
                     setMfaCode('');
                     setMfaQr('');
-                    onLogin(result.profile);
+                    onLogin(result.profile, generation);
                 } catch (_) { setError('추가 인증에 실패했습니다. 인증 앱의 최신 코드를 확인해 주세요.'); }
                 finally { setLoading(false); }
             };
             useEffect(() => {
                 let mounted = true;
                 requireAdminSession().then(async (result) => {
-                    if (mounted && result.mfaRequired) await prepareAdminMfa();
+                    if (mounted && result.mfaRequired && isAdminAuthCurrent(result.generation)) await prepareAdminMfa(result.generation);
                 }).catch(() => { if (mounted) setError('추가 인증 준비에 실패했습니다. 다시 로그인해 주세요.'); });
                 return () => { mounted = false; };
             }, []);
@@ -1959,10 +2011,13 @@
                 setError('');
 
                 try {
+                    const generation = await beginAdminLoginAttempt();
+                    if (!isAdminAuthCurrent(generation)) return;
                     const { error: signInError } = await supabase.auth.signInWithPassword({
                         email: email.trim(),
                         password
                     });
+                    if (!isAdminAuthCurrent(generation)) return;
 
                     if (signInError) {
                         setError(getFriendlyAuthError(signInError.message));
@@ -1970,15 +2025,16 @@
                         return;
                     }
 
-                    const adminCheck = await requireAdminSession();
-                    if (adminCheck.mfaRequired) { await prepareAdminMfa(); return; }
+                    const adminCheck = await requireAdminSession(generation);
+                    if (!isAdminAuthCurrent(generation)) return;
+                    if (adminCheck.mfaRequired) { await prepareAdminMfa(generation); return; }
                     if (!adminCheck.ok) {
                         await supabase.auth.signOut();
                         setError('관리자 권한 계정만 접근할 수 있습니다.');
                         return;
                     }
 
-                    onLogin(adminCheck.profile);
+                    onLogin(adminCheck.profile, generation);
                 } catch (e2) {
                     console.error(e2);
                     setError('로그인 중 오류가 발생했습니다.');
@@ -1992,15 +2048,19 @@
                     setLoading(true);
                     setError('');
 
+                    const generation = await beginAdminLoginAttempt();
+                    if (!isAdminAuthCurrent(generation)) return;
                     const { error: googleError } = await signInWithGoogleIdToken(credential);
+                    if (!isAdminAuthCurrent(generation)) return;
                     if (googleError) {
                         console.error('[AdminGoogleLogin] sign-in failed:', googleError);
                         setError('Google 로그인 중 오류가 발생했습니다.');
                         return;
                     }
 
-                    const adminCheck = await requireAdminSession();
-                    if (adminCheck.mfaRequired) { await prepareAdminMfa(); return; }
+                    const adminCheck = await requireAdminSession(generation);
+                    if (!isAdminAuthCurrent(generation)) return;
+                    if (adminCheck.mfaRequired) { await prepareAdminMfa(generation); return; }
                     if (!adminCheck.ok) {
                         await supabase.auth.signOut();
                         setError('관리자 권한 계정만 접근할 수 있습니다.');
@@ -2013,7 +2073,7 @@
                         return;
                     }
 
-                    onLogin(adminCheck.profile);
+                    onLogin(adminCheck.profile, generation);
                 } catch (e2) {
                     console.error(e2);
                     setError('Google 로그인 중 오류가 발생했습니다.');

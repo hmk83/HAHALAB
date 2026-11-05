@@ -413,7 +413,7 @@ await test('logout purges caches while preserving unacknowledged owner-scoped pe
 
 function adminSessionFixture({ session = {}, user = { id: 'user-a' }, isAdmin = true, profile = { teacher_id: 'teacher-a', status: 'normal' }, aal = 'aal2', activeSession = true } = {}) {
   const source = read('admin.html');
-  const start = source.indexOf('const requireAdminSession = async () => {');
+  const start = source.indexOf('let adminAuthGeneration = 0;');
   const end = source.indexOf('// [NEW] 2:1 Ratio Image Cropper', start);
   assert.ok(start >= 0 && end > start);
   const calls = { verifiedUser: 0, mfa: 0 };
@@ -422,8 +422,14 @@ function adminSessionFixture({ session = {}, user = { id: 'user-a' }, isAdmin = 
       getSession: async () => ({ data: { session }, error: null }),
       getUser: async () => { calls.verifiedUser++; return { data: { user }, error: null }; },
       mfa: { getAuthenticatorAssuranceLevel: async () => { calls.mfa++; return { data: { currentLevel: aal }, error: null }; } },
-    }, rpc: async (name) => ({ data: name === 'security_session_active' ? activeSession : isAdmin, error: name === 'security_session_active' && activeSession === 'error' ? { message: 'RPC_UNAVAILABLE' } : null }) },
-    fetchMyTeacherProfile: async () => ({ data: profile, error: null }), keysToCamel: (value) => value,
+    }, rpc: async (name) => {
+      if (name === 'security_session_active') return { data: activeSession, error: activeSession === 'error' ? { message: 'RPC_UNAVAILABLE' } : null };
+      if (name === 'is_admin_user') return { data: isAdmin, error: null };
+      if (name === 'bind_current_user_to_teacher') return { data: true, error: null };
+      if (name === 'get_my_teacher_profile') return { data: profile ? [profile] : [], error: null };
+      throw new Error(`Unexpected administrator fixture RPC ${name}`);
+    } },
+    getFirstRow: (value) => Array.isArray(value) ? value[0] : value, keysToCamel: (value) => value,
   });
   vm.runInContext(`${source.slice(start, end)};globalThis.check = requireAdminSession;`, context);
   return { calls, check: context.check };

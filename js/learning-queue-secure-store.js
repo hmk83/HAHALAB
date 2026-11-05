@@ -69,6 +69,7 @@
     const promise = (async () => {
       try {
         await loadCodec();
+        if (ticket !== epoch || stamp !== sessionKey(getOwner())) return false;
         const result = await client.rpc('get_my_learning_queue_key');
         const response = result?.data;
         if (result?.error || !response || response.version !== 1 || response.algorithm !== ALGORITHM

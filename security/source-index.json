@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T07:46:48.151Z",
+  "generatedAt": "2026-11-05T08:13:22.439Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -25,8 +25,8 @@
     },
     {
       "path": "admin.html",
-      "sha256": "3642549328319baf7cbc83ab6c68e12beda9ff891112f1f0e299b127ed4f8fa4",
-      "bytes": 1132721
+      "sha256": "c07e5c3814deb0e731b3c94230efbb0fe2ab113fdddba48ebff4948d197e2eeb",
+      "bytes": 1136880
     },
     {
       "path": "cards.html",
@@ -770,8 +770,8 @@
     },
     {
       "path": "js/learning-queue-secure-store.js",
-      "sha256": "94e277cce5894d9b90e966e5dc3f341d72ddedff31ebdad873c9cb494e08f81d",
-      "bytes": 9257
+      "sha256": "469e286c36ec5738f6adab49aaf4efb78c21b4b78e967a31d493d3b2cb987c1c",
+      "bytes": 9337
     },
     {
       "path": "js/mobile-app.js",
@@ -1854,6 +1854,11 @@
       "bytes": 12535
     },
     {
+      "path": "scripts/validate-security-admin-logout.mjs",
+      "sha256": "6ec995169cc208c53736ff09f82bfad49d1fdbe120abbc7c6b4df753755a5c98",
+      "bytes": 8812
+    },
+    {
       "path": "scripts/validate-security-admin-runtime.mjs",
       "sha256": "b0c805e479866159a253598cf440f7ac43912a5a193b8ab79750fae451eacc54",
       "bytes": 5256
@@ -1890,8 +1895,8 @@
     },
     {
       "path": "scripts/validate-security-hardening.mjs",
-      "sha256": "e04b655f0820bb51380be820723a8325c96c999ef7ddbb04da546feadfb148f3",
-      "bytes": 54388
+      "sha256": "f4992e4518f1e99408d5595e8bd67a9c877c404a3c8d480967e04825c4839b6f",
+      "bytes": 54680
     },
     {
       "path": "scripts/validate-security-homepage.mjs",
@@ -1922,6 +1927,11 @@
       "path": "scripts/validate-security-production-advisors.mjs",
       "sha256": "ad97fc132ed3907d989d7ac5989e3d127029114243a2c952ae7f4e2ac8ee628d",
       "bytes": 4052
+    },
+    {
+      "path": "scripts/validate-security-queue-key-logout-race.mjs",
+      "sha256": "33cce3a1abdece619f9f000babaaead6397c87e55ee35c1d665b347f0e018875",
+      "bytes": 4638
     },
     {
       "path": "scripts/validate-security-registry-lock.mjs",
