@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T06:19:50.524Z",
+  "generatedAt": "2026-11-05T06:54:28.938Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -40,8 +40,8 @@
     },
     {
       "path": "class-new.html",
-      "sha256": "b05a419b8b2babec987b6d20db85abeb85a99aa4d55c42673159f4d4490eac0d",
-      "bytes": 106318
+      "sha256": "3a55ff6fd4271c13e435202041622b52421cf9a926c40e656ba1d363cee55da7",
+      "bytes": 106314
     },
     {
       "path": "cloudflare-worker.js",
@@ -750,8 +750,8 @@
     },
     {
       "path": "js/app.js",
-      "sha256": "0e92b8d0512202ee22b8a3e1315665ea1add43880987c90066965b99b5ce92de",
-      "bytes": 800469
+      "sha256": "9d15f6e3070c6558078162eac20e3df6394c0adf936f282ed1b665f732f50046",
+      "bytes": 801026
     },
     {
       "path": "js/auth.js",

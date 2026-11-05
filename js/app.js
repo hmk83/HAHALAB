@@ -106,6 +106,7 @@ let currentClassModalMode = 'manual';
 let currentClassModalClientId = '';
 let currentClassModalSingleMode = false;
 let currentDetailClientId = '';
+let detailNavigationRequestId = 0;
 let currentDetailActionStep = '';
 let currentDetailActionDeleteFuture = false;
 let currentDetailData = buildEmptyDetailData();
@@ -13623,6 +13624,9 @@ function bindDetailRealtime(clientId) {
 }
 
 async function openClientDetail(el, clientOrName, ageGender, statusTxt, statusClass, options = {}) {
+    const requestId = ++detailNavigationRequestId;
+    const requestEpoch = sensitiveAppEpoch;
+    const requestedShellView = currentShellView;
     if (detailResetTimer) {
         clearTimeout(detailResetTimer);
         detailResetTimer = null;
@@ -13670,6 +13674,11 @@ async function openClientDetail(el, clientOrName, ageGender, statusTxt, statusCl
         renderDetailView(client);
         bindDetailRealtime(currentDetailClientId);
         await loadDetailSupplementalData(client);
+        // A slow report read must not reopen detail after a newer selection,
+        // session clear, or user navigation (for example starting LAB).
+        if (requestId !== detailNavigationRequestId || requestEpoch !== sensitiveAppEpoch
+            || String(currentDetailClientId || '') !== String(client.id)
+            || currentShellView !== requestedShellView) return;
         if (previousDetailClientId !== currentDetailClientId) {
             showBottomToast(`${client.name || '선택한 대상'} ${client.type === 'reserve' ? '예약자를 선택했습니다.' : '내담자를 선택했습니다.'}`);
         }
