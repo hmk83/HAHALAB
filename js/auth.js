@@ -514,10 +514,32 @@ async function _handleOAuthReturn(session) {
 // ─── teachers 프로필 확인 및 분기 ─────────────────────────────────────────────
 async function _resolveTeacherProfile(authUser) {
     if (!authUser?.id || _currentSession?.user?.id !== authUser.id) return;
+    const expectedAccessToken = _currentSession?.access_token;
+    const pending = _resolveTeacherProfile.pendingResolution;
+    // Password/GIS handlers and SIGNED_IN can bootstrap the same SDK session
+    // together. Share only the in-flight work; every later call revalidates.
+    if (pending?.userId === authUser.id && pending.accessToken === expectedAccessToken) {
+        return pending.promise;
+    }
+    const task = { userId: authUser.id, accessToken: expectedAccessToken, promise: null };
+    task.promise = _resolveTeacherProfileOnce(authUser, expectedAccessToken);
+    _resolveTeacherProfile.pendingResolution = task;
+    try {
+        return await task.promise;
+    } finally {
+        if (_resolveTeacherProfile.pendingResolution === task) {
+            _resolveTeacherProfile.pendingResolution = null;
+        }
+    }
+}
+
+async function _resolveTeacherProfileOnce(authUser, expectedAccessToken) {
+    const isCurrentSession = () => Boolean(authUser?.id && _currentSession?.user?.id === authUser.id && _currentSession?.access_token === expectedAccessToken);
+    if (!isCurrentSession()) return;
     // Verify live auth.sessions before the legacy teacher mapping exists. The
     // full tenant/account gate still runs before any profile or app data loads.
     const authSessionActive = await _isCurrentAuthSessionActive({ authOnly: true });
-    if (_currentSession?.user?.id !== authUser.id) return;
+    if (!isCurrentSession()) return;
     if (!authSessionActive) {
         _clearAuth();
         void _supabase.auth.signOut();
@@ -531,9 +553,9 @@ async function _resolveTeacherProfile(authUser) {
     } catch (error) {
         console.warn('[Auth] teacher binding RPC failed:', error);
     }
-    if (_currentSession?.user?.id !== authUser.id) return;
+    if (!isCurrentSession()) return;
     const teacherSessionActive = await _isCurrentAuthSessionActive();
-    if (_currentSession?.user?.id !== authUser.id) return;
+    if (!isCurrentSession()) return;
     if (!teacherSessionActive) {
         _clearAuth();
         void _supabase.auth.signOut();
@@ -543,6 +565,7 @@ async function _resolveTeacherProfile(authUser) {
     try {
         // 프로필 조회
         const { data: profileData, error } = await _supabase.rpc('get_my_teacher_profile');
+        if (!isCurrentSession()) return;
         const profile = Array.isArray(profileData) ? profileData[0] : profileData;
 
         if (error) throw error;
@@ -552,12 +575,12 @@ async function _resolveTeacherProfile(authUser) {
             const resolvedProfile = _applyResolvedProfile(profile, authUser);
             if (window.currentProfile) {
                 const isAdmin = await _resolveAdminUserFlag();
-                if (_currentSession?.user?.id !== authUser.id) return;
+                if (!isCurrentSession()) return;
                 window.currentProfile.isAdminUser = isAdmin;
                 window.currentProfile = _persistTeacherSession(window.currentProfile, authUser);
             }
             await _updateLastSeen(resolvedProfile.id);
-            if (_currentSession?.user?.id !== authUser.id) return;
+            if (!isCurrentSession()) return;
             if (typeof loadAppData === 'function') loadAppData();
         } else {
             // 미가입자 → 회원가입 폼
@@ -569,29 +592,30 @@ async function _resolveTeacherProfile(authUser) {
             _showSignupModal(_extractSignupProfileFromAuthUser(authUser));
         }
     } catch (err) {
-        if (_currentSession?.user?.id !== authUser.id) return;
+        if (!isCurrentSession()) return;
         if (['TEACHER_ACCOUNT_INACTIVE', 'AUTH_PROFILE_MISMATCH'].includes(err?.message)) return;
         console.warn('[Auth] _resolveTeacherProfile error:', err);
         // 폴백: auth_user_id로 직접 조회
-        await _fallbackProfileQuery(authUser);
+        await _fallbackProfileQuery(authUser, expectedAccessToken);
     }
 }
 
-async function _fallbackProfileQuery(authUser) {
-    if (!authUser?.id || _currentSession?.user?.id !== authUser.id) return;
+async function _fallbackProfileQuery(authUser, expectedAccessToken = _currentSession?.access_token) {
+    const isCurrentSession = () => Boolean(authUser?.id && _currentSession?.user?.id === authUser.id && _currentSession?.access_token === expectedAccessToken);
+    if (!isCurrentSession()) return;
     try {
         const { data, error } = await _supabase
             .from('teachers')
             .select(TEACHER_SAFE_COLUMNS)
             .eq('auth_user_id', authUser.id)
             .maybeSingle();
-        if (_currentSession?.user?.id !== authUser.id) return;
+        if (!isCurrentSession()) return;
 
         if (!error && data) {
             _applyResolvedProfile(data, authUser);
             if (window.currentProfile) {
                 const isAdmin = await _resolveAdminUserFlag();
-                if (_currentSession?.user?.id !== authUser.id) return;
+                if (!isCurrentSession()) return;
                 window.currentProfile.isAdminUser = isAdmin;
                 window.currentProfile = _persistTeacherSession(window.currentProfile, authUser);
             }
@@ -605,7 +629,7 @@ async function _fallbackProfileQuery(authUser) {
             _showSignupModal(_extractSignupProfileFromAuthUser(authUser));
         }
     } catch (e) {
-        if (_currentSession?.user?.id !== authUser.id) return;
+        if (!isCurrentSession()) return;
         if (['TEACHER_ACCOUNT_INACTIVE', 'AUTH_PROFILE_MISMATCH'].includes(e?.message)) return;
         console.error('[Auth] fallback query failed:', e);
         if (!SIGNUP_ACCEPTANCE_ENABLED) {

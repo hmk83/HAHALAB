@@ -118,7 +118,27 @@
             }
         });
         const TEACHER_BASE_COLUMNS = 'id,created_at,teacher_id,auth_user_id,name,center,gender,age,contact,email,status,memo,role,max_client_limit,last_seen,subscription_plan_code,subscription_status,subscription_scheduled_start_at,subscription_current_period_start,subscription_current_period_end,subscription_last_paid_at,subscription_cancel_at_period_end,subscription_cancel_requested_at,subscription_updated_at,subscription_note,subscription_ended_at,subscription_billing_cycle,subscription_term_months';
-        let TEACHER_SAFE_COLUMNS = TEACHER_BASE_COLUMNS + ',free_trial_end,withdrawn_at,password_changed_at,password_change_due_at,password_change_required,password_change_reminded_at';
+        const TEACHER_OPTIONAL_COLUMNS = ['free_trial_end', 'withdrawn_at'];
+        // Keep the list on the explicit teacher-table read contract. Password-policy
+        // fields are not part of this contract; asking for unsupported fields rejects
+        // the entire projection, including valid trial and withdrawal information.
+        let TEACHER_SAFE_COLUMNS = TEACHER_BASE_COLUMNS + ',' + TEACHER_OPTIONAL_COLUMNS.join(',');
+        const queryAdminTeachers = async (buildQuery) => {
+            for (let attempt = 0; attempt <= TEACHER_OPTIONAL_COLUMNS.length; attempt += 1) {
+                const columns = TEACHER_SAFE_COLUMNS;
+                const result = await buildQuery(columns);
+                if (!result.error || !['42703', 'PGRST204'].includes(result.error.code)) return result;
+                const message = String(result.error.message || '');
+                const missing = message.match(/^column (?:teachers\.)?([a-z_][a-z0-9_]*) does not exist$/i)
+                    || message.match(/^Could not find the '([a-z_][a-z0-9_]*)' column of 'teachers' in the schema cache$/i);
+                if (!missing || !TEACHER_OPTIONAL_COLUMNS.includes(missing[1])) return result;
+                if (!columns.split(',').includes(missing[1]) || attempt === TEACHER_OPTIONAL_COLUMNS.length) return result;
+                // Preserve every available field, and share the learned projection
+                // across administrator tabs for this page session. Filter the current
+                // value so overlapping reads cannot reintroduce a missing column.
+                TEACHER_SAFE_COLUMNS = TEACHER_SAFE_COLUMNS.split(',').filter((column) => column !== missing[1]).join(',');
+            }
+        };
         const BILLING_PLAN_META = {
             basic: {
                 code: 'basic',
@@ -1525,6 +1545,14 @@
                 }
             ]
         };
+        const isAdminSidebarMenuRegistryCurrent = (content) => {
+            try {
+                const parsed = typeof content === 'string' ? JSON.parse(content) : content;
+                return JSON.stringify(parsed) === JSON.stringify(ADMIN_SIDEBAR_MENU_REGISTRY_CONTENT);
+            } catch (_error) {
+                return false;
+            }
+        };
 
         // [APP COMPONENT]
         const App = () => {
@@ -1564,6 +1592,8 @@
 
                         const existing = Array.isArray(existingRows) ? existingRows[0] : null;
                         if (cancelled) return;
+                        // Merely opening the administrator must not rewrite an unchanged registry.
+                        if (existing?.id && isAdminSidebarMenuRegistryCurrent(existing.content)) return;
 
                         const payload = {
                             type: ADMIN_SIDEBAR_MENU_REGISTRY_TYPE,
@@ -2110,13 +2140,9 @@
                 setLoading(true);
                 try {
                     let [{ data, error }, clientsRes] = await Promise.all([
-                        supabase.from('teachers').select(TEACHER_SAFE_COLUMNS).order('created_at', { ascending: false }),
+                        queryAdminTeachers((columns) => supabase.from('teachers').select(columns).order('created_at', { ascending: false })),
                         supabase.from('clients').select('teacher_id,type,status')
                     ]);
-                    if (error && error.code === '42703') {
-                        TEACHER_SAFE_COLUMNS = TEACHER_BASE_COLUMNS;
-                        ({ data, error } = await supabase.from('teachers').select(TEACHER_SAFE_COLUMNS).order('created_at', { ascending: false }));
-                    }
                     if (error) throw error;
 
                     const formatted = keysToCamel(data || []);
@@ -2597,11 +2623,8 @@
                 };
 
                 const loadDashboard = async () => {
-                    const teacherQuery = await loadWithFallbackColumns(
-                        'teachers',
-                        [TEACHER_SAFE_COLUMNS, TEACHER_BASE_COLUMNS, '*'],
-                        { orderBy: { column: 'created_at', ascending: false } }
-                    );
+                    const teacherQuery = await queryAdminTeachers((columns) => supabase
+                        .from('teachers').select(columns).order('created_at', { ascending: false }));
 
                     const [
                         { data: clientRows, error: clientError },
@@ -3570,16 +3593,10 @@
                     setLoading(true);
                     try {
                         let [{ data, error }, clientsRes, agreementRes] = await Promise.all([
-                            supabase.from('teachers').select(TEACHER_SAFE_COLUMNS).order('created_at', { ascending: false }),
+                            queryAdminTeachers((columns) => supabase.from('teachers').select(columns).order('created_at', { ascending: false })),
                             supabase.from('clients').select('teacher_id,type,status'),
                             supabase.from('app_terms_agreements').select('teacher_id,email,meta,agreed_at').order('agreed_at', { ascending: false })
                         ]);
-                        // Fallback: free_trial_end 컬럼이 DB에 없으면 해당 컬럼 제외 후 재시도
-                        if (error && error.code === '42703') {
-                            console.warn('[Admin] free_trial_end 컬럼 미존재 — 기본 컬럼으로 재시도');
-                            TEACHER_SAFE_COLUMNS = TEACHER_BASE_COLUMNS;
-                            ({ data, error } = await supabase.from('teachers').select(TEACHER_SAFE_COLUMNS).order('created_at', { ascending: false }));
-                        }
                         if (!error && data) {
                             let formatted = keysToCamel(data).map(t => ({ ...t, playStats: { monthly: [0, 0, 0, 0, 0, 0] } }));
                             setTeachers(formatted);
