@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T03:31:41.592Z",
+  "generatedAt": "2026-11-05T03:35:13.632Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -1185,8 +1185,8 @@
     },
     {
       "path": "scripts/security-zap-baseline.mjs",
-      "sha256": "08f1dff330b0c0ad191b06f9ba836a95d2d121348d7a28ab1a83a172f8ea5cbb",
-      "bytes": 4294
+      "sha256": "c35f9b51d31e881d2f04edc0ac5c227c92bd847712397d6dd911d9d3cd2c09f2",
+      "bytes": 4862
     },
     {
       "path": "scripts/validate-edge-resource-security.mjs",
@@ -1265,8 +1265,8 @@
     },
     {
       "path": "scripts/validate-security-zap-runner.mjs",
-      "sha256": "e16b01761c1a319ced8ca8eaa54e8d88cc856b123f1b7290e0012366680bd4ad",
-      "bytes": 2848
+      "sha256": "e21309ec58face9c4697c682ee3045f83fa9b87825d696cb59fca3862313c86c",
+      "bytes": 3303
     },
     {
       "path": "security/README.md",
