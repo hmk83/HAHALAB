@@ -17,6 +17,14 @@
       "source": "js/vendor/tailwind-3.4.17.js",
       "versionMarker": "3.4.17",
       "sha256": "176e894661aa9cdc9a5cba6c720044cbbf7b8bd80d1c9a142a7c24b1b6c50d15"
+    },
+    {
+      "name": "@noble/ciphers",
+      "version": "2.4.0",
+      "purl": "pkg:npm/%40noble/ciphers@2.4.0",
+      "source": "js/vendor/noble-ciphers-2.4.0.js",
+      "versionMarker": "2.4.0",
+      "sha256": "8143bc8e98013703c9a7143506e62b2914b55d39fdb1ec7af795db847ed88889"
     }
   ],
   "vendorAdvisoryExceptions": [

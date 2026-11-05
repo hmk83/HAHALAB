@@ -1,0 +1,17 @@
+{
+  "name": "@noble/ciphers",
+  "version": "2.4.0",
+  "license": "MIT",
+  "runtimeDependencies": {},
+  "officialTarball": "https://registry.npmjs.org/@noble/ciphers/-/ciphers-2.4.0.tgz",
+  "officialTarballIntegrity": "sha512-AnjFn0Jv92laAkvMrghlFZq4qQCIN/4DxFV/eooqtC2YTjB7kBeLMS2T9KJX4Dn+ZVXLOwK0lSgqDtx9gvxtiw==",
+  "integrityVerified": true,
+  "build": "esbuild 0.25.12 darwin-arm64, registry integrity verified; chacha.js xchacha20poly1305 only; iife es2020 minify",
+  "bundleSha256": "8143bc8e98013703c9a7143506e62b2914b55d39fdb1ec7af795db847ed88889",
+  "sri": "sha384-9NoAGAFhzRoVTKyDGPqS4n4kHtVA8Hk+kew4bumhxBztH7uV/tJKUxK0An4BFWzv",
+  "auditScope": "Upstream independent audit applies to v1.0.0; do not claim this 2.4.0 bundle was independently audited.",
+  "sources": [
+    "https://registry.npmjs.org/@noble/ciphers/2.4.0",
+    "https://github.com/paulmillr/noble-ciphers"
+  ]
+}

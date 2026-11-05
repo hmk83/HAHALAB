@@ -412,12 +412,12 @@ function parseMaybeJson(value, fallback = {}) {
 
 function readLocalLearningHarnessRecords() {
     try {
-        if (Array.isArray(window.__hahaLabTransientHistoryRecords)) return window.__hahaLabTransientHistoryRecords;
-        const parsed = parseMaybeJson(localStorage.getItem(LAB_LEARNING_HARNESS_STORAGE_KEY), []);
-        return Array.isArray(parsed) ? parsed : [];
-    } catch (_error) {
-        return [];
-    }
+        const owner = window.getAuthenticatedReportOwner?.();
+        if (!owner?.teacherId) return [];
+        const records = window.HahaLabLearningHarness?.readRecords?.() || [];
+        const transient = Array.isArray(window.__hahaLabTransientHistoryRecords) ? window.__hahaLabTransientHistoryRecords : [];
+        return [...records, ...transient].filter(record => String(record?.history?.teacher_id || record?.history?.teacherId || '') === String(owner.teacherId));
+    } catch (_error) { return []; }
 }
 
 function shouldSeedReportDualModeSamples() {
@@ -3404,7 +3404,7 @@ function appendLocalLabHistoryRecord(historyRow = {}, clientId = '') {
     try {
         const currentRecords = readLocalLearningHarnessRecords();
         const localRecord = {
-            id: historyRow.id || `local-lab-history-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+            id: historyRow.id || `local-lab-history-${crypto.randomUUID()}`,
             clientId: String(clientId || historyRow.client_id || historyRow.clientId || 'local-client').trim() || 'local-client',
             history: historyRow
         };
@@ -3470,7 +3470,7 @@ function buildLabDirectCompletionHistoryRow({
         ...detail
     };
     return {
-        id: `lab-direct-${normalizedKind}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        id: `lab-direct-${normalizedKind}-${crypto.randomUUID()}`,
         teacher_id: getCurrentTeacherId(),
         client_id: String(client?.id || currentDetailClientId || '').trim(),
         client_name: String(client?.name || '').trim(),
@@ -3528,7 +3528,7 @@ async function persistLabDirectCompletionEvent(eventPayload = {}, options = {}) 
             const details = parseMaybeJson(history.details, {});
             if (details.session_id && details.sessionId && String(details.session_id) !== String(details.sessionId)) throw new Error('LEARNING_PENDING_SESSION_MISMATCH');
             const sessionId = String(details.session_id || details.sessionId || overlay.dataset.learningCompletionSessionId || '').trim()
-                || `lab-direct-${typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : Date.now() + '-' + Math.random().toString(36).slice(2)}`;
+                || `lab-direct-${crypto.randomUUID()}`;
             overlay.dataset.learningCompletionSessionId = sessionId;
             if (!details.session_id) details.session_id = sessionId;
             history.details = typeof history.details === 'string' ? JSON.stringify(details) : details;
@@ -4340,7 +4340,7 @@ function buildLabLaunchUrl(targetUrl = '', kind = 'cardlab', client = null, opti
         }
         if (!payload.teacherId) return '';
 
-        const launchKey = `${LAB_LAUNCH_CONTEXT_STORAGE_PREFIX}${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+        const launchKey = `${LAB_LAUNCH_CONTEXT_STORAGE_PREFIX}${crypto.randomUUID()}`;
         let stored = false;
         try {
             window.__hahaLabLaunchContexts = window.__hahaLabLaunchContexts || new Map();

@@ -1,6 +1,6 @@
 {
   "version": "2026-11-04-security-source-1",
-  "generatedAt": "2026-11-05T01:46:53.264Z",
+  "generatedAt": "2026-11-05T03:02:58.577Z",
   "scope": "Current source for security review. Credentials, raw records, private learning HTML, media and Git history excluded.",
   "files": [
     {
@@ -105,18 +105,23 @@
     },
     {
       "path": "js/app.js",
-      "sha256": "ec95ec47d98c99ae6fcb914cfbb56d550440e779ff498e218ff4e2d74e19bfbf",
-      "bytes": 800474
+      "sha256": "0e92b8d0512202ee22b8a3e1315665ea1add43880987c90066965b99b5ce92de",
+      "bytes": 800469
     },
     {
       "path": "js/auth.js",
-      "sha256": "b7304717690c06ef500e1d9969c230bd96acbdbfcba25ef98209c17d019d338e",
-      "bytes": 91143
+      "sha256": "1046927823b56c2cd288ebd4f7f418fa9641027544d634090513107766c44ede",
+      "bytes": 91193
     },
     {
       "path": "js/clinical-workflow.js",
       "sha256": "afdeba792dd77ead703e04315951c9df3f73050c5a44c347ddd4ec38829475a8",
       "bytes": 15203
+    },
+    {
+      "path": "js/learning-queue-secure-store.js",
+      "sha256": "94e277cce5894d9b90e966e5dc3f341d72ddedff31ebdad873c9cb494e08f81d",
+      "bytes": 9257
     },
     {
       "path": "js/mobile-app.js",
@@ -132,6 +137,21 @@
       "path": "js/offline.js",
       "sha256": "92e1d99e790b2dc086916bc967a92f6727856960ff347e2a4b67a6959267c59a",
       "bytes": 5874
+    },
+    {
+      "path": "js/vendor/noble-ciphers-2.4.0.LICENSE.txt",
+      "sha256": "f36671a5487c9c5050efacb58011c37c24c55a889803cb036cf9d9a6347c1e2d",
+      "bytes": 1161
+    },
+    {
+      "path": "js/vendor/noble-ciphers-2.4.0.js",
+      "sha256": "8143bc8e98013703c9a7143506e62b2914b55d39fdb1ec7af795db847ed88889",
+      "bytes": 11776
+    },
+    {
+      "path": "js/vendor/noble-ciphers-2.4.0.provenance.json",
+      "sha256": "0f48b0648b97b39af45a4693ef3ca4133193627242bf35f582c5f1ccc363feb9",
+      "bytes": 889
     },
     {
       "path": "js/vendor/tailwind-3.4.17.LICENSE",
@@ -395,8 +415,8 @@
     },
     {
       "path": "playlab/cardlab-shell.js",
-      "sha256": "406f2d2099f628e3f83a350aad505f074fbd7138daa27bf1f4b612d12ffab00b",
-      "bytes": 146351
+      "sha256": "4007504a43825ab0131b69a84f6ae3600c912391723e6426a50daef066923c48",
+      "bytes": 150408
     },
     {
       "path": "playlab/cardlab-situation-ox-data.js",
@@ -525,8 +545,8 @@
     },
     {
       "path": "playlab/learning-report-harness.js",
-      "sha256": "711559a69a80c7e34011610eef94157be12607fdefc90fb05d966f147307e602",
-      "bytes": 41730
+      "sha256": "34ddfcb88a3c52066013d3d905ee34a617dcdf652fb85963eb0e895c3929ba19",
+      "bytes": 44244
     },
     {
       "path": "playlab/musicartlab-core.css",
@@ -1064,6 +1084,21 @@
       "bytes": 2347
     },
     {
+      "path": "scripts/security-learning-queue-key-metadata.sql",
+      "sha256": "3abd75a34766164538bcd13ab50d35f09b2c781c533874e4a3c599c40119aca3",
+      "bytes": 1169
+    },
+    {
+      "path": "scripts/security-learning-queue-key-policy.sql",
+      "sha256": "e4cca54e3b509753625b57cbf159cc66872962a3f25c5216f662117e87e3a164",
+      "bytes": 5914
+    },
+    {
+      "path": "scripts/security-learning-queue-key-verification.sql",
+      "sha256": "eedec7268ee83bc3b1e0bda5efe9957b9eae27e72de773910b4d93df8cfa0f9b",
+      "bytes": 2068
+    },
+    {
       "path": "scripts/security-learning-session-rpc-policy.sql",
       "sha256": "2150ca73f078393147d8add60fcacb2c12e8501ab11d0b801301cb9acc7b828f",
       "bytes": 13355
@@ -1092,6 +1127,16 @@
       "path": "scripts/security-production-summary.sql",
       "sha256": "b58abd0f04554ad6c3125d239bdc29036474a2708660b4c50ee4f1f094e56ef1",
       "bytes": 1707
+    },
+    {
+      "path": "scripts/security-scoped-management-capability-probe.mjs",
+      "sha256": "15d345677d09c2a7198a9eb301c5bb57e8796d415e8b1454ffc912ca4e24516a",
+      "bytes": 1686
+    },
+    {
+      "path": "scripts/security-scoped-management-write-probe.sql",
+      "sha256": "cfe18564405e547e033644bd406c1b30f49751047f928cbdd76b0155fd79355a",
+      "bytes": 382
     },
     {
       "path": "scripts/security-session-policy.sql",
@@ -1165,8 +1210,8 @@
     },
     {
       "path": "scripts/validate-security-cardlab-queue-isolation.mjs",
-      "sha256": "2204a727c1fa7cc563937c543d558d7379c527e9b627b5adaa0e09171fae3c1b",
-      "bytes": 10695
+      "sha256": "6d76d55e7517171df41e64191b18d1d6c6d0f11b7e6b3537b67b85b03b58bdf8",
+      "bytes": 16616
     },
     {
       "path": "scripts/validate-security-data-isolation.mjs",
@@ -1185,8 +1230,18 @@
     },
     {
       "path": "scripts/validate-security-hardening.mjs",
-      "sha256": "b3e907b432cd75097e6b19b242002ccdf438edf63f45e0df73e870a49844558b",
-      "bytes": 54348
+      "sha256": "e04b655f0820bb51380be820723a8325c96c999ef7ddbb04da546feadfb148f3",
+      "bytes": 54388
+    },
+    {
+      "path": "scripts/validate-security-learning-queue-key-policy.mjs",
+      "sha256": "df1fa0ec7e5a1fd9a9eed4951a72fd8363446c09dc11be51151345efea8ca7d1",
+      "bytes": 10008
+    },
+    {
+      "path": "scripts/validate-security-learning-queue-store.mjs",
+      "sha256": "19c03fc1747717242ac29f5520f4cb4b8998e92c575583ee09a4b055bf950e4c",
+      "bytes": 20883
     },
     {
       "path": "scripts/validate-security-live.mjs",
@@ -1200,13 +1255,13 @@
     },
     {
       "path": "security/README.md",
-      "sha256": "b88f78389c45b11446f88cea51aceba25d4dd7c0eb0efa9eebacda474a85c527",
-      "bytes": 8034
+      "sha256": "f51c73d86b2a43170ef0440e960e57eceb8a313c10cef6f0b65fb96db932f058",
+      "bytes": 10175
     },
     {
       "path": "security/dependency-inventory.json",
-      "sha256": "545fdbb19ba96dc5060bb43b4b95e3d99bab9972e6d74b8d56f2cd558f2ba4b8",
-      "bytes": 1676
+      "sha256": "e08959a106249fc7481c7a1e9be0a87eb78720cadb00b61f76701b2f1fa2386b",
+      "bytes": 1962
     },
     {
       "path": "security/gitleaks.toml",
@@ -1225,8 +1280,8 @@
     },
     {
       "path": "security/source-policy.json",
-      "sha256": "8014a0352f5799043fdbbb7b62089ce550ee1e0c5bb79ba19d2614ddf85d2553",
-      "bytes": 2451
+      "sha256": "f69fb4b8b0a7e547288ce757e3783b200c68e11b4085b4161b893b23d4701015",
+      "bytes": 2553
     },
     {
       "path": "security/tools.lock.json",

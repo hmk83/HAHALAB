@@ -70,7 +70,7 @@ function _purgeSensitiveSessionData({ clearAppState = true } = {}) {
             Object.keys(storage).forEach((key) => {
                 // Acknowledged caches can be purged, but unsent source data must
                 // survive refresh/logout until its verified owner can retry.
-                if (key === 'haha_lab_learning_harness_sync_queue_v1' || key.startsWith('haha_lab_learning_harness_sync_queue_v1::')) return;
+                if (key === 'haha_lab_learning_harness_records_v1' || key === 'haha_lab_learning_harness_sync_queue_v1' || key.startsWith('haha_lab_learning_harness_sync_queue_v1::')) return;
                 if (/^(?:playlab_history_report_|h_evi_history_report_|haha_lab_(?:learning_harness_|direct_launch_|current_session|session$|sensitive_session_owner|shell_view_state|last_lab_return_url))/.test(key)) storage.removeItem(key);
             });
         } catch (_error) { /* Storage may be disabled. */ }

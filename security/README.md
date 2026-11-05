@@ -53,3 +53,15 @@ The dependency gate covers the declared exact browser/vendor inventory and the r
 ## PostgreSQL integrity-check false positives
 
 The tenant transaction probe compares reviewed `pg_get_functiondef` bodies to exact public MD5 integrity digests before creating temporary test fixtures. Gitleaks' generic API-key heuristic mistakes three of these digest literals for credentials. The config allows only those exact three values, only for `generic-api-key`, and only in `scripts/security-tenant-transaction-probe.sql`, with an explicit AND condition. It does not allow arbitrary 32-character hex values, an entire SQL path, JWT/PAT/provider keys, or the same values elsewhere. The scanner self-test confirms that newly generated API secrets in the same path still block and the same digest values in another path remain detected.
+
+## Encrypted offline learning queues
+
+The shared learning queue store encrypts pending source JSON with XChaCha20-Poly1305, a server-issued 32-byte owner key, and a fresh 24-byte nonce. Encoding, namespace, opaque storage handle, key ID and owner scope are authenticated. Browser storage contains ciphertext envelopes; keys stay in memory and are cleared on logout or owner/session changes. Same-session token refresh preserves the key so an offline lesson can finish. Existing canonical payloads and session IDs are preserved for receipt checks.
+
+The no-argument public key RPC is a security-invoker facade. Its private definer verifies the live session and the server's single active teacher mapping. The isolated key table enables RLS and grants no direct table access to anonymous, authenticated or service roles. Keys are stable across owner re-login and are never automatically rotated or deleted. Back up and restore this key table together with learning data: deleting a key can make pending ciphertext unrecoverable.
+
+Verified owners migrate their legacy plaintext only after ciphertext write, readback, decryption and exact source comparison succeed. Other owners' legacy data, corrupt entries and conflicting originals are preserved and hidden until they can be handled safely. New records do not fall back to plaintext. Storage/key failures retain an explicit pending/error state; forced termination while both durable storage and the server are unavailable can still lose RAM-only work.
+
+The pinned browser bundle uses MIT-licensed `@noble/ciphers` 2.4.0 with no runtime dependencies. Its package provenance, license and artifact digest are included in this snapshot. The published Cure53 audit covers version 1.0.0, not the complete current release. See the [official project](https://github.com/paulmillr/noble-ciphers).
+
+This protects browser data at rest. It does not protect data or keys already available to an active same-origin XSS, change Supabase SDK token persistence, or add server exactly-once receipts to the legacy Cardlab `RETURNS void` RPC. A passing scanner is not proof that those separate risks are absent.

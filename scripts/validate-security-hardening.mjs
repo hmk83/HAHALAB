@@ -405,7 +405,7 @@ await test('logout purges caches while preserving unacknowledged owner-scoped pe
   const context = vm.createContext({ window, Event });
   vm.runInContext(`${source.slice(start, end)};_purgeSensitiveSessionData();`, context);
   for (const store of [window.localStorage, window.sessionStorage]) {
-    assert.deepEqual(Object.keys(store).filter((key) => typeof store[key] !== 'function'), ['keep_theme', 'haha_lab_learning_harness_sync_queue_v1', 'haha_lab_learning_harness_sync_queue_v1::pending-fixture']);
+    assert.deepEqual(Object.keys(store).filter((key) => typeof store[key] !== 'function'), ['haha_lab_learning_harness_records_v1', 'keep_theme', 'haha_lab_learning_harness_sync_queue_v1', 'haha_lab_learning_harness_sync_queue_v1::pending-fixture']);
   }
   assert.equal(cleared, true);
   assert.equal(eventName, 'hahalab-session-cleared');

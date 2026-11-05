@@ -32,7 +32,9 @@
     "package-lock.json",
     "js/vendor/xlsx-0.20.3.provenance.json",
     "js/vendor/xlsx-0.20.3.LICENSE.txt",
-    "js/vendor/tailwind-3.4.17.LICENSE"
+    "js/vendor/tailwind-3.4.17.LICENSE",
+    "js/vendor/noble-ciphers-2.4.0.LICENSE.txt",
+    "js/vendor/noble-ciphers-2.4.0.provenance.json"
   ],
   "trees": [
     {

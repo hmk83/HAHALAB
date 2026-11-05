@@ -108,38 +108,73 @@
     let attemptFlushPromise = null;
     const attemptInFlightKeys = new Set();
     let observedAttemptAuthClient = null;
+    const ATTEMPT_NAMESPACE = 'cardlab-quiz-attempt';
+    const memoryPendingAttempts = new Map();
+
+    function attemptSecureStore() {
+        try { return window.HahaLabSecureQueueStore || (window.parent !== window && window.parent.HahaLabSecureQueueStore) || null; }
+        catch (_error) { return window.HahaLabSecureQueueStore || null; }
+    }
+
+    async function prepareAttemptStore(client, owner) {
+        if (!attemptSecureStore()) {
+            window.__hahaLabSecureQueueStoreLoadPromise = window.__hahaLabSecureQueueStoreLoadPromise || new Promise((resolve, reject) => {
+                const script = document.createElement('script'); script.src = '/js/learning-queue-secure-store.js';
+                script.onload = resolve; script.onerror = () => reject(new Error('QUEUE_STORE_UNAVAILABLE')); document.head.appendChild(script);
+            }).catch(error => { window.__hahaLabSecureQueueStoreLoadPromise = null; throw error; });
+            await window.__hahaLabSecureQueueStoreLoadPromise;
+        }
+        return attemptSecureStore().ensure(client, owner, currentAttemptOwner);
+    }
 
     function currentAttemptOwner() {
         try {
             const getter = window.getAuthenticatedReportOwner || (window.parent && window.parent !== window && window.parent.getAuthenticatedReportOwner);
             if (typeof getter === 'function') return getter.call(window.parent && window.parent !== window ? window.parent : window);
         } catch (_error) { return null; }
-        return verifiedAttemptOwner && verifiedAttemptOwner.expiresAt > Date.now() ? verifiedAttemptOwner : null;
+        // SDK auth transitions clear this verified identity. A 30-second cache TTL
+    // must not discard an already-unlocked offline lesson before completion.
+    return verifiedAttemptOwner;
     }
 
     async function verifyAttemptOwner(client) {
         const current = currentAttemptOwner();
-        if (current) return current;
+        if (current) { try { await prepareAttemptStore(client, current); } catch (_error) {} return current; }
         try {
             if (observedAttemptAuthClient !== client && client.auth?.onAuthStateChange) {
                 observedAttemptAuthClient = client;
-                client.auth.onAuthStateChange(function () { verifiedAttemptOwner = null; });
+                client.auth.onAuthStateChange(function (event, session) {
+                    try {
+                        const claims = session?.access_token ? JSON.parse(atob(session.access_token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))) : null;
+                        if (event !== 'SIGNED_OUT' && verifiedAttemptOwner && session?.user?.id === verifiedAttemptOwner.authUserId && claims?.session_id === verifiedAttemptOwner.sessionId) return;
+                    } catch (_error) {}
+                    verifiedAttemptOwner = null; attemptSecureStore()?.clear();
+                });
             }
             const user = await client.auth.getUser();
+            const sessionResult = await client.auth.getSession();
+            const session = sessionResult?.data?.session;
+            const claims = session?.access_token ? JSON.parse(atob(session.access_token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))) : null;
+            if (sessionResult?.error || session?.user?.id !== user?.data?.user?.id || !claims?.session_id) return null;
             if (user.error || !user.data?.user?.id) return null;
             const [profileResult, active] = await Promise.all([client.rpc('get_my_teacher_profile'), client.rpc('security_session_active')]);
             const profile = Array.isArray(profileResult.data) ? profileResult.data[0] : profileResult.data;
             if (profileResult.error || active.error || active.data !== true || !profile?.teacher_id || !['normal', 'active'].includes(profile.status)) return null;
-            verifiedAttemptOwner = { authUserId: user.data.user.id, teacherId: String(profile.teacher_id), expiresAt: Date.now() + 30000 };
+            verifiedAttemptOwner = { sessionId: String(claims.session_id), authUserId: user.data.user.id, teacherId: String(profile.teacher_id) };
+            await prepareAttemptStore(client, verifiedAttemptOwner);
             return verifiedAttemptOwner;
         } catch (_error) { verifiedAttemptOwner = null; return null; }
     }
 
     function readAllQueuedQuizAttempts() {
-        const raw = localStorage.getItem(OFFLINE_ATTEMPT_QUEUE_KEY);
-        const parsed = raw ? JSON.parse(raw) : [];
-        if (!Array.isArray(parsed)) throw new Error('CARDLAB_PENDING_STORAGE_INVALID');
-        return parsed;
+        const store = attemptSecureStore(), owner = currentAttemptOwner(), context = getStoredLabSessionContext();
+        if (!store?.ready(owner)) return [];
+        store.migrateArray(ATTEMPT_NAMESPACE, OFFLINE_ATTEMPT_QUEUE_KEY, owner, item => attemptBelongsToOwner(item, owner, context), attemptJobKey);
+        const encrypted = store.list(ATTEMPT_NAMESPACE, owner).map(snapshot => Object.assign({}, snapshot.value, { __secureSnapshot: snapshot }));
+        // Unmigrated own originals participate in conflict checks, never in RPC.
+        let legacy = [];
+        try { const parsed = JSON.parse(localStorage.getItem(OFFLINE_ATTEMPT_QUEUE_KEY) || '[]'); if (Array.isArray(parsed)) legacy = parsed.filter(item => attemptBelongsToOwner(item, owner, context)).map(item => Object.assign({}, item, { __legacyBlocked: true })); } catch (_error) {}
+        return [...encrypted, ...legacy];
     }
 
     function attemptBelongsToOwner(item, owner, context) {
@@ -153,14 +188,6 @@
         try { const owner = currentAttemptOwner(); const context = getStoredLabSessionContext();
             return readAllQueuedQuizAttempts().filter(function (item) { return attemptBelongsToOwner(item, owner, context); });
         } catch (_error) { return []; }
-    }
-
-    function writeQueuedQuizAttempts(queue) {
-        try {
-            const raw = JSON.stringify(queue);
-            localStorage.setItem(OFFLINE_ATTEMPT_QUEUE_KEY, raw);
-            return localStorage.getItem(OFFLINE_ATTEMPT_QUEUE_KEY) === raw;
-        } catch (_error) { return false; }
     }
 
     function attemptJobKey(item) { return JSON.stringify([item?.runId, item?.payload]); }
@@ -178,22 +205,31 @@
 
     function queueQuizAttempt(snapshot) {
         if (!snapshot?.runId || !snapshot.payload) return false;
+        const owner = currentAttemptOwner();
+        if (!attemptBelongsToOwner(snapshot, owner, getStoredLabSessionContext())) return false;
+        const key = attemptJobKey(snapshot);
+        const value = { runId: snapshot.runId, reason: snapshot.reason || 'queued', payload: snapshot.payload, queuedAt: snapshot.queuedAt || new Date().toISOString() };
+        if (!memoryPendingAttempts.has(key)) memoryPendingAttempts.set(key, { value, authUserId: owner.authUserId, teacherId: owner.teacherId });
         try {
+            const store = attemptSecureStore();
+            if (!store?.ready(owner)) return false;
             const queue = readAllQueuedQuizAttempts();
-            // A pending canonical payload is immutable until its own RPC ACK.
-            if (queue.some(function (item) { return sameAttemptJob(item, snapshot); })) return true;
-            queue.push({ runId: snapshot.runId, reason: snapshot.reason || 'queued', payload: snapshot.payload, queuedAt: new Date().toISOString() });
-            return writeQueuedQuizAttempts(queue);
+            const same = queue.find(item => !item.__legacyBlocked && sameAttemptJob(item, snapshot));
+            if (same) { memoryPendingAttempts.delete(key); return true; }
+            if (hasConflictingAttempt(snapshot, queue)) return false;
+            store.put(ATTEMPT_NAMESPACE, memoryPendingAttempts.get(key).value, owner, item => String(item.runId));
+            memoryPendingAttempts.delete(key);
+            return true;
         } catch (_error) { return false; }
     }
 
     function removeQueuedQuizAttempt(snapshot, owner) {
         try {
-            const context = getStoredLabSessionContext();
-            if (!attemptBelongsToOwner(snapshot, owner, context)) return false;
+            if (!attemptBelongsToOwner(snapshot, owner, getStoredLabSessionContext())) return false;
             const latest = readAllQueuedQuizAttempts();
-            if (!latest.some(function (item) { return sameAttemptJob(item, snapshot); }) || hasConflictingAttempt(snapshot, latest)) return false;
-            return writeQueuedQuizAttempts(latest.filter(function (item) { return !sameAttemptJob(item, snapshot); }));
+            if (hasConflictingAttempt(snapshot, latest)) return false;
+            const exact = latest.find(item => !item.__legacyBlocked && sameAttemptJob(item, snapshot));
+            return Boolean(exact && attemptSecureStore()?.removeExact(ATTEMPT_NAMESPACE, exact.__secureSnapshot, owner));
         } catch (_error) { return false; }
     }
 
@@ -203,9 +239,13 @@
             if (!supabaseClient || (typeof navigator !== 'undefined' && navigator.onLine === false)) return { flushed: 0, remaining: readQueuedQuizAttempts().length };
             const owner = await verifyAttemptOwner(supabaseClient);
             if (!owner) return { flushed: 0, remaining: 0 };
+            for (const pending of memoryPendingAttempts.values()) {
+                if (pending.authUserId === owner.authUserId && pending.teacherId === owner.teacherId) queueQuizAttempt(pending.value);
+            }
             const queue = readQueuedQuizAttempts();
             let flushed = 0;
             for (const item of queue) {
+                if (item.__legacyBlocked) continue;
                 const requestKey = attemptJobKey(item);
                 if (attemptInFlightKeys.has(requestKey)) continue;
                 attemptInFlightKeys.add(requestKey);
@@ -1294,7 +1334,9 @@
 
         function updateSyncStatus(message) {
             if (!elements.syncStatus) return;
-            if (config.hideSyncStatus) {
+            const owner = currentAttemptOwner();
+            const unstoredCount = [...memoryPendingAttempts.values()].filter(item => item.authUserId === owner?.authUserId && item.teacherId === owner?.teacherId).length;
+            if (config.hideSyncStatus && !unstoredCount && !message) {
                 elements.syncStatus.textContent = '';
                 elements.syncStatus.classList.add('shell-hidden');
                 elements.syncStatus.classList.remove('is-offline', 'is-pending');
@@ -1303,7 +1345,7 @@
             const queuedCount = readQueuedQuizAttempts().length;
             const isOffline = typeof navigator !== 'undefined' && navigator.onLine === false;
             const text = String(message || '').trim()
-                || (isOffline ? '오프라인 저장 중' : queuedCount ? '저장 대기 ' + queuedCount + '건' : '');
+                || (unstoredCount ? '기록을 보관하지 못했습니다. 이 화면을 유지해 주세요.' : isOffline ? '오프라인 저장 중' : queuedCount ? '저장 대기 ' + queuedCount + '건' : '');
             elements.syncStatus.textContent = text;
             elements.syncStatus.classList.toggle('shell-hidden', !text);
             elements.syncStatus.classList.toggle('is-offline', isOffline);
@@ -2861,6 +2903,7 @@
                     void syncQueuedQuizAttempts();
                 }
             });
+            window.addEventListener('hahalab-queue-key-ready', function () { void syncQueuedQuizAttempts(); });
             window.addEventListener('online', function () {
                 void syncQueuedQuizAttempts();
             });
@@ -2871,10 +2914,11 @@
                 stopAllAudio();
                 void persistActiveQuizSession({ reason: 'pagehide', forceCompleted: state.completed, queueOnly: true });
             }, { passive: true });
-            window.addEventListener('beforeunload', function () {
+            window.addEventListener('beforeunload', function (event) {
+                if (memoryPendingAttempts.size) { event.preventDefault(); event.returnValue = ''; }
                 stopAllAudio();
                 void persistActiveQuizSession({ reason: 'unload', forceCompleted: state.completed, queueOnly: true });
-            }, { passive: true });
+            });
         }
 
         async function init() {

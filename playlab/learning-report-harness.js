@@ -12,6 +12,8 @@
   let observedAuthClient = null;
   let queueStorageCorrupt = false;
   const DURABLE_QUEUE_PREFIX = SYNC_STORAGE_KEY + '::';
+  const QUEUE_NAMESPACE = 'learning-session';
+  let memoryRecords = [];
 
   function parseMaybeJson(value, fallback) {
     if (!value) return fallback;
@@ -66,20 +68,35 @@
     return null;
   }
 
-  function readRecords() {
-    try {
-      const parsed = parseMaybeJson(window.localStorage.getItem(STORAGE_KEY), []);
-      const owner = currentQueueOwner();
-      return owner && Array.isArray(parsed) ? parsed.filter((record) => belongsToQueueOwner(record, owner)) : [];
-    } catch (_error) {
-      return [];
+  function secureStore() {
+    try { return window.HahaLabSecureQueueStore || (window.parent !== window && window.parent.HahaLabSecureQueueStore) || null; }
+    catch (_error) { return window.HahaLabSecureQueueStore || null; }
+  }
+
+  async function prepareSecureStore(client, owner) {
+    if (!secureStore()) {
+      window.__hahaLabSecureQueueStoreLoadPromise = window.__hahaLabSecureQueueStoreLoadPromise || new Promise((resolve, reject) => {
+        const script = document.createElement('script'); script.src = '/js/learning-queue-secure-store.js';
+        script.onload = resolve; script.onerror = () => reject(new Error('QUEUE_STORE_UNAVAILABLE')); document.head.appendChild(script);
+      }).catch(error => { window.__hahaLabSecureQueueStoreLoadPromise = null; throw error; });
+      await window.__hahaLabSecureQueueStoreLoadPromise;
     }
+    return secureStore().ensure(client, owner, currentQueueOwner);
+  }
+
+  function readRecords() {
+    const owner = currentQueueOwner();
+    if (!owner) return [];
+    const store = secureStore();
+    if (store?.ready(owner)) store.migrateArray('learning-record-cache', STORAGE_KEY, owner, record => belongsToQueueOwner(record, owner), record => String(record.id));
+    const legacy = store?.list('learning-record-cache', owner).map(item => item.value) || [];
+    const records = [...legacy, ...memoryRecords];
+    return records.filter((record, index) => belongsToQueueOwner(record, owner) && records.findLastIndex(item => item.id === record.id) === index);
   }
 
   function writeRecords(records) {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(records.slice(-160)));
-    } catch (_error) {}
+    const owner = currentQueueOwner();
+    memoryRecords = [...memoryRecords.filter(record => !belongsToQueueOwner(record, owner)), ...records];
   }
 
   function currentQueueOwner() {
@@ -87,7 +104,9 @@
       if (typeof window.getAuthenticatedReportOwner === 'function') return window.currentProfile && !['normal', 'active'].includes(String(window.currentProfile.status)) ? null : window.getAuthenticatedReportOwner();
       if (window.parent && window.parent !== window && typeof window.parent.getAuthenticatedReportOwner === 'function') return window.parent.currentProfile && !['normal', 'active'].includes(String(window.parent.currentProfile.status)) ? null : window.parent.getAuthenticatedReportOwner();
     } catch (_error) { return null; }
-    return verifiedQueueOwner && verifiedQueueOwner.expiresAt > Date.now() ? verifiedQueueOwner : null;
+    // SDK auth transitions clear this verified identity. A 30-second cache TTL
+    // must not discard an already-unlocked offline lesson before completion.
+    return verifiedQueueOwner;
   }
 
   function belongsToQueueOwner(job, owner) {
@@ -97,21 +116,32 @@
   }
 
   function readAllSyncQueue() {
-    const jobs = []; queueStorageCorrupt = false;
-    try {
-      const raw = window.localStorage.getItem(SYNC_STORAGE_KEY);
-      const parsed = raw ? parseMaybeJson(raw, null) : [];
-      if (!Array.isArray(parsed)) queueStorageCorrupt = true;
-      else jobs.push(...parsed);
-      for (let index = 0; index < window.localStorage.length; index += 1) {
-        const key = window.localStorage.key(index);
-        if (!key?.startsWith(DURABLE_QUEUE_PREFIX)) continue;
-        const job = parseMaybeJson(window.localStorage.getItem(key), null);
-        if (!job || !job.id || !job.history) { queueStorageCorrupt = true; continue; }
-        jobs.push(Object.assign({}, job, { __durableStorageKey: key }));
-      }
-    } catch (_error) { queueStorageCorrupt = true; }
-    return jobs;
+    queueStorageCorrupt = false;
+    const owner = currentQueueOwner();
+    const store = secureStore();
+    if (!owner || !store?.ready(owner)) return [];
+    const identity = job => String(job.id);
+    store.migrateArray(QUEUE_NAMESPACE, SYNC_STORAGE_KEY, owner, job => belongsToQueueOwner(job, owner), identity);
+    for (const key of Object.keys(window.localStorage)) {
+      if (!key.startsWith(DURABLE_QUEUE_PREFIX)) continue;
+      const raw = window.localStorage.getItem(key);
+      const job = parseMaybeJson(raw, null);
+      if (!belongsToQueueOwner(job, owner)) continue;
+      try {
+        store.put(QUEUE_NAMESPACE, job, owner, identity);
+        if (window.localStorage.getItem(key) === raw) window.localStorage.removeItem(key);
+      } catch (_error) { /* Keep original unchanged until encryption is durable. */ }
+    }
+    const encrypted = store.list(QUEUE_NAMESPACE, owner).map(snapshot => Object.assign({}, snapshot.value, { __secureSnapshot: snapshot }));
+    const blocked = [];
+    const rawArray = parseMaybeJson(window.localStorage.getItem(SYNC_STORAGE_KEY), []);
+    if (Array.isArray(rawArray)) blocked.push(...rawArray.filter(job => belongsToQueueOwner(job, owner)));
+    for (const key of Object.keys(window.localStorage)) {
+      if (!key.startsWith(DURABLE_QUEUE_PREFIX)) continue;
+      const job = parseMaybeJson(window.localStorage.getItem(key), null);
+      if (belongsToQueueOwner(job, owner)) blocked.push(job);
+    }
+    return [...encrypted, ...blocked.map(job => Object.assign({}, job, { __legacyBlocked: true }))];
   }
 
   function readSyncQueue() {
@@ -119,20 +149,10 @@
     return owner ? readAllSyncQueue().filter((job) => belongsToQueueOwner(job, owner)) : [];
   }
 
-  function writeSyncQueue(queue) {
-    try {
-      // Pending work is never evicted to enforce a display/retention cap.
-      // Per-job entries avoid cross-tab read/modify/write loss for parent fallbacks.
-      const legacy = queue.filter((job) => !job.__durableStorageKey);
-      for (const job of queue.filter((item) => item.__durableStorageKey)) {
-        const current = parseMaybeJson(window.localStorage.getItem(job.__durableStorageKey), null);
-        if (!current || syncJobPayloadKey(current) !== syncJobPayloadKey(job)) continue;
-        const { __durableStorageKey: key, ...stored } = job;
-        window.localStorage.setItem(key, JSON.stringify(stored));
-      }
-      window.localStorage.setItem(SYNC_STORAGE_KEY, JSON.stringify(legacy));
-      return true;
-    } catch (_error) { return false; }
+  function writeSyncQueue(_queue) {
+    // Immutable encrypted jobs are removed only by exact ACK; retry diagnostics
+    // remain in memory rather than rewriting canonical source across tabs.
+    return true;
   }
 
   async function resolveQueueOwner(client) {
@@ -146,14 +166,24 @@
     try {
       if (observedAuthClient !== client && client.auth?.onAuthStateChange) {
         observedAuthClient = client;
-        client.auth.onAuthStateChange(() => { verifiedQueueOwner = null; });
+        client.auth.onAuthStateChange((event, session) => {
+          try {
+            const claims = session?.access_token ? JSON.parse(atob(session.access_token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))) : null;
+            if (event !== 'SIGNED_OUT' && verifiedQueueOwner && session?.user?.id === verifiedQueueOwner.authUserId && claims?.session_id === verifiedQueueOwner.sessionId) return;
+          } catch (_error) {}
+          verifiedQueueOwner = null; secureStore()?.clear();
+        });
       }
       const userResult = await client.auth.getUser();
+      const sessionResult = await client.auth.getSession();
+      const session = sessionResult?.data?.session;
+      const claims = session?.access_token ? JSON.parse(atob(session.access_token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))) : null;
+      if (sessionResult?.error || session?.user?.id !== userResult?.data?.user?.id || !claims?.session_id) return null;
       if (userResult?.error || !userResult?.data?.user?.id) return null;
       const [profileResult, active] = await Promise.all([client.rpc('get_my_teacher_profile'), client.rpc('security_session_active')]);
       const profile = Array.isArray(profileResult.data) ? profileResult.data[0] : profileResult.data;
       if (profileResult.error || active.error || active.data !== true || !profile?.teacher_id || !['normal', 'active'].includes(profile.status)) return null;
-      verifiedQueueOwner = { authUserId: userResult.data.user.id, teacherId: String(profile.teacher_id), expiresAt: Date.now() + 30000 };
+      verifiedQueueOwner = { sessionId: String(claims.session_id), authUserId: userResult.data.user.id, teacherId: String(profile.teacher_id) };
       return verifiedQueueOwner;
     } catch (_error) { verifiedQueueOwner = null; return null; }
   }
@@ -253,27 +283,21 @@
       && String(item?.history?.client_id) === String(historyRow.client_id)
       && String(parseMaybeJson(item?.history?.details, {}).session_id || '').trim() === sessionId) : null;
     if (existingJob) {
+      if (existingJob.__legacyBlocked) return fail('SESSION_SYNC_LEGACY_NOT_DURABLE');
       if (JSON.stringify([existingJob.history, existingJob.cardlabAttempt]) !== JSON.stringify([historyRow, attemptRow])) return fail('SESSION_SYNC_EXISTING_PAYLOAD_MISMATCH');
       return existingJob;
     }
-    const job = { id: record.id || `sync-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, createdAt: new Date().toISOString(), attempts: 0,
+    const job = { id: record.id || `sync-${crypto.randomUUID()}`, createdAt: new Date().toISOString(), attempts: 0,
       history: historyRow, cardlabAttempt: attemptRow, ...(owner?.authUserId ? { authUserId: owner.authUserId } : {}) };
-    if (durable) {
-      if (!sessionId) return fail('SESSION_SYNC_SESSION_ID_MISSING');
-      if (queue.length >= 240) return fail('SESSION_SYNC_QUEUE_FULL');
-      const key = DURABLE_QUEUE_PREFIX + encodeURIComponent(String(job.id));
-      try {
-        const current = parseMaybeJson(window.localStorage.getItem(key), null);
-        if (current && syncJobPayloadKey(current) !== syncJobPayloadKey(job)) return fail('SESSION_SYNC_JOB_COLLISION');
-        window.localStorage.setItem(key, JSON.stringify(job));
-        const verified = parseMaybeJson(window.localStorage.getItem(key), null);
-        if (!verified || syncJobPayloadKey(verified) !== syncJobPayloadKey(job)) return fail('SESSION_SYNC_DURABILITY_UNCONFIRMED');
-        job.__durableStorageKey = key;
-      } catch (_error) { return fail('SESSION_SYNC_STORAGE_WRITE_FAILED'); }
-    } else {
-      queue.push(job);
-      if (!writeSyncQueue(queue) || !readAllSyncQueue().some((item) => item.id === job.id && syncJobPayloadKey(item) === syncJobPayloadKey(job))) return null;
+    const store = secureStore();
+    if (!owner || !store?.ready(owner)) {
+      void flushSyncQueue();
+      return fail('SESSION_SYNC_KEY_UNAVAILABLE');
     }
+    if (!sessionId) return fail('SESSION_SYNC_SESSION_ID_MISSING');
+    if (queue.length >= 240) return fail('SESSION_SYNC_QUEUE_FULL');
+    try { store.put(QUEUE_NAMESPACE, job, owner, item => String(item.id)); }
+    catch (_error) { return fail('SESSION_SYNC_STORAGE_WRITE_FAILED'); }
     flushSyncQueue();
     return job;
   }
@@ -287,10 +311,19 @@
       if (!client) return { skipped: true, reason: 'supabase-client-unavailable' };
       const owner = await resolveQueueOwner(client);
       if (!owner) return { skipped: true, reason: 'verified-owner-unavailable' };
+      if (!await prepareSecureStore(client, owner)) return { skipped: true, reason: 'queue-key-unavailable' };
+      // Key preload can finish after synchronous producers attempted a save.
+      for (const record of readRecords().filter(item => belongsToQueueOwner(item, owner) && !item.remotePayloadVerified)) {
+        try { queueSyncRecord(record, { durable: true }); } catch (_error) {}
+      }
       const queue = readAllSyncQueue().filter((job) => belongsToQueueOwner(job, owner));
       const outcomes = new Map();
       let synced = 0;
       for (const job of queue) {
+        const session = String(parseMaybeJson(job.history?.details, {}).session_id || '');
+        if (job.__legacyBlocked || queue.some(other => other !== job && String(other.history?.teacher_id) === String(job.history?.teacher_id)
+          && String(other.history?.client_id) === String(job.history?.client_id) && String(parseMaybeJson(other.history?.details, {}).session_id || '') === session
+          && syncJobPayloadKey(other) !== syncJobPayloadKey(job))) continue;
         const original = syncJobPayloadKey(job);
         try {
           const currentOwner = currentQueueOwner() || await resolveQueueOwner(client);
@@ -333,12 +366,7 @@
         if (!outcome || outcome.original !== syncJobPayloadKey(job)) return [job];
         if (outcome.acknowledged) {
           if (!preserveLocalRemoteReceipt(job, outcome)) return [Object.assign({}, job, { lastError: 'SESSION_SYNC_LOCAL_ACK_WRITE_FAILED' })];
-          if (job.__durableStorageKey) {
-            const current = parseMaybeJson(window.localStorage.getItem(job.__durableStorageKey), null);
-            if (current && syncJobPayloadKey(current) !== syncJobPayloadKey(job)) return [job];
-            window.localStorage.removeItem(job.__durableStorageKey);
-            if (window.localStorage.getItem(job.__durableStorageKey)) return [job];
-          }
+          if (!secureStore()?.removeExact(QUEUE_NAMESPACE, job.__secureSnapshot, currentQueueOwner())) return [job];
           return [];
         }
         return [Object.assign({}, job, outcome.update)];
@@ -374,11 +402,8 @@
       remoteSyncStatus: outcome.receipt.status,
       remotePayloadVerified: true
     });
-    try {
-      // Receipt annotation must not apply the new-record retention cap to old data.
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
-      return true;
-    } catch (_error) { return false; }
+    writeRecords(records);
+    return true;
   }
 
   function syncJobPayloadKey(job) {
@@ -599,7 +624,7 @@
     });
 
     return {
-      id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      id: `local-${crypto.randomUUID()}`,
       teacher_id: String(context.teacherId || payload.teacherId || '').trim(),
       teacherId: String(context.teacherId || payload.teacherId || '').trim(),
       client_id: String(context.clientId || payload.clientId || 'local-client').trim(),
@@ -750,6 +775,8 @@
   };
 
   if (typeof window.addEventListener === 'function') {
+    window.addEventListener('hahalab-queue-key-ready', function () { void window.retryUnstoredLabCompletions?.(); });
+    window.addEventListener('hahalab-session-cleared', function () { memoryRecords = memoryRecords.filter(record => record.remotePayloadVerified !== true); verifiedQueueOwner = null; secureStore()?.clear(); });
     window.addEventListener('online', function () {
       flushSyncQueue();
     });
